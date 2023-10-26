@@ -34,6 +34,9 @@ public class Cabin implements Serializable {
     
     @ManyToOne
     private Aircraft aircraft;
+    
+    @OneToMany(mappedBy="Cabin")
+    private List<Fare> listOfFare;
 
     public Cabin() {
     }
