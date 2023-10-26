@@ -40,7 +40,7 @@ public class ReservationDetails implements Serializable {
     
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
-    private List<Flight> listOfFlights;
+    private Flight flight;
 
     public ReservationDetails() {
     }

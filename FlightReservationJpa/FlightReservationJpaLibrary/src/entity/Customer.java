@@ -31,7 +31,8 @@ public class Customer extends Account implements Serializable {
     public Customer() {
     }
 
-    public Customer(String phoneNumber, String address) {
+    public Customer(String firstName, String lastName, String email, String password, String phoneNumber, String address) {
+        super(firstName, lastName, email, password);
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.listOfScheduledFlights = null;

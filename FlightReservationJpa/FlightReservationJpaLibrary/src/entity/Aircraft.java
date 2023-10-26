@@ -30,11 +30,9 @@ public class Aircraft implements Serializable {
     @Column(nullable = false)
     private int numOfSeats;
     
-    @Column(nullable = false)
     @OneToMany(mappedBy = "Aircraft")
     private List<Flight> listOfFlights;
     
-    @Column(nullable = false)
     @OneToMany(mappedBy = "Aircraft")
     private List<Cabin> listOfCabins;
     
