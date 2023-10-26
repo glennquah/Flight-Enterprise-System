@@ -5,7 +5,11 @@
 package ejb.session.stateless.singleton;
 
 import ejb.session.stateless.AccountSessionBeanLocal;
+import ejb.session.stateless.CustomerSessionBeanRemote;
+import ejb.session.stateless.EmployeeSessionBeanRemote;
 import entity.Account;
+import entity.Customer;
+import entity.Employee;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -13,6 +17,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.enumeration.EmployeeAccessRightEnum;
 
 /**
  *
@@ -24,8 +29,11 @@ import javax.persistence.PersistenceContext;
 
 public class DataInitSessionBean {
 
-    @EJB(name = "AccountSessionBeanLocal")
-    private AccountSessionBeanLocal accountSessionBeanLocal;
+    @EJB(name = "EmployeeSessionBeanRemote")
+    private EmployeeSessionBeanRemote employeeSessionBeanRemote;
+
+    @EJB(name = "CustomerSessionBeanRemote")
+    private CustomerSessionBeanRemote customerSessionBeanRemote; 
 
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
@@ -34,14 +42,24 @@ public class DataInitSessionBean {
     public void postConstruct() {
         if(em.find(Customer.class, 1l) == null) {
             //if data is empty, inject 2 accounts
-            accountSessionBeanLocal.createNewAccount(new Account("Glenn", "username", "password"));
-            accountSessionBeanLocal.createNewAccount(new Account("Ryan", "username", "password"));
+            Employee em1 = new Account("Glenn", "Quah", "quah.glenn@gmail.com", "password");
+            em1.setUserRole(EmployeeAccessRightEnum.MANAGER);
+            Employee em2 = new Account("Ryan", "Tang", "ryan@gmail.com", "password");
+            em1.setUserRole(EmployeeAccessRightEnum.STAFF);
+            customerSessionBeanRemote.createNewAccount(em1);
+            customerSessionBeanRemote.createNewAccount(em2);
         }
         
         if(em.find(Employee.class, 1l) == null) {
             //if data is empty, inject 2 accounts
-            accountSessionBeanLocal.createNewAccount(new Account("Glenn", "username", "password"));
-            accountSessionBeanLocal.createNewAccount(new Account("Ryan", "username", "password"));
+            Customer c1 = new Account("Glenn", "Quah", "quah.glenn@gmail.com", "password");
+            c1.setPhoneNumber("87534510");
+            c1.setAddress("KENTRIDGE");
+            Customer c2 = new Account("Ryan", "Tang", "ryan@gmail.com", "password");
+            c2.setPhoneNumber("999");
+            c2.setAddress("RVRC");
+            employeeSessionBeanRemote.createNewAccount(c1);
+            employeeSessionBeanRemote.createNewAccount(c2);
         }
     }
     
