@@ -37,10 +37,10 @@ public class Seat implements Serializable {
     public Seat() {
     }
 
-    public Seat(int rowNum, char rowLetter, Boolean taken) {
+    public Seat(int rowNum, char rowLetter) {
         this.rowNum = rowNum;
         this.rowLetter = rowLetter;
-        this.taken = taken;
+        this.taken = false;
         this.cabin = new Cabin();
     }
     

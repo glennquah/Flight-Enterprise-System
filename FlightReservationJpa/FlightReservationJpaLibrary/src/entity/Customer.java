@@ -59,7 +59,7 @@ public class Customer implements Serializable {
         return listOfReservation;
     }
 
-    public List<Flight> setListOfReservation(List<Flight> flights) {
+    public void setListOfReservation(List<Flight> flights) {
         this.listOfReservation = flights;
     }
 
