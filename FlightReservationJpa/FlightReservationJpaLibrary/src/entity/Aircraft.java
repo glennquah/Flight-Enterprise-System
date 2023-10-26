@@ -25,7 +25,7 @@ public class Aircraft implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long aircraftId;
-    @Column(nullable = false)
+    @Column(length = 32, nullable = false)
     private String aircraftName;
     @Column(nullable = false)
     private int numOfSeats;
@@ -35,7 +35,7 @@ public class Aircraft implements Serializable {
     private List<Flight> listOfFlights;
     
     @Column(nullable = false)
-    @OneToMany(mappedBy = "Cabin")
+    @OneToMany(mappedBy = "Aircraft")
     private List<Cabin> listOfCabins;
     
     
