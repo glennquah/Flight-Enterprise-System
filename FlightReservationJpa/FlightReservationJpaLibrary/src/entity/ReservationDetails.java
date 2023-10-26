@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,9 +37,14 @@ public class ReservationDetails implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Customer customer;
+    
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    private List<Flight> listOfFlights;
 
     public ReservationDetails() {
     }
+    
 
     public Customer getCustomer() {
         return customer;

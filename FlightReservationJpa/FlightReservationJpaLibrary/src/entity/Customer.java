@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,31 +39,43 @@ public class Customer implements Serializable {
     private String password;
     
     @OneToMany(mappedBy="Customer")
-    private List<Flight> listOfReservation;
+    private List<Flight> listOfScheduledFlights;
     
     @OneToMany(mappedBy="Customer")
-    private List<ReservationDetails> resDetails;
+    private List<ReservationDetails> listOfReservationDetails;
 
     public Customer() {
     }
 
-    public List<ReservationDetails> getResDetails() {
-        return resDetails;
+    public Customer(String firstName, String lastName, String email, String phoneNumber, String address, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.password = password;
+        this.listOfScheduledFlights = null;
+        this.listOfReservationDetails = new ArrayList<ReservationDetails>();
+    }
+    
+
+    public List<ReservationDetails> getListOfReservationDetails() {
+        return listOfReservationDetails;
     }
 
-    public void setResDetails(List<ReservationDetails> resDetails) {
-        this.resDetails = resDetails;
+    public void setListOfReservationDetails(List<ReservationDetails> resDetails) {
+        this.listOfReservationDetails = resDetails;
     }
 
 
-    public List<Flight> getListOfReservation() {
-        return listOfReservation;
+    public List<Flight> getListOfScheduledFlights() {
+        return listOfScheduledFlights;
     }
 
-    public void setListOfReservation(List<Flight> flights) {
-        this.listOfReservation = flights;
-    }
 
+    public void setListOfScheduledFlights(List<Flight> flights) {
+        this.listOfScheduledFlights = flights;
+    }
 
     public String getPassword() {
         return password;

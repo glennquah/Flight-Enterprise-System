@@ -29,7 +29,7 @@ public class Flight implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long flightId;
-    @Column (nullable = false)
+    @Column(length = 32, nullable = false)
     private String airCraftType;
     @Future
     @Temporal(TemporalType.TIMESTAMP)
@@ -53,6 +53,10 @@ public class Flight implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Airport airport;
+    
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    private Customer customer;
 
     public Flight() {
     }

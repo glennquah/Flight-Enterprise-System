@@ -22,7 +22,7 @@ public class Cabin implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cabinId;
-    @Column(nullable = false)
+    @Column(length = 32, nullable = false)
     private String cabinClassName;
 
     public Cabin() {
