@@ -17,8 +17,6 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Customer extends Account implements Serializable {
-    @Column(length = 32, nullable = false)
-    private String email;
     @Column(length = 8, nullable = false)
     private String phoneNumber;
     @Column(length = 64, nullable = false)
@@ -33,14 +31,12 @@ public class Customer extends Account implements Serializable {
     public Customer() {
     }
 
-    public Customer(String email, String phoneNumber, String address) {
-        this.email = email;
+    public Customer(String phoneNumber, String address) {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.listOfScheduledFlights = null;
         this.listOfReservationDetails = new ArrayList<ReservationDetails>();
     }
-    
 
     public List<ReservationDetails> getListOfReservationDetails() {
         return listOfReservationDetails;
@@ -86,12 +82,4 @@ public class Customer extends Account implements Serializable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    } 
 }
