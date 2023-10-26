@@ -32,7 +32,13 @@ public class DataInitSessionBean {
 
     @PostConstruct
     public void postConstruct() {
-        if(em.find(Account.class, 1l) == null) {
+        if(em.find(Customer.class, 1l) == null) {
+            //if data is empty, inject 2 accounts
+            accountSessionBeanLocal.createNewAccount(new Account("Glenn", "username", "password"));
+            accountSessionBeanLocal.createNewAccount(new Account("Ryan", "username", "password"));
+        }
+        
+        if(em.find(Employee.class, 1l) == null) {
             //if data is empty, inject 2 accounts
             accountSessionBeanLocal.createNewAccount(new Account("Glenn", "username", "password"));
             accountSessionBeanLocal.createNewAccount(new Account("Ryan", "username", "password"));
