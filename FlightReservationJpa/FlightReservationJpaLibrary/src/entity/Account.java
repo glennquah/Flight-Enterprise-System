@@ -5,33 +5,65 @@
 package entity;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 /**
  *
  * @author Lenovo
  */
-@Entity
+@MappedSuperclass
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountId;
-    private String name;
-    private String userName;
-    private String passWord;
+    @Column(length = 32, nullable = false)
+    private String firstName;
+    @Column(length = 32, nullable = false)
+    private String lastName;
+    @Column(length = 32, nullable = false)
+    private String email;
+    @Column(length = 32, nullable = false)
+    private String password;
 
-    public Account() {
+    public String getFirstName() {
+        return firstName;
     }
 
-    public Account(String name, String userName, String passWord) {
-        this.name = name;
-        this.userName = userName;
-        this.passWord = passWord;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Account() {
     }
 
     
@@ -66,48 +98,6 @@ public class Account implements Serializable {
     @Override
     public String toString() {
         return "entity.Account[ id=" + accountId + " ]";
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the userName
-     */
-    public String getUserName() {
-        return userName;
-    }
-
-    /**
-     * @param userName the userName to set
-     */
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    /**
-     * @return the passWord
-     */
-    public String getPassWord() {
-        return passWord;
-    }
-
-    /**
-     * @param passWord the passWord to set
-     */
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
     }
     
 }
