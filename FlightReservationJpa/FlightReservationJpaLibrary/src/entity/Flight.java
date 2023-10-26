@@ -56,10 +56,6 @@ public class Flight implements Serializable {
     @JoinColumn(nullable = false)
     private Airport airport;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
-    private Customer customer;
-    
     @OneToMany(mappedBy = "Flight")
     private List<ReservationDetails> listOfReservationDetails;
 
