@@ -4,7 +4,6 @@
  */
 package ejb.session.stateless.singleton;
 
-import ejb.session.stateless.AccountSessionBeanLocal;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import entity.Account;
@@ -42,24 +41,19 @@ public class DataInitSessionBean {
     public void postConstruct() {
         if(em.find(Customer.class, 1l) == null) {
             //if data is empty, inject 2 accounts
-            Employee em1 = new Account("Glenn", "Quah", "quah.glenn@gmail.com", "password");
-            em1.setUserRole(EmployeeAccessRightEnum.MANAGER);
-            Employee em2 = new Account("Ryan", "Tang", "ryan@gmail.com", "password");
-            em1.setUserRole(EmployeeAccessRightEnum.STAFF);
-            customerSessionBeanRemote.createNewAccount(em1);
-            customerSessionBeanRemote.createNewAccount(em2);
+            
+            Customer c1 = new Customer("Glenn", "Quah", "quah.glenn@gmail.com", "password", "87534510", "Kent Ridge");
+            Customer c2 = new Customer("Ryan", "Tang", "ryan@gmail.com", "password", "999", "RVRC");
+            customerSessionBeanRemote.createNewAccount(c1);
+            customerSessionBeanRemote.createNewAccount(c2);
         }
         
         if(em.find(Employee.class, 1l) == null) {
             //if data is empty, inject 2 accounts
-            Customer c1 = new Account("Glenn", "Quah", "quah.glenn@gmail.com", "password");
-            c1.setPhoneNumber("87534510");
-            c1.setAddress("KENTRIDGE");
-            Customer c2 = new Account("Ryan", "Tang", "ryan@gmail.com", "password");
-            c2.setPhoneNumber("999");
-            c2.setAddress("RVRC");
-            employeeSessionBeanRemote.createNewAccount(c1);
-            employeeSessionBeanRemote.createNewAccount(c2);
+            Employee em1 = new Employee("Glenn", "Quah", "quah.glenn@gmail.com", "password", EmployeeAccessRightEnum.MANAGER);
+            Employee em2 = new Employee("Ryan", "Tang", "ryan@gmail.com", "password", EmployeeAccessRightEnum.STAFF);
+            employeeSessionBeanRemote.createNewAccount(em1);
+            employeeSessionBeanRemote.createNewAccount(em2);
         }
     }
     

@@ -4,8 +4,11 @@
  */
 package flightreservationjpaclient;
 
-import ejb.session.stateless.AccountSessionBeanRemote;
+import ejb.session.stateless.CustomerSessionBeanRemote;
+import ejb.session.stateless.EmployeeSessionBeanRemote;
 import entity.Account;
+import entity.Customer;
+import entity.Employee;
 import java.util.List;
 import javax.ejb.EJB;
 
@@ -15,20 +18,33 @@ import javax.ejb.EJB;
  */
 public class Main {
 
-    @EJB
-    private static AccountSessionBeanRemote accountSessionBeanRemote;
+    @EJB(name = "CustomerSessionBeanRemote")
+    private static CustomerSessionBeanRemote customerSessionBeanRemote;
+
+    @EJB(name = "EmployeeSessionBeanRemote")
+    private static EmployeeSessionBeanRemote employeeSessionBeanRemote;
+    
+    
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // Look up session bean
-        List<Account> retrieveAllAccounts = accountSessionBeanRemote.retrieveAllAccounts();
-        for (Account acc: retrieveAllAccounts) {
-            System.out.println("Account ID: " + acc.getAccountId());
-            System.out.println("Account Name: " + acc.getName());
-            System.out.println("Account UserName: " + acc.getUserName());
-            System.out.println("Account Password: " + acc.getPassWord()+ "\n\n");
+        List<Customer> retrieveAllAccounts = customerSessionBeanRemote.retrieveAllAccounts();
+        for (Customer cust: retrieveAllAccounts) {
+            System.out.println("cust ID: " + cust.getAccountId());
+            System.out.println("cust Name: " + cust.getFirstName());
+            System.out.println("cust UserName: " + cust.getEmail());
+            System.out.println("cust Password: " + cust.getPassword()+ "\n\n");
+        }
+        
+        List<Employee> retrieveEmp = employeeSessionBeanRemote.retrieveAllAccounts();
+        for (Employee emp: retrieveEmp) {
+            System.out.println("cust ID: " + emp.getAccountId());
+            System.out.println("cust Name: " + emp.getLastName());
+            System.out.println("cust UserName: " + emp.getEmail());
+            System.out.println("cust Password: " + emp.getLastName()+ "\n\n");
         }
     }
     
