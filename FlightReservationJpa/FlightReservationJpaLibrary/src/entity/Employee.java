@@ -23,7 +23,8 @@ public class Employee extends Account implements Serializable {
     public Employee() {
     }
 
-    public Employee(EmployeeAccessRightEnum userRole) {
+    public Employee(String firstName, String lastName, String email, String password, EmployeeAccessRightEnum userRole) {
+        super(firstName, lastName, email, password);
         this.userRole = userRole;
     }
 
