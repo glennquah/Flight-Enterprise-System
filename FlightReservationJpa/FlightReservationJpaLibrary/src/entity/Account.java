@@ -31,6 +31,9 @@ public class Account implements Serializable {
     @Column(length = 32, nullable = false)
     private String password;
 
+    public Account() {
+    }
+    
     public String getFirstName() {
         return firstName;
     }
@@ -62,10 +65,6 @@ public class Account implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public Account() {
-    }
-
     
     public Long getAccountId() {
         return accountId;
