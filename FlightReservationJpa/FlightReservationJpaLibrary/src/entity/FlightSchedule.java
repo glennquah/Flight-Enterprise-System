@@ -129,5 +129,4 @@ public class FlightSchedule implements Serializable {
         this.flightSchedulePlan = flightSchedulePlan;
     }
 
-    /**    
 }
