@@ -4,6 +4,7 @@
  */
 package ejb.session.stateless;
 
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -12,5 +13,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface EmployeeSessionBeanLocal {
-    
+    public Long createNewAccount(Employee newEmpAccount);
+    public List<Employee> retrieveAllAccounts();
 }

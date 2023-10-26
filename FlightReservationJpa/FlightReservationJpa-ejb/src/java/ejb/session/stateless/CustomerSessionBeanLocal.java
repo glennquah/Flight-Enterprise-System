@@ -4,6 +4,8 @@
  */
 package ejb.session.stateless;
 
+import entity.Customer;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -12,5 +14,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface CustomerSessionBeanLocal {
-    
+    public List<Customer> retrieveAllAccounts();
+    public Long createNewAccount(Customer newCustAccount);
 }
