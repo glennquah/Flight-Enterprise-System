@@ -5,11 +5,15 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -24,12 +28,20 @@ public class Cabin implements Serializable {
     private Long cabinId;
     @Column(length = 32, nullable = false)
     private String cabinClassName;
+    
+    @OneToMany(mappedBy = "Cabin")
+    private List<Seat> listOfSeats;
+    
+    @ManyToOne
+    private Aircraft aircraft;
 
     public Cabin() {
     }
 
     public Cabin(String cabinClassName) {
         this.cabinClassName = cabinClassName;
+        this.aircraft = new Aircraft();
+        this.listOfSeats = new ArrayList<Seat>();
     }
 
     public Long getCabinId() {

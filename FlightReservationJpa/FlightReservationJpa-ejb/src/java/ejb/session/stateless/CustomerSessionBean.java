@@ -32,7 +32,7 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
     @Override
     public List<Customer> retrieveAllAccounts() {
         //Whatever JPQL Statement u want
-        Query query = em.createQuery("SELECT c FROM Customer e");
+        Query query = em.createQuery("SELECT c FROM Customer c");
         return query.getResultList();
     }
 

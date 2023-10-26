@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -30,8 +31,8 @@ public class Seat implements Serializable {
     @Column(nullable = false)
     private Boolean taken;
     
-    @Column(nullable = false)
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private Cabin cabin;
 
     public Seat() {
