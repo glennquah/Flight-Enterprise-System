@@ -23,9 +23,6 @@ public class Customer extends Account implements Serializable {
     private String address;
     
     @OneToMany(mappedBy="Customer")
-    private List<Flight> listOfScheduledFlights;
-    
-    @OneToMany(mappedBy="Customer")
     private List<ReservationDetails> listOfReservationDetails;
 
     public Customer() {
@@ -35,7 +32,6 @@ public class Customer extends Account implements Serializable {
         super(firstName, lastName, email, password);
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.listOfScheduledFlights = null;
         this.listOfReservationDetails = new ArrayList<ReservationDetails>();
     }
 
@@ -45,16 +41,6 @@ public class Customer extends Account implements Serializable {
 
     public void setListOfReservationDetails(List<ReservationDetails> resDetails) {
         this.listOfReservationDetails = resDetails;
-    }
-
-
-    public List<Flight> getListOfScheduledFlights() {
-        return listOfScheduledFlights;
-    }
-
-
-    public void setListOfScheduledFlights(List<Flight> flights) {
-        this.listOfScheduledFlights = flights;
     }
 
     public String getAddress() {
