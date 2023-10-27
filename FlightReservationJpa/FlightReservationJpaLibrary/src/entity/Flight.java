@@ -46,15 +46,11 @@ public class Flight implements Serializable {
     @Column(nullable = false)
     private int numOfSeatsLeft;
     
-    @OneToOne(mappedBy = "Flight")
+    @ManyToOne
     private FlightRoute flightRoute;
     
     @ManyToOne
     private Aircraft aircraft;
-    
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
-    private Airport airport;
     
     @OneToMany(mappedBy = "Flight")
     private List<ReservationDetails> listOfReservationDetails;
