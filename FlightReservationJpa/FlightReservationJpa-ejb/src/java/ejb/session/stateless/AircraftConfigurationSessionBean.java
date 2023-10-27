@@ -24,7 +24,9 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
     private EntityManager em;
 
     @Override
-    public Long createAircraftConfiguration(AircraftConfiguration aircraftConfig) {
+    public Long createAircraftConfiguration(AircraftConfiguration aircraftConfig, Long aircraftId) {
+        Aircraft ac = em.find(Aircraft.class, aircraftId);
+        aircraftConfig.setAircraft(ac);
         em.persist(aircraftConfig);
         em.flush();
         

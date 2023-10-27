@@ -14,7 +14,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface AircraftConfigurationSessionBeanLocal {
-    public Long createAircraftConfiguration(AircraftConfiguration aircraftConfig);
+    public Long createAircraftConfiguration(AircraftConfiguration aircraftConfig, Long aircraftId);
     public List<AircraftConfiguration> retrieveAllAircraftConfigurations();
     public void linkAircraft(Long aircraftId, Long aircraftConfigId);
     public void addCabin(Long cabinId, Long aircraftConfigId);
