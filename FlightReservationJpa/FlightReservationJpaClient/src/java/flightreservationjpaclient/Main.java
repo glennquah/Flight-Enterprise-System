@@ -23,12 +23,29 @@ public class Main {
 
     @EJB(name = "EmployeeSessionBeanRemote")
     private static EmployeeSessionBeanRemote employeeSessionBeanRemote;
+    
+    
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-           MainApp mainApp = new MainApp(customerSessionBeanRemote, employeeSessionBeanRemote);
-           mainApp.runApp();
+        // Look up session bean
+        List<Customer> retrieveAllAccounts = customerSessionBeanRemote.retrieveAllAccounts();
+        for (Customer cust: retrieveAllAccounts) {
+            System.out.println("cust ID: " + cust.getAccountId());
+            System.out.println("cust Name: " + cust.getFirstName());
+            System.out.println("cust UserName: " + cust.getEmail());
+            System.out.println("cust Password: " + cust.getPassword()+ "\n\n");
+        }
+        
+        List<Employee> retrieveEmp = employeeSessionBeanRemote.retrieveAllAccounts();
+        for (Employee emp: retrieveEmp) {
+            System.out.println("cust ID: " + emp.getAccountId());
+            System.out.println("cust Name: " + emp.getLastName());
+            System.out.println("cust UserName: " + emp.getEmail());
+            System.out.println("cust Password: " + emp.getLastName()+ "\n\n");
+        }
     }
+    
 }
