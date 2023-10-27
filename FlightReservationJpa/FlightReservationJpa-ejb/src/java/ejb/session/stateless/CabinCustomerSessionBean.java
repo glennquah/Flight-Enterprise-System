@@ -4,9 +4,8 @@
  */
 package ejb.session.stateless;
 
-import entity.Aircraft;
-import entity.AircraftConfiguration;
 import entity.Airport;
+import entity.Cabin;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -18,24 +17,26 @@ import javax.persistence.Query;
  * @author Lenovo
  */
 @Stateless
-public class AircraftSessionBean implements AircraftSessionBeanRemote, AircraftSessionBeanLocal {
+public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote, CabinCustomerSessionBeanLocal {
 
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
 
     @Override
-    public Long createAircraft(Aircraft aircraft) {
-        em.persist(aircraft);
+    public Long createCabin(Cabin cabin) {
+        em.persist(cabin);
         em.flush();
         
-        return aircraft.getAircraftId();
+        return cabin.getCabinId();
     }
     
     @Override
-    public List<Aircraft> retrieveAllAircrafts() {
+    public List<Cabin> retrieveAllCabins() {
         //Whatever JPQL Statement u want
-        Query query = em.createQuery("SELECT a FROM Aircraft a");
+        Query query = em.createQuery("SELECT c FROM Cabin c");
         return query.getResultList();
     }
+    
+    
     
 }

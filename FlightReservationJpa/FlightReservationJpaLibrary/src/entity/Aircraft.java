@@ -7,12 +7,14 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -33,17 +35,19 @@ public class Aircraft implements Serializable {
     @OneToMany(mappedBy = "Aircraft")
     private List<Flight> listOfFlights;
     
-    @OneToMany(mappedBy = "Aircraft")
-    private List<Cabin> listOfCabins;
+    @OneToOne(mappedBy = "Aircraft")
+    private AircraftConfiguration aircraftConfiguration;
 
     public Aircraft() {
     }
+    
+    
 
     public Aircraft(String aircraftName, int numOfSeats) {
         this.aircraftName = aircraftName;
         this.numOfSeats = numOfSeats;
         this.listOfFlights = new ArrayList<Flight>();
-        this.listOfCabins = new ArrayList<Cabin>();
+        this.aircraftConfiguration = null;
     }
     
     
@@ -124,17 +128,17 @@ public class Aircraft implements Serializable {
     }
 
     /**
-     * @return the listOfCabins
+     * @return the aircraftConfiguration
      */
-    public List<Cabin> getListOfCabins() {
-        return listOfCabins;
+    public AircraftConfiguration getAircraftConfiguration() {
+        return aircraftConfiguration;
     }
 
     /**
-     * @param listOfCabins the listOfCabins to set
+     * @param aircraftConfiguration the aircraftConfiguration to set
      */
-    public void setListOfCabins(List<Cabin> listOfCabins) {
-        this.listOfCabins = listOfCabins;
+    public void setAircraftConfiguration(AircraftConfiguration aircraftConfiguration) {
+        this.aircraftConfiguration = aircraftConfiguration;
     }
     
 }

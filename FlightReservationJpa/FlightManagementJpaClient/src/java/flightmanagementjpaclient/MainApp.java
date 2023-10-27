@@ -4,6 +4,9 @@
  */
 package flightmanagementjpaclient;
 
+import ejb.session.stateless.AircraftConfigurationSessionBeanRemote;
+import ejb.session.stateless.AircraftSessionBeanRemote;
+import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import java.util.Scanner;
@@ -16,13 +19,24 @@ import util.exception.InvalidLoginCredentialException;
 public class MainApp {
     private EmployeeSessionBeanRemote employeeSessionBean;
     private CustomerSessionBeanRemote customerSessionBean;
+    private AircraftSessionBeanRemote aircraftSessionBeanRemote;
+    private AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote;
+    private CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote;
+            
 
     public MainApp() {
     }
 
-    public MainApp(EmployeeSessionBeanRemote employeeSessionBean, CustomerSessionBeanRemote customerSessionBean) {
+    public MainApp(EmployeeSessionBeanRemote employeeSessionBean,
+                   CustomerSessionBeanRemote customerSessionBean,
+                   AircraftSessionBeanRemote aircraftSessionBeanRemote,
+                   AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote,
+                   CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote) {
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
+        this.aircraftSessionBeanRemote = aircraftSessionBeanRemote;
+        this.aircraftConfigurationSessionBeanRemote = aircraftConfigurationSessionBeanRemote;
+        this.cabinCustomerSessionBeanRemote = cabinCustomerSessionBeanRemote;
     }
     
     public void runApp() {
@@ -47,7 +61,12 @@ public class MainApp {
                 {   
                     try {
                         employeeId = doLogin(scanner);
-                        ManagementModule managementModule = new ManagementModule(employeeId, employeeSessionBean, customerSessionBean);
+                        ManagementModule managementModule = new ManagementModule(employeeId,
+                                                                                 employeeSessionBean,
+                                                                                 customerSessionBean,
+                                                                                 aircraftSessionBeanRemote,
+                                                                                 aircraftConfigurationSessionBeanRemote,
+                                                                                 cabinCustomerSessionBeanRemote);
                         managementModule.adminLoginPage();
                     }
                     catch(InvalidLoginCredentialException ex) 
