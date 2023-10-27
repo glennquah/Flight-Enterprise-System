@@ -7,6 +7,7 @@ package ejb.session.stateless;
 import entity.Employee;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.InvalidLoginCredentialException;
 
 /**
  *
@@ -16,4 +17,5 @@ import javax.ejb.Local;
 public interface EmployeeSessionBeanLocal {
     public Long createNewAccount(Employee newEmpAccount);
     public List<Employee> retrieveAllAccounts();
+    public Long login(String email, String password) throws InvalidLoginCredentialException;
 }

@@ -4,12 +4,15 @@
  */
 package ejb.session.stateless;
 
+import entity.Customer;
 import entity.Employee;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.InvalidLoginCredentialException;
 
 /**
  *
@@ -21,6 +24,30 @@ public class EmployeeSessionBean implements EmployeeSessionBeanRemote, EmployeeS
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
 
+    @Override
+    public Long login(String email, String password) throws InvalidLoginCredentialException
+    {
+        try
+        {
+            Query query = em.createQuery("SELECT e FROM Employee e WHERE e.email = :email");
+            query.setParameter("email", email);
+            Employee employee = (Employee)query.getSingleResult();
+            
+            if(employee.getPassword().equals(password))
+            {
+                return employee.getAccountId();
+            }
+            else
+            {
+                throw new InvalidLoginCredentialException("Invalid login credential");
+            }
+        }
+        catch(NoResultException ex)
+        {
+            throw new InvalidLoginCredentialException("Invalid login credential");
+        }
+    }
+    
     @Override
     public Long createNewAccount(Employee newEmpAccount) {
         em.persist(newEmpAccount);
@@ -35,6 +62,7 @@ public class EmployeeSessionBean implements EmployeeSessionBeanRemote, EmployeeS
         Query query = em.createQuery("SELECT e FROM Employee e");
         return query.getResultList();
     }
+    
 
  
 }

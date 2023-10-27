@@ -13,13 +13,16 @@ import java.util.Scanner;
  * @author admin
  */
 public class ManagementModule {
+    private Long employeeId;
     private EmployeeSessionBeanRemote employeeSessionBean;
     private CustomerSessionBeanRemote customerSessionBean;
+    
 
     public ManagementModule() {
     }
 
-    public ManagementModule(EmployeeSessionBeanRemote employeeSessionBean, CustomerSessionBeanRemote customerSessionBean) {
+    public ManagementModule(Long employeeId, EmployeeSessionBeanRemote employeeSessionBean, CustomerSessionBeanRemote customerSessionBean) {
+        this.employeeId = employeeId;
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
     }
@@ -32,7 +35,7 @@ public class ManagementModule {
             System.out.println("1: ");
             System.out.println("2: ");
             System.out.println("3: ");
-            System.out.println("4: back\n");
+            System.out.println("4: Logout\n");
 
             System.out.print("> ");
             response = sc.nextInt();
