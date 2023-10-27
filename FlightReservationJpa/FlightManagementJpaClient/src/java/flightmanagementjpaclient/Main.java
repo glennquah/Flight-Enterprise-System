@@ -4,7 +4,9 @@
  */
 package flightmanagementjpaclient;
 
+import ejb.session.stateless.AircraftConfigurationSessionBeanRemote;
 import ejb.session.stateless.AircraftSessionBeanRemote;
+import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import javax.ejb.EJB;
@@ -15,6 +17,12 @@ import javax.ejb.EJB;
  */
 public class Main {
 
+    @EJB(name = "AircraftConfigurationSessionBeanRemote")
+    private static AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote;
+
+    @EJB(name = "CabinCustomerSessionBeanRemote")
+    private static CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote;
+
     @EJB(name = "AircraftSessionBeanRemote")
     private static AircraftSessionBeanRemote aircraftSessionBeanRemote;
 
@@ -24,11 +32,9 @@ public class Main {
     @EJB
     private static CustomerSessionBeanRemote customerSessionBean;
     
-    
 
-    
     public static void main(String[] args) {
-        MainApp mainApp = new MainApp(employeeSessionBean, customerSessionBean, aircraftSessionBeanRemote);
+        MainApp mainApp = new MainApp(employeeSessionBean, customerSessionBean, aircraftSessionBeanRemote, aircraftConfigurationSessionBeanRemote, cabinCustomerSessionBeanRemote);
         mainApp.runApp();
     }
     

@@ -38,13 +38,15 @@ public class AircraftConfiguration implements Serializable {
     private List<Cabin> listOfCabins;
 
     public AircraftConfiguration() {
-        this.listOfCabins = new ArrayList<>();
         this.aircraftConfigName = "";
+        this.listOfCabins = new ArrayList<>();
         this.aircraft = new Aircraft();
     }
 
     public AircraftConfiguration(String aircraftConfigName) {
         this.aircraftConfigName = aircraftConfigName;
+        this.listOfCabins = new ArrayList<>();
+        this.aircraft = new Aircraft();
     }
 
     public Long getAircraftConfigurationId() {
