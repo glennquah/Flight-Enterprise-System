@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,8 +36,21 @@ public class FlightRoute implements Serializable {
     @OneToMany(mappedBy="FlightRoute")
     private List<Flight> listOfFlights;
     
-    @ManyToMany
-    private List<Airport> listOfAirports;
+//    @ManyToMany(mappedBy = "FlightRoute")
+//    private List<Airport> listOfAirports;
+
+    public FlightRoute() {
+    }
+
+    
+
+    public FlightRoute(Airport originAirport, Airport destinationAirport) {
+        this.originAirport = originAirport;
+        this.destinationAirport = destinationAirport;
+        this.listOfFlights = new ArrayList<Flight>();
+    }
+
+    
 
     public Long getFlightRouteId() {
         return flightRouteId;
