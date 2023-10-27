@@ -5,10 +5,12 @@
         <group>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/setup/glassfish-resources.xml</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/conf/persistence.xml</file>
+            <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/AircraftSessionBean.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/singleton/DataInitSessionBean.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/CustomerSessionBeanLocal.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/CustomerSessionBean.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/conf/MANIFEST.MF</file>
+            <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/EmployeeSessionBean.java</file>
         </group>
     </open-files>
 </project-private>

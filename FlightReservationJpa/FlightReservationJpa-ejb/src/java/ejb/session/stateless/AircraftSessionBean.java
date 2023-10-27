@@ -5,6 +5,7 @@
 package ejb.session.stateless;
 
 import entity.Aircraft;
+import entity.AircraftConfiguration;
 import entity.Airport;
 import java.util.List;
 import javax.ejb.Stateless;

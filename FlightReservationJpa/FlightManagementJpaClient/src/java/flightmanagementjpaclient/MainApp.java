@@ -4,6 +4,7 @@
  */
 package flightmanagementjpaclient;
 
+import ejb.session.stateless.AircraftSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import java.util.Scanner;
@@ -16,13 +17,15 @@ import util.exception.InvalidLoginCredentialException;
 public class MainApp {
     private EmployeeSessionBeanRemote employeeSessionBean;
     private CustomerSessionBeanRemote customerSessionBean;
+    private AircraftSessionBeanRemote aircraftSessionBeanRemote;
 
     public MainApp() {
     }
 
-    public MainApp(EmployeeSessionBeanRemote employeeSessionBean, CustomerSessionBeanRemote customerSessionBean) {
+    public MainApp(EmployeeSessionBeanRemote employeeSessionBean, CustomerSessionBeanRemote customerSessionBean, AircraftSessionBeanRemote aircraftSessionBeanRemote) {
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
+        this.aircraftSessionBeanRemote = aircraftSessionBeanRemote;
     }
     
     public void runApp() {
@@ -47,7 +50,7 @@ public class MainApp {
                 {   
                     try {
                         employeeId = doLogin(scanner);
-                        ManagementModule managementModule = new ManagementModule(employeeId, employeeSessionBean, customerSessionBean);
+                        ManagementModule managementModule = new ManagementModule(employeeId, employeeSessionBean, customerSessionBean, aircraftSessionBeanRemote);
                         managementModule.adminLoginPage();
                     }
                     catch(InvalidLoginCredentialException ex) 

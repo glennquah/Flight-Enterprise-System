@@ -33,7 +33,7 @@ public class Cabin implements Serializable {
     private List<Seat> listOfSeats;
     
     @ManyToOne
-    private Aircraft aircraft;
+    private AircraftConfiguration aircraftConfiguration;
     
     @OneToMany(mappedBy="Cabin")
     private List<Fare> listOfFare;
@@ -43,7 +43,7 @@ public class Cabin implements Serializable {
 
     public Cabin(String cabinClassName) {
         this.cabinClassName = cabinClassName;
-        this.aircraft = new Aircraft();
+        this.aircraftConfiguration = new AircraftConfiguration();
         this.listOfSeats = new ArrayList<Seat>();
     }
 

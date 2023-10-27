@@ -34,8 +34,8 @@ public class ReservationDetails implements Serializable {
     @Column(length = 32, nullable = false)
     private String creditCardNumber;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
+        @ManyToOne(optional = false)
+        @JoinColumn(nullable = false)
     private Customer customer;
     
     @ManyToOne(optional = false)
