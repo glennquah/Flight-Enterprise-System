@@ -6,9 +6,11 @@ package flightmanagementjpaclient;
 
 import ejb.session.stateless.AircraftConfigurationSessionBeanRemote;
 import ejb.session.stateless.AircraftSessionBeanRemote;
+import ejb.session.stateless.AirportSessionBeanRemote;
 import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
+import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import javax.ejb.EJB;
 
 /**
@@ -16,6 +18,18 @@ import javax.ejb.EJB;
  * @author admin
  */
 public class Main {
+
+    @EJB(name = "FlightRoutesSessionBeanRemote")
+    private static FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote;
+
+    @EJB(name = "EmployeeSessionBeanRemote")
+    private static EmployeeSessionBeanRemote employeeSessionBeanRemote;
+
+    @EJB(name = "CustomerSessionBeanRemote")
+    private static CustomerSessionBeanRemote customerSessionBeanRemote;
+
+    @EJB(name = "AirportSessionBeanRemote")
+    private static AirportSessionBeanRemote airportSessionBeanRemote;
 
     @EJB(name = "AircraftConfigurationSessionBeanRemote")
     private static AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote;
@@ -25,16 +39,13 @@ public class Main {
 
     @EJB(name = "AircraftSessionBeanRemote")
     private static AircraftSessionBeanRemote aircraftSessionBeanRemote;
-
-    @EJB
-    private static EmployeeSessionBeanRemote employeeSessionBean;
-
-    @EJB
-    private static CustomerSessionBeanRemote customerSessionBean;
     
 
     public static void main(String[] args) {
-        MainApp mainApp = new MainApp(employeeSessionBean, customerSessionBean, aircraftSessionBeanRemote, aircraftConfigurationSessionBeanRemote, cabinCustomerSessionBeanRemote);
+        MainApp mainApp = new MainApp(employeeSessionBeanRemote, customerSessionBeanRemote, 
+                    aircraftSessionBeanRemote, aircraftConfigurationSessionBeanRemote, 
+                    cabinCustomerSessionBeanRemote, flightRoutesSessionBeanRemote, 
+                    airportSessionBeanRemote);
         mainApp.runApp();
     }
     

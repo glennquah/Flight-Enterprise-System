@@ -67,6 +67,30 @@ public class Flight implements Serializable {
         this.totalNumOfPassengers = totalNumOfPassengers;
         this.numOfSeatsLeft = numOfSeatsLeft;
     }
+
+    public FlightRoute getFlightRoute() {
+        return flightRoute;
+    }
+
+    public void setFlightRoute(FlightRoute flightRoute) {
+        this.flightRoute = flightRoute;
+    }
+
+    public Aircraft getAircraft() {
+        return aircraft;
+    }
+
+    public void setAircraft(Aircraft aircraft) {
+        this.aircraft = aircraft;
+    }
+
+    public List<ReservationDetails> getListOfReservationDetails() {
+        return listOfReservationDetails;
+    }
+
+    public void setListOfReservationDetails(List<ReservationDetails> listOfReservationDetails) {
+        this.listOfReservationDetails = listOfReservationDetails;
+    }
     
     public Long getFlightId() {
         return flightId;

@@ -6,12 +6,15 @@ package flightmanagementjpaclient;
 
 import ejb.session.stateless.AircraftConfigurationSessionBeanRemote;
 import ejb.session.stateless.AircraftSessionBeanRemote;
+import ejb.session.stateless.AirportSessionBeanRemote;
 import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
+import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import entity.Aircraft;
 import entity.AircraftConfiguration;
 import entity.Cabin;
+import entity.FlightRoute;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,6 +29,8 @@ public class ManagementModule {
     private AircraftSessionBeanRemote aircraftSessionBeanRemote;
     private AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote;
     private CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote;
+    private FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote;
+    private AirportSessionBeanRemote airportSessionBeanRemote;
     
 
     public ManagementModule() {
@@ -36,13 +41,17 @@ public class ManagementModule {
                             CustomerSessionBeanRemote customerSessionBean,
                             AircraftSessionBeanRemote aircraftSessionBeanRemote,
                             AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote,
-                            CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote) {
+                            CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote,
+                            FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote,
+                            AirportSessionBeanRemote airportSessionBeanRemote) {
         this.employeeId = employeeId;
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
         this.aircraftSessionBeanRemote = aircraftSessionBeanRemote;
         this.aircraftConfigurationSessionBeanRemote = aircraftConfigurationSessionBeanRemote;
         this.cabinCustomerSessionBeanRemote = cabinCustomerSessionBeanRemote;
+        this.flightRoutesSessionBeanRemote = flightRoutesSessionBeanRemote;
+        this.airportSessionBeanRemote = airportSessionBeanRemote;
     }
     
     //=================================================ADMIN PAGE================================================================
@@ -65,7 +74,11 @@ public class ManagementModule {
             if(response == 1) {
                 aircraftConfigurationOptions(sc);
             } else if (response == 2) {
-                System.out.println("2");
+                List<FlightRoute> flightRoutes = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
+                
+                for (FlightRoute flightRoute:flightRoutes) {
+                    System.out.println(flightRoute.getFlightRouteId());
+                }
             } else if (response == 3) {
                 flightOptions(sc);
             } else if (response == 4) {

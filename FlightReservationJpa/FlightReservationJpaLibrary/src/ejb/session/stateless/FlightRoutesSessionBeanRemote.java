@@ -16,4 +16,5 @@ import javax.ejb.Remote;
 public interface FlightRoutesSessionBeanRemote {
     public Long createNewFlightRoute(FlightRoute flightroute);
     public List<FlightRoute> retrieveAllFlightRoutes();
+    public Long deleteFLightRoute(Long flightRouteId);
 }

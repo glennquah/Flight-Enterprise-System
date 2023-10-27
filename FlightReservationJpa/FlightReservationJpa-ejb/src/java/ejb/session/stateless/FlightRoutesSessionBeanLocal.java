@@ -16,4 +16,5 @@ import javax.ejb.Local;
 public interface FlightRoutesSessionBeanLocal {
     public Long createNewFlightRoute(FlightRoute flightroute);
     public List<FlightRoute> retrieveAllFlightRoutes();
+    public Long deleteFLightRoute(Long flightRouteId);
 }

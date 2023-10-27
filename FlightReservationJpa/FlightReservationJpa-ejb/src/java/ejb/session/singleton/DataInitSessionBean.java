@@ -2,14 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/J2EE/EJB31/SingletonEjbClass.java to edit this template
  */
-package ejb.session.stateless.singleton;
+package ejb.session.singleton;
 
 import ejb.session.stateless.AircraftSessionBeanRemote;
 import ejb.session.stateless.AirportSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import ejb.session.stateless.FlightRoutesSessionBeanRemote;
-import entity.Account;
 import entity.Aircraft;
 import entity.Airport;
 import entity.Customer;
@@ -33,6 +32,9 @@ import util.enumeration.EmployeeAccessRightEnum;
 @Startup
 
 public class DataInitSessionBean {
+
+    @EJB
+    private FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote;
 
     @EJB(name = "AircraftSessionBeanRemote")
     private AircraftSessionBeanRemote aircraftSessionBeanRemote;
@@ -91,6 +93,29 @@ public class DataInitSessionBean {
             airportSessionBeanRemote.createNewAirport(a8);
             airportSessionBeanRemote.createNewAirport(a9);
             airportSessionBeanRemote.createNewAirport(a10);
+            
+            if(em.find(FlightRoute.class, 1l) == null) {
+                FlightRoute route1 = new FlightRoute(a1, a2);
+                FlightRoute route2 = new FlightRoute(a8, a3);
+                FlightRoute route3 = new FlightRoute(a1, a4);
+                FlightRoute route4 = new FlightRoute(a3, a5);
+                FlightRoute route5 = new FlightRoute(a10, a6);
+                FlightRoute route6 = new FlightRoute(a5, a7);
+                FlightRoute route7 = new FlightRoute(a7, a8);
+                FlightRoute route8 = new FlightRoute(a1, a9);
+                FlightRoute route9 = new FlightRoute(a4, a10);
+                FlightRoute route10 = new FlightRoute(a2, a3);
+                flightRoutesSessionBeanRemote.createNewFlightRoute(route1);
+                flightRoutesSessionBeanRemote.createNewFlightRoute(route2);
+                flightRoutesSessionBeanRemote.createNewFlightRoute(route3);
+                flightRoutesSessionBeanRemote.createNewFlightRoute(route4);
+                flightRoutesSessionBeanRemote.createNewFlightRoute(route5);
+                flightRoutesSessionBeanRemote.createNewFlightRoute(route6);
+                flightRoutesSessionBeanRemote.createNewFlightRoute(route7);
+                flightRoutesSessionBeanRemote.createNewFlightRoute(route8);
+                flightRoutesSessionBeanRemote.createNewFlightRoute(route9);
+                flightRoutesSessionBeanRemote.createNewFlightRoute(route10);
+            }
         }
         
         if(em.find(Aircraft.class, 1l) == null) {

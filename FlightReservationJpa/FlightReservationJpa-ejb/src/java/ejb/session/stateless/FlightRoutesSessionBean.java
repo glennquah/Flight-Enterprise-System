@@ -4,7 +4,7 @@
  */
 package ejb.session.stateless;
 
-import entity.Airport;
+import entity.Flight;
 import entity.FlightRoute;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -26,14 +26,34 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
     public Long createNewFlightRoute(FlightRoute flightroute) {
         em.persist(flightroute);
         em.flush();
+        
         return flightroute.getFlightRouteId();
+    }
+    
+    @Override
+    public Long deleteFLightRoute(Long flightRouteId) {
+        Query query = em.createQuery("SELECT f FROM FlightRoute f WHERE f.flightRouteId = :flightRouteId");
+        query.setParameter("flightRouteId", flightRouteId);
+        FlightRoute flightRoute = (FlightRoute)query.getSingleResult();
+        
+        Query secondQuery = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute = :flightRoute");
+        query.setParameter("flightRoute", flightRoute);
+        List<Flight> flights = (List<Flight>)query.getResultList();
+        
+        for (Flight f: flights) {
+            f.setFlightRoute(null);
+        }
+        
+        em.remove(flightRoute);
+        em.flush();
+        return flightRouteId;
     }
     
     @Override
     public List<FlightRoute> retrieveAllFlightRoutes() {
         //Whatever JPQL Statement u want
         Query query = em.createQuery("SELECT f FROM FlightRoute f");
-        return query.getResultList();
+        return (List<FlightRoute>) query.getResultList();
     }
 
     

@@ -5,17 +5,13 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -38,7 +34,6 @@ public class Airport implements Serializable {
     private String state;
     @Column(length = 32, nullable = false)
     private String country;
-    
 //    @ManyToMany
 //    private List<FlightRoute> listOfFlightRoutes;
 
@@ -51,6 +46,7 @@ public class Airport implements Serializable {
         this.city = city;
         this.state = state;
         this.country = country;
+        
 //        this.listOfFlightRoutes = new ArrayList<FlightRoute>();
     }
     
