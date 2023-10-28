@@ -14,9 +14,10 @@ import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import entity.Aircraft;
 import entity.AircraftConfiguration;
 import entity.Cabin;
-import entity.FlightRoute;
 import java.util.List;
 import java.util.Scanner;
+import util.exception.AirportDoesNotExistException;
+import util.exception.FlightRouteDoesNotExistException;
 
 /**
  *
@@ -74,11 +75,7 @@ public class ManagementModule {
             if(response == 1) {
                 aircraftConfigurationOptions(sc);
             } else if (response == 2) {
-                List<FlightRoute> flightRoutes = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
-                
-                for (FlightRoute flightRoute:flightRoutes) {
-                    System.out.println(flightRoute.getFlightRouteId());
-                }
+                flightRoute(sc);
             } else if (response == 3) {
                 flightOptions(sc);
             } else if (response == 4) {
@@ -93,6 +90,115 @@ public class ManagementModule {
     
     //=================================================AIRCRAFT CONFIGURATION================================================================
     
+     public void flightRoute(Scanner sc) {
+        System.out.println("*** YOU HAVE PICKED FLIGHT ROUTE ***\n");
+        Integer response;
+        while(true) {
+            System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
+            System.out.println("1: Create New Flight Route ");
+            System.out.println("2: View All Flight Route");
+            System.out.println("3: Delete Flight Route");
+            System.out.println("4: Back\n");
+
+            System.out.print("> ");
+            response = sc.nextInt();
+            sc.nextLine();
+            if(response == 1) {
+                createFlightRoute(sc);
+            } else if (response == 2) {
+//                List<FlightRoute> flightRoutes = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
+//                for (FlightRoute flightRoute: flightRoutes) {
+//                    System.out.println(flightRoute.)
+//                }
+                   System.out.println("2");
+            } else if (response == 3) {
+                deleteFlightRoute(sc);
+            } else if (response == 4) {
+                break;
+            } else {
+                System.out.println("Invalid option, please try again!\n");
+            }
+        }
+    }
+     
+     public void createFlightRoute(Scanner sc) {
+        System.out.println("*** YOU HAVE PICKED CREATE FLIGHT ROUTE ***\n");
+        Integer response;
+        while(true) {
+            System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
+            System.out.println("1: Create new Flight Route ");
+            System.out.println("2: Create new Flight Route with Return Route");
+            System.out.println("3: Back\n");
+
+            System.out.print("> ");
+            response = sc.nextInt();
+            sc.nextLine();
+            if(response == 1) {
+                System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
+                System.out.println("Enter Origin Airport ID ");
+                System.out.print("> ");
+                Long originAirport = sc.nextLong();
+                System.out.println("Enter Destination Airport ID ");
+                System.out.print("> ");
+                Long destAirport = sc.nextLong();
+                try {
+                    Long flightRouteId = flightRoutesSessionBeanRemote.createNewFlightRoute(originAirport, destAirport);
+                    System.out.println("Successfully created Flight Route with ID: " + flightRouteId + "!");
+                } catch (AirportDoesNotExistException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            } else if (response == 2) {
+                System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
+                System.out.println("Enter Origin Airport ID ");
+                System.out.print("> ");
+                Long originAirport = sc.nextLong();
+                System.out.println("Enter Destination Airport ID ");
+                System.out.print("> ");
+                Long destAirport = sc.nextLong();
+                
+                try {
+                    Long flightRouteId = flightRoutesSessionBeanRemote.createNewFlightRouteWithReturn(originAirport, destAirport);
+                    System.out.println("Successfully created Flight Route with ID: " + flightRouteId + "!");
+                } catch (AirportDoesNotExistException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            } else if (response == 3) {
+                break;
+            } else {
+                System.out.println("Invalid option, please try again!\n");
+            }
+        }
+    }
+     
+    public void deleteFlightRoute(Scanner sc) {
+        System.out.println("*** YOU HAVE PICKED DELETE FLIGHT ROUTE ***\n");
+        Integer response;
+        while(true) {
+            System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
+            System.out.println("1: Delete Flight Route ");
+            System.out.println("2: Back\n");
+
+            System.out.print("> ");
+            response = sc.nextInt();
+            sc.nextLine();
+            if(response == 1) {
+                System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
+                System.out.println("Enter Flight Route ID ");
+                System.out.print("> ");
+                Long flightRouteId = sc.nextLong();
+                try {
+                    flightRoutesSessionBeanRemote.deleteFlightRoute(flightRouteId);
+                } catch (FlightRouteDoesNotExistException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            } else if (response == 2) {
+                break;
+            } else {
+                System.out.println("Invalid option, please try again!\n");
+            }
+        }
+    }
+     
     public void aircraftConfigurationOptions(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED AIRCRAFT CONFIGURATION ***\n");
         Integer response;
