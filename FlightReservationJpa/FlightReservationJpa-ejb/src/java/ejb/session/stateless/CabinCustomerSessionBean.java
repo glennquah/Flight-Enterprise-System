@@ -4,6 +4,7 @@
  */
 package ejb.session.stateless;
 
+import entity.AircraftConfiguration;
 import entity.Airport;
 import entity.Cabin;
 import java.util.List;
@@ -23,7 +24,13 @@ public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote,
     private EntityManager em;
 
     @Override
-    public Long createCabin(Cabin cabin) {
+    public Long createCabin(Cabin cabin, Long aircraftConfigId) {
+        AircraftConfiguration ac = em.find(AircraftConfiguration.class, aircraftConfigId);
+        List<Cabin> listOfCabs = ac.getListOfCabins();
+        // lazy loading??
+        listOfCabs.add(cabin);
+        ac.setListOfCabins(listOfCabs);
+        cabin.setAircraftConfiguration(ac);
         em.persist(cabin);
         em.flush();
         

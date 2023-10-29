@@ -56,8 +56,7 @@ public class Cabin implements Serializable {
         this.numOfIsles = numOfIsles;
         this.numOfRows = numOfRows;
         this.seatingConfiguration = seatingConfiguration;
-        this.aircraftConfiguration = new AircraftConfiguration();
-        
+        this.aircraftConfiguration = new AircraftConfiguration();  
     }
 
     public Long getCabinId() {
@@ -105,6 +104,20 @@ public class Cabin implements Serializable {
      */
     public void setCabinClassName(String cabinClassName) {
         this.cabinClassName = cabinClassName;
+    }
+
+    /**
+     * @return the aircraftConfiguration
+     */
+    public AircraftConfiguration getAircraftConfiguration() {
+        return aircraftConfiguration;
+    }
+
+    /**
+     * @param aircraftConfiguration the aircraftConfiguration to set
+     */
+    public void setAircraftConfiguration(AircraftConfiguration aircraftConfiguration) {
+        this.aircraftConfiguration = aircraftConfiguration;
     }
     
 }

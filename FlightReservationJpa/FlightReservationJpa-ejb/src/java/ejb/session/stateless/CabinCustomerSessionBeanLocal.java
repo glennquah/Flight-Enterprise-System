@@ -14,6 +14,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface CabinCustomerSessionBeanLocal {
-    public Long createCabin(Cabin cabin);
+    public Long createCabin(Cabin cabin, Long aircraftConfigId);
     public List<Cabin> retrieveAllCabins();
 }

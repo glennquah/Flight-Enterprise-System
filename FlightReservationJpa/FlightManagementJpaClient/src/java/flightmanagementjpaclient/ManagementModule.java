@@ -88,7 +88,7 @@ public class ManagementModule {
         }
     }
     
-    //=================================================AIRCRAFT CONFIGURATION================================================================
+    //================================================= FLIGHT ROUTE ================================================================
     
      public void flightRoute(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED FLIGHT ROUTE ***\n");
@@ -198,7 +198,9 @@ public class ManagementModule {
             }
         }
     }
-     
+    
+    // ================================= AIRCRAFT CONFIGURATION =============================================
+    
     public void aircraftConfigurationOptions(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED AIRCRAFT CONFIGURATION ***\n");
         Integer response;
@@ -240,9 +242,7 @@ public class ManagementModule {
         System.out.print("Enter Aircraft Configuration Name> "); 
         String AircraftConfigName = sc.nextLine().trim();
         long aircraftNumLong = aircraftNum;
-        //System.out.println(AircraftConfigName);
         Long aircraftConfigId = aircraftConfigurationSessionBeanRemote.createAircraftConfiguration(new AircraftConfiguration(AircraftConfigName), aircraftNumLong);
-        //aircraftConfigurationSessionBeanRemote.linkAircraft(aircraftNumLong, aircraftConfigId);
         
         System.out.print("Enter Number of Cabin Class (1 to 4)> "); 
         int numCabinClass = sc.nextInt();
@@ -253,9 +253,9 @@ public class ManagementModule {
         }
         
         for (int i = 0; i < numCabinClass; i++) {
-            System.out.print(String.format("Enter Name of No.%s Cabin Class> ", i + 1));
+            System.out.print(String.format("\nEnter Name of No.%s Cabin Class> ", i + 1));
             String cabinName = sc.nextLine().trim();
-            System.out.print(String.format("Enter Number of isles for No.%s Cabin> ", i + 1)); 
+            System.out.print(String.format("Enter Number of isles for No.%s Cabin (Max 2)> ", i + 1)); 
             int numOfIsles = sc.nextInt();
             sc.nextLine();
             System.out.print(String.format("Enter Number of Rows for No.%s Cabin> ", i + 1)); 
@@ -269,8 +269,8 @@ public class ManagementModule {
                 sconfigInt[j] = Integer.parseInt(sconfig[j]);
             }
             Cabin cab = new Cabin(cabinName, numOfIsles, numOfRows, sconfigInt);
-            Long cabinId = cabinCustomerSessionBeanRemote.createCabin(cab);
-            aircraftConfigurationSessionBeanRemote.addCabin(cabinId, aircraftConfigId);
+            Long cabinId = cabinCustomerSessionBeanRemote.createCabin(cab, aircraftConfigId);
+            System.out.println(String.format("\nNo.%s cabin created", i + 1));
         }
         System.out.println("New Flight Configuration Created!");
         System.out.println("Flight Configuration Id = " + aircraftConfigId);
