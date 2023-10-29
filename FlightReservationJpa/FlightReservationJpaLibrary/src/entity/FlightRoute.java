@@ -75,5 +75,33 @@ public class FlightRoute implements Serializable {
     public String toString() {
         return "entity.FlightRoute[ id=" + flightRouteId + " ]";
     }
+
+    /**
+     * @return the originDestAirport
+     */
+    public Pair<Airport, Airport> getOriginDestAirport() {
+        return originDestAirport;
+    }
+
+    /**
+     * @param originDestAirport the originDestAirport to set
+     */
+    public void setOriginDestAirport(Pair<Airport, Airport> originDestAirport) {
+        this.originDestAirport = originDestAirport;
+    }
+
+    /**
+     * @return the listOfFlights
+     */
+    public List<Flight> getListOfFlights() {
+        return listOfFlights;
+    }
+
+    /**
+     * @param listOfFlights the listOfFlights to set
+     */
+    public void setListOfFlights(List<Flight> listOfFlights) {
+        this.listOfFlights = listOfFlights;
+    }
     
 }
