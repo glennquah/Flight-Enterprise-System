@@ -37,8 +37,8 @@ public class FlightSchedulePlan implements Serializable {
     @ManyToOne
     private Flight flight;
     
-    @OneToMany(mappedBy = "FlightSchedulePlan")
-    private List<FlightSchedule> listOfFlightSchedules;
+    @ManyToOne
+    private FlightSchedule flightSchedule;
 
     public FlightSchedulePlan() {
     }
@@ -104,18 +104,4 @@ public class FlightSchedulePlan implements Serializable {
         this.flight = flight;
     }
 
-    /**
-     * @return the listOfFlightSchedules
-     */
-    public List<FlightSchedule> getListOfFlightSchedules() {
-        return listOfFlightSchedules;
-    }
-
-    /**
-     * @param listOfFlightSchedules the listOfFlightSchedules to set
-     */
-    public void setListOfFlightSchedules(List<FlightSchedule> listOfFlightSchedules) {
-        this.listOfFlightSchedules = listOfFlightSchedules;
-    }
-    
 }
