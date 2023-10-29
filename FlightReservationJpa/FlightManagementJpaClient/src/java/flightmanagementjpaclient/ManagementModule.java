@@ -88,7 +88,7 @@ public class ManagementModule {
         }
     }
     
-    //=================================================AIRCRAFT CONFIGURATION================================================================
+    //================================================= FLIGHT ROUTE ================================================================
     
      public void flightRoute(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED FLIGHT ROUTE ***\n");
@@ -198,7 +198,9 @@ public class ManagementModule {
             }
         }
     }
-     
+    
+    // ================================= AIRCRAFT CONFIGURATION =============================================
+    
     public void aircraftConfigurationOptions(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED AIRCRAFT CONFIGURATION ***\n");
         Integer response;
@@ -269,8 +271,9 @@ public class ManagementModule {
                 sconfigInt[j] = Integer.parseInt(sconfig[j]);
             }
             Cabin cab = new Cabin(cabinName, numOfIsles, numOfRows, sconfigInt);
-            Long cabinId = cabinCustomerSessionBeanRemote.createCabin(cab);
-            aircraftConfigurationSessionBeanRemote.addCabin(cabinId, aircraftConfigId);
+            System.out.println("AIRCRAFT ID = " + aircraftConfigId);
+            Long cabinId = cabinCustomerSessionBeanRemote.createCabin(cab, aircraftConfigId);
+            //aircraftConfigurationSessionBeanRemote.addCabin(cabinId, aircraftConfigId);
         }
         System.out.println("New Flight Configuration Created!");
         System.out.println("Flight Configuration Id = " + aircraftConfigId);
