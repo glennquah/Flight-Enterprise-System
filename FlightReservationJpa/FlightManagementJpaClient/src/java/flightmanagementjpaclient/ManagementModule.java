@@ -88,7 +88,7 @@ public class ManagementModule {
         }
     }
     
-    //================================================= FLIGHT ROUTE ================================================================
+    //=================================================FLIGHT ROUTE================================================================
     
      public void flightRoute(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED FLIGHT ROUTE ***\n");
@@ -199,7 +199,7 @@ public class ManagementModule {
         }
     }
     
-    // ================================= AIRCRAFT CONFIGURATION =============================================
+    //=================================================AIRCRAFT CONFIGURATION=================================================
     
     public void aircraftConfigurationOptions(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED AIRCRAFT CONFIGURATION ***\n");
@@ -327,7 +327,7 @@ public class ManagementModule {
             response = sc.nextInt();
             sc.nextLine();
             if(response == 1) {
-                System.out.println("1");
+                createFlight(sc);
             } else if (response == 2) {
                 System.out.println("2");
             } else if (response == 3) {
@@ -340,6 +340,12 @@ public class ManagementModule {
                 System.out.println("Invalid option, please try again!\n");
             }
         }
+    }
+    
+    public void createFlight(Scanner sc) {
+        System.out.println("*** YOU HAVE PICKED CREATE FLIGHT ***");
+        System.out.println("*** FILL UP FLIGHT DETAILS ***\n"); 
+        
     }
     
     

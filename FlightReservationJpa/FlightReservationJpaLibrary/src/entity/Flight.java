@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -32,19 +33,7 @@ public class Flight implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long flightId;
     @Column(length = 32, nullable = false)
-    private String airCraftType;
-    @Future
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date departureDate;
-    @Future
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date returnDate;
-    @Column(nullable = false)
-    private int totalNumOfPassengers;
-    @Column(nullable = false)
-    private int numOfSeatsLeft;
+    private String prefix; 
     
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
@@ -56,16 +45,16 @@ public class Flight implements Serializable {
     
     @OneToMany(mappedBy = "Flight")
     private List<ReservationDetails> listOfReservationDetails;
+    
+    @OneToMany(mappedBy = "Flight")
+    private List<FlightSchedule> listOfFlightSchedules;
 
     public Flight() {
-    }
-
-    public Flight(String airCraftType, Date departureDate, Date returnDate, int totalNumOfPassengers, int numOfSeatsLeft) {
-        this.airCraftType = airCraftType;
-        this.departureDate = departureDate;
-        this.returnDate = returnDate;
-        this.totalNumOfPassengers = totalNumOfPassengers;
-        this.numOfSeatsLeft = numOfSeatsLeft;
+        this.prefix = "IATA";
+        this.flightRoute = new FlightRoute();
+        this.aircraft = new Aircraft();
+        this.listOfReservationDetails = new ArrayList<ReservationDetails>();
+        this.listOfFlightSchedules = new ArrayList<FlightSchedule>();
     }
 
     public FlightRoute getFlightRoute() {
@@ -126,73 +115,18 @@ public class Flight implements Serializable {
     }
 
     /**
-     * @return the airCraftType
+     * @return the listOfFlightSchedules
      */
-    public String getAirCraftType() {
-        return airCraftType;
+    public List<FlightSchedule> getListOfFlightSchedules() {
+        return listOfFlightSchedules;
     }
 
     /**
-     * @param airCraftType the airCraftType to set
+     * @param listOfFlightSchedules the listOfFlightSchedules to set
      */
-    public void setAirCraftType(String airCraftType) {
-        this.airCraftType = airCraftType;
+    public void setListOfFlightSchedules(List<FlightSchedule> listOfFlightSchedules) {
+        this.listOfFlightSchedules = listOfFlightSchedules;
     }
 
-    /**
-     * @return the departureDate
-     */
-    public Date getDepartureDate() {
-        return departureDate;
-    }
-
-    /**
-     * @param departureDate the departureDate to set
-     */
-    public void setDepartureDate(Date departureDate) {
-        this.departureDate = departureDate;
-    }
-
-    /**
-     * @return the returnDate
-     */
-    public Date getReturnDate() {
-        return returnDate;
-    }
-
-    /**
-     * @param returnDate the returnDate to set
-     */
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
-    }
-
-    /**
-     * @return the totalNumOfPassengers
-     */
-    public int getTotalNumOfPassengers() {
-        return totalNumOfPassengers;
-    }
-
-    /**
-     * @param totalNumOfPassengers the totalNumOfPassengers to set
-     */
-    public void setTotalNumOfPassengers(int totalNumOfPassengers) {
-        this.totalNumOfPassengers = totalNumOfPassengers;
-    }
-
-    /**
-     * @return the numOfSeatsLeft
-     */
-    public int getNumOfSeatsLeft() {
-        return numOfSeatsLeft;
-    }
-
-    /**
-     * @param numOfSeatsLeft the numOfSeatsLeft to set
-     */
-    public void setNumOfSeatsLeft(int numOfSeatsLeft) {
-        this.numOfSeatsLeft = numOfSeatsLeft;
-    }
     
 }

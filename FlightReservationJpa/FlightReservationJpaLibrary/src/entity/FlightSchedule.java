@@ -6,13 +6,16 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Future;
@@ -39,8 +42,11 @@ public class FlightSchedule implements Serializable {
     @Column(nullable = false)
     private Date arrivalDateTime;
     
+    @OneToMany(mappedBy = "FlightSchedule")
+    private List<FlightSchedulePlan> listOfFlightSchedulePlans;
+    
     @ManyToOne
-    private FlightSchedulePlan flightSchedulePlan;
+    private Flight flight;
 
     public FlightSchedule() {
     }
@@ -49,7 +55,8 @@ public class FlightSchedule implements Serializable {
         this.departureDateTime = departureDateTime;
         this.estimatedTime = estimatedTime;
         this.arrivalDateTime = new Date(departureDateTime.getTime() + estimatedTime.getTime());
-        this.flightSchedulePlan = new FlightSchedulePlan();
+        this.flight = new Flight();
+        this.listOfFlightSchedulePlans = new ArrayList<FlightSchedulePlan>();
     }
     
     
@@ -113,20 +120,6 @@ public class FlightSchedule implements Serializable {
      */
     public void setEstimatedTime(Time estimatedTime) {
         this.estimatedTime = estimatedTime;
-    }
-
-    /**
-     * @return the flightSchedulePlan
-     */
-    public FlightSchedulePlan getFlightSchedulePlan() {
-        return flightSchedulePlan;
-    }
-
-    /**
-     * @param flightSchedulePlan the flightSchedulePlan to set
-     */
-    public void setFlightSchedulePlan(FlightSchedulePlan flightSchedulePlan) {
-        this.flightSchedulePlan = flightSchedulePlan;
     }
 
 }
