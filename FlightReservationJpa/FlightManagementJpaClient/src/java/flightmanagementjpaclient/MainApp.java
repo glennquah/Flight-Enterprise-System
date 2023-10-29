@@ -97,7 +97,7 @@ public class MainApp {
     
     private Long doLogin(Scanner scanner) throws InvalidLoginCredentialException 
     {
-        System.out.println("*** Management client :: Login ***\n");
+        System.out.println("\n*** Management client :: Login ***\n");
         System.out.print("Enter email> ");
         scanner.nextLine();
         String email = scanner.nextLine().trim();

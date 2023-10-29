@@ -282,13 +282,13 @@ public class ManagementModule {
         //List<Aircraft> listOfAircraft = aircraftSessionBeanRemote.retrieveAllAircrafts();
         System.out.println("*** YOU HAVE PICKED VIEW ALL AIRCRAFT CONFIGURATION ***\n");
         for (int i = 0; i < listOfac.size(); i++) { 
-            System.out.println("Key: " + listOfac.get(i).getAircraftConfigurationId());
+            System.out.println("ID: " + listOfac.get(i).getAircraftConfigurationId());
             System.out.println("Aircraft Type: " + listOfac.get(i).getAircraft().getAircraftName());
             System.out.println("Aircraft Configuration Name: " + listOfac.get(i).getAircraftConfigName());
             System.out.println("");
         }
         
-        System.out.println("Enter Configuration name for more details> ");
+        System.out.print("Enter ID for more details> ");
 //        String aircraftName = sc.nextLine().trim();
         int aircraftConfigOption = sc.nextInt();
         sc.nextLine();
@@ -306,6 +306,7 @@ public class ManagementModule {
                     System.out.print("-");
                 }
             }
+            System.out.println("");
         }
     }
     
