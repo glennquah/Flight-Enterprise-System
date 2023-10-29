@@ -350,7 +350,7 @@ public class ManagementModule {
     public void createFlight(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED CREATE FLIGHT ***");
         System.out.println("*** FILL UP FLIGHT DETAILS ***\n"); 
-        System.out.println("Select Airline: ");
+        System.out.println("*** SELECT AIRLINE ***");
         System.out.println("1. Merline Airlines : IATA\n");
         System.out.print("Enter Airline Number> ");
         int airlineNum = sc.nextInt();
@@ -367,11 +367,11 @@ public class ManagementModule {
 //            System.out.println("Destination: " + listOfFlightRoute.get(i).getOriginDestAirport().second());
 //            System.out.println("");
 //        }
-        System.out.println("Enter Flight Route ID> ");
+        System.out.print("Enter Flight Route ID> ");
         int flightRoute = sc.nextInt();
-        long flightRouteId = flightRoute;
         sc.nextLine();
-        System.out.println("*** SELECT AIRCRAFT CONFIGURATION ***\n"); 
+        long flightRouteId = flightRoute;
+        System.out.println("\n*** SELECT AIRCRAFT CONFIGURATION ***\n"); 
         List<AircraftConfiguration> listOfac = aircraftConfigurationSessionBeanRemote.retrieveAllAircraftConfigurations();
         
         for (int i = 0; i < listOfac.size(); i++) { 
@@ -380,13 +380,16 @@ public class ManagementModule {
             System.out.println("Aircraft Configuration Name: " + listOfac.get(i).getAircraftConfigName());
             System.out.println("");
         }
+        System.out.print("Enter Flight Configuration Id> ");
         int aircraftConfig = sc.nextInt();
         long aircraftConfigId = aircraftConfig;
         sc.nextLine();
         Flight flight = new Flight(flightNum);
         Long flightId = flightSessionBeanRemote.createNewFlight(flight, flightRouteId, aircraftConfigId);
+        System.out.println("");
         System.out.println("Flight Successfully Created!");
         System.out.println("Flight Id= " + flightId);
+        System.out.println("");
     }
     
     
