@@ -46,13 +46,5 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
         AircraftConfiguration aircraftConfig = em.find(AircraftConfiguration.class, aircraftConfigId);
         aircraftConfig.setAircraft(ac);
     }
-    
-    @Override
-    public void addCabin(Long cabinId, Long aircraftConfigId) {
-        Cabin cabin = em.find(Cabin.class, cabinId);
-        AircraftConfiguration aircraftConfig = em.find(AircraftConfiguration.class, aircraftConfigId);
-        List<Cabin> listOfCabs = aircraftConfig.getListOfCabins();
-        listOfCabs.add(cabin);
-        aircraftConfig.setListOfCabins(listOfCabs);
-    }
+
 }
