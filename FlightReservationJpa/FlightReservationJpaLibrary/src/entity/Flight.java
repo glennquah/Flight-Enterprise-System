@@ -34,6 +34,8 @@ public class Flight implements Serializable {
     private Long flightId;
     @Column(length = 32, nullable = false)
     private String prefix; 
+    @Column(nullable = false, unique = true, length = 4)
+    private int flightNumber; 
     
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
@@ -50,12 +52,18 @@ public class Flight implements Serializable {
     private List<FlightSchedule> listOfFlightSchedules;
 
     public Flight() {
+    }
+
+    public Flight(int flightNumber) {
+        this.flightNumber = flightNumber;
         this.prefix = "IATA";
         this.flightRoute = new FlightRoute();
         this.aircraft = new Aircraft();
         this.listOfReservationDetails = new ArrayList<ReservationDetails>();
         this.listOfFlightSchedules = new ArrayList<FlightSchedule>();
     }
+    
+    
 
     public FlightRoute getFlightRoute() {
         return flightRoute;
