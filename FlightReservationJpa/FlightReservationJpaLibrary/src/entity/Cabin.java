@@ -59,6 +59,8 @@ public class Cabin implements Serializable {
         this.aircraftConfiguration = new AircraftConfiguration();  
     }
 
+    
+    
     public Long getCabinId() {
         return cabinId;
     }
@@ -118,6 +120,48 @@ public class Cabin implements Serializable {
      */
     public void setAircraftConfiguration(AircraftConfiguration aircraftConfiguration) {
         this.aircraftConfiguration = aircraftConfiguration;
+    }
+
+    /**
+     * @return the numOfIsles
+     */
+    public int getNumOfIsles() {
+        return numOfIsles;
+    }
+
+    /**
+     * @param numOfIsles the numOfIsles to set
+     */
+    public void setNumOfIsles(int numOfIsles) {
+        this.numOfIsles = numOfIsles;
+    }
+
+    /**
+     * @return the numOfRows
+     */
+    public int getNumOfRows() {
+        return numOfRows;
+    }
+
+    /**
+     * @param numOfRows the numOfRows to set
+     */
+    public void setNumOfRows(int numOfRows) {
+        this.numOfRows = numOfRows;
+    }
+
+    /**
+     * @return the seatingConfiguration
+     */
+    public int[] getSeatingConfiguration() {
+        return seatingConfiguration;
+    }
+
+    /**
+     * @param seatingConfiguration the seatingConfiguration to set
+     */
+    public void setSeatingConfiguration(int[] seatingConfiguration) {
+        this.seatingConfiguration = seatingConfiguration;
     }
     
 }

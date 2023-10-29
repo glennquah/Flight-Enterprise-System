@@ -45,5 +45,4 @@ public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote,
     }
     
     
-    
 }

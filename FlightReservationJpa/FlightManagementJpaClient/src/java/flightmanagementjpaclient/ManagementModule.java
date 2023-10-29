@@ -235,7 +235,7 @@ public class ManagementModule {
             System.out.println("Number of Seats: " + listOfAircrafts.get(i).getNumOfSeats());
             System.out.println("");
         }
-        System.out.print("> ");
+        System.out.print("Enter Aircraft Number> ");
         int aircraftNum = sc.nextInt();
         sc.nextLine();
         System.out.println("");
@@ -282,8 +282,30 @@ public class ManagementModule {
         //List<Aircraft> listOfAircraft = aircraftSessionBeanRemote.retrieveAllAircrafts();
         System.out.println("*** YOU HAVE PICKED VIEW ALL AIRCRAFT CONFIGURATION ***\n");
         for (int i = 0; i < listOfac.size(); i++) { 
-            System.out.println(String.format("%s: Aircraft Type: ", i + 1) + listOfac.get(i).getAircraft().getAircraftName());
+            System.out.println("ID: " + listOfac.get(i).getAircraftConfigurationId());
+            System.out.println("Aircraft Type: " + listOfac.get(i).getAircraft().getAircraftName());
             System.out.println("Aircraft Configuration Name: " + listOfac.get(i).getAircraftConfigName());
+            System.out.println("");
+        }
+        
+        System.out.print("Enter ID for more details> ");
+//        String aircraftName = sc.nextLine().trim();
+        int aircraftConfigOption = sc.nextInt();
+        sc.nextLine();
+        long aircraftNum = aircraftConfigOption;
+        List<Cabin> listOfCabins = aircraftConfigurationSessionBeanRemote.retrieveCabinsWithName(aircraftNum);
+        System.out.println("\n*** AIRCRAFT CONFIGURATION DETAILS ***");
+        for (int i = 0; i < listOfCabins.size(); i++) {
+            System.out.println(String.format("\nCabin Class No.%s Name: ", i + 1) + listOfCabins.get(i).getCabinClassName());
+            System.out.println("Number of Isles: " + listOfCabins.get(i).getNumOfIsles());
+            System.out.println("Number of Rows: " + listOfCabins.get(i).getNumOfRows());
+            System.out.print("Seating Configuration: ");
+            for (int j = 0; j < listOfCabins.get(i).getSeatingConfiguration().length; j++) {
+                System.out.print(listOfCabins.get(i).getSeatingConfiguration()[j]);
+                if (j != listOfCabins.get(i).getSeatingConfiguration().length - 1) {
+                    System.out.print("-");
+                }
+            }
             System.out.println("");
         }
     }
