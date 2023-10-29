@@ -393,20 +393,25 @@ public class ManagementModule {
     }
     
     public void viewAllFlights(Scanner sc) {
-        List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
-        System.out.println("*** YOU HAVE PICKED VIEW ALL FLIGHTS ***\n");
-        for (int i = 0; i < listOfFlights.size(); i++) { 
-            System.out.println("ID: " + listOfFlights.get(i).getFlightId());
-            System.out.println("Aircraft Configuration Name: " + listOfFlights.get(i).getAircraftConfig().getAircraftConfigName());
-            System.out.println("Aircraft Route: " + listOfFlights.get(i).getFlightRoute().getFlightRouteId());
-            System.out.println("");
-        }
+//        List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
+//        System.out.println("*** YOU HAVE PICKED VIEW ALL FLIGHTS ***\n");
+//        for (int i = 0; i < listOfFlights.size(); i++) { 
+//            System.out.println("ID: " + listOfFlights.get(i).getFlightId());
+//            System.out.println("Aircraft Configuration Name: " + listOfFlights.get(i).getAircraftConfig().getAircraftConfigName());
+//            System.out.println("Aircraft Route: " + listOfFlights.get(i).getFlightRoute().getFlightRouteId());
+//            System.out.println("");
+//        }
         
         System.out.print("Enter ID for more details> ");
 //        String aircraftName = sc.nextLine().trim();
         int flightId = sc.nextInt();
         sc.nextLine();
         long flightIdNum = flightId;
+        if (flightSessionBeanRemote == null) {
+            System.out.println("ITS NULL");
+        }
+        System.out.println("ITS NOT NULL");
+        System.out.println(flightSessionBeanRemote);
         Flight flight = flightSessionBeanRemote.getFlightWithId(flightIdNum);    
         List<Cabin> listOfCabins = aircraftConfigurationSessionBeanRemote.retrieveCabinsWithName(flight.getAircraftConfig().getAircraftConfigurationId());
         System.out.println("\n*** AIRCRAFT CONFIGURATION DETAILS ***");
