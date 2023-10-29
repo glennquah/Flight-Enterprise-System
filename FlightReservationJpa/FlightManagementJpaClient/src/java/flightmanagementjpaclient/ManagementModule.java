@@ -346,6 +346,7 @@ public class ManagementModule {
         System.out.println("*** YOU HAVE PICKED CREATE FLIGHT ***");
         System.out.println("*** FILL UP FLIGHT DETAILS ***\n"); 
         
+        
     }
     
     
