@@ -334,7 +334,7 @@ public class ManagementModule {
             if(response == 1) {
                 createFlight(sc);
             } else if (response == 2) {
-                System.out.println("2");
+                viewAllFlights(sc);
             } else if (response == 3) {
                 System.out.println("3");
             } else if (response == 4) {
@@ -390,6 +390,39 @@ public class ManagementModule {
         System.out.println("Flight Successfully Created!");
         System.out.println("Flight Id= " + flightId);
         System.out.println("");
+    }
+    
+    public void viewAllFlights(Scanner sc) {
+        List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
+        System.out.println("*** YOU HAVE PICKED VIEW ALL FLIGHTS ***\n");
+        for (int i = 0; i < listOfFlights.size(); i++) { 
+            System.out.println("ID: " + listOfFlights.get(i).getFlightId());
+            System.out.println("Aircraft Configuration Name: " + listOfFlights.get(i).getAircraftConfig().getAircraftConfigName());
+            System.out.println("Aircraft Route: " + listOfFlights.get(i).getFlightRoute().getFlightRouteId());
+            System.out.println("");
+        }
+        
+        System.out.print("Enter ID for more details> ");
+//        String aircraftName = sc.nextLine().trim();
+        int flightId = sc.nextInt();
+        sc.nextLine();
+        long flightIdNum = flightId;
+        Flight flight = flightSessionBeanRemote.getFlightWithId(flightIdNum);    
+        List<Cabin> listOfCabins = aircraftConfigurationSessionBeanRemote.retrieveCabinsWithName(flight.getAircraftConfig().getAircraftConfigurationId());
+        System.out.println("\n*** AIRCRAFT CONFIGURATION DETAILS ***");
+        for (int i = 0; i < listOfCabins.size(); i++) {
+            System.out.println(String.format("\nCabin Class No.%s Name: ", i + 1) + listOfCabins.get(i).getCabinClassName());
+            System.out.println("Number of Isles: " + listOfCabins.get(i).getNumOfIsles());
+            System.out.println("Number of Rows: " + listOfCabins.get(i).getNumOfRows());
+            System.out.print("Seating Configuration: ");
+            for (int j = 0; j < listOfCabins.get(i).getSeatingConfiguration().length; j++) {
+                System.out.print(listOfCabins.get(i).getSeatingConfiguration()[j]);
+                if (j != listOfCabins.get(i).getSeatingConfiguration().length - 1) {
+                    System.out.print("-");
+                }
+            }
+            System.out.println("");
+        }
     }
     
     

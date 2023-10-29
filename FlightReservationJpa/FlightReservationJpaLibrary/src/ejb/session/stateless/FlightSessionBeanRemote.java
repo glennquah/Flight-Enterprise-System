@@ -15,5 +15,6 @@ import javax.ejb.Remote;
 @Remote
 public interface FlightSessionBeanRemote {
     public Long createNewFlight(Flight flight, Long flightRouteId, Long aircraftConfigId);
-    public List<Flight> retrieveAllAiports();
+    public List<Flight> retrieveAllFlights();
+    public Flight getFlightWithId(long id);
 }

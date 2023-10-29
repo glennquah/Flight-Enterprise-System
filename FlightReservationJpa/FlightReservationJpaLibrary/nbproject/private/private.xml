@@ -8,6 +8,7 @@
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpaLibrary/src/ejb/session/stateless/AircraftSessionBeanRemote.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpaLibrary/src/entity/Cabin.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpaLibrary/src/entity/Employee.java</file>
+            <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpaLibrary/src/ejb/session/stateless/FlightSessionBeanRemote.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpaLibrary/src/entity/Flight.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpaLibrary/src/ejb/session/stateless/AircraftConfigurationSessionBeanRemote.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpaLibrary/src/entity/Aircraft.java</file>
