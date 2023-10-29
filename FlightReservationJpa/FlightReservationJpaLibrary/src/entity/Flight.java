@@ -37,12 +37,10 @@ public class Flight implements Serializable {
     @Column(nullable = false, unique = true, length = 4)
     private int flightNumber; 
     
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
+    @ManyToOne
     private FlightRoute flightRoute;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
+    @ManyToOne
     private AircraftConfiguration aircraftConfig;
     
     @OneToMany(mappedBy = "Flight")

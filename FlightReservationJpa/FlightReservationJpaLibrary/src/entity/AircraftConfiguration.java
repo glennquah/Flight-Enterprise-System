@@ -34,10 +34,10 @@ public class AircraftConfiguration implements Serializable {
     @JoinColumn(nullable = false)
     private Aircraft aircraft;
     
-    @OneToMany(mappedBy = "AircraftConfiguration")
+    @OneToMany(mappedBy = "aircraftConfiguration")
     private List<Cabin> listOfCabins;
     
-    @OneToMany(mappedBy = "AircraftConfiguration")
+    @OneToMany(mappedBy = "aircraftConfig")
     private List<Flight> listOfFlights;
 
     public AircraftConfiguration() {
