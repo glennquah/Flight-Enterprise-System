@@ -5,6 +5,7 @@
 package ejb.session.stateless;
 
 import entity.AircraftConfiguration;
+import entity.Cabin;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -17,4 +18,5 @@ public interface AircraftConfigurationSessionBeanLocal {
     public Long createAircraftConfiguration(AircraftConfiguration aircraftConfig, Long aircraftId);
     public List<AircraftConfiguration> retrieveAllAircraftConfigurations();
     public void linkAircraft(Long aircraftId, Long aircraftConfigId);
+    public List<Cabin> retrieveCabinsWithName(Long Name);
 }

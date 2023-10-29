@@ -40,10 +40,14 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
         return query.getResultList();
     }
     
-//    @Override
-//    public List<AircraftConfiguration> retrieveAllAircraftConfigurationsInAscOrder() {
-//        
-//    }
+    @Override
+    public List<Cabin> retrieveCabinsWithName(Long Name) {
+        AircraftConfiguration ac = em.find(AircraftConfiguration.class, Name);
+        
+        List<Cabin> cab = ac.getListOfCabins();
+        cab.size();
+        return cab;
+    }
     
     @Override
     public void linkAircraft(Long aircraftId, Long aircraftConfigId) {
@@ -52,5 +56,5 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
         aircraftConfig.setAircraft(ac);
     }
 
-    
+
 }
