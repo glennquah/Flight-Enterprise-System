@@ -43,7 +43,7 @@ public class Flight implements Serializable {
     
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
-    private Aircraft aircraft;
+    private AircraftConfiguration aircraftConfig;
     
     @OneToMany(mappedBy = "Flight")
     private List<ReservationDetails> listOfReservationDetails;
@@ -58,7 +58,7 @@ public class Flight implements Serializable {
         this.flightNumber = flightNumber;
         this.prefix = "IATA";
         this.flightRoute = new FlightRoute();
-        this.aircraft = new Aircraft();
+        this.aircraftConfig = new AircraftConfiguration();
         this.listOfReservationDetails = new ArrayList<ReservationDetails>();
         this.listOfFlightSchedules = new ArrayList<FlightSchedule>();
     }
@@ -73,13 +73,7 @@ public class Flight implements Serializable {
         this.flightRoute = flightRoute;
     }
 
-    public Aircraft getAircraft() {
-        return aircraft;
-    }
-
-    public void setAircraft(Aircraft aircraft) {
-        this.aircraft = aircraft;
-    }
+    
 
     public List<ReservationDetails> getListOfReservationDetails() {
         return listOfReservationDetails;
@@ -134,6 +128,20 @@ public class Flight implements Serializable {
      */
     public void setListOfFlightSchedules(List<FlightSchedule> listOfFlightSchedules) {
         this.listOfFlightSchedules = listOfFlightSchedules;
+    }
+
+    /**
+     * @return the aircraftConfig
+     */
+    public AircraftConfiguration getAircraftConfig() {
+        return aircraftConfig;
+    }
+
+    /**
+     * @param aircraftConfig the aircraftConfig to set
+     */
+    public void setAircraftConfig(AircraftConfiguration aircraftConfig) {
+        this.aircraftConfig = aircraftConfig;
     }
 
     

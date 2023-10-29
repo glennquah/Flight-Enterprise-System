@@ -36,17 +36,22 @@ public class AircraftConfiguration implements Serializable {
     
     @OneToMany(mappedBy = "AircraftConfiguration")
     private List<Cabin> listOfCabins;
+    
+    @OneToMany(mappedBy = "AircraftConfiguration")
+    private List<Flight> listOfFlights;
 
     public AircraftConfiguration() {
         this.aircraftConfigName = "";
         this.listOfCabins = new ArrayList<>();
         this.aircraft = new Aircraft();
+        this.listOfFlights = new ArrayList<>();
     }
 
     public AircraftConfiguration(String aircraftConfigName) {
         this.aircraftConfigName = aircraftConfigName;
         this.listOfCabins = new ArrayList<>();
         this.aircraft = new Aircraft();
+        this.listOfFlights = new ArrayList<>();
     }
     
     
@@ -124,6 +129,20 @@ public class AircraftConfiguration implements Serializable {
      */
     public void setAircraftConfigName(String aircraftConfigName) {
         this.aircraftConfigName = aircraftConfigName;
+    }
+
+    /**
+     * @return the listOfFlights
+     */
+    public List<Flight> getListOfFlights() {
+        return listOfFlights;
+    }
+
+    /**
+     * @param listOfFlights the listOfFlights to set
+     */
+    public void setListOfFlights(List<Flight> listOfFlights) {
+        this.listOfFlights = listOfFlights;
     }
     
 }

@@ -32,8 +32,6 @@ public class Aircraft implements Serializable {
     @Column(nullable = false)
     private int numOfSeats;
     
-    @OneToMany(mappedBy = "Aircraft")
-    private List<Flight> listOfFlights;
     
     @OneToOne(mappedBy = "Aircraft")
     private AircraftConfiguration aircraftConfiguration;
@@ -46,7 +44,6 @@ public class Aircraft implements Serializable {
     public Aircraft(String aircraftName, int numOfSeats) {
         this.aircraftName = aircraftName;
         this.numOfSeats = numOfSeats;
-        this.listOfFlights = new ArrayList<Flight>();
         this.aircraftConfiguration = null;
     }
     
@@ -111,20 +108,6 @@ public class Aircraft implements Serializable {
      */
     public void setNumOfSeats(int numOfSeats) {
         this.numOfSeats = numOfSeats;
-    }
-
-    /**
-     * @return the listOfFlights
-     */
-    public List<Flight> getListOfFlights() {
-        return listOfFlights;
-    }
-
-    /**
-     * @param listOfFlights the listOfFlights to set
-     */
-    public void setListOfFlights(List<Flight> listOfFlights) {
-        this.listOfFlights = listOfFlights;
     }
 
     /**

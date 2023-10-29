@@ -11,9 +11,12 @@ import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import ejb.session.stateless.FlightRoutesSessionBeanRemote;
+import ejb.session.stateless.FlightSessionBeanRemote;
 import entity.Aircraft;
 import entity.AircraftConfiguration;
 import entity.Cabin;
+import entity.Flight;
+import entity.FlightRoute;
 import java.util.List;
 import java.util.Scanner;
 import util.exception.AirportDoesNotExistException;
@@ -32,7 +35,7 @@ public class ManagementModule {
     private CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote;
     private FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote;
     private AirportSessionBeanRemote airportSessionBeanRemote;
-    
+    private FlightSessionBeanRemote flightSessionBeanRemote;
 
     public ManagementModule() {
     }
@@ -44,7 +47,8 @@ public class ManagementModule {
                             AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote,
                             CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote,
                             FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote,
-                            AirportSessionBeanRemote airportSessionBeanRemote) {
+                            AirportSessionBeanRemote airportSessionBeanRemote,
+                            FlightSessionBeanRemote flightSessionBeanRemote) {
         this.employeeId = employeeId;
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
@@ -53,6 +57,7 @@ public class ManagementModule {
         this.cabinCustomerSessionBeanRemote = cabinCustomerSessionBeanRemote;
         this.flightRoutesSessionBeanRemote = flightRoutesSessionBeanRemote;
         this.airportSessionBeanRemote = airportSessionBeanRemote;
+        this.flightSessionBeanRemote = flightSessionBeanRemote;
     }
     
     //=================================================ADMIN PAGE================================================================
@@ -345,8 +350,43 @@ public class ManagementModule {
     public void createFlight(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED CREATE FLIGHT ***");
         System.out.println("*** FILL UP FLIGHT DETAILS ***\n"); 
+        System.out.println("Select Airline: ");
+        System.out.println("1. Merline Airlines : IATA\n");
+        System.out.print("Enter Airline Number> ");
+        int airlineNum = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Enter 4 Digit Flight Number> ");
+        int flightNum = sc.nextInt();
+        sc.nextLine();
+        System.out.println("");
+        System.out.println("*** SELECT FLIGHT ROUTE ***\n"); 
+//        List<FlightRoute> listOfFlightRoute = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
+//        for (int i = 0; i < listOfFlightRoute.size(); i++) {
+//            System.out.println("Flight Route No." + i + 1);
+//            System.out.println("Origin: " + listOfFlightRoute.get(i).getOriginDestAirport().first());
+//            System.out.println("Destination: " + listOfFlightRoute.get(i).getOriginDestAirport().second());
+//            System.out.println("");
+//        }
+        System.out.println("Enter Flight Route ID> ");
+        int flightRoute = sc.nextInt();
+        long flightRouteId = flightRoute;
+        sc.nextLine();
+        System.out.println("*** SELECT AIRCRAFT CONFIGURATION ***\n"); 
+        List<AircraftConfiguration> listOfac = aircraftConfigurationSessionBeanRemote.retrieveAllAircraftConfigurations();
         
-        
+        for (int i = 0; i < listOfac.size(); i++) { 
+            System.out.println("ID: " + listOfac.get(i).getAircraftConfigurationId());
+            System.out.println("Aircraft Type: " + listOfac.get(i).getAircraft().getAircraftName());
+            System.out.println("Aircraft Configuration Name: " + listOfac.get(i).getAircraftConfigName());
+            System.out.println("");
+        }
+        int aircraftConfig = sc.nextInt();
+        long aircraftConfigId = aircraftConfig;
+        sc.nextLine();
+        Flight flight = new Flight(flightNum);
+        Long flightId = flightSessionBeanRemote.createNewFlight(flight, flightRouteId, aircraftConfigId);
+        System.out.println("Flight Successfully Created!");
+        System.out.println("Flight Id= " + flightId);
     }
     
     
