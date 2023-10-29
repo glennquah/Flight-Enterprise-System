@@ -48,6 +48,8 @@ public class AircraftConfiguration implements Serializable {
         this.listOfCabins = new ArrayList<>();
         this.aircraft = new Aircraft();
     }
+    
+    
 
     public Long getAircraftConfigurationId() {
         return aircraftConfigurationId;
@@ -108,6 +110,20 @@ public class AircraftConfiguration implements Serializable {
      */
     public void setListOfCabins(List<Cabin> listOfCabins) {
         this.listOfCabins = listOfCabins;
+    }
+
+    /**
+     * @return the aircraftConfigName
+     */
+    public String getAircraftConfigName() {
+        return aircraftConfigName;
+    }
+
+    /**
+     * @param aircraftConfigName the aircraftConfigName to set
+     */
+    public void setAircraftConfigName(String aircraftConfigName) {
+        this.aircraftConfigName = aircraftConfigName;
     }
     
 }

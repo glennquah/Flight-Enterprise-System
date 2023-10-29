@@ -216,7 +216,7 @@ public class ManagementModule {
             if(response == 1) {
                 createFlightConfiguration(sc);
             } else if (response == 2) {
-                System.out.println("2");
+                viewAllFlightConfiguration(sc);
             } else if (response == 3) {
                 break;
             } else {
@@ -274,6 +274,18 @@ public class ManagementModule {
         }
         System.out.println("New Flight Configuration Created!");
         System.out.println("Flight Configuration Id = " + aircraftConfigId);
+        System.out.println("");
+    }
+    
+    public void viewAllFlightConfiguration(Scanner sc) {
+        List<AircraftConfiguration> listOfac = aircraftConfigurationSessionBeanRemote.retrieveAllAircraftConfigurations();
+        //List<Aircraft> listOfAircraft = aircraftSessionBeanRemote.retrieveAllAircrafts();
+        System.out.println("*** YOU HAVE PICKED VIEW ALL AIRCRAFT CONFIGURATION ***\n");
+        for (int i = 0; i < listOfac.size(); i++) { 
+            System.out.println(String.format("%s: Aircraft Type: ", i + 1) + listOfac.get(i).getAircraft().getAircraftName());
+            System.out.println("Aircraft Configuration Name: " + listOfac.get(i).getAircraftConfigName());
+            System.out.println("");
+        }
     }
     
     //=================================================FLIGHT================================================================

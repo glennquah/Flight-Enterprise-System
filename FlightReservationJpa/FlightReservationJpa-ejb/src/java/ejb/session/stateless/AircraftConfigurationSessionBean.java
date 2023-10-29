@@ -36,9 +36,14 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
     @Override
     public List<AircraftConfiguration> retrieveAllAircraftConfigurations() {
         //Whatever JPQL Statement u want
-        Query query = em.createQuery("SELECT ai FROM AircraftConfiguration ai");
+        Query query = em.createQuery("SELECT ai FROM AircraftConfiguration ai ORDER BY ai.aircraft.aircraftName ASC, ai.aircraftConfigName ASC");
         return query.getResultList();
     }
+    
+//    @Override
+//    public List<AircraftConfiguration> retrieveAllAircraftConfigurationsInAscOrder() {
+//        
+//    }
     
     @Override
     public void linkAircraft(Long aircraftId, Long aircraftConfigId) {
@@ -47,4 +52,5 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
         aircraftConfig.setAircraft(ac);
     }
 
+    
 }
