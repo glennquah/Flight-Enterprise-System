@@ -298,7 +298,7 @@ public class ManagementModule {
         int aircraftConfigOption = sc.nextInt();
         sc.nextLine();
         long aircraftNum = aircraftConfigOption;
-        List<Cabin> listOfCabins = aircraftConfigurationSessionBeanRemote.retrieveCabinsWithName(aircraftNum);
+        List<Cabin> listOfCabins = aircraftConfigurationSessionBeanRemote.retrieveCabinsWithId(aircraftNum);
         System.out.println("\n*** AIRCRAFT CONFIGURATION DETAILS ***");
         for (int i = 0; i < listOfCabins.size(); i++) {
             System.out.println(String.format("\nCabin Class No.%s Name: ", i + 1) + listOfCabins.get(i).getCabinClassName());
@@ -338,7 +338,7 @@ public class ManagementModule {
             } else if (response == 3) {
                 System.out.println("3");
             } else if (response == 4) {
-                System.out.println("4");
+                deleteFlights(sc);
             } else if (response == 5) {
                 break;
             } else {
@@ -392,6 +392,18 @@ public class ManagementModule {
         System.out.println("");
     }
     
+    public void deleteFlights(Scanner sc) {
+        System.out.println("*** YOU HAVE PICKED DELETE FLIGHTS ***\n");
+        //print all of the flights
+        System.out.print("Enter ID of Flight to be deleted> ");
+        int flightId = sc.nextInt();
+        sc.nextLine();
+        long flightIdNum = flightId;
+        long delFlightId = flightSessionBeanRemote.removeFlight(flightIdNum);
+        System.out.println(String.format("Flight Id=%s has been Removed", delFlightId));
+        System.out.println("");
+    }
+    
     public void viewAllFlights(Scanner sc) {
 //        List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
 //        System.out.println("*** YOU HAVE PICKED VIEW ALL FLIGHTS ***\n");
@@ -413,7 +425,7 @@ public class ManagementModule {
         System.out.println("ITS NOT NULL");
         System.out.println(flightSessionBeanRemote);
         Flight flight = flightSessionBeanRemote.getFlightWithId(flightIdNum);    
-        List<Cabin> listOfCabins = aircraftConfigurationSessionBeanRemote.retrieveCabinsWithName(flight.getAircraftConfig().getAircraftConfigurationId());
+        List<Cabin> listOfCabins = aircraftConfigurationSessionBeanRemote.retrieveCabinsWithId(flight.getAircraftConfig().getAircraftConfigurationId());
         System.out.println("\n*** AIRCRAFT CONFIGURATION DETAILS ***");
         for (int i = 0; i < listOfCabins.size(); i++) {
             System.out.println(String.format("\nCabin Class No.%s Name: ", i + 1) + listOfCabins.get(i).getCabinClassName());
