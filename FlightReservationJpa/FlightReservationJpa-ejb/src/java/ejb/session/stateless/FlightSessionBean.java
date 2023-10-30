@@ -58,8 +58,17 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     
     @Override
     public Flight getFlightWithId(long id) {
-        return em.find(Flight.class, id);
+        Query query = em.createQuery("Select f from Flight f WHERE f.flightId = :flightId");
+        query.setParameter("flightId", id);
+        return (Flight)query.getSingleResult();
     }
 
+    @Override
+    public long removeFlight(long id) {
+        Flight flight = getFlightWithId(id);
+        em.remove(flight);
+        em.flush();
+        return flight.getFlightId();
+    }
     
 }

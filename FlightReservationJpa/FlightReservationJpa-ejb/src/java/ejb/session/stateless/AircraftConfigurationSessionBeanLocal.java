@@ -18,5 +18,5 @@ public interface AircraftConfigurationSessionBeanLocal {
     public Long createAircraftConfiguration(AircraftConfiguration aircraftConfig, Long aircraftId);
     public List<AircraftConfiguration> retrieveAllAircraftConfigurations();
     public void linkAircraft(Long aircraftId, Long aircraftConfigId);
-    public List<Cabin> retrieveCabinsWithName(Long Name);
+    public List<Cabin> retrieveCabinsWithId(Long Id);
 }

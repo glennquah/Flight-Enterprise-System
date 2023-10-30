@@ -17,4 +17,5 @@ public interface FlightSessionBeanRemote {
     public Long createNewFlight(Flight flight, Long flightRouteId, Long aircraftConfigId);
     public List<Flight> retrieveAllFlights();
     public Flight getFlightWithId(long id);
+    public long removeFlight(long id);
 }
