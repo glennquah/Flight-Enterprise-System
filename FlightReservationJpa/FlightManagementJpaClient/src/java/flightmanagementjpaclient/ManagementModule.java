@@ -27,6 +27,7 @@ import util.exception.FlightRouteDoesNotExistException;
  * @author admin
  */
 public class ManagementModule {
+
     private Long employeeId;
     private EmployeeSessionBeanRemote employeeSessionBean;
     private CustomerSessionBeanRemote customerSessionBean;
@@ -41,14 +42,14 @@ public class ManagementModule {
     }
 
     public ManagementModule(Long employeeId,
-                            EmployeeSessionBeanRemote employeeSessionBean,
-                            CustomerSessionBeanRemote customerSessionBean,
-                            AircraftSessionBeanRemote aircraftSessionBeanRemote,
-                            AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote,
-                            CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote,
-                            FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote,
-                            AirportSessionBeanRemote airportSessionBeanRemote,
-                            FlightSessionBeanRemote flightSessionBeanRemote) {
+            EmployeeSessionBeanRemote employeeSessionBean,
+            CustomerSessionBeanRemote customerSessionBean,
+            AircraftSessionBeanRemote aircraftSessionBeanRemote,
+            AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote,
+            CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote,
+            FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote,
+            AirportSessionBeanRemote airportSessionBeanRemote,
+            FlightSessionBeanRemote flightSessionBeanRemote) {
         this.employeeId = employeeId;
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
@@ -59,14 +60,13 @@ public class ManagementModule {
         this.airportSessionBeanRemote = airportSessionBeanRemote;
         this.flightSessionBeanRemote = flightSessionBeanRemote;
     }
-    
+
     //=================================================ADMIN PAGE================================================================
-    
     public void adminLoginPage() {
         Scanner sc = new Scanner(System.in);
         System.out.println("*** SUCCESSFULLY LOGIN! *** \n");
         Integer response;
-        while(true) {
+        while (true) {
             System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
             System.out.println("1: Aircraft Configuration ");
             System.out.println("2: Flight Route");
@@ -77,7 +77,7 @@ public class ManagementModule {
             System.out.print("> ");
             response = sc.nextInt();
             sc.nextLine();
-            if(response == 1) {
+            if (response == 1) {
                 aircraftConfigurationOptions(sc);
             } else if (response == 2) {
                 flightRoute(sc);
@@ -92,13 +92,12 @@ public class ManagementModule {
             }
         }
     }
-    
+
     //=================================================FLIGHT ROUTE================================================================
-    
-     public void flightRoute(Scanner sc) {
+    public void flightRoute(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED FLIGHT ROUTE ***\n");
         Integer response;
-        while(true) {
+        while (true) {
             System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
             System.out.println("1: Create New Flight Route ");
             System.out.println("2: View All Flight Route");
@@ -108,14 +107,14 @@ public class ManagementModule {
             System.out.print("> ");
             response = sc.nextInt();
             sc.nextLine();
-            if(response == 1) {
+            if (response == 1) {
                 createFlightRoute(sc);
             } else if (response == 2) {
 //                List<FlightRoute> flightRoutes = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
 //                for (FlightRoute flightRoute: flightRoutes) {
 //                    System.out.println(flightRoute.)
 //                }
-                   System.out.println("2");
+                System.out.println("2");
             } else if (response == 3) {
                 deleteFlightRoute(sc);
             } else if (response == 4) {
@@ -125,11 +124,11 @@ public class ManagementModule {
             }
         }
     }
-     
-     public void createFlightRoute(Scanner sc) {
+
+    public void createFlightRoute(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED CREATE FLIGHT ROUTE ***\n");
         Integer response;
-        while(true) {
+        while (true) {
             System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
             System.out.println("1: Create new Flight Route ");
             System.out.println("2: Create new Flight Route with Return Route");
@@ -138,7 +137,7 @@ public class ManagementModule {
             System.out.print("> ");
             response = sc.nextInt();
             sc.nextLine();
-            if(response == 1) {
+            if (response == 1) {
                 System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
                 System.out.println("Enter Origin Airport ID ");
                 System.out.print("> ");
@@ -160,7 +159,7 @@ public class ManagementModule {
                 System.out.println("Enter Destination Airport ID ");
                 System.out.print("> ");
                 Long destAirport = sc.nextLong();
-                
+
                 try {
                     Long flightRouteId = flightRoutesSessionBeanRemote.createNewFlightRouteWithReturn(originAirport, destAirport);
                     System.out.println("Successfully created Flight Route with ID: " + flightRouteId + "!");
@@ -174,11 +173,11 @@ public class ManagementModule {
             }
         }
     }
-     
+
     public void deleteFlightRoute(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED DELETE FLIGHT ROUTE ***\n");
         Integer response;
-        while(true) {
+        while (true) {
             System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
             System.out.println("1: Delete Flight Route ");
             System.out.println("2: Back\n");
@@ -186,7 +185,7 @@ public class ManagementModule {
             System.out.print("> ");
             response = sc.nextInt();
             sc.nextLine();
-            if(response == 1) {
+            if (response == 1) {
                 System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
                 System.out.println("Enter Flight Route ID ");
                 System.out.print("> ");
@@ -203,13 +202,12 @@ public class ManagementModule {
             }
         }
     }
-    
+
     //=================================================AIRCRAFT CONFIGURATION=================================================
-    
     public void aircraftConfigurationOptions(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED AIRCRAFT CONFIGURATION ***\n");
         Integer response;
-        while(true) {
+        while (true) {
             System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
             System.out.println("1: Create Aircraft Configuration ");
             System.out.println("2: View All Aircraft Configuration");
@@ -218,7 +216,7 @@ public class ManagementModule {
             System.out.print("> ");
             response = sc.nextInt();
             sc.nextLine();
-            if(response == 1) {
+            if (response == 1) {
                 createFlightConfiguration(sc);
             } else if (response == 2) {
                 viewAllFlightConfiguration(sc);
@@ -229,11 +227,11 @@ public class ManagementModule {
             }
         }
     }
-    
+
     //Create Flight Config
     public void createFlightConfiguration(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED CREATE AIRCRAFT CONFIGURATION ***");
-        System.out.println("*** PICK AIRCRAFT TYPE ***\n"); 
+        System.out.println("*** PICK AIRCRAFT TYPE ***\n");
         List<Aircraft> listOfAircrafts = aircraftSessionBeanRemote.retrieveAllAircrafts();
         for (int i = 0; i < listOfAircrafts.size(); i++) {
             System.out.println(String.format("%s: Aircraft Name: ", i + 1) + listOfAircrafts.get(i).getAircraftName());
@@ -244,29 +242,29 @@ public class ManagementModule {
         int aircraftNum = sc.nextInt();
         sc.nextLine();
         System.out.println("");
-        System.out.print("Enter Aircraft Configuration Name> "); 
+        System.out.print("Enter Aircraft Configuration Name> ");
         String AircraftConfigName = sc.nextLine().trim();
         long aircraftNumLong = aircraftNum;
         Long aircraftConfigId = aircraftConfigurationSessionBeanRemote.createAircraftConfiguration(new AircraftConfiguration(AircraftConfigName), aircraftNumLong);
-        
-        System.out.print("Enter Number of Cabin Class (1 to 4)> "); 
+
+        System.out.print("Enter Number of Cabin Class (1 to 4)> ");
         int numCabinClass = sc.nextInt();
         sc.nextLine();
         if (numCabinClass < 1 || numCabinClass > 4) {
             System.out.println("ERROR Please select from 1 - 4");
             createFlightConfiguration(sc);
         }
-        
+
         for (int i = 0; i < numCabinClass; i++) {
             System.out.print(String.format("\nEnter Name of No.%s Cabin Class> ", i + 1));
             String cabinName = sc.nextLine().trim();
-            System.out.print(String.format("Enter Number of isles for No.%s Cabin (Max 2)> ", i + 1)); 
+            System.out.print(String.format("Enter Number of isles for No.%s Cabin (Max 2)> ", i + 1));
             int numOfIsles = sc.nextInt();
             sc.nextLine();
-            System.out.print(String.format("Enter Number of Rows for No.%s Cabin> ", i + 1)); 
+            System.out.print(String.format("Enter Number of Rows for No.%s Cabin> ", i + 1));
             int numOfRows = sc.nextInt();
             sc.nextLine();
-            System.out.print(String.format("Enter Seating Configuraiton for No.%s Cabin (Format should be in 1 or 1-2 or 1-2-1)> ", i + 1)); 
+            System.out.print(String.format("Enter Seating Configuraiton for No.%s Cabin (Format should be in 1 or 1-2 or 1-2-1)> ", i + 1));
             String seatingConfig = sc.nextLine().trim();
             String[] sconfig = seatingConfig.split("-");
             int[] sconfigInt = new int[numOfIsles + 1];
@@ -281,18 +279,18 @@ public class ManagementModule {
         System.out.println("Flight Configuration Id = " + aircraftConfigId);
         System.out.println("");
     }
-    
+
     public void viewAllFlightConfiguration(Scanner sc) {
         List<AircraftConfiguration> listOfac = aircraftConfigurationSessionBeanRemote.retrieveAllAircraftConfigurations();
         //List<Aircraft> listOfAircraft = aircraftSessionBeanRemote.retrieveAllAircrafts();
         System.out.println("*** YOU HAVE PICKED VIEW ALL AIRCRAFT CONFIGURATION ***\n");
-        for (int i = 0; i < listOfac.size(); i++) { 
+        for (int i = 0; i < listOfac.size(); i++) {
             System.out.println("ID: " + listOfac.get(i).getAircraftConfigurationId());
             System.out.println("Aircraft Type: " + listOfac.get(i).getAircraft().getAircraftName());
             System.out.println("Aircraft Configuration Name: " + listOfac.get(i).getAircraftConfigName());
             System.out.println("");
         }
-        
+
         System.out.print("Enter ID for more details> ");
 //        String aircraftName = sc.nextLine().trim();
         int aircraftConfigOption = sc.nextInt();
@@ -314,13 +312,12 @@ public class ManagementModule {
             System.out.println("");
         }
     }
-    
+
     //=================================================FLIGHT================================================================
-    
     public void flightOptions(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED FLIGHT ***\n");
         Integer response;
-        while(true) {
+        while (true) {
             System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
             System.out.println("1: Create Flight ");
             System.out.println("2: View All Flight");
@@ -331,7 +328,7 @@ public class ManagementModule {
             System.out.print("> ");
             response = sc.nextInt();
             sc.nextLine();
-            if(response == 1) {
+            if (response == 1) {
                 createFlight(sc);
             } else if (response == 2) {
                 viewAllFlights(sc);
@@ -346,10 +343,10 @@ public class ManagementModule {
             }
         }
     }
-    
+
     public void createFlight(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED CREATE FLIGHT ***");
-        System.out.println("*** FILL UP FLIGHT DETAILS ***\n"); 
+        System.out.println("*** FILL UP FLIGHT DETAILS ***\n");
         System.out.println("*** SELECT AIRLINE ***");
         System.out.println("1. Merline Airlines : IATA\n");
         System.out.print("Enter Airline Number> ");
@@ -359,7 +356,7 @@ public class ManagementModule {
         int flightNum = sc.nextInt();
         sc.nextLine();
         System.out.println("");
-        System.out.println("*** SELECT FLIGHT ROUTE ***\n"); 
+        System.out.println("*** SELECT FLIGHT ROUTE ***\n");
 //        List<FlightRoute> listOfFlightRoute = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
 //        for (int i = 0; i < listOfFlightRoute.size(); i++) {
 //            System.out.println("Flight Route No." + i + 1);
@@ -371,10 +368,10 @@ public class ManagementModule {
         int flightRoute = sc.nextInt();
         sc.nextLine();
         long flightRouteId = flightRoute;
-        System.out.println("\n*** SELECT AIRCRAFT CONFIGURATION ***\n"); 
+        System.out.println("\n*** SELECT AIRCRAFT CONFIGURATION ***\n");
         List<AircraftConfiguration> listOfac = aircraftConfigurationSessionBeanRemote.retrieveAllAircraftConfigurations();
-        
-        for (int i = 0; i < listOfac.size(); i++) { 
+
+        for (int i = 0; i < listOfac.size(); i++) {
             System.out.println("ID: " + listOfac.get(i).getAircraftConfigurationId());
             System.out.println("Aircraft Type: " + listOfac.get(i).getAircraft().getAircraftName());
             System.out.println("Aircraft Configuration Name: " + listOfac.get(i).getAircraftConfigName());
@@ -391,7 +388,7 @@ public class ManagementModule {
         System.out.println("Flight Id= " + flightId);
         System.out.println("");
     }
-    
+
     public void deleteFlights(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED DELETE FLIGHTS ***\n");
         //print all of the flights
@@ -403,7 +400,7 @@ public class ManagementModule {
         System.out.println(String.format("Flight Id=%s has been Removed", delFlightId));
         System.out.println("");
     }
-    
+
     public void viewAllFlights(Scanner sc) {
 //        List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
 //        System.out.println("*** YOU HAVE PICKED VIEW ALL FLIGHTS ***\n");
@@ -413,34 +410,40 @@ public class ManagementModule {
 //            System.out.println("Aircraft Route: " + listOfFlights.get(i).getFlightRoute().getFlightRouteId());
 //            System.out.println("");
 //        }
-        
-        System.out.print("Enter ID for more details> ");
+
+        try {
+
+            System.out.print("Enter ID for more details> ");
 //        String aircraftName = sc.nextLine().trim();
-        int flightId = sc.nextInt();
-        sc.nextLine();
-        long flightIdNum = flightId;
-        if (flightSessionBeanRemote == null) {
-            System.out.println("ITS NULL");
-        }
-        System.out.println("ITS NOT NULL");
-        System.out.println(flightSessionBeanRemote);
-        Flight flight = flightSessionBeanRemote.getFlightWithId(flightIdNum);    
-        List<Cabin> listOfCabins = aircraftConfigurationSessionBeanRemote.retrieveCabinsWithId(flight.getAircraftConfig().getAircraftConfigurationId());
-        System.out.println("\n*** AIRCRAFT CONFIGURATION DETAILS ***");
-        for (int i = 0; i < listOfCabins.size(); i++) {
-            System.out.println(String.format("\nCabin Class No.%s Name: ", i + 1) + listOfCabins.get(i).getCabinClassName());
-            System.out.println("Number of Isles: " + listOfCabins.get(i).getNumOfIsles());
-            System.out.println("Number of Rows: " + listOfCabins.get(i).getNumOfRows());
-            System.out.print("Seating Configuration: ");
-            for (int j = 0; j < listOfCabins.get(i).getSeatingConfiguration().length; j++) {
-                System.out.print(listOfCabins.get(i).getSeatingConfiguration()[j]);
-                if (j != listOfCabins.get(i).getSeatingConfiguration().length - 1) {
-                    System.out.print("-");
-                }
+            int flightId = sc.nextInt();
+            sc.nextLine();
+            long flightIdNum = flightId;
+            if (flightSessionBeanRemote == null) {
+                System.out.println("ITS NULL");
             }
-            System.out.println("");
+            System.out.println("ITS NOT NULL");
+            System.out.println(flightSessionBeanRemote);
+            Flight flight = flightSessionBeanRemote.getFlightWithId(flightIdNum);
+            List<Cabin> listOfCabins = aircraftConfigurationSessionBeanRemote.retrieveCabinsWithId(flight.getAircraftConfig().getAircraftConfigurationId());
+            System.out.println("\n*** AIRCRAFT CONFIGURATION DETAILS ***");
+            for (int i = 0; i < listOfCabins.size(); i++) {
+                System.out.println(String.format("\nCabin Class No.%s Name: ", i + 1) + listOfCabins.get(i).getCabinClassName());
+                System.out.println("Number of Isles: " + listOfCabins.get(i).getNumOfIsles());
+                System.out.println("Number of Rows: " + listOfCabins.get(i).getNumOfRows());
+                System.out.print("Seating Configuration: ");
+                for (int j = 0; j < listOfCabins.get(i).getSeatingConfiguration().length; j++) {
+                    System.out.print(listOfCabins.get(i).getSeatingConfiguration()[j]);
+                    if (j != listOfCabins.get(i).getSeatingConfiguration().length - 1) {
+                        System.out.print("-");
+                    }
+                }
+                System.out.println("");
+            }
+
+        } catch (Exception e) {
+            System.out.println("*********************************************************************");
+            e.printStackTrace();
         }
     }
-    
-    
+
 }
