@@ -142,5 +142,33 @@ public class Flight implements Serializable {
         this.aircraftConfig = aircraftConfig;
     }
 
+    /**
+     * @return the flightNumber
+     */
+    public Integer getFlightNumber() {
+        return flightNumber;
+    }
+
+    /**
+     * @param flightNumber the flightNumber to set
+     */
+    public void setFlightNumber(Integer flightNumber) {
+        this.flightNumber = flightNumber;
+    }
+
+    /**
+     * @return the prefix
+     */
+    public String getPrefix() {
+        return prefix;
+    }
+
+    /**
+     * @param prefix the prefix to set
+     */
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
     
 }

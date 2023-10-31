@@ -405,20 +405,35 @@ public class ManagementModule {
         sc.nextLine();
         System.out.println("");
         System.out.println("*** SELECT FLIGHT ROUTE ***\n");
+////        List<FlightRoute> listOfFlightRoute = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
+////        for (int i = 0; i < listOfFlightRoute.size(); i++) {
+////            System.out.println("Flight Route No." + i + 1);
+////            System.out.println("Origin: " + listOfFlightRoute.get(i).getOriginDestAirport().first());
+////            System.out.println("Destination: " + listOfFlightRoute.get(i).getOriginDestAirport().second());
+////            System.out.println("");
+////        }
+//        System.out.println("*** SELECT FLIGHT ROUTE ***\n"); 
 //        List<FlightRoute> listOfFlightRoute = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
 //        for (int i = 0; i < listOfFlightRoute.size(); i++) {
 //            System.out.println("Flight Route No." + i + 1);
-//            System.out.println("Origin: " + listOfFlightRoute.get(i).getOriginDestAirport().first());
-//            System.out.println("Destination: " + listOfFlightRoute.get(i).getOriginDestAirport().second());
+//            System.out.println("Origin: " + listOfFlightRoute.get(i).getOrigin().getName());
+//            System.out.println("Destination: " + listOfFlightRoute.get(i).getDestination().getName());
 //            System.out.println("");
 //        }
-        System.out.println("*** SELECT FLIGHT ROUTE ***\n"); 
-        List<FlightRoute> listOfFlightRoute = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
-        for (int i = 0; i < listOfFlightRoute.size(); i++) {
-            System.out.println("Flight Route No." + i + 1);
-            System.out.println("Origin: " + listOfFlightRoute.get(i).getOrigin().getName());
-            System.out.println("Destination: " + listOfFlightRoute.get(i).getDestination().getName());
+        List<FlightRoute> listOfFlightRoutes = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
+        
+        for (FlightRoute f:listOfFlightRoutes) {
+            System.out.println("Flight Route ID: " + f.getFlightRouteId());
+            System.out.println("Origin Airport: " + f.getOrigin().getName());
+            System.out.println("Destination Airport: " + f.getDestination().getName());
             System.out.println("");
+            
+            if (f.getComplementaryRoute()) {
+                System.out.println("Flight Route ID: " + f.getFlightRouteId() + " (Complementary Flight Route)");
+                System.out.println("Origin Airport: " + f.getDestination().getName());
+                System.out.println("Destination Airport: " + f.getOrigin().getName());
+                System.out.println("");
+            }
         }
         
         System.out.print("Enter Flight Route ID> ");
@@ -437,6 +452,7 @@ public class ManagementModule {
         System.out.print("Enter Flight Configuration Id> ");
         int aircraftConfig = sc.nextInt();
         long aircraftConfigId = aircraftConfig;
+
         sc.nextLine();
         Flight flight = new Flight(flightNum);
         Long flightId = flightSessionBeanRemote.createNewFlight(flight, flightRouteId, aircraftConfigId);
@@ -459,49 +475,44 @@ public class ManagementModule {
     }
 
     public void viewAllFlights(Scanner sc) {
-//        List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
-//        System.out.println("*** YOU HAVE PICKED VIEW ALL FLIGHTS ***\n");
-//        for (int i = 0; i < listOfFlights.size(); i++) { 
-//            System.out.println("ID: " + listOfFlights.get(i).getFlightId());
-//            System.out.println("Aircraft Configuration Name: " + listOfFlights.get(i).getAircraftConfig().getAircraftConfigName());
-//            System.out.println("Aircraft Route: " + listOfFlights.get(i).getFlightRoute().getFlightRouteId());
-//            System.out.println("");
-//        }
-
-        try {
-
-            System.out.print("Enter ID for more details> ");
-//        String aircraftName = sc.nextLine().trim();
-            int flightId = sc.nextInt();
-            sc.nextLine();
-            long flightIdNum = flightId;
-            //Long flightIdNum = (Long)flightId;
-            if (flightSessionBeanRemote == null) {
-                System.out.println("ITS NULL");
-            }
-            System.out.println("ITS NOT NULL");
-            System.out.println(flightSessionBeanRemote);
-            Flight flight = flightSessionBeanRemote.getFlightWithId(flightIdNum);
-            List<Cabin> listOfCabins = aircraftConfigurationSessionBeanRemote.retrieveCabinsWithId(flight.getAircraftConfig().getAircraftConfigurationId());
-            System.out.println("\n*** AIRCRAFT CONFIGURATION DETAILS ***");
-            for (int i = 0; i < listOfCabins.size(); i++) {
-                System.out.println(String.format("\nCabin Class No.%s Name: ", i + 1) + listOfCabins.get(i).getCabinClassName());
-                System.out.println("Number of Isles: " + listOfCabins.get(i).getNumOfIsles());
-                System.out.println("Number of Rows: " + listOfCabins.get(i).getNumOfRows());
-                System.out.print("Seating Configuration: ");
-                for (int j = 0; j < listOfCabins.get(i).getSeatingConfiguration().length; j++) {
-                    System.out.print(listOfCabins.get(i).getSeatingConfiguration()[j]);
-                    if (j != listOfCabins.get(i).getSeatingConfiguration().length - 1) {
-                        System.out.print("-");
-                    }
-                }
-                System.out.println("");
-            }
-
-        } catch (Exception e) {
-            System.out.println("*********************************************************************");
-            e.printStackTrace();
+        List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
+        System.out.println("*** YOU HAVE PICKED VIEW ALL FLIGHTS ***\n");
+        for (int i = 0; i < listOfFlights.size(); i++) { 
+            System.out.println("ID: " + listOfFlights.get(i).getFlightId());
+            System.out.println("Aircraft Configuration Name: " + listOfFlights.get(i).getAircraftConfig().getAircraftConfigName());
+            System.out.println("Aircraft Route ID: " + listOfFlights.get(i).getFlightRoute().getFlightRouteId());
+            System.out.println("");
         }
+        System.out.print("Enter ID for more details> ");
+        int flightId = sc.nextInt();
+        sc.nextLine();
+        long flightIdNum = flightId;
+        Flight flight = flightSessionBeanRemote.getFlightWithId(flightIdNum);
+        List<Cabin> listOfCabins = aircraftConfigurationSessionBeanRemote.retrieveCabinsWithId(flight.getAircraftConfig().getAircraftConfigurationId());
+        System.out.println("\n*** AIRCRAFT CONFIGURATION DETAILS ***");
+        System.out.println("Flight Number: " + flight.getPrefix() + flight.getFlightNumber());
+        Integer totalSeats = flightSessionBeanRemote.getReservedSeats(flightIdNum);
+        Integer reservedSeats = flightSessionBeanRemote.getTotalSeats(flightIdNum);
+        System.out.println("Flight Total Seats: " + totalSeats);
+        System.out.println("Flight Available Seats: " + (totalSeats - reservedSeats));
+        System.out.println("Flight Reserved Seats: " + reservedSeats);
+        for (int i = 0; i < listOfCabins.size(); i++) {
+            System.out.println(String.format("\nCabin Class No.%s Name: ", i + 1) + listOfCabins.get(i).getCabinClassName());
+            System.out.println("Number of Isles: " + listOfCabins.get(i).getNumOfIsles());
+            System.out.println("Number of Rows: " + listOfCabins.get(i).getNumOfRows());
+            System.out.print("Seating Configuration: ");
+            for (int j = 0; j < listOfCabins.get(i).getSeatingConfiguration().length; j++) {
+                System.out.print(listOfCabins.get(i).getSeatingConfiguration()[j]);
+                if (j != listOfCabins.get(i).getSeatingConfiguration().length - 1) {
+                    System.out.print("-");
+                }
+            }
+            System.out.println("Cabin Total Seats: " + listOfCabins.get(i).getTotalSeats());
+            System.out.println("Cabin Available Seats: " + listOfCabins.get(i).getAvailableSeats());
+            System.out.println("Cabin Reserved Seats: " + listOfCabins.get(i).getReservedSeats());
+            System.out.println("");
+        }
+        
     }
 
 }
