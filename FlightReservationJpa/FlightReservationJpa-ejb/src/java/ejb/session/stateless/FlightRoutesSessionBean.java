@@ -123,6 +123,11 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
         Query query = em.createQuery("SELECT f FROM FlightRoute f ORDER BY f.origin.name ASC");
         return query.getResultList();
     }
+    
+    @Override
+    public FlightRoute getFlightRouteWithId(Long id) {
+        return em.find(FlightRoute.class, id);
+    }
 
     
 }

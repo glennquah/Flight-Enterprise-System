@@ -35,7 +35,7 @@ public class Flight implements Serializable {
     @Column(length = 32, nullable = false)
     private String prefix; 
     @Column(nullable = false, unique = true, length = 4)
-    private Integer flightNumber; 
+    private Integer flightNumber;
     
     @ManyToOne
     private FlightRoute flightRoute;
@@ -140,6 +140,34 @@ public class Flight implements Serializable {
      */
     public void setAircraftConfig(AircraftConfiguration aircraftConfig) {
         this.aircraftConfig = aircraftConfig;
+    }
+
+    /**
+     * @return the flightNumber
+     */
+    public Integer getFlightNumber() {
+        return flightNumber;
+    }
+
+    /**
+     * @param flightNumber the flightNumber to set
+     */
+    public void setFlightNumber(Integer flightNumber) {
+        this.flightNumber = flightNumber;
+    }
+
+    /**
+     * @return the prefix
+     */
+    public String getPrefix() {
+        return prefix;
+    }
+
+    /**
+     * @param prefix the prefix to set
+     */
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
     

@@ -6,6 +6,7 @@ package ejb.session.stateless;
 
 import entity.AircraftConfiguration;
 import entity.Airport;
+import entity.Cabin;
 import entity.Flight;
 import entity.FlightRoute;
 import java.util.List;
@@ -47,6 +48,30 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
         em.flush();
         
         return flight.getFlightId();
+    }
+    
+    @Override
+    public Integer getTotalSeats(Long id) {
+        Flight flight = getFlightWithId(id);
+        List<Cabin> listOfCabs = flight.getAircraftConfig().getListOfCabins();
+        listOfCabs.size();
+        Integer totalSeats = 0;
+        for (int i = 0; i < listOfCabs.size(); i++) {
+            totalSeats += listOfCabs.get(i).getTotalSeats();
+        }
+        return totalSeats;
+    }
+    
+    @Override
+    public Integer getReservedSeats(Long id) {
+        Flight flight = getFlightWithId(id);
+        List<Cabin> listOfCabs = flight.getAircraftConfig().getListOfCabins();
+        listOfCabs.size();
+        Integer reservedSeats = 0;
+        for (int i = 0; i < listOfCabs.size(); i++) {
+            reservedSeats += listOfCabs.get(i).getReservedSeats();
+        }
+        return reservedSeats;
     }
     
     @Override

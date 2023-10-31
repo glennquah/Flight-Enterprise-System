@@ -18,4 +18,6 @@ public interface FlightSessionBeanRemote {
     public List<Flight> retrieveAllFlights();
     public Flight getFlightWithId(Long id);
     public long removeFlight(Long id);
+    public Integer getReservedSeats(Long id);
+    public Integer getTotalSeats(Long id);
 }
