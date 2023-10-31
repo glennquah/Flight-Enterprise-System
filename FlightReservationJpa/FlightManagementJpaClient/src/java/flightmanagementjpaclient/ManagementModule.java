@@ -489,15 +489,30 @@ public class ManagementModule {
         long flightIdNum = flightId;
         Flight flight = flightSessionBeanRemote.getFlightWithId(flightIdNum);
         List<Cabin> listOfCabins = aircraftConfigurationSessionBeanRemote.retrieveCabinsWithId(flight.getAircraftConfig().getAircraftConfigurationId());
-        System.out.println("\n*** AIRCRAFT CONFIGURATION DETAILS ***");
+        System.out.println("\n*** FLIGHT DETAILS ***");
         System.out.println("Flight Number: " + flight.getPrefix() + flight.getFlightNumber());
-        Integer totalSeats = flightSessionBeanRemote.getReservedSeats(flightIdNum);
-        Integer reservedSeats = flightSessionBeanRemote.getTotalSeats(flightIdNum);
+        Integer totalSeats = flightSessionBeanRemote.getTotalSeats(flightIdNum);
+        Integer reservedSeats = flightSessionBeanRemote.getReservedSeats(flightIdNum);
         System.out.println("Flight Total Seats: " + totalSeats);
         System.out.println("Flight Available Seats: " + (totalSeats - reservedSeats));
         System.out.println("Flight Reserved Seats: " + reservedSeats);
+        
+        System.out.println("\n*** FLIGHT ROUTE DETAILS ***");
+        FlightRoute f = flightRoutesSessionBeanRemote.getFlightRouteWithId(flight.getFlightRoute().getFlightRouteId());
+        System.out.println("Flight Route ID: " + f.getFlightRouteId());
+        System.out.println("Origin Airport: " + f.getOrigin().getName());
+        System.out.println("Destination Airport: " + f.getDestination().getName());
+        System.out.println("");
+
+        if (f.getComplementaryRoute()) {
+            System.out.println("Flight Route ID: " + f.getFlightRouteId() + " (Complementary Flight Route)");
+            System.out.println("Origin Airport: " + f.getDestination().getName());
+            System.out.println("Destination Airport: " + f.getOrigin().getName());
+        }
+
+        System.out.println("\n*** CABIN DETAILS ***");
         for (int i = 0; i < listOfCabins.size(); i++) {
-            System.out.println(String.format("\nCabin Class No.%s Name: ", i + 1) + listOfCabins.get(i).getCabinClassName());
+            System.out.println(String.format("Cabin Class No.%s Name: ", i + 1) + listOfCabins.get(i).getCabinClassName());
             System.out.println("Number of Isles: " + listOfCabins.get(i).getNumOfIsles());
             System.out.println("Number of Rows: " + listOfCabins.get(i).getNumOfRows());
             System.out.print("Seating Configuration: ");
@@ -507,11 +522,12 @@ public class ManagementModule {
                     System.out.print("-");
                 }
             }
-            System.out.println("Cabin Total Seats: " + listOfCabins.get(i).getTotalSeats());
+            System.out.println("\nCabin Total Seats: " + listOfCabins.get(i).getTotalSeats());
             System.out.println("Cabin Available Seats: " + listOfCabins.get(i).getAvailableSeats());
             System.out.println("Cabin Reserved Seats: " + listOfCabins.get(i).getReservedSeats());
             System.out.println("");
         }
+        
         
     }
 

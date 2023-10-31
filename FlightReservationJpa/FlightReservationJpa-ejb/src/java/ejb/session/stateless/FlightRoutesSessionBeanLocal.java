@@ -21,4 +21,5 @@ public interface FlightRoutesSessionBeanLocal {
     public Long deleteFlightRoute(Long flightRouteId) throws FlightRouteDoesNotExistException;
     public Long createNewFlightRoute(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException, FlightRouteAlreadyExistException;
     public Long createNewFlightRouteWithReturn(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException, FlightRouteAlreadyExistException;
+    public FlightRoute getFlightRouteWithId(Long id);
 }
