@@ -5,7 +5,6 @@
 package ejb.session.stateless;
 
 import entity.Airport;
-import entity.Flight;
 import entity.FlightRoute;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -14,6 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.AirportDoesNotExistException;
+import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
 
 /**
@@ -27,45 +27,64 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
     private EntityManager em;
 
     @Override
-    public Long createNewFlightRoute(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException {
+    public Long createNewFlightRoute(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException, FlightRouteAlreadyExistException {
         try {
             Query query = em.createQuery("SELECT a FROM Airport a WHERE a.airportId = :airportId");
             query.setParameter("airportId", airportOneId);
             Airport airportOne = (Airport)query.getSingleResult();
 
             Query secondQuery = em.createQuery("SELECT a FROM Airport a WHERE a.airportId = :airportId");
-            query.setParameter("airportId", airportTwoId);
-            Airport airportTwo = (Airport)query.getSingleResult();
+            secondQuery.setParameter("airportId", airportTwoId);
+            Airport airportTwo = (Airport)secondQuery.getSingleResult();
             
-            FlightRoute flightroute = new FlightRoute(airportOne, airportTwo);
-            em.persist(flightroute);
+            Query thirdQuery = em.createQuery("SELECT f FROM FlightRoute f");
+            List<FlightRoute> flightRoutes = (List<FlightRoute>)thirdQuery.getResultList();
+  
+            for (FlightRoute f:flightRoutes) {
+                if (f.getOrigin() == airportOne && f.getDestination() == airportTwo) {
+                    throw new FlightRouteAlreadyExistException("Flight route already exist!");
+                } else if(f.getOrigin() == airportTwo && f.getDestination() == airportOne && f.getComplementaryRoute()) {
+                    throw new FlightRouteAlreadyExistException("Flight route already exist!");
+                }
+            }
+            
+            FlightRoute newFlightRoute = new FlightRoute(airportOne, airportTwo);
+            em.persist(newFlightRoute);
             em.flush();
-
-            return flightroute.getFlightRouteId();
             
+            return newFlightRoute.getFlightRouteId();
         } catch (NoResultException ex) {
             throw new AirportDoesNotExistException("Aiport does not exist!");
         }
     }
     
     @Override
-    public Long createNewFlightRouteWithReturn(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException {
+    public Long createNewFlightRouteWithReturn(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException, FlightRouteAlreadyExistException {
         try {
             Query query = em.createQuery("SELECT a FROM Airport a WHERE a.airportId = :airportId");
             query.setParameter("airportId", airportOneId);
             Airport airportOne = (Airport)query.getSingleResult();
 
             Query secondQuery = em.createQuery("SELECT a FROM Airport a WHERE a.airportId = :airportId");
-            query.setParameter("airportId", airportTwoId);
-            Airport airportTwo = (Airport)query.getSingleResult();
+            secondQuery.setParameter("airportId", airportTwoId);
+            Airport airportTwo = (Airport)secondQuery.getSingleResult();
 
-            FlightRoute flightroute = new FlightRoute(airportOne, airportTwo);
-            FlightRoute flightrouteReturn = new FlightRoute(airportTwo, airportOne);
-            em.persist(flightroute);
-            em.persist(flightrouteReturn);
+            Query thirdQuery = em.createQuery("SELECT f FROM FlightRoute f");
+            List<FlightRoute> flightRoutes = (List<FlightRoute>)thirdQuery.getResultList();
+  
+            for (FlightRoute f:flightRoutes) {
+                if (f.getOrigin() == airportOne && f.getDestination() == airportTwo) {
+                    throw new FlightRouteAlreadyExistException("Flight route already exist!");
+                } else if(f.getOrigin() == airportTwo && f.getDestination() == airportOne && f.getComplementaryRoute()) {
+                    throw new FlightRouteAlreadyExistException("Flight route already exist!");
+                }
+            }
+            
+            FlightRoute newFlightRoute = new FlightRoute(airportOne, airportTwo, true);
+            em.persist(newFlightRoute);
             em.flush();
-
-            return flightroute.getFlightRouteId();
+            
+            return newFlightRoute.getFlightRouteId();
         } catch (NoResultException ex) {
             throw new AirportDoesNotExistException("Aiport does not exist!");
         }
@@ -101,8 +120,8 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
     @Override
     public List<FlightRoute> retrieveAllFlightRoutes() {
         //Whatever JPQL Statement u want
-        Query query = em.createQuery("SELECT f FROM FlightRoute f");
-        return (List<FlightRoute>) query.getResultList();
+        Query query = em.createQuery("SELECT f FROM FlightRoute f ORDER BY f.origin.name ASC");
+        return query.getResultList();
     }
 
     

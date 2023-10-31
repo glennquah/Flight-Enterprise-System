@@ -7,14 +7,15 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import util.classLibrary.Pair;
 
 /**
  *
@@ -27,19 +28,34 @@ public class FlightRoute implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long flightRouteId;
-    private Pair<Airport, Airport> originDestAirport;
+    
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "origin")
+    private Airport origin;
+    
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "destination")
+    private Airport destination;
+    
+    private Boolean complementaryRoute;
     
     @OneToMany(mappedBy="FlightRoute")
     private List<Flight> listOfFlights;
-    
-//    @ManyToMany(mappedBy = "FlightRoute")
-//    private List<Airport> listOfAirports;
 
     public FlightRoute() {
     }
 
-    public FlightRoute(Airport originAirport, Airport destinationAirport) {
-        this.originDestAirport = new Pair<>(originAirport,destinationAirport);
+    public FlightRoute(Airport origin, Airport destination) {
+        this.origin = origin;
+        this.destination = destination;
+        this.complementaryRoute = false;
+        this.listOfFlights = new ArrayList<Flight>();
+    }
+
+    public FlightRoute(Airport originAirport, Airport destinationAirport, boolean haveComplementaryRoute) {
+        this.origin = originAirport;
+        this.destination = destinationAirport;
+        this.complementaryRoute = true;
         this.listOfFlights = new ArrayList<Flight>();
     }
 
@@ -49,6 +65,30 @@ public class FlightRoute implements Serializable {
 
     public void setFlightRouteId(Long flightRouteId) {
         this.flightRouteId = flightRouteId;
+    }
+
+    public Airport getOrigin() {
+        return origin;
+    }
+
+    public Boolean getComplementaryRoute() {
+        return complementaryRoute;
+    }
+
+    public void setComplementaryRoute(Boolean complementaryRoute) {
+        this.complementaryRoute = complementaryRoute;
+    }
+
+    public void setOrigin(Airport origin) {
+        this.origin = origin;
+    }
+
+    public Airport getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Airport destination) {
+        this.destination = destination;
     }
 
     @Override
@@ -74,20 +114,6 @@ public class FlightRoute implements Serializable {
     @Override
     public String toString() {
         return "entity.FlightRoute[ id=" + flightRouteId + " ]";
-    }
-
-    /**
-     * @return the originDestAirport
-     */
-    public Pair<Airport, Airport> getOriginDestAirport() {
-        return originDestAirport;
-    }
-
-    /**
-     * @param originDestAirport the originDestAirport to set
-     */
-    public void setOriginDestAirport(Pair<Airport, Airport> originDestAirport) {
-        this.originDestAirport = originDestAirport;
     }
 
     /**

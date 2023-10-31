@@ -6,8 +6,11 @@
             <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/AirportSessionBean.java</file>
             <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/singleton/DataInitSessionBean.java</file>
             <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightRoutesSessionBean.java</file>
+<<<<<<< HEAD
             <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/EmployeeSessionBean.java</file>
             <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightRoutesSessionBeanLocal.java</file>
+=======
+>>>>>>> origin/FlightManagement/Fix/FlightRoute
         </group>
     </open-files>
 </project-private>

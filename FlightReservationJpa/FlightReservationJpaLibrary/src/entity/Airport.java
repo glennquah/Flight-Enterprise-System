@@ -49,8 +49,6 @@ public class Airport implements Serializable {
         
 //        this.listOfFlightRoutes = new ArrayList<FlightRoute>();
     }
-    
-    
 
     public String getCountry() {
         return country;

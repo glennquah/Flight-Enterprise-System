@@ -14,12 +14,14 @@ import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
 import entity.Aircraft;
 import entity.AircraftConfiguration;
+import entity.Airport;
 import entity.Cabin;
 import entity.Flight;
 import entity.FlightRoute;
 import java.util.List;
 import java.util.Scanner;
 import util.exception.AirportDoesNotExistException;
+import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
 
 /**
@@ -84,7 +86,7 @@ public class ManagementModule {
             } else if (response == 3) {
                 flightOptions(sc);
             } else if (response == 4) {
-                System.out.println("4");
+//                flightSchedule(sc);
             } else if (response == 5) {
                 break;
             } else {
@@ -110,11 +112,15 @@ public class ManagementModule {
             if (response == 1) {
                 createFlightRoute(sc);
             } else if (response == 2) {
+<<<<<<< HEAD
 //                List<FlightRoute> flightRoutes = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
 //                for (FlightRoute flightRoute: flightRoutes) {
 //                    System.out.println(flightRoute.)
 //                }
                 System.out.println("2");
+=======
+                viewFlightRoutes(sc);
+>>>>>>> origin/FlightManagement/Fix/FlightRoute
             } else if (response == 3) {
                 deleteFlightRoute(sc);
             } else if (response == 4) {
@@ -139,6 +145,12 @@ public class ManagementModule {
             sc.nextLine();
             if (response == 1) {
                 System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
+                List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAiports();
+                for (int i = 0; i < listOfAirports.size(); i++) {
+                    System.out.println(String.format("%s: Airport Name: ", i + 1) + listOfAirports.get(i).getName());
+                    System.out.println("ID: " + listOfAirports.get(i).getAirportId());
+                    System.out.println("");
+                }
                 System.out.println("Enter Origin Airport ID ");
                 System.out.print("> ");
                 Long originAirport = sc.nextLong();
@@ -150,9 +162,17 @@ public class ManagementModule {
                     System.out.println("Successfully created Flight Route with ID: " + flightRouteId + "!");
                 } catch (AirportDoesNotExistException ex) {
                     System.out.println(ex.getMessage());
+                } catch (FlightRouteAlreadyExistException ex) {
+                    System.out.println(ex.getMessage());
                 }
             } else if (response == 2) {
                 System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
+                List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAiports();
+                for (int i = 0; i < listOfAirports.size(); i++) {
+                    System.out.println(String.format("%s: Airport Name: ", i + 1) + listOfAirports.get(i).getName());
+                    System.out.println("ID: " + listOfAirports.get(i).getAirportId());
+                    System.out.println("");
+                }
                 System.out.println("Enter Origin Airport ID ");
                 System.out.print("> ");
                 Long originAirport = sc.nextLong();
@@ -165,6 +185,8 @@ public class ManagementModule {
                     System.out.println("Successfully created Flight Route with ID: " + flightRouteId + "!");
                 } catch (AirportDoesNotExistException ex) {
                     System.out.println(ex.getMessage());
+                } catch (FlightRouteAlreadyExistException ex) {
+                    System.out.println(ex.getMessage());
                 }
             } else if (response == 3) {
                 break;
@@ -173,7 +195,30 @@ public class ManagementModule {
             }
         }
     }
+<<<<<<< HEAD
 
+=======
+     
+    public void viewFlightRoutes(Scanner sc) {
+        System.out.println("*** YOU HAVE PICKED VIEW FLIGHT ROUTE ***\n");
+        List<FlightRoute> listOfFlightRoutes = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
+        
+        for (FlightRoute f:listOfFlightRoutes) {
+            System.out.println("Flight Route ID: " + f.getFlightRouteId());
+            System.out.println("Origin Airport: " + f.getOrigin().getName());
+            System.out.println("Destination Airport: " + f.getDestination().getName());
+            System.out.println("");
+            
+            if (f.getComplementaryRoute()) {
+                System.out.println("Flight Route ID: " + f.getFlightRouteId() + " (Complementary Flight Route)");
+                System.out.println("Origin Airport: " + f.getDestination().getName());
+                System.out.println("Destination Airport: " + f.getOrigin().getName());
+                System.out.println("");
+            }
+        }
+    }
+     
+>>>>>>> origin/FlightManagement/Fix/FlightRoute
     public void deleteFlightRoute(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED DELETE FLIGHT ROUTE ***\n");
         Integer response;
@@ -187,6 +232,21 @@ public class ManagementModule {
             sc.nextLine();
             if (response == 1) {
                 System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
+                List<FlightRoute> listOfFlightRoutes = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
+        
+                for (FlightRoute f:listOfFlightRoutes) {
+                    System.out.println("Flight Route ID: " + f.getFlightRouteId());
+                    System.out.println("Origin Airport: " + f.getOrigin().getName());
+                    System.out.println("Destination Airport: " + f.getDestination().getName());
+                    System.out.println("");
+
+                    if (f.getComplementaryRoute()) {
+                        System.out.println("Flight Route ID: " + f.getFlightRouteId() + " (Complementary Flight Route)");
+                        System.out.println("Origin Airport: " + f.getDestination().getName());
+                        System.out.println("Destination Airport: " + f.getOrigin().getName());
+                        System.out.println("");
+                    }
+                }
                 System.out.println("Enter Flight Route ID ");
                 System.out.print("> ");
                 Long flightRouteId = sc.nextLong();
@@ -356,6 +416,7 @@ public class ManagementModule {
         Integer flightNum = sc.nextInt();
         sc.nextLine();
         System.out.println("");
+<<<<<<< HEAD
         System.out.println("*** SELECT FLIGHT ROUTE ***\n");
 //        List<FlightRoute> listOfFlightRoute = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
 //        for (int i = 0; i < listOfFlightRoute.size(); i++) {
@@ -364,6 +425,16 @@ public class ManagementModule {
 //            System.out.println("Destination: " + listOfFlightRoute.get(i).getOriginDestAirport().second());
 //            System.out.println("");
 //        }
+=======
+        System.out.println("*** SELECT FLIGHT ROUTE ***\n"); 
+        List<FlightRoute> listOfFlightRoute = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
+        for (int i = 0; i < listOfFlightRoute.size(); i++) {
+            System.out.println("Flight Route No." + i + 1);
+            System.out.println("Origin: " + listOfFlightRoute.get(i).getOrigin().getName());
+            System.out.println("Destination: " + listOfFlightRoute.get(i).getDestination().getName());
+            System.out.println("");
+        }
+>>>>>>> origin/FlightManagement/Fix/FlightRoute
         System.out.print("Enter Flight Route ID> ");
         int flightRoute = sc.nextInt();
         sc.nextLine();
