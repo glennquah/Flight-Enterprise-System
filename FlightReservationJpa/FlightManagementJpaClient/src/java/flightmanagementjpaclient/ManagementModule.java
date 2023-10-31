@@ -450,6 +450,13 @@ public class ManagementModule {
     public void deleteFlights(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED DELETE FLIGHTS ***\n");
         //print all of the flights
+        List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
+        for (int i = 0; i < listOfFlights.size(); i++) { 
+            System.out.println("Flight ID: " + listOfFlights.get(i).getFlightId());
+            System.out.println("Aircraft Configuration Name: " + listOfFlights.get(i).getAircraftConfig().getAircraftConfigName());
+            System.out.println("Aircraft Route ID: " + listOfFlights.get(i).getFlightRoute().getFlightRouteId());
+            System.out.println("");
+        }
         System.out.print("Enter ID of Flight to be deleted> ");
         int flightId = sc.nextInt();
         sc.nextLine();
@@ -463,7 +470,7 @@ public class ManagementModule {
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
         System.out.println("*** YOU HAVE PICKED VIEW ALL FLIGHTS ***\n");
         for (int i = 0; i < listOfFlights.size(); i++) { 
-            System.out.println("ID: " + listOfFlights.get(i).getFlightId());
+            System.out.println("Flight ID: " + listOfFlights.get(i).getFlightId());
             System.out.println("Aircraft Configuration Name: " + listOfFlights.get(i).getAircraftConfig().getAircraftConfigName());
             System.out.println("Aircraft Route ID: " + listOfFlights.get(i).getFlightRoute().getFlightRouteId());
             System.out.println("");
@@ -518,7 +525,7 @@ public class ManagementModule {
         System.out.println("*** YOU HAVE PICKED UPDATE FLIGHT ***\n");
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
         for (int i = 0; i < listOfFlights.size(); i++) { 
-            System.out.println("ID: " + listOfFlights.get(i).getFlightId());
+            System.out.println("Flight ID: " + listOfFlights.get(i).getFlightId());
             System.out.println("Aircraft Configuration Name: " + listOfFlights.get(i).getAircraftConfig().getAircraftConfigName());
             System.out.println("Aircraft Route ID: " + listOfFlights.get(i).getFlightRoute().getFlightRouteId());
             System.out.println("");
