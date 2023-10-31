@@ -57,7 +57,7 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     }
     
     @Override
-    public Flight getFlightWithId(long id) {
+    public Flight getFlightWithId(Long id) {
         Query query = em.createQuery("Select f from Flight f WHERE f.flightId = :flightId");
         query.setParameter("flightId", id);
         Flight f= (Flight)query.getSingleResult();
@@ -66,7 +66,7 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     }
 
     @Override
-    public long removeFlight(long id) {
+    public long removeFlight(Long id) {
         Flight flight = getFlightWithId(id);
         em.remove(flight);
         em.flush();

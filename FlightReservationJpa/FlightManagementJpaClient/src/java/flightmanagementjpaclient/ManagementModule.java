@@ -267,7 +267,7 @@ public class ManagementModule {
             System.out.print(String.format("Enter Seating Configuraiton for No.%s Cabin (Format should be in 1 or 1-2 or 1-2-1)> ", i + 1));
             String seatingConfig = sc.nextLine().trim();
             String[] sconfig = seatingConfig.split("-");
-            int[] sconfigInt = new int[numOfIsles + 1];
+            Integer[] sconfigInt = new Integer[numOfIsles + 1];
             for (int j = 0; j < sconfig.length; j++) {
                 sconfigInt[j] = Integer.parseInt(sconfig[j]);
             }
@@ -353,7 +353,7 @@ public class ManagementModule {
         int airlineNum = sc.nextInt();
         sc.nextLine();
         System.out.print("Enter 4 Digit Flight Number> ");
-        int flightNum = sc.nextInt();
+        Integer flightNum = sc.nextInt();
         sc.nextLine();
         System.out.println("");
         System.out.println("*** SELECT FLIGHT ROUTE ***\n");
@@ -418,6 +418,7 @@ public class ManagementModule {
             int flightId = sc.nextInt();
             sc.nextLine();
             long flightIdNum = flightId;
+            //Long flightIdNum = (Long)flightId;
             if (flightSessionBeanRemote == null) {
                 System.out.println("ITS NULL");
             }
