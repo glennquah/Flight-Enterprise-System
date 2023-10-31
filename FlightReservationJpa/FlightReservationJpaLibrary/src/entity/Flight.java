@@ -35,7 +35,7 @@ public class Flight implements Serializable {
     @Column(length = 32, nullable = false)
     private String prefix; 
     @Column(nullable = false, unique = true, length = 4)
-    private int flightNumber; 
+    private Integer flightNumber; 
     
     @ManyToOne
     private FlightRoute flightRoute;
@@ -52,7 +52,7 @@ public class Flight implements Serializable {
     public Flight() {
     }
 
-    public Flight(int flightNumber) {
+    public Flight(Integer flightNumber) {
         this.flightNumber = flightNumber;
         this.prefix = "IATA";
         this.flightRoute = new FlightRoute();
