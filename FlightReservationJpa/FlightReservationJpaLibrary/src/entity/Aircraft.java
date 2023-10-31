@@ -30,7 +30,7 @@ public class Aircraft implements Serializable {
     @Column(length = 32, nullable = false)
     private String aircraftName;
     @Column(nullable = false)
-    private int numOfSeats;
+    private Integer numOfSeats;
     
     
     @OneToOne(mappedBy = "Aircraft")
@@ -41,7 +41,7 @@ public class Aircraft implements Serializable {
     
     
 
-    public Aircraft(String aircraftName, int numOfSeats) {
+    public Aircraft(String aircraftName, Integer numOfSeats) {
         this.aircraftName = aircraftName;
         this.numOfSeats = numOfSeats;
         this.aircraftConfiguration = null;
@@ -99,14 +99,14 @@ public class Aircraft implements Serializable {
     /**
      * @return the numOfSeats
      */
-    public int getNumOfSeats() {
+    public Integer getNumOfSeats() {
         return numOfSeats;
     }
 
     /**
      * @param numOfSeats the numOfSeats to set
      */
-    public void setNumOfSeats(int numOfSeats) {
+    public void setNumOfSeats(Integer numOfSeats) {
         this.numOfSeats = numOfSeats;
     }
 

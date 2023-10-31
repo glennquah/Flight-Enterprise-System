@@ -41,8 +41,8 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
     }
     
     @Override
-    public List<Cabin> retrieveCabinsWithName(Long Name) {
-        AircraftConfiguration ac = em.find(AircraftConfiguration.class, Name);
+    public List<Cabin> retrieveCabinsWithId(Long Id) {
+        AircraftConfiguration ac = em.find(AircraftConfiguration.class, Id);
         
         List<Cabin> cab = ac.getListOfCabins();
         cab.size();

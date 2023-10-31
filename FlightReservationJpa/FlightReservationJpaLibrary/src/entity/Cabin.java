@@ -34,13 +34,13 @@ public class Cabin implements Serializable {
     @Column(nullable = false)
     @Min(value = 0)
     @Max(value = 2)
-    private int numOfIsles;
+    private Integer numOfIsles;
     
     @Column(nullable = false)
-    private int numOfRows;
+    private Integer numOfRows;
     
     @Column(nullable = false)
-    private int[] seatingConfiguration;
+    private Integer[] seatingConfiguration;
     
     @ManyToOne
     private AircraftConfiguration aircraftConfiguration;
@@ -51,7 +51,7 @@ public class Cabin implements Serializable {
     public Cabin() {
     }
 
-    public Cabin(String cabinClassName, int numOfIsles, int numOfRows, int[] seatingConfiguration) {
+    public Cabin(String cabinClassName, Integer numOfIsles, Integer numOfRows, Integer[] seatingConfiguration) {
         this.cabinClassName = cabinClassName;
         this.numOfIsles = numOfIsles;
         this.numOfRows = numOfRows;
@@ -125,42 +125,42 @@ public class Cabin implements Serializable {
     /**
      * @return the numOfIsles
      */
-    public int getNumOfIsles() {
+    public Integer getNumOfIsles() {
         return numOfIsles;
     }
 
     /**
      * @param numOfIsles the numOfIsles to set
      */
-    public void setNumOfIsles(int numOfIsles) {
+    public void setNumOfIsles(Integer numOfIsles) {
         this.numOfIsles = numOfIsles;
     }
 
     /**
      * @return the numOfRows
      */
-    public int getNumOfRows() {
+    public Integer getNumOfRows() {
         return numOfRows;
     }
 
     /**
      * @param numOfRows the numOfRows to set
      */
-    public void setNumOfRows(int numOfRows) {
+    public void setNumOfRows(Integer numOfRows) {
         this.numOfRows = numOfRows;
     }
 
     /**
      * @return the seatingConfiguration
      */
-    public int[] getSeatingConfiguration() {
+    public Integer[] getSeatingConfiguration() {
         return seatingConfiguration;
     }
 
     /**
      * @param seatingConfiguration the seatingConfiguration to set
      */
-    public void setSeatingConfiguration(int[] seatingConfiguration) {
+    public void setSeatingConfiguration(Integer[] seatingConfiguration) {
         this.seatingConfiguration = seatingConfiguration;
     }
     

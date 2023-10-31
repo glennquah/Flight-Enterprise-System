@@ -15,5 +15,7 @@ import javax.ejb.Local;
 @Local
 public interface FlightSessionBeanLocal {
     public Long createNewFlight(Flight flight, Long flightRouteId, Long aircraftConfigId);
-    public List<Flight> retrieveAllAiports();
+    public List<Flight> retrieveAllFlights();
+    public Flight getFlightWithId(Long id);
+    public long removeFlight(Long id);
 }

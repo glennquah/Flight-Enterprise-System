@@ -50,11 +50,27 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     }
     
     @Override
-    public List<Flight> retrieveAllAiports() {
+    public List<Flight> retrieveAllFlights() {
         //Whatever JPQL Statement u want
         Query query = em.createQuery("SELECT f FROM Flight f");
         return query.getResultList();
     }
+    
+    @Override
+    public Flight getFlightWithId(Long id) {
+        Query query = em.createQuery("Select f from Flight f WHERE f.flightId = :flightId");
+        query.setParameter("flightId", id);
+        Flight f= (Flight)query.getSingleResult();
+        System.out.println("*********************** f:" + f.getFlightId());
+        return f;
+    }
 
+    @Override
+    public long removeFlight(Long id) {
+        Flight flight = getFlightWithId(id);
+        em.remove(flight);
+        em.flush();
+        return flight.getFlightId();
+    }
     
 }
