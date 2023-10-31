@@ -5,7 +5,6 @@
 package ejb.session.stateless;
 
 import entity.Airport;
-import entity.Flight;
 import entity.FlightRoute;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -59,10 +58,8 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
             query.setParameter("airportId", airportTwoId);
             Airport airportTwo = (Airport)query.getSingleResult();
 
-            FlightRoute flightroute = new FlightRoute(airportOne, airportTwo);
-            FlightRoute flightrouteReturn = new FlightRoute(airportTwo, airportOne);
+            FlightRoute flightroute = new FlightRoute(airportOne, airportTwo, true);
             em.persist(flightroute);
-            em.persist(flightrouteReturn);
             em.flush();
 
             return flightroute.getFlightRouteId();
@@ -101,8 +98,8 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
     @Override
     public List<FlightRoute> retrieveAllFlightRoutes() {
         //Whatever JPQL Statement u want
-        Query query = em.createQuery("SELECT f FROM FlightRoute f");
-        return (List<FlightRoute>) query.getResultList();
+        Query query = em.createQuery("SELECT f FROM FlightRoute f ORDER BY f.origin");
+        return query.getResultList();
     }
 
     
