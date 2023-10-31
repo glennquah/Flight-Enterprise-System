@@ -8,6 +8,7 @@ import entity.FlightRoute;
 import java.util.List;
 import javax.ejb.Remote;
 import util.exception.AirportDoesNotExistException;
+import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
 
 /**
@@ -16,8 +17,8 @@ import util.exception.FlightRouteDoesNotExistException;
  */
 @Remote
 public interface FlightRoutesSessionBeanRemote {
-    public Long createNewFlightRoute(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException;
-    public Long createNewFlightRouteWithReturn(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException;
+    public Long createNewFlightRoute(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException, FlightRouteAlreadyExistException;
+    public Long createNewFlightRouteWithReturn(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException, FlightRouteAlreadyExistException;
     public List<FlightRoute> retrieveAllFlightRoutes();
     public Long deleteFlightRoute(Long flightRouteId) throws FlightRouteDoesNotExistException;
 }

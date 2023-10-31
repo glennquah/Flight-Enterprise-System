@@ -37,8 +37,7 @@ public class FlightRoute implements Serializable {
     @JoinColumn(name = "destination")
     private Airport destination;
     
-    @OneToOne
-    private FlightRoute complementaryRoute;
+    private Boolean complementaryRoute;
     
     @OneToMany(mappedBy="FlightRoute")
     private List<Flight> listOfFlights;
@@ -49,18 +48,14 @@ public class FlightRoute implements Serializable {
     public FlightRoute(Airport origin, Airport destination) {
         this.origin = origin;
         this.destination = destination;
-        this.complementaryRoute = null;
+        this.complementaryRoute = false;
         this.listOfFlights = new ArrayList<Flight>();
     }
 
     public FlightRoute(Airport originAirport, Airport destinationAirport, boolean haveComplementaryRoute) {
         this.origin = originAirport;
         this.destination = destinationAirport;
-        if (haveComplementaryRoute) {
-            this.complementaryRoute = new FlightRoute(destinationAirport, originAirport);
-        } else {
-            this.complementaryRoute = null;
-        }
+        this.complementaryRoute = true;
         this.listOfFlights = new ArrayList<Flight>();
     }
 
@@ -76,6 +71,14 @@ public class FlightRoute implements Serializable {
         return origin;
     }
 
+    public Boolean getComplementaryRoute() {
+        return complementaryRoute;
+    }
+
+    public void setComplementaryRoute(Boolean complementaryRoute) {
+        this.complementaryRoute = complementaryRoute;
+    }
+
     public void setOrigin(Airport origin) {
         this.origin = origin;
     }
@@ -87,15 +90,6 @@ public class FlightRoute implements Serializable {
     public void setDestination(Airport destination) {
         this.destination = destination;
     }
-
-    public FlightRoute getComplementaryRoute() {
-        return complementaryRoute;
-    }
-
-    public void setComplementaryRoute(FlightRoute complementaryRoute) {
-        this.complementaryRoute = complementaryRoute;
-    }
-
 
     @Override
     public int hashCode() {
