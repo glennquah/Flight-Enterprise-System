@@ -20,4 +20,7 @@ public interface FlightSessionBeanRemote {
     public long removeFlight(Long id);
     public Integer getReservedSeats(Long id);
     public Integer getTotalSeats(Long id);
+    public Long changeFlightNumber(Long flightIdNum, Integer newFlightNum);
+    public Long changeFlightRoute(Long flightIdNum, Long newFlightRouteId, Long oldFlightRouteId);
+    public Long changeFlightConfig(Long flightIdNum, Long newFlightConfigId, Long oldFlightConfigId);
 }

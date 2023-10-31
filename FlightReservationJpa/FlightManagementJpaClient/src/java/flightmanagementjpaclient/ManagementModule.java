@@ -381,7 +381,7 @@ public class ManagementModule {
             } else if (response == 2) {
                 viewAllFlights(sc);
             } else if (response == 3) {
-                System.out.println("3");
+                updateFlight(sc);
             } else if (response == 4) {
                 deleteFlights(sc);
             } else if (response == 5) {
@@ -405,21 +405,6 @@ public class ManagementModule {
         sc.nextLine();
         System.out.println("");
         System.out.println("*** SELECT FLIGHT ROUTE ***\n");
-////        List<FlightRoute> listOfFlightRoute = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
-////        for (int i = 0; i < listOfFlightRoute.size(); i++) {
-////            System.out.println("Flight Route No." + i + 1);
-////            System.out.println("Origin: " + listOfFlightRoute.get(i).getOriginDestAirport().first());
-////            System.out.println("Destination: " + listOfFlightRoute.get(i).getOriginDestAirport().second());
-////            System.out.println("");
-////        }
-//        System.out.println("*** SELECT FLIGHT ROUTE ***\n"); 
-//        List<FlightRoute> listOfFlightRoute = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
-//        for (int i = 0; i < listOfFlightRoute.size(); i++) {
-//            System.out.println("Flight Route No." + i + 1);
-//            System.out.println("Origin: " + listOfFlightRoute.get(i).getOrigin().getName());
-//            System.out.println("Destination: " + listOfFlightRoute.get(i).getDestination().getName());
-//            System.out.println("");
-//        }
         List<FlightRoute> listOfFlightRoutes = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
         
         for (FlightRoute f:listOfFlightRoutes) {
@@ -526,9 +511,54 @@ public class ManagementModule {
             System.out.println("Cabin Available Seats: " + listOfCabins.get(i).getAvailableSeats());
             System.out.println("Cabin Reserved Seats: " + listOfCabins.get(i).getReservedSeats());
             System.out.println("");
+        }   
+    }
+    
+    public void updateFlight(Scanner sc) {
+        System.out.println("*** YOU HAVE PICKED UPDATE FLIGHT ***\n");
+        List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
+        for (int i = 0; i < listOfFlights.size(); i++) { 
+            System.out.println("ID: " + listOfFlights.get(i).getFlightId());
+            System.out.println("Aircraft Configuration Name: " + listOfFlights.get(i).getAircraftConfig().getAircraftConfigName());
+            System.out.println("Aircraft Route ID: " + listOfFlights.get(i).getFlightRoute().getFlightRouteId());
+            System.out.println("");
+        }
+        System.out.print("Enter Flight ID to Update> ");
+        int flightId = sc.nextInt();
+        sc.nextLine();
+        long flightIdNum = flightId;
+        Flight flight = flightSessionBeanRemote.getFlightWithId(flightIdNum);
+        System.out.println("*** UPDATE DETAILS FOR FLIGHT ***\n");
+        System.out.print("Change Flight Number? (Y/N)> ");
+        if (sc.nextLine().trim().equalsIgnoreCase("Y")) {
+            System.out.print("Input New 4 Digit Flight Number> ");
+            Integer newFlightNum = sc.nextInt();
+            sc.nextLine();
+            Long fNumId = flightSessionBeanRemote.changeFlightNumber(flightIdNum, newFlightNum);
+            System.out.println("*** FLIGHT NUMBER CHANGED! ***\n");
         }
         
+        System.out.print("Change Flight Route? (Y/N)> ");
+        if (sc.nextLine().trim().equalsIgnoreCase("Y")) {
+            System.out.print("Enter New Flight Route ID> ");
+            int newFlightRoute = sc.nextInt();
+            sc.nextLine();
+            long newFlightRouteId = newFlightRoute;
+            Long fRId = flightSessionBeanRemote.changeFlightRoute(flightIdNum, newFlightRouteId, flight.getFlightRoute().getFlightRouteId());
+            System.out.println("*** FLIGHT ROUTE CHANGED! ***\n");
+        }
         
+        System.out.print("Change Flight Configuration? (Y/N)> ");
+        if (sc.nextLine().trim().equalsIgnoreCase("Y")) {
+            System.out.print("Enter New Flight Configuration ID> ");
+            int newFlightConfig = sc.nextInt();
+            sc.nextLine();
+            long newFlightConfigId = newFlightConfig;
+            Long fcId = flightSessionBeanRemote.changeFlightConfig(flightIdNum, newFlightConfigId, flight.getAircraftConfig().getAircraftConfigurationId());
+            System.out.println("*** FLIGHT CONFIGURATION CHANGED! ***\n");
+        }
+        
+        System.out.println("UPDATING DONE!\n");
     }
 
 }

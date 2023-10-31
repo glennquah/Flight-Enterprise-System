@@ -9,6 +9,7 @@ import entity.Airport;
 import entity.Cabin;
 import entity.Flight;
 import entity.FlightRoute;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -98,4 +99,58 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
         return flight.getFlightId();
     }
     
+    @Override
+    public Long changeFlightNumber(Long flightIdNum, Integer newFlightNum){
+        Flight flight = getFlightWithId(flightIdNum);
+        flight.setFlightNumber(newFlightNum);
+        return flight.getFlightId();
+    }
+    
+    @Override
+    public Long changeFlightRoute(Long flightIdNum, Long newFlightRouteId, Long oldFlightRouteId) {
+                
+        Flight flight = getFlightWithId(flightIdNum);
+        // to desynch first
+        FlightRoute Oldfr = em.find(FlightRoute.class, oldFlightRouteId);
+        List<Flight> listOfFlights = Oldfr.getListOfFlights();
+        List<Flight> listOfFlightAfterRemoval = new ArrayList<>();
+        for (int i = 0; i < listOfFlights.size(); i ++) {
+            if (listOfFlights.get(i).getFlightId() != flightIdNum) {
+                listOfFlightAfterRemoval.add(listOfFlights.get(i));
+            }
+        }
+        Oldfr.setListOfFlights(listOfFlightAfterRemoval);
+        
+        //synch new one
+        FlightRoute Newfr = em.find(FlightRoute.class, newFlightRouteId);
+        List<Flight> listOfFlightsNew = Newfr.getListOfFlights();
+        listOfFlightsNew.add(flight);
+        Newfr.setListOfFlights(listOfFlightsNew);
+        flight.setFlightRoute(Newfr);
+        return flight.getFlightId();
+    }
+    
+    @Override
+    public Long changeFlightConfig(Long flightIdNum, Long newFlightConfigId, Long oldFlightConfigId) {
+                
+        Flight flight = getFlightWithId(flightIdNum);
+        // to desynch first
+        AircraftConfiguration OldAC = em.find(AircraftConfiguration.class, oldFlightConfigId);
+        List<Flight> listOfFlights = OldAC.getListOfFlights();
+        List<Flight> listOfFlightAfterRemoval = new ArrayList<>();
+        for (int i = 0; i < listOfFlights.size(); i ++) {
+            if (listOfFlights.get(i).getFlightId() != flightIdNum) {
+                listOfFlightAfterRemoval.add(listOfFlights.get(i));
+            }
+        }
+        OldAC.setListOfFlights(listOfFlightAfterRemoval);
+        
+        //synch new one
+        AircraftConfiguration NewAC = em.find(AircraftConfiguration.class, newFlightConfigId);
+        List<Flight> listOfFlightsNew = NewAC.getListOfFlights();
+        listOfFlightsNew.add(flight);
+        NewAC.setListOfFlights(listOfFlightsNew);
+        flight.setAircraftConfig(NewAC);
+        return flight.getFlightId();
+    }
 }
