@@ -30,6 +30,9 @@ public class Cabin implements Serializable {
     private Long cabinId;
     @Column(length = 32, nullable = false)
     private String cabinClassName;
+    private Integer availableSeats;
+    private Integer reservedSeats;
+    private Integer totalSeats;
     
     @Column(nullable = false)
     @Min(value = 0)
@@ -56,7 +59,14 @@ public class Cabin implements Serializable {
         this.numOfIsles = numOfIsles;
         this.numOfRows = numOfRows;
         this.seatingConfiguration = seatingConfiguration;
-        this.aircraftConfiguration = new AircraftConfiguration();  
+        this.aircraftConfiguration = new AircraftConfiguration();
+        int colm = 0;
+        for (int i = 0; i < seatingConfiguration.length; i ++) {
+            colm += seatingConfiguration[i];
+        }
+        this.availableSeats = numOfRows * colm;
+        this.totalSeats = numOfRows * colm;
+        this.reservedSeats = 0;
     }
 
     
@@ -163,5 +173,53 @@ public class Cabin implements Serializable {
     public void setSeatingConfiguration(Integer[] seatingConfiguration) {
         this.seatingConfiguration = seatingConfiguration;
     }
+
+    /**
+     * @return the availableSeats
+     */
+    public Integer getAvailableSeats() {
+        return availableSeats;
+    }
+
+    /**
+     * @param availableSeats the availableSeats to set
+     */
+    public void setAvailableSeats(Integer availableSeats) {
+        this.availableSeats = availableSeats;
+    }
+
+    /**
+     * @return the reservedSeats
+     */
+    public Integer getReservedSeats() {
+        return reservedSeats;
+    }
+
+    /**
+     * @param reservedSeats the reservedSeats to set
+     */
+    public void setReservedSeats(Integer reservedSeats) {
+        this.reservedSeats = reservedSeats;
+    }
+
+    /**
+     * @return the totalSeats
+     */
+    public Integer getTotalSeats() {
+        return totalSeats;
+    }
+
+    /**
+     * @param totalSeats the totalSeats to set
+     */
+    public void setTotalSeats(Integer totalSeats) {
+        this.totalSeats = totalSeats;
+    }
+
+    public void bookSeat(Integer num) {
+        this.reservedSeats += num;
+        this.availableSeats -= num;
+    }
+    
     
 }

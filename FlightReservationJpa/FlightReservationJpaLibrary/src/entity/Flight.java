@@ -35,7 +35,7 @@ public class Flight implements Serializable {
     @Column(length = 32, nullable = false)
     private String prefix; 
     @Column(nullable = false, unique = true, length = 4)
-    private Integer flightNumber; 
+    private Integer flightNumber;
     
     @ManyToOne
     private FlightRoute flightRoute;
