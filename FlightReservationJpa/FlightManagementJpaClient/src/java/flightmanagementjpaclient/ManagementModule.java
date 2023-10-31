@@ -112,15 +112,7 @@ public class ManagementModule {
             if (response == 1) {
                 createFlightRoute(sc);
             } else if (response == 2) {
-<<<<<<< HEAD
-//                List<FlightRoute> flightRoutes = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
-//                for (FlightRoute flightRoute: flightRoutes) {
-//                    System.out.println(flightRoute.)
-//                }
-                System.out.println("2");
-=======
                 viewFlightRoutes(sc);
->>>>>>> origin/FlightManagement/Fix/FlightRoute
             } else if (response == 3) {
                 deleteFlightRoute(sc);
             } else if (response == 4) {
@@ -195,9 +187,6 @@ public class ManagementModule {
             }
         }
     }
-<<<<<<< HEAD
-
-=======
      
     public void viewFlightRoutes(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED VIEW FLIGHT ROUTE ***\n");
@@ -218,7 +207,6 @@ public class ManagementModule {
         }
     }
      
->>>>>>> origin/FlightManagement/Fix/FlightRoute
     public void deleteFlightRoute(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED DELETE FLIGHT ROUTE ***\n");
         Integer response;
@@ -416,7 +404,6 @@ public class ManagementModule {
         Integer flightNum = sc.nextInt();
         sc.nextLine();
         System.out.println("");
-<<<<<<< HEAD
         System.out.println("*** SELECT FLIGHT ROUTE ***\n");
 //        List<FlightRoute> listOfFlightRoute = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
 //        for (int i = 0; i < listOfFlightRoute.size(); i++) {
@@ -425,7 +412,6 @@ public class ManagementModule {
 //            System.out.println("Destination: " + listOfFlightRoute.get(i).getOriginDestAirport().second());
 //            System.out.println("");
 //        }
-=======
         System.out.println("*** SELECT FLIGHT ROUTE ***\n"); 
         List<FlightRoute> listOfFlightRoute = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
         for (int i = 0; i < listOfFlightRoute.size(); i++) {
@@ -434,7 +420,7 @@ public class ManagementModule {
             System.out.println("Destination: " + listOfFlightRoute.get(i).getDestination().getName());
             System.out.println("");
         }
->>>>>>> origin/FlightManagement/Fix/FlightRoute
+        
         System.out.print("Enter Flight Route ID> ");
         int flightRoute = sc.nextInt();
         sc.nextLine();
