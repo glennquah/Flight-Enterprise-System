@@ -11,6 +11,8 @@ import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import ejb.session.stateless.FlightRoutesSessionBeanRemote;
+import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
+import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
 import java.util.Scanner;
 import util.exception.InvalidLoginCredentialException;
@@ -28,6 +30,8 @@ public class MainApp {
     private FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote;
     private AirportSessionBeanRemote airportSessionBeanRemote;
     private FlightSessionBeanRemote flightSessionBeanRemote;
+    private FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
+    private FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote;
             
 
     public MainApp() {
@@ -40,7 +44,9 @@ public class MainApp {
                    CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote,
                    FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote,
                    AirportSessionBeanRemote airportSessionBeanRemote,
-                   FlightSessionBeanRemote flightSessionBeanRemote) {
+                   FlightSessionBeanRemote flightSessionBeanRemote,
+                   FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote,
+                   FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote) {
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
         this.aircraftSessionBeanRemote = aircraftSessionBeanRemote;
@@ -49,6 +55,8 @@ public class MainApp {
         this.flightRoutesSessionBeanRemote = flightRoutesSessionBeanRemote;
         this.airportSessionBeanRemote = airportSessionBeanRemote;
         this.flightSessionBeanRemote = flightSessionBeanRemote;
+        this.flightScheduleSessionBeanRemote = flightScheduleSessionBeanRemote;
+        this.flightSchedulePlanSessionBeanRemote = flightSchedulePlanSessionBeanRemote;
     }
     
     public void runApp() {
@@ -81,7 +89,9 @@ public class MainApp {
                                                                                  cabinCustomerSessionBeanRemote,
                                                                                  flightRoutesSessionBeanRemote,
                                                                                  airportSessionBeanRemote,
-                                                                                 flightSessionBeanRemote);
+                                                                                 flightSessionBeanRemote,
+                                                                                 flightScheduleSessionBeanRemote,
+                                                                                 flightSchedulePlanSessionBeanRemote);
                         managementModule.adminLoginPage();
                     }
                     catch(InvalidLoginCredentialException ex) 

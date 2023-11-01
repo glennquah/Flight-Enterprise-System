@@ -9,11 +9,11 @@ import ejb.session.stateless.AirportSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import ejb.session.stateless.FlightRoutesSessionBeanRemote;
+import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import entity.Aircraft;
 import entity.Airport;
 import entity.Customer;
 import entity.Employee;
-import entity.FlightRoute;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -48,7 +48,8 @@ public class DataInitSessionBean {
     @EJB(name = "CustomerSessionBeanRemote")
     private CustomerSessionBeanRemote customerSessionBeanRemote;
     
-    
+    @EJB
+    private FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
 
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;

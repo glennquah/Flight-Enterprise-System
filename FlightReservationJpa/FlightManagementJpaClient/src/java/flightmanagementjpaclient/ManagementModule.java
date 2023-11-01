@@ -11,6 +11,8 @@ import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import ejb.session.stateless.FlightRoutesSessionBeanRemote;
+import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
+import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
 import entity.Aircraft;
 import entity.AircraftConfiguration;
@@ -18,11 +20,16 @@ import entity.Airport;
 import entity.Cabin;
 import entity.Flight;
 import entity.FlightRoute;
+import entity.FlightSchedule;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
+import java.time.format.DateTimeParseException;
 import util.exception.AirportDoesNotExistException;
 import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
+import util.exception.InvalidInputException;
 
 /**
  *
@@ -39,6 +46,8 @@ public class ManagementModule {
     private FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote;
     private AirportSessionBeanRemote airportSessionBeanRemote;
     private FlightSessionBeanRemote flightSessionBeanRemote;
+    private FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
+    private FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote;
 
     public ManagementModule() {
     }
@@ -51,7 +60,9 @@ public class ManagementModule {
             CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote,
             FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote,
             AirportSessionBeanRemote airportSessionBeanRemote,
-            FlightSessionBeanRemote flightSessionBeanRemote) {
+            FlightSessionBeanRemote flightSessionBeanRemote,
+            FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote,
+            FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote) {
         this.employeeId = employeeId;
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
@@ -61,6 +72,8 @@ public class ManagementModule {
         this.flightRoutesSessionBeanRemote = flightRoutesSessionBeanRemote;
         this.airportSessionBeanRemote = airportSessionBeanRemote;
         this.flightSessionBeanRemote = flightSessionBeanRemote;
+        this.flightScheduleSessionBeanRemote = flightScheduleSessionBeanRemote;
+        this.flightSchedulePlanSessionBeanRemote = flightSchedulePlanSessionBeanRemote;
     }
 
     //=================================================ADMIN PAGE================================================================
@@ -566,6 +579,102 @@ public class ManagementModule {
         }
         
         System.out.println("UPDATING DONE!\n");
+    }
+    
+    //=================================================FLIGHT SCHEDULE PLAN================================================================
+    
+     public void flightSchedule(Scanner sc) {
+        System.out.println("*** YOU HAVE PICKED FLIGHT SCHEDULE PLAN ***\n");
+        Integer response;
+        while(true) {
+            System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
+            System.out.println("1: Create New Flight Schedule Plan ");
+            System.out.println("2: View All Flight Schdule Plan");
+            System.out.println("3: View Flight Schdule Plan Details");
+            System.out.println("4: Update Flight Schedule Plan");
+            System.out.println("5: Delete Flight Schedule Plan");
+            System.out.println("6: Back\n");
+
+            System.out.print("> ");
+            response = sc.nextInt();
+            sc.nextLine();
+            if(response == 1) {
+                createFlightSchedulePlan(sc);
+            } else if (response == 2) {
+                   System.out.println("2");
+            } else if (response == 3) {
+                deleteFlightRoute(sc);
+            } else if (response == 4) {
+                break;
+            } else if (response == 5) {
+                break;
+            } else if (response == 6) {
+                break;
+            } else {
+                System.out.println("Invalid option, please try again!\n");
+            }
+        }
+    }
+     
+    public void createFlightSchedulePlan(Scanner sc) throws InvalidInputException {
+        System.out.println("*** YOU HAVE PICKED CREATE FLIGHT SCHEDULE PLAN ***\n");
+        Integer response;
+        while(true) {
+            System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
+            System.out.println("1: Create new single flight schedule ");
+            System.out.println("2: Create new multiple flight schedules ");
+            System.out.println("3: Create new recurrent flight schedules every n day ");
+            System.out.println("4: Create new recurrent flight schedules every week ");
+            System.out.println("5: Back\n");
+
+            System.out.print("> ");
+            response = sc.nextInt();
+            sc.nextLine();
+            
+            if(response == 1) {
+                System.out.println("*** PLEASE ENTER THE FLIGHT NUMBER, DEPARTURE DETAILS AND FLIGHT DURATION ***\n");
+                System.out.println("Enter Flight Number ");
+                System.out.print("> ");
+                Long flightNumber = sc.nextLong();
+                System.out.println("Enter DEPARTURE DATE AND TIME (yyyy-MM-dd HH:mm)");
+                System.out.print("> ");
+                try {
+                    LocalDateTime departureDateTime = LocalDateTime.parse(sc.nextLine());
+                    System.out.println("Enter DURATION (HH:mm)");
+                    System.out.print("> ");
+                    String[] durationDetails = sc.nextLine().split(":");
+
+                    int hours = Integer.parseInt(durationDetails[0]);
+                    int minutes = Integer.parseInt(durationDetails[1]);
+                    Duration duration = Duration.ofHours(hours).plusMinutes(minutes);
+
+                    flightSchedulePlanSessionBeanRemote.createSingleFlightSchedulePlan(flightNumber, new FlightSchedule(departureDateTime, duration));
+                } catch (DateTimeParseException e) {
+                    throw new InvalidInputException("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
+                } catch (NumberFormatException e) {
+                    throw new InvalidInputException("Invalid number format. Please enter numeric values for hours and minutes.");
+                }
+            } else if (response == 2) {
+                System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
+                System.out.println("Enter Origin Airport ID ");
+                System.out.print("> ");
+                Long originAirport = sc.nextLong();
+                System.out.println("Enter Destination Airport ID ");
+                System.out.print("> ");
+                Long destAirport = sc.nextLong();
+                
+                try {
+                    Long flightRouteId = flightRoutesSessionBeanRemote.createNewFlightRouteWithReturn(originAirport, destAirport);
+                    System.out.println("Successfully created Flight Route with ID: " + flightRouteId + "!");
+                } catch (AirportDoesNotExistException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            } else if (response == 3) {
+                break;
+            } else {
+                System.out.println("Invalid option, please try again!\n");
+            }
+        }
     }
 
 }

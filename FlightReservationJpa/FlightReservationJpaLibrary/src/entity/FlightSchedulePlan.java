@@ -37,8 +37,8 @@ public class FlightSchedulePlan implements Serializable {
     @ManyToOne
     private Flight flight;
     
-    @ManyToOne
-    private FlightSchedule flightSchedule;
+    @OneToMany(mappedBy="FlightSchedulePlan")
+    private List<FlightSchedule> flightSchedules;
 
     public FlightSchedulePlan() {
     }
