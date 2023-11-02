@@ -4,10 +4,10 @@
  */
 package ejb.session.stateless;
 
-import entity.Airport;
-import entity.FlightRoute;
+import entity.Flight;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,7 +15,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.AirportDoesNotExistException;
-import util.exception.FlightRouteAlreadyExistException;
+import util.exception.ConflictingFlightScheduleException;
 
 /**
  *
@@ -30,25 +30,98 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
-    public Long createSingleFlightSchedulePlan(Long flightNumber, FlightSchedule flightSchedule) {
+    public Long createSingleFlightSchedulePlan(FlightSchedulePlan flightSchedulePlan, Long flightScheduleid) throws AirportDoesNotExistException, ConflictingFlightScheduleException {
         try {
-            Query query = em.createQuery("SELECT f FROM FlightSchedulePlan f WHERE f.flightNumber = :flightNumber");
-            query.setParameter("flightNumber", flightNumber);
-            List<FlightSchedulePlan> flightSchedulePlans = (List<FlightSchedulePlan>)query.getResultList();
+            Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
+            query.setParameter("flightNumber", flightSchedulePlan.getFlightNumber());
+            Flight flight = (Flight)query.getSingleResult();
 
-            for (FlightSchedulePlan f:flightSchedulePlans) {
-                if (f.getOrigin() == airportOne && f.getDestination() == airportTwo) {
-                    throw new FlightRouteAlreadyExistException("Flight route already exist!");
-                } else if(f.getOrigin() == airportTwo && f.getDestination() == airportOne && f.getComplementaryRoute()) {
-                    throw new FlightRouteAlreadyExistException("Flight route already exist!");
+            FlightSchedule flightSchedule = em.find(FlightSchedule.class, flightScheduleid);
+            
+            Date departureDateTime = flightSchedule.getDepartureDateTime();
+            List<Date> bookedDates = flight.getBookedDates();
+            
+            if (bookedDates.size() == 0) {
+                bookedDates.add(departureDateTime);
+                bookedDates.add(flightSchedule.getArrivalDateTime());
+                flight.setBookedDates(bookedDates);
+                
+                List<FlightSchedulePlan> listOfFlightSchedulePlans = flight.getListOfFlightSchedulePlans();
+                listOfFlightSchedulePlans.add(flightSchedulePlan);
+                flight.setListOfFlightSchedulePlans(listOfFlightSchedulePlans);
+                
+                flightSchedulePlan.setFlight(flight);
+                flightSchedule.setFlightSchedulePlan(flightSchedulePlan);
+                
+                List<FlightSchedule> flightSchedules = flightSchedulePlan.getFlightSchedules();
+                flightSchedules.add(flightSchedule);
+                flightSchedulePlan.setFlightSchedules(flightSchedules);
+                
+                em.persist(flightSchedulePlan);
+                em.flush();
+            } else if (departureDateTime.before(bookedDates.get(0))) {
+                bookedDates.add(departureDateTime);
+                bookedDates.add(flightSchedule.getArrivalDateTime());
+                flight.setBookedDates(bookedDates);
+                
+                List<FlightSchedulePlan> listOfFlightSchedulePlans = flight.getListOfFlightSchedulePlans();
+                listOfFlightSchedulePlans.add(flightSchedulePlan);
+                flight.setListOfFlightSchedulePlans(listOfFlightSchedulePlans);
+                
+                flightSchedulePlan.setFlight(flight);
+                flightSchedule.setFlightSchedulePlan(flightSchedulePlan);
+                
+                List<FlightSchedule> flightSchedules = flightSchedulePlan.getFlightSchedules();
+                flightSchedules.add(flightSchedule);
+                flightSchedulePlan.setFlightSchedules(flightSchedules);
+                
+                em.persist(flightSchedulePlan);
+                em.flush();
+            } else if (departureDateTime.after(bookedDates.get(bookedDates.size() - 1))) {
+                bookedDates.add(departureDateTime);
+                bookedDates.add(flightSchedule.getArrivalDateTime());
+                flight.setBookedDates(bookedDates);
+                
+                List<FlightSchedulePlan> listOfFlightSchedulePlans = flight.getListOfFlightSchedulePlans();
+                listOfFlightSchedulePlans.add(flightSchedulePlan);
+                flight.setListOfFlightSchedulePlans(listOfFlightSchedulePlans);
+                
+                flightSchedulePlan.setFlight(flight);
+                flightSchedule.setFlightSchedulePlan(flightSchedulePlan);
+                
+                List<FlightSchedule> flightSchedules = flightSchedulePlan.getFlightSchedules();
+                flightSchedules.add(flightSchedule);
+                flightSchedulePlan.setFlightSchedules(flightSchedules);
+                
+                em.persist(flightSchedulePlan);
+                em.flush();
+            } else {
+                for (int i = 1; i < bookedDates.size() - 1; i += 2) {
+                    if (bookedDates.get(i).before(departureDateTime)) {
+                        throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
+                    }
                 }
+                
+                bookedDates.add(departureDateTime);
+                bookedDates.add(flightSchedule.getArrivalDateTime());
+                flight.setBookedDates(bookedDates);
+                
+                List<FlightSchedulePlan> listOfFlightSchedulePlans = flight.getListOfFlightSchedulePlans();
+                listOfFlightSchedulePlans.add(flightSchedulePlan);
+                flight.setListOfFlightSchedulePlans(listOfFlightSchedulePlans);
+                
+                flightSchedulePlan.setFlight(flight);
+                flightSchedule.setFlightSchedulePlan(flightSchedulePlan);
+                
+                List<FlightSchedule> flightSchedules = flightSchedulePlan.getFlightSchedules();
+                flightSchedules.add(flightSchedule);
+                flightSchedulePlan.setFlightSchedules(flightSchedules);
+                
+                em.persist(flightSchedulePlan);
+                em.flush();
             }
             
-            FlightRoute newFlightRoute = new FlightRoute(airportOne, airportTwo);
-            em.persist(newFlightRoute);
-            em.flush();
-            
-            return newFlightRoute.getFlightRouteId();
+            return flightSchedule.getFlightScheduleId();
         } catch (NoResultException ex) {
             throw new AirportDoesNotExistException("Aiport does not exist!");
         }

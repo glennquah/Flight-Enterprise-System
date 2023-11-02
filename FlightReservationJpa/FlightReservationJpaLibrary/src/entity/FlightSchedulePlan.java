@@ -5,20 +5,15 @@
 package entity;
 
 import java.io.Serializable;
-import java.sql.Time;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.Future;
 
 /**
  *
@@ -32,7 +27,7 @@ public class FlightSchedulePlan implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long flightSchedulePlanId;
     @Column(length = 32, nullable = false)
-    private String flightNumber;
+    private Integer flightNumber;
     
     @ManyToOne
     private Flight flight;
@@ -41,7 +36,20 @@ public class FlightSchedulePlan implements Serializable {
     private List<FlightSchedule> flightSchedules;
 
     public FlightSchedulePlan() {
+        
     }
+
+    public FlightSchedulePlan(Integer flightNumber) {
+        this.flightNumber = flightNumber;
+        this.flightSchedules = new ArrayList<>();
+    }
+
+    public FlightSchedulePlan(Integer flightNumber, FlightSchedule flightSchedule) {
+        this.flightNumber = flightNumber;
+        flightSchedules.add(flightSchedule);
+        this.flightSchedules = flightSchedules;
+    }
+    
 
     public Long getFlightSchedulePlanId() {
         return flightSchedulePlanId;
@@ -76,19 +84,22 @@ public class FlightSchedulePlan implements Serializable {
         return "entity.FlightSchedulePlan[ id=" + flightSchedulePlanId + " ]";
     }
 
-    /**
-     * @return the flightNumber
-     */
-    public String getFlightNumber() {
+    public Integer getFlightNumber() {
         return flightNumber;
     }
 
-    /**
-     * @param flightNumber the flightNumber to set
-     */
-    public void setFlightNumber(String flightNumber) {
+    public void setFlightNumber(Integer flightNumber) {
         this.flightNumber = flightNumber;
     }
+
+    public List<FlightSchedule> getFlightSchedules() {
+        return flightSchedules;
+    }
+
+    public void setFlightSchedules(List<FlightSchedule> flightSchedules) {
+        this.flightSchedules = flightSchedules;
+    }
+
 
     /**
      * @return the flight

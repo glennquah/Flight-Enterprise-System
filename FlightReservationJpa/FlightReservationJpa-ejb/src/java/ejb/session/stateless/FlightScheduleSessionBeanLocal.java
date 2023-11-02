@@ -13,6 +13,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface FlightScheduleSessionBeanLocal {
-    public Long createNewFlightSchedule(FlightSchedule flightSchedule);
+    public FlightSchedule createNewFlightSchedule(FlightSchedule flightSchedule);
     
 }

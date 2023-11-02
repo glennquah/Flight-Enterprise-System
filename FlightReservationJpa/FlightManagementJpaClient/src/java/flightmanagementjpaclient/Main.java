@@ -15,6 +15,8 @@ import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
 import javax.ejb.EJB;
+import util.exception.AirportDoesNotExistException;
+import util.exception.InvalidInputException;
 
 /**
  *
@@ -52,7 +54,7 @@ public class Main {
     @EJB(name = "FlightSchedulePlanSessionBeanRemote")
     private static FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote;
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         MainApp mainApp = new MainApp(employeeSessionBeanRemote, customerSessionBeanRemote, 
                     aircraftSessionBeanRemote, aircraftConfigurationSessionBeanRemote, 
                     cabinCustomerSessionBeanRemote, flightRoutesSessionBeanRemote, 

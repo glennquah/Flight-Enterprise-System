@@ -29,10 +29,10 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
-    public Long createNewFlightSchedule(FlightSchedule flightSchedule) {
+    public FlightSchedule createNewFlightSchedule(FlightSchedule flightSchedule) {
         em.persist(flightSchedule);
         em.flush();
         
-        return flightSchedule.getFlightScheduleId();
+        return flightSchedule;
     }
 }

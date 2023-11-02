@@ -21,12 +21,17 @@ import entity.Cabin;
 import entity.Flight;
 import entity.FlightRoute;
 import entity.FlightSchedule;
+import entity.FlightSchedulePlan;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Date;
 import util.exception.AirportDoesNotExistException;
+import util.exception.ConflictingFlightScheduleException;
 import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
 import util.exception.InvalidInputException;
@@ -77,7 +82,7 @@ public class ManagementModule {
     }
 
     //=================================================ADMIN PAGE================================================================
-    public void adminLoginPage() {
+    public void adminLoginPage() throws InvalidInputException, ParseException, AirportDoesNotExistException, ConflictingFlightScheduleException {
         Scanner sc = new Scanner(System.in);
         System.out.println("*** SUCCESSFULLY LOGIN! *** \n");
         Integer response;
@@ -99,7 +104,7 @@ public class ManagementModule {
             } else if (response == 3) {
                 flightOptions(sc);
             } else if (response == 4) {
-//                flightSchedule(sc);
+                flightSchedule(sc);
             } else if (response == 5) {
                 break;
             } else {
@@ -583,7 +588,7 @@ public class ManagementModule {
     
     //=================================================FLIGHT SCHEDULE PLAN================================================================
     
-     public void flightSchedule(Scanner sc) {
+     public void flightSchedule(Scanner sc) throws InvalidInputException, ParseException, AirportDoesNotExistException, ConflictingFlightScheduleException {
         System.out.println("*** YOU HAVE PICKED FLIGHT SCHEDULE PLAN ***\n");
         Integer response;
         while(true) {
@@ -616,7 +621,7 @@ public class ManagementModule {
         }
     }
      
-    public void createFlightSchedulePlan(Scanner sc) throws InvalidInputException {
+    public void createFlightSchedulePlan(Scanner sc) throws InvalidInputException, ParseException, AirportDoesNotExistException, ConflictingFlightScheduleException {
         System.out.println("*** YOU HAVE PICKED CREATE FLIGHT SCHEDULE PLAN ***\n");
         Integer response;
         while(true) {
@@ -629,17 +634,20 @@ public class ManagementModule {
 
             System.out.print("> ");
             response = sc.nextInt();
-            sc.nextLine();
+//            sc.nextLine();
             
             if(response == 1) {
                 System.out.println("*** PLEASE ENTER THE FLIGHT NUMBER, DEPARTURE DETAILS AND FLIGHT DURATION ***\n");
                 System.out.println("Enter Flight Number ");
                 System.out.print("> ");
-                Long flightNumber = sc.nextLong();
-                System.out.println("Enter DEPARTURE DATE AND TIME (yyyy-MM-dd HH:mm)");
-                System.out.print("> ");
+                Integer flightNumber = sc.nextInt();
+                
                 try {
-                    LocalDateTime departureDateTime = LocalDateTime.parse(sc.nextLine());
+                    System.out.println("Enter DEPARTURE DATE AND TIME (yyyy-MM-dd HH:mm)");
+                    System.out.print("> ");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    sc.nextLine();
+                    Date departureDateTime = dateFormat.parse(sc.nextLine());
                     System.out.println("Enter DURATION (HH:mm)");
                     System.out.print("> ");
                     String[] durationDetails = sc.nextLine().split(":");
@@ -647,33 +655,39 @@ public class ManagementModule {
                     int hours = Integer.parseInt(durationDetails[0]);
                     int minutes = Integer.parseInt(durationDetails[1]);
                     Duration duration = Duration.ofHours(hours).plusMinutes(minutes);
-
-                    flightSchedulePlanSessionBeanRemote.createSingleFlightSchedulePlan(flightNumber, new FlightSchedule(departureDateTime, duration));
+                    FlightSchedule flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(new FlightSchedule(departureDateTime, duration));
+                    
+                    FlightSchedulePlan flightSchedulePlan = new FlightSchedulePlan(flightNumber);
+                    List<FlightSchedule> listOfFLightSchedules = flightSchedulePlan.getFlightSchedules();
+                    //listOfFLightSchedules.add(flightSchedule);
+                    
+                    flightSchedulePlanSessionBeanRemote.createSingleFlightSchedulePlan(flightSchedulePlan, flightSchedule.getFlightScheduleId());
                 } catch (DateTimeParseException e) {
                     throw new InvalidInputException("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
                 } catch (NumberFormatException e) {
                     throw new InvalidInputException("Invalid number format. Please enter numeric values for hours and minutes.");
                 }
-            } else if (response == 2) {
-                System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
-                System.out.println("Enter Origin Airport ID ");
-                System.out.print("> ");
-                Long originAirport = sc.nextLong();
-                System.out.println("Enter Destination Airport ID ");
-                System.out.print("> ");
-                Long destAirport = sc.nextLong();
-                
-                try {
-                    Long flightRouteId = flightRoutesSessionBeanRemote.createNewFlightRouteWithReturn(originAirport, destAirport);
-                    System.out.println("Successfully created Flight Route with ID: " + flightRouteId + "!");
-                } catch (AirportDoesNotExistException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            } else if (response == 3) {
-                break;
-            } else {
-                System.out.println("Invalid option, please try again!\n");
             }
+//            } else if (response == 2) {
+//                System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
+//                System.out.println("Enter Origin Airport ID ");
+//                System.out.print("> ");
+//                Long originAirport = sc.nextLong();
+//                System.out.println("Enter Destination Airport ID ");
+//                System.out.print("> ");
+//                Long destAirport = sc.nextLong();
+//                
+//                try {
+//                    Long flightRouteId = flightRoutesSessionBeanRemote.createNewFlightRouteWithReturn(originAirport, destAirport);
+//                    System.out.println("Successfully created Flight Route with ID: " + flightRouteId + "!");
+//                } catch (AirportDoesNotExistException ex) {
+//                    System.out.println(ex.getMessage());
+//                }
+//            } else if (response == 3) {
+//                break;
+//            } else {
+//                System.out.println("Invalid option, please try again!\n");
+//            }
         }
     }
 

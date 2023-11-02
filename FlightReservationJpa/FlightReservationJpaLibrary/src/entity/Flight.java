@@ -5,7 +5,9 @@
 package entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -13,13 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.Future;
 
 /**
  *
@@ -36,6 +33,8 @@ public class Flight implements Serializable {
     private String prefix; 
     @Column(nullable = false, unique = true, length = 4)
     private Integer flightNumber;
+    @Column(nullable = false)
+    private List<Date> bookedDates;
     
     @ManyToOne
     private FlightRoute flightRoute;
@@ -47,7 +46,7 @@ public class Flight implements Serializable {
     private List<ReservationDetails> listOfReservationDetails;
     
     @OneToMany(mappedBy = "Flight")
-    private List<FlightSchedule> listOfFlightSchedules;
+    private List<FlightSchedulePlan> listOfFlightSchedulePlans;
 
     public Flight() {
     }
@@ -55,13 +54,21 @@ public class Flight implements Serializable {
     public Flight(Integer flightNumber) {
         this.flightNumber = flightNumber;
         this.prefix = "IATA";
+        this.bookedDates = new ArrayList<Date>();
         this.flightRoute = new FlightRoute();
         this.aircraftConfig = new AircraftConfiguration();
         this.listOfReservationDetails = new ArrayList<ReservationDetails>();
-        this.listOfFlightSchedules = new ArrayList<FlightSchedule>();
+        this.listOfFlightSchedulePlans = new ArrayList<FlightSchedulePlan>();
     }
-    
-    
+
+    public List<Date> getBookedDates() {
+        return bookedDates;
+    }
+
+    public void setBookedDates(List<Date> bookedDates) {
+        Collections.sort(bookedDates);
+        this.bookedDates = bookedDates;
+    }
 
     public FlightRoute getFlightRoute() {
         return flightRoute;
@@ -70,7 +77,6 @@ public class Flight implements Serializable {
     public void setFlightRoute(FlightRoute flightRoute) {
         this.flightRoute = flightRoute;
     }
-
     
 
     public List<ReservationDetails> getListOfReservationDetails() {
@@ -114,18 +120,12 @@ public class Flight implements Serializable {
         return "entity.Flight[ id=" + flightId + " ]";
     }
 
-    /**
-     * @return the listOfFlightSchedules
-     */
-    public List<FlightSchedule> getListOfFlightSchedules() {
-        return listOfFlightSchedules;
+    public List<FlightSchedulePlan> getListOfFlightSchedulePlans() {
+        return listOfFlightSchedulePlans;
     }
 
-    /**
-     * @param listOfFlightSchedules the listOfFlightSchedules to set
-     */
-    public void setListOfFlightSchedules(List<FlightSchedule> listOfFlightSchedules) {
-        this.listOfFlightSchedules = listOfFlightSchedules;
+    public void setListOfFlightSchedulePlans(List<FlightSchedulePlan> listOfFlightSchedulePlans) {
+        this.listOfFlightSchedulePlans = listOfFlightSchedulePlans;
     }
 
     /**

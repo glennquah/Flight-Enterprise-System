@@ -4,7 +4,10 @@
  */
 package ejb.session.stateless;
 
+import entity.FlightSchedulePlan;
 import javax.ejb.Remote;
+import util.exception.AirportDoesNotExistException;
+import util.exception.ConflictingFlightScheduleException;
 
 /**
  *
@@ -12,5 +15,5 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface FlightSchedulePlanSessionBeanRemote {
-    
+    public Long createSingleFlightSchedulePlan(FlightSchedulePlan flightSchedulePlan, Long flightScheduleid) throws AirportDoesNotExistException, ConflictingFlightScheduleException;
 }

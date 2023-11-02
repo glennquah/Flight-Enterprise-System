@@ -13,5 +13,5 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface FlightScheduleSessionBeanRemote {
-    public Long createNewFlightSchedule(FlightSchedule flightSchedule);
+    public FlightSchedule createNewFlightSchedule(FlightSchedule flightSchedule);
 }

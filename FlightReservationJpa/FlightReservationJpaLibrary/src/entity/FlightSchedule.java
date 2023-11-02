@@ -5,19 +5,16 @@
 package entity;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAmount;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Future;
@@ -36,25 +33,26 @@ public class FlightSchedule implements Serializable {
     @Future
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private LocalDateTime departureDateTime;
+    private Date departureDateTime;
     @Column(nullable = false)
     private Duration estimatedTime;
     @Future
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private LocalDateTime arrivalDateTime;
+    private Date arrivalDateTime;
     
-    @OneToMany(mappedBy = "FlightSchedule")
-    private List<FlightSchedulePlan> listOfFlightSchedulePlans;
+    @ManyToOne
+    private FlightSchedulePlan flightSchedulePlan;
 
     public FlightSchedule() {
     }
 
-    public FlightSchedule(LocalDateTime departureDateTime, Duration estimatedTime) {
+    public FlightSchedule(Date departureDateTime, Duration estimatedTime) {
         this.departureDateTime = departureDateTime;
         this.estimatedTime = estimatedTime;
-        this.arrivalDateTime = departureDateTime.plus((TemporalAmount) estimatedTime);
-        this.listOfFlightSchedulePlans = new ArrayList<FlightSchedulePlan>();
+        
+        Instant instant = departureDateTime.toInstant();
+        this.arrivalDateTime = Date.from(instant.plus(estimatedTime));
     }
 
     public Long getFlightScheduleId() {
@@ -65,12 +63,20 @@ public class FlightSchedule implements Serializable {
         this.flightScheduleId = flightScheduleId;
     }
 
-    public LocalDateTime getDepartureDateTime() {
+    public Date getDepartureDateTime() {
         return departureDateTime;
     }
 
-    public void setDepartureDateTime(LocalDateTime departureDateTime) {
+    public void setDepartureDateTime(Date departureDateTime) {
         this.departureDateTime = departureDateTime;
+    }
+
+    public Date getArrivalDateTime() {
+        return arrivalDateTime;
+    }
+
+    public void setArrivalDateTime(Date arrivalDateTime) {
+        this.arrivalDateTime = arrivalDateTime;
     }
 
     public Duration getEstimatedTime() {
@@ -81,20 +87,12 @@ public class FlightSchedule implements Serializable {
         this.estimatedTime = estimatedTime;
     }
 
-    public LocalDateTime getArrivalDateTime() {
-        return arrivalDateTime;
+    public FlightSchedulePlan getFlightSchedulePlan() {
+        return flightSchedulePlan;
     }
 
-    public void setArrivalDateTime(LocalDateTime arrivalDateTime) {
-        this.arrivalDateTime = arrivalDateTime;
-    }
-
-    public List<FlightSchedulePlan> getListOfFlightSchedulePlans() {
-        return listOfFlightSchedulePlans;
-    }
-
-    public void setListOfFlightSchedulePlans(List<FlightSchedulePlan> listOfFlightSchedulePlans) {
-        this.listOfFlightSchedulePlans = listOfFlightSchedulePlans;
+    public void setFlightSchedulePlan(FlightSchedulePlan flightSchedulePlan) {
+        this.flightSchedulePlan = flightSchedulePlan;
     }
 
     @Override

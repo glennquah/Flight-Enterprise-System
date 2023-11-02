@@ -14,7 +14,11 @@ import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
+import java.text.ParseException;
 import java.util.Scanner;
+import util.exception.AirportDoesNotExistException;
+import util.exception.ConflictingFlightScheduleException;
+import util.exception.InvalidInputException;
 import util.exception.InvalidLoginCredentialException;
 
 /**
@@ -59,7 +63,7 @@ public class MainApp {
         this.flightSchedulePlanSessionBeanRemote = flightSchedulePlanSessionBeanRemote;
     }
     
-    public void runApp() {
+    public void runApp() throws AirportDoesNotExistException, InvalidInputException, ParseException, ConflictingFlightScheduleException {
         Scanner scanner = new Scanner(System.in);
         Long employeeId;
         Integer response;
