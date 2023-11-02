@@ -11,6 +11,8 @@ import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import ejb.session.stateless.FlightRoutesSessionBeanRemote;
+import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
+import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
 import entity.Customer;
 import java.util.Scanner;
@@ -30,6 +32,8 @@ public class MainApp {
     private FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote;
     private AirportSessionBeanRemote airportSessionBeanRemote;
     private FlightSessionBeanRemote flightSessionBeanRemote;
+    private FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
+    private FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote;
             
 
     public MainApp() {
@@ -42,7 +46,9 @@ public class MainApp {
                    CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote,
                    FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote,
                    AirportSessionBeanRemote airportSessionBeanRemote,
-                   FlightSessionBeanRemote flightSessionBeanRemote) {
+                   FlightSessionBeanRemote flightSessionBeanRemote,
+                   FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote,
+                   FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote) {
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
         this.aircraftSessionBeanRemote = aircraftSessionBeanRemote;
@@ -51,9 +57,11 @@ public class MainApp {
         this.flightRoutesSessionBeanRemote = flightRoutesSessionBeanRemote;
         this.airportSessionBeanRemote = airportSessionBeanRemote;
         this.flightSessionBeanRemote = flightSessionBeanRemote;
+        this.flightSchedulePlanSessionBeanRemote = flightSchedulePlanSessionBeanRemote;
+        this.flightScheduleSessionBeanRemote = flightScheduleSessionBeanRemote;
     }
     
-    public void runApp() {
+    public void runApp() throws Exception {
         Scanner scanner = new Scanner(System.in);
         Long customerId;
         Integer response;
@@ -84,7 +92,9 @@ public class MainApp {
                                                                     cabinCustomerSessionBeanRemote,
                                                                     flightRoutesSessionBeanRemote,
                                                                     airportSessionBeanRemote,
-                                                                    flightSessionBeanRemote);
+                                                                    flightSessionBeanRemote,
+                                                                    flightSchedulePlanSessionBeanRemote,
+                                                                    flightScheduleSessionBeanRemote);
                         resModule.customerLoginPage();
                     }
                     catch(InvalidLoginCredentialException ex) 
@@ -105,7 +115,9 @@ public class MainApp {
                                                                     cabinCustomerSessionBeanRemote,
                                                                     flightRoutesSessionBeanRemote,
                                                                     airportSessionBeanRemote,
-                                                                    flightSessionBeanRemote);
+                                                                    flightSessionBeanRemote,
+                                                                    flightSchedulePlanSessionBeanRemote,
+                                                                    flightScheduleSessionBeanRemote);
                         resModule.customerLoginPage();
                     }
                     catch(InvalidLoginCredentialException ex) 

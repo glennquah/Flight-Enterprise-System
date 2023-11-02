@@ -187,4 +187,14 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
             throw new NoResultException("Flight Does Not Exist");
         }
     }
+    
+    @Override
+    public List<Flight> retrieveFlightsThatHasDepAndDest(Long originAirport, Long destAirport) {
+        Airport ogAirport = em.find(Airport.class, originAirport);
+        Airport desAirport = em.find(Airport.class, destAirport);
+        Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute.origin = :origin AND f.flightRoute.destination = :destination");
+        query.setParameter("origin", ogAirport);
+        query.setParameter("destination", desAirport);
+        return (List<Flight>)query.getResultList();
+    }     
 }

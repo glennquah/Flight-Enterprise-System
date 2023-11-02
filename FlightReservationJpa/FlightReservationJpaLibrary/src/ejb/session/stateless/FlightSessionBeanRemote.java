@@ -26,4 +26,5 @@ public interface FlightSessionBeanRemote {
     public Long changeFlightNumber(Long flightIdNum, Integer newFlightNum) throws FlightDoesNotExist;
     public Long changeFlightRoute(Long flightIdNum, Long newFlightRouteId, Long oldFlightRouteId) throws FlightDoesNotExist;
     public Long changeFlightConfig(Long flightIdNum, Long newFlightConfigId, Long oldFlightConfigId) throws FlightDoesNotExist;
+    public List<Flight> retrieveFlightsThatHasDepAndDest(Long originAirport, Long destAirport);
 }

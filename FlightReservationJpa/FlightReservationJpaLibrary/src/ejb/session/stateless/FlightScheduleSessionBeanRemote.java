@@ -4,7 +4,10 @@
  */
 package ejb.session.stateless;
 
+import entity.Flight;
 import entity.FlightSchedule;
+import entity.FlightSchedulePlan;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**

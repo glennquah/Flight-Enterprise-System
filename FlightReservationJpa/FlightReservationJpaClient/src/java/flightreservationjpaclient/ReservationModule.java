@@ -11,8 +11,12 @@ import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import ejb.session.stateless.FlightRoutesSessionBeanRemote;
+import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
+import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
 import entity.Airport;
+import entity.Flight;
+import entity.FlightSchedulePlan;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +39,8 @@ public class ReservationModule {
     private FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote;
     private AirportSessionBeanRemote airportSessionBeanRemote;
     private FlightSessionBeanRemote flightSessionBeanRemote;
+    private FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote;
+    private FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
 
     public ReservationModule() {
     }
@@ -47,7 +53,9 @@ public class ReservationModule {
             CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote,
             FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote,
             AirportSessionBeanRemote airportSessionBeanRemote,
-            FlightSessionBeanRemote flightSessionBeanRemote) {
+            FlightSessionBeanRemote flightSessionBeanRemote,
+            FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote,
+            FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote) {
         this.customerId = customerId;
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
@@ -57,9 +65,11 @@ public class ReservationModule {
         this.flightRoutesSessionBeanRemote = flightRoutesSessionBeanRemote;
         this.airportSessionBeanRemote = airportSessionBeanRemote;
         this.flightSessionBeanRemote = flightSessionBeanRemote;
+        this.flightSchedulePlanSessionBeanRemote = flightSchedulePlanSessionBeanRemote;
+        this.flightScheduleSessionBeanRemote = flightScheduleSessionBeanRemote;
     }
     
-    public void customerLoginPage() {
+    public void customerLoginPage() throws Exception {
         Scanner sc = new Scanner(System.in);
         Integer response;
         while(true) {
@@ -86,7 +96,7 @@ public class ReservationModule {
     }
     
     // **************************************** RESERVE FLIGHT ***************************************************
-    public void reserveFlight(Scanner sc) {
+    public void reserveFlight(Scanner sc) throws Exception{
         System.out.println("\n*** YOU HAVE PICKED RESERVE FLIGHT ***");
         System.out.println("*** ENTER FLIGHT DETAILS ***\n");
         System.out.println("Trip Type: ");
@@ -108,14 +118,17 @@ public class ReservationModule {
         System.out.print("Enter Destination Airport ID> ");
         Long destAirport = sc.nextLong();
         sc.nextLine();
-        System.out.print("Enter Departure Date (in the format YYYY-MM-DD HH:MM)> ");
-        LocalDateTime departureDateTime = LocalDateTime.parse(sc.nextLine());
-
+        System.out.print("Enter Departure Date (in the format YYYY-MM-DD)> ");
+        //LocalDateTime departureDateTime = LocalDateTime.parse(sc.nextLine());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date departureDateTime = dateFormat.parse(sc.nextLine());
+        
+        //check
         System.out.println("Departure Date> " + departureDateTime);
     
         if (tripType == 2) {
             System.out.print("Enter Return Date (in the format YYYY-MM-DD)> ");
-            LocalDateTime returnDateTime = LocalDateTime.parse(sc.nextLine());
+            Date returnDateTime = dateFormat.parse(sc.nextLine());
         }
         
         System.out.print("Enter number of Passengers> ");
@@ -129,7 +142,16 @@ public class ReservationModule {
         int flightType = sc.nextInt();
         sc.nextLine();
         
+        //1. Get list of flights that have origin to destination the same as input
+        List<Flight> listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
+        System.out.println("FLIGHTID=" + listOfFlights.get(0).getFlightId());
         //PICK CABIN TYPE
+        
+        //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
+        List<FlightSchedulePlan> listOfFlightSchedulePlan = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
+        System.out.println("FLIGHTID=" + listOfFlightSchedulePlan.get(0).getFlightSchedulePlanId());
+        
+        //3. get list of flight schedule that has the same origin and destination
     }
     
     

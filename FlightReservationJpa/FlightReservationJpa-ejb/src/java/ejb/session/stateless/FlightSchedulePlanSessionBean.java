@@ -7,6 +7,7 @@ package ejb.session.stateless;
 import entity.Flight;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -125,6 +126,17 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
         } catch (NoResultException ex) {
             throw new AirportDoesNotExistException("Aiport does not exist!");
         }
+    }
+    
+    @Override
+    public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(List<Flight> listOfFlights) {
+        Query query = em.createQuery("SELECT f FROM FlightSchedulePlan f WHERE f.flightNumber IN :flightNumbers");
+        List<Integer> flightNumbers = new ArrayList<>();
+        for (Flight flight : listOfFlights) {
+            flightNumbers.add(flight.getFlightNumber());
+        }
+        query.setParameter("flightNumbers", flightNumbers);
+        return query.getResultList();
     }
     
     
