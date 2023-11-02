@@ -63,7 +63,7 @@ public class MainApp {
         this.flightSchedulePlanSessionBeanRemote = flightSchedulePlanSessionBeanRemote;
     }
     
-    public void runApp() throws AirportDoesNotExistException, InvalidInputException, ParseException, ConflictingFlightScheduleException {
+    public void runApp() throws Exception {
         Scanner scanner = new Scanner(System.in);
         Long employeeId;
         Integer response;
