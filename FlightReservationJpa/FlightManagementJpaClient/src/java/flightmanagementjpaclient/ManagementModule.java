@@ -654,8 +654,11 @@ public class ManagementModule {
 
                     int hours = Integer.parseInt(durationDetails[0]);
                     int minutes = Integer.parseInt(durationDetails[1]);
+
                     Duration duration = Duration.ofHours(hours).plusMinutes(minutes);
-                    FlightSchedule flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(new FlightSchedule(departureDateTime, duration));
+                    FlightSchedule fs = new FlightSchedule(departureDateTime, duration);
+                    //System.out.println("FLIGHTDURATIONNNNNNN = " + fs.getArrivalDateTime());
+                    FlightSchedule flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(fs);
                     
                     FlightSchedulePlan flightSchedulePlan = new FlightSchedulePlan(flightNumber);
                     List<FlightSchedule> listOfFLightSchedules = flightSchedulePlan.getFlightSchedules();
