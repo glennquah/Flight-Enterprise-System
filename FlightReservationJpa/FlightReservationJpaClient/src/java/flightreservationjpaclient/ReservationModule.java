@@ -12,7 +12,13 @@ import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
+import entity.Airport;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -57,6 +63,7 @@ public class ReservationModule {
         Scanner sc = new Scanner(System.in);
         Integer response;
         while(true) {
+            System.out.println("*** YOU HAVE SUCCESSFULLY LOGIN ***\n");
             System.out.println("Please select the following options \n");
             System.out.println("1: Reserve Flight");
             System.out.println("2: View My Flight Reservation");
@@ -66,7 +73,7 @@ public class ReservationModule {
             response = sc.nextInt();
             sc.nextLine();
             if(response == 1) {
-                System.out.println("1");
+                reserveFlight(sc);
             } else if (response == 2) {
                 System.out.println("2");
             } else if (response == 3) {
@@ -80,8 +87,49 @@ public class ReservationModule {
     
     // **************************************** RESERVE FLIGHT ***************************************************
     public void reserveFlight(Scanner sc) {
-        System.out.println("*** YOU HAVE PICKED RESERVE FLIGHT ***");
+        System.out.println("\n*** YOU HAVE PICKED RESERVE FLIGHT ***");
+        System.out.println("*** ENTER FLIGHT DETAILS ***\n");
+        System.out.println("Trip Type: ");
+        System.out.println("1: Return Flight");
+        System.out.println("2: Round Trip");
+        System.out.print("Enter Trip Type> ");
+        int tripType = sc.nextInt();
+        sc.nextLine();
+        System.out.print("All Aiport: ");
+        List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAiports();
+        for (int i = 0; i < listOfAirports.size(); i++) {
+            System.out.println(String.format("%s: Airport Name: ", i + 1) + listOfAirports.get(i).getName());
+            System.out.println("ID: " + listOfAirports.get(i).getAirportId());
+            System.out.println("");
+        }
+        System.out.print("Enter Departure Airport ID> ");
+        Long depAirport = sc.nextLong();
+        sc.nextLine();
+        System.out.print("Enter Destination Airport ID> ");
+        Long destAirport = sc.nextLong();
+        sc.nextLine();
+        System.out.print("Enter Departure Date (in the format YYYY-MM-DD HH:MM)> ");
+        LocalDateTime departureDateTime = LocalDateTime.parse(sc.nextLine());
+
+        System.out.println("Departure Date> " + departureDateTime);
+    
+        if (tripType == 2) {
+            System.out.print("Enter Return Date (in the format YYYY-MM-DD)> ");
+            LocalDateTime returnDateTime = LocalDateTime.parse(sc.nextLine());
+        }
         
+        System.out.print("Enter number of Passengers> ");
+        int numOfPassengers = sc.nextInt();
+        sc.nextLine();
+        
+        System.out.println("Pick Flight Type: ");
+        System.out.println("1: Direct Flight");
+        System.out.println("2: Connecting Flight");
+        System.out.println("Enter Flight Type > ");
+        int flightType = sc.nextInt();
+        sc.nextLine();
+        
+        //PICK CABIN TYPE
     }
     
     
