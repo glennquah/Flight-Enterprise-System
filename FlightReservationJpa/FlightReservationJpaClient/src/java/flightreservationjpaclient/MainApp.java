@@ -134,6 +134,7 @@ public class MainApp {
         
         if(email.length() > 0 && password.length() > 0)
         {
+            System.out.println("IT IS NULL?" + customerSessionBean);
             return customerSessionBean.login(email, password);
         }
         else
