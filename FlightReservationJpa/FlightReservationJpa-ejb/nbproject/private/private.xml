@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightSessionBean.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/AircraftConfigurationSessionBean.java</file>
+            <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightRoutesSessionBean.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightRoutesSessionBeanLocal.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightSessionBeanLocal.java</file>
         </group>

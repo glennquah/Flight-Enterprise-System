@@ -20,10 +20,9 @@ public class ReservationModule {
         Integer response;
         while(true) {
             System.out.println("Please select the following options \n");
-            System.out.println("1: ");
-            System.out.println("2: ");
-            System.out.println("3: ");
-            System.out.println("4: back\n");
+            System.out.println("1: Reserve Flight");
+            System.out.println("2: View My Flight Reservation");
+            System.out.println("3: Log Out");
 
             System.out.print("> ");
             response = sc.nextInt();
@@ -33,12 +32,16 @@ public class ReservationModule {
             } else if (response == 2) {
                 System.out.println("2");
             } else if (response == 3) {
-                System.out.println("3");
-            } else if (response == 4) {
+                System.out.println("*** SUCCESSFULLY LOGOUT ***");
                 break;
             } else {
                 System.out.println("Invalid option, please try again!\n");
             }
         }
+    }
+    
+    // **************************************** RESERVE FLIGHT ***************************************************
+    public void reserveFlight(Scanner sc) {
+        System.out.println("*** YOU HAVE PICKED RESERVE FLIGHT ***");
     }
 }
