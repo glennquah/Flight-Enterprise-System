@@ -658,7 +658,7 @@ public class ManagementModule {
                     FlightSchedule flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(new FlightSchedule(departureDateTime, duration));
                     
                     FlightSchedulePlan flightSchedulePlan = new FlightSchedulePlan(flightNumber);
-                    List<FlightSchedule> listOfFLightSchedules = flightSchedulePlan.getFlightSchedules();
+//                    List<FlightSchedule> listOfFLightSchedules = flightSchedulePlan.getFlightSchedules();
                     //listOfFLightSchedules.add(flightSchedule);
                     
                     flightSchedulePlanSessionBeanRemote.createSingleFlightSchedulePlan(flightSchedulePlan, flightSchedule.getFlightScheduleId());

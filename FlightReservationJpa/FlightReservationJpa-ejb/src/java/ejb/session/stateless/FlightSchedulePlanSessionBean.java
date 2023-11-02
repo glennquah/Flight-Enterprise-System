@@ -7,6 +7,7 @@ package ejb.session.stateless;
 import entity.Flight;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -40,6 +41,11 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
             
             Date departureDateTime = flightSchedule.getDepartureDateTime();
             List<Date> bookedDates = flight.getBookedDates();
+            bookedDates.size();
+//            System.out.println("hello " + bookedDates.size());
+//            for (Date date: bookedDates) {
+//                    System.out.println(date);
+//            }
             
             if (bookedDates.size() == 0 || departureDateTime.before(bookedDates.get(0)) || departureDateTime.after(bookedDates.get(bookedDates.size() - 1))) {
                 bookedDates.add(departureDateTime);
@@ -62,6 +68,8 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
             } else {
                 for (int i = 1; i < bookedDates.size() - 1; i += 2) {
                     if (bookedDates.get(i).before(departureDateTime)) {
+                        System.out.println("Conflicting Flight! Please pick again");
+                     
                         throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
                     }
                 }
