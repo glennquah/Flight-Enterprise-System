@@ -7,6 +7,9 @@ package ejb.session.stateless;
 import entity.Flight;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.AircraftConfigurationDoesNotExistException;
+import util.exception.FlightDoesNotExist;
+import util.exception.FlightRouteDoesNotExistException;
 
 /**
  *
@@ -14,13 +17,13 @@ import javax.ejb.Local;
  */
 @Local
 public interface FlightSessionBeanLocal {
-    public Long createNewFlight(Flight flight, Long flightRouteId, Long aircraftConfigId);
+    public Long createNewFlight(Flight flight, Long flightRouteId, Long aircraftConfigId) throws FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException;
     public List<Flight> retrieveAllFlights();
-    public Flight getFlightWithId(Long id);
-    public long removeFlight(Long id);
-    public Integer getReservedSeats(Long id);
-    public Integer getTotalSeats(Long id);
-    public Long changeFlightNumber(Long flightIdNum, Integer newFlightNum);
-    public Long changeFlightRoute(Long flightIdNum, Long newFlightRouteId, Long oldFlightRouteId);
-    public Long changeFlightConfig(Long flightIdNum, Long newFlightConfigId, Long oldFlightConfigId);
+    public Flight getFlightWithId(Long id) throws FlightDoesNotExist;
+    public long removeFlight(Long id) throws FlightDoesNotExist;
+    public Integer getReservedSeats(Long id) throws FlightDoesNotExist;
+    public Integer getTotalSeats(Long id) throws FlightDoesNotExist;
+    public Long changeFlightNumber(Long flightIdNum, Integer newFlightNum) throws FlightDoesNotExist;
+    public Long changeFlightRoute(Long flightIdNum, Long newFlightRouteId, Long oldFlightRouteId) throws FlightDoesNotExist;
+    public Long changeFlightConfig(Long flightIdNum, Long newFlightConfigId, Long oldFlightConfigId) throws FlightDoesNotExist;
 }

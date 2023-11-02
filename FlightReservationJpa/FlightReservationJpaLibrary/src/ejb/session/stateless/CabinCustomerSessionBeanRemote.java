@@ -7,6 +7,7 @@ package ejb.session.stateless;
 import entity.Cabin;
 import java.util.List;
 import javax.ejb.Remote;
+import util.exception.AircraftConfigurationDoesNotExistException;
 
 /**
  *
@@ -14,6 +15,6 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface CabinCustomerSessionBeanRemote {
-    public Long createCabin(Cabin cabin, Long aircraftConfigId);
+    public Long createCabin(Cabin cabin, Long aircraftConfigId) throws AircraftConfigurationDoesNotExistException; 
     public List<Cabin> retrieveAllCabins();
 }

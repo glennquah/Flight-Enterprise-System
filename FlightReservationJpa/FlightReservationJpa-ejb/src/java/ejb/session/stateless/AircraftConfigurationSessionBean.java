@@ -10,8 +10,12 @@ import entity.Cabin;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.AircraftDoesNotExistException;
+import util.exception.AirportDoesNotExistException;
+import util.exception.CabinDoesNotExistException;
 
 /**
  *
@@ -24,11 +28,16 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
     private EntityManager em;
 
     @Override
-    public Long createAircraftConfiguration(AircraftConfiguration aircraftConfig, Long aircraftId) {
-        Aircraft ac = em.find(Aircraft.class, aircraftId);
-        aircraftConfig.setAircraft(ac);
-        em.persist(aircraftConfig);
-        em.flush();
+    public Long createAircraftConfiguration(AircraftConfiguration aircraftConfig, Long aircraftId) throws AirportDoesNotExistException {
+        try {
+            Aircraft ac = em.find(Aircraft.class, aircraftId);
+            aircraftConfig.setAircraft(ac);
+            em.persist(aircraftConfig);
+            em.flush();
+        } catch (NoResultException e) {
+            throw new AirportDoesNotExistException("Aircraft does not exist");
+        }
+        
         
         return aircraftConfig.getAircraftConfigurationId();
     }
@@ -41,19 +50,27 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
     }
     
     @Override
-    public List<Cabin> retrieveCabinsWithId(Long Id) {
-        AircraftConfiguration ac = em.find(AircraftConfiguration.class, Id);
-        
-        List<Cabin> cab = ac.getListOfCabins();
-        cab.size();
-        return cab;
+    public List<Cabin> retrieveCabinsWithId(Long Id) throws CabinDoesNotExistException {
+        try {
+            AircraftConfiguration ac = em.find(AircraftConfiguration.class, Id);
+
+            List<Cabin> cab = ac.getListOfCabins();
+            cab.size();
+            return cab;
+        } catch (NoResultException e) {
+            throw new CabinDoesNotExistException("Cabin does not exist");
+        }
     }
     
     @Override
-    public void linkAircraft(Long aircraftId, Long aircraftConfigId) {
-        Aircraft ac = em.find(Aircraft.class, aircraftId);
-        AircraftConfiguration aircraftConfig = em.find(AircraftConfiguration.class, aircraftConfigId);
-        aircraftConfig.setAircraft(ac);
+    public void linkAircraft(Long aircraftId, Long aircraftConfigId) throws AircraftDoesNotExistException {
+        try {
+            Aircraft ac = em.find(Aircraft.class, aircraftId);
+            AircraftConfiguration aircraftConfig = em.find(AircraftConfiguration.class, aircraftConfigId);
+            aircraftConfig.setAircraft(ac);
+        } catch(NoResultException e) {
+            throw new AircraftDoesNotExistException("Aircraft does not exist");
+        }
     }
 
 

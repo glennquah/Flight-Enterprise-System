@@ -7,6 +7,7 @@ package ejb.session.stateless;
 import entity.Customer;
 import java.util.List;
 import javax.ejb.Remote;
+import util.exception.InvalidLoginCredentialException;
 
 /**
  *
@@ -16,4 +17,5 @@ import javax.ejb.Remote;
 public interface CustomerSessionBeanRemote {
     public List<Customer> retrieveAllAccounts();
     public Long createNewAccount(Customer newCustAccount);
+    public Long login(String email, String password) throws InvalidLoginCredentialException;
 }
