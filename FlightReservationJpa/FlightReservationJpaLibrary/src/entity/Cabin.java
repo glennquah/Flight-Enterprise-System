@@ -78,7 +78,7 @@ public class Cabin implements Serializable {
     public void setCabinId(Long cabinId) {
         this.cabinId = cabinId;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

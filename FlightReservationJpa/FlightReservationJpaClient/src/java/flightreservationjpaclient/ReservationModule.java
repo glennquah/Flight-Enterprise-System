@@ -4,6 +4,14 @@
  */
 package flightreservationjpaclient;
 
+import ejb.session.stateless.AircraftConfigurationSessionBeanRemote;
+import ejb.session.stateless.AircraftSessionBeanRemote;
+import ejb.session.stateless.AirportSessionBeanRemote;
+import ejb.session.stateless.CabinCustomerSessionBeanRemote;
+import ejb.session.stateless.CustomerSessionBeanRemote;
+import ejb.session.stateless.EmployeeSessionBeanRemote;
+import ejb.session.stateless.FlightRoutesSessionBeanRemote;
+import ejb.session.stateless.FlightSessionBeanRemote;
 import java.util.Scanner;
 
 /**
@@ -12,7 +20,37 @@ import java.util.Scanner;
  */
 public class ReservationModule {
 
+    private Long customerId;
+    private EmployeeSessionBeanRemote employeeSessionBean;
+    private CustomerSessionBeanRemote customerSessionBean;
+    private AircraftSessionBeanRemote aircraftSessionBeanRemote;
+    private AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote;
+    private CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote;
+    private FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote;
+    private AirportSessionBeanRemote airportSessionBeanRemote;
+    private FlightSessionBeanRemote flightSessionBeanRemote;
+
     public ReservationModule() {
+    }
+
+    public ReservationModule(Long customerId,
+            EmployeeSessionBeanRemote employeeSessionBean,
+            CustomerSessionBeanRemote customerSessionBean,
+            AircraftSessionBeanRemote aircraftSessionBeanRemote,
+            AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote,
+            CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote,
+            FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote,
+            AirportSessionBeanRemote airportSessionBeanRemote,
+            FlightSessionBeanRemote flightSessionBeanRemote) {
+        this.customerId = customerId;
+        this.employeeSessionBean = employeeSessionBean;
+        this.customerSessionBean = customerSessionBean;
+        this.aircraftSessionBeanRemote = aircraftSessionBeanRemote;
+        this.aircraftConfigurationSessionBeanRemote = aircraftConfigurationSessionBeanRemote;
+        this.cabinCustomerSessionBeanRemote = cabinCustomerSessionBeanRemote;
+        this.flightRoutesSessionBeanRemote = flightRoutesSessionBeanRemote;
+        this.airportSessionBeanRemote = airportSessionBeanRemote;
+        this.flightSessionBeanRemote = flightSessionBeanRemote;
     }
     
     public void customerLoginPage() {
@@ -43,5 +81,8 @@ public class ReservationModule {
     // **************************************** RESERVE FLIGHT ***************************************************
     public void reserveFlight(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED RESERVE FLIGHT ***");
+        
     }
+    
+    
 }
