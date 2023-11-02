@@ -82,7 +82,7 @@ public class ManagementModule {
     }
 
     //=================================================ADMIN PAGE================================================================
-    public void adminLoginPage() throws InvalidInputException, ParseException, AirportDoesNotExistException, ConflictingFlightScheduleException {
+    public void adminLoginPage() throws Exception {
         Scanner sc = new Scanner(System.in);
         System.out.println("*** SUCCESSFULLY LOGIN! *** \n");
         Integer response;
@@ -270,7 +270,7 @@ public class ManagementModule {
     }
 
     //=================================================AIRCRAFT CONFIGURATION=================================================
-    public void aircraftConfigurationOptions(Scanner sc) {
+    public void aircraftConfigurationOptions(Scanner sc) throws Exception {
         System.out.println("*** YOU HAVE PICKED AIRCRAFT CONFIGURATION ***\n");
         Integer response;
         while (true) {
@@ -295,7 +295,7 @@ public class ManagementModule {
     }
 
     //Create Flight Config
-    public void createFlightConfiguration(Scanner sc) {
+    public void createFlightConfiguration(Scanner sc) throws Exception {
         System.out.println("*** YOU HAVE PICKED CREATE AIRCRAFT CONFIGURATION ***");
         System.out.println("*** PICK AIRCRAFT TYPE ***\n");
         List<Aircraft> listOfAircrafts = aircraftSessionBeanRemote.retrieveAllAircrafts();
@@ -346,7 +346,7 @@ public class ManagementModule {
         System.out.println("");
     }
 
-    public void viewAllFlightConfiguration(Scanner sc) {
+    public void viewAllFlightConfiguration(Scanner sc) throws Exception {
         List<AircraftConfiguration> listOfac = aircraftConfigurationSessionBeanRemote.retrieveAllAircraftConfigurations();
         //List<Aircraft> listOfAircraft = aircraftSessionBeanRemote.retrieveAllAircrafts();
         System.out.println("*** YOU HAVE PICKED VIEW ALL AIRCRAFT CONFIGURATION ***\n");
@@ -380,7 +380,7 @@ public class ManagementModule {
     }
 
     //=================================================FLIGHT================================================================
-    public void flightOptions(Scanner sc) {
+    public void flightOptions(Scanner sc) throws Exception {
         System.out.println("*** YOU HAVE PICKED FLIGHT ***\n");
         Integer response;
         while (true) {
@@ -410,7 +410,7 @@ public class ManagementModule {
         }
     }
 
-    public void createFlight(Scanner sc) {
+    public void createFlight(Scanner sc) throws Exception {
         System.out.println("*** YOU HAVE PICKED CREATE FLIGHT ***");
         System.out.println("*** FILL UP FLIGHT DETAILS ***\n");
         System.out.println("*** SELECT AIRLINE ***");
@@ -465,7 +465,7 @@ public class ManagementModule {
         System.out.println("");
     }
 
-    public void deleteFlights(Scanner sc) {
+    public void deleteFlights(Scanner sc) throws Exception {
         System.out.println("*** YOU HAVE PICKED DELETE FLIGHTS ***\n");
         //print all of the flights
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
@@ -484,7 +484,7 @@ public class ManagementModule {
         System.out.println("");
     }
 
-    public void viewAllFlights(Scanner sc) {
+    public void viewAllFlights(Scanner sc) throws Exception {
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
         System.out.println("*** YOU HAVE PICKED VIEW ALL FLIGHTS ***\n");
         for (int i = 0; i < listOfFlights.size(); i++) { 
@@ -539,7 +539,7 @@ public class ManagementModule {
         }   
     }
     
-    public void updateFlight(Scanner sc) {
+    public void updateFlight(Scanner sc) throws Exception {
         System.out.println("*** YOU HAVE PICKED UPDATE FLIGHT ***\n");
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveAllFlights();
         for (int i = 0; i < listOfFlights.size(); i++) { 
@@ -588,7 +588,7 @@ public class ManagementModule {
     
     //=================================================FLIGHT SCHEDULE PLAN================================================================
     
-     public void flightSchedule(Scanner sc) throws InvalidInputException, ParseException, AirportDoesNotExistException, ConflictingFlightScheduleException {
+     public void flightSchedule(Scanner sc) throws Exception {
         System.out.println("*** YOU HAVE PICKED FLIGHT SCHEDULE PLAN ***\n");
         Integer response;
         while(true) {
@@ -621,7 +621,7 @@ public class ManagementModule {
         }
     }
      
-    public void createFlightSchedulePlan(Scanner sc) throws InvalidInputException, ParseException, AirportDoesNotExistException, ConflictingFlightScheduleException {
+    public void createFlightSchedulePlan(Scanner sc) throws Exception {
         System.out.println("*** YOU HAVE PICKED CREATE FLIGHT SCHEDULE PLAN ***\n");
         Integer response;
         while(true) {
