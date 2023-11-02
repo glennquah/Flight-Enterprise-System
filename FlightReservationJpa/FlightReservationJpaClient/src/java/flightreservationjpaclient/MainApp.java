@@ -71,6 +71,7 @@ public class MainApp {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
+                scanner.nextLine();
                 if (response == 1)
                 {   
                     try {
@@ -127,14 +128,15 @@ public class MainApp {
     {
         System.out.println("\n*** Reservation client :: Login ***\n");
         System.out.print("Enter email> ");
-        scanner.nextLine();
         String email = scanner.nextLine().trim();
         System.out.print("Enter password> ");
         String password = scanner.nextLine().trim();
         
         if(email.length() > 0 && password.length() > 0)
         {
-            System.out.println("IT IS NULL?" + customerSessionBean);
+//            System.out.println("IT IS NULL?" + customerSessionBean);
+//            System.out.println(email);
+//            System.out.println(password);
             return customerSessionBean.login(email, password);
         }
         else
@@ -147,7 +149,6 @@ public class MainApp {
     {
         System.out.println("\n*** Reservation client :: Register ***\n");
         System.out.print("Enter First Name> ");
-        scanner.nextLine();
         String firstName = scanner.nextLine().trim();
         System.out.print("Enter Last Name> ");
         String lastName = scanner.nextLine().trim();
