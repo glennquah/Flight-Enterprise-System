@@ -41,43 +41,7 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
             Date departureDateTime = flightSchedule.getDepartureDateTime();
             List<Date> bookedDates = flight.getBookedDates();
             
-            if (bookedDates.size() == 0) {
-                bookedDates.add(departureDateTime);
-                bookedDates.add(flightSchedule.getArrivalDateTime());
-                flight.setBookedDates(bookedDates);
-                
-                List<FlightSchedulePlan> listOfFlightSchedulePlans = flight.getListOfFlightSchedulePlans();
-                listOfFlightSchedulePlans.add(flightSchedulePlan);
-                flight.setListOfFlightSchedulePlans(listOfFlightSchedulePlans);
-                
-                flightSchedulePlan.setFlight(flight);
-                flightSchedule.setFlightSchedulePlan(flightSchedulePlan);
-                
-                List<FlightSchedule> flightSchedules = flightSchedulePlan.getFlightSchedules();
-                flightSchedules.add(flightSchedule);
-                flightSchedulePlan.setFlightSchedules(flightSchedules);
-                
-                em.persist(flightSchedulePlan);
-                em.flush();
-            } else if (departureDateTime.before(bookedDates.get(0))) {
-                bookedDates.add(departureDateTime);
-                bookedDates.add(flightSchedule.getArrivalDateTime());
-                flight.setBookedDates(bookedDates);
-                
-                List<FlightSchedulePlan> listOfFlightSchedulePlans = flight.getListOfFlightSchedulePlans();
-                listOfFlightSchedulePlans.add(flightSchedulePlan);
-                flight.setListOfFlightSchedulePlans(listOfFlightSchedulePlans);
-                
-                flightSchedulePlan.setFlight(flight);
-                flightSchedule.setFlightSchedulePlan(flightSchedulePlan);
-                
-                List<FlightSchedule> flightSchedules = flightSchedulePlan.getFlightSchedules();
-                flightSchedules.add(flightSchedule);
-                flightSchedulePlan.setFlightSchedules(flightSchedules);
-                
-                em.persist(flightSchedulePlan);
-                em.flush();
-            } else if (departureDateTime.after(bookedDates.get(bookedDates.size() - 1))) {
+            if (bookedDates.size() == 0 || departureDateTime.before(bookedDates.get(0)) || departureDateTime.after(bookedDates.get(bookedDates.size() - 1))) {
                 bookedDates.add(departureDateTime);
                 bookedDates.add(flightSchedule.getArrivalDateTime());
                 flight.setBookedDates(bookedDates);

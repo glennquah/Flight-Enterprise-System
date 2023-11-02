@@ -30,7 +30,9 @@ import java.util.Scanner;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import util.exception.AircraftConfigurationDoesNotExistException;
 import util.exception.AirportDoesNotExistException;
+import util.exception.CabinDoesNotExistException;
 import util.exception.ConflictingFlightScheduleException;
 import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
@@ -295,7 +297,7 @@ public class ManagementModule {
     }
 
     //Create Flight Config
-    public void createFlightConfiguration(Scanner sc) {
+    public void createFlightConfiguration(Scanner sc) throws AirportDoesNotExistException, AircraftConfigurationDoesNotExistException {
         System.out.println("*** YOU HAVE PICKED CREATE AIRCRAFT CONFIGURATION ***");
         System.out.println("*** PICK AIRCRAFT TYPE ***\n");
         List<Aircraft> listOfAircrafts = aircraftSessionBeanRemote.retrieveAllAircrafts();
@@ -346,7 +348,7 @@ public class ManagementModule {
         System.out.println("");
     }
 
-    public void viewAllFlightConfiguration(Scanner sc) {
+    public void viewAllFlightConfiguration(Scanner sc) throws CabinDoesNotExistException {
         List<AircraftConfiguration> listOfac = aircraftConfigurationSessionBeanRemote.retrieveAllAircraftConfigurations();
         //List<Aircraft> listOfAircraft = aircraftSessionBeanRemote.retrieveAllAircrafts();
         System.out.println("*** YOU HAVE PICKED VIEW ALL AIRCRAFT CONFIGURATION ***\n");
