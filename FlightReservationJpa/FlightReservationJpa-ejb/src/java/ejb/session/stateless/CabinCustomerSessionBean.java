@@ -10,8 +10,10 @@ import entity.Cabin;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.AircraftConfigurationDoesNotExistException;
 
 /**
  *
@@ -24,17 +26,20 @@ public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote,
     private EntityManager em;
 
     @Override
-    public Long createCabin(Cabin cabin, Long aircraftConfigId) {
-        AircraftConfiguration ac = em.find(AircraftConfiguration.class, aircraftConfigId);
-        List<Cabin> listOfCabs = ac.getListOfCabins();
-        // lazy loading??
-        listOfCabs.add(cabin);
-        ac.setListOfCabins(listOfCabs);
-        cabin.setAircraftConfiguration(ac);
-        em.persist(cabin);
-        em.flush();
-        
-        return cabin.getCabinId();
+    public Long createCabin(Cabin cabin, Long aircraftConfigId) throws AircraftConfigurationDoesNotExistException {
+        try {
+            AircraftConfiguration ac = em.find(AircraftConfiguration.class, aircraftConfigId);
+            List<Cabin> listOfCabs = ac.getListOfCabins();
+            // lazy loading??
+            listOfCabs.add(cabin);
+            ac.setListOfCabins(listOfCabs);
+            cabin.setAircraftConfiguration(ac);
+            em.persist(cabin);
+            em.flush();
+            return cabin.getCabinId();
+        } catch (NoResultException e) {
+            throw new AircraftConfigurationDoesNotExistException("Aircraft Configuration Does Not Exist");
+        }
     }
     
     @Override
