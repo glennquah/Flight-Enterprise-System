@@ -4,8 +4,14 @@
  */
 package flightreservationjpaclient;
 
+import ejb.session.stateless.AircraftConfigurationSessionBeanRemote;
+import ejb.session.stateless.AircraftSessionBeanRemote;
+import ejb.session.stateless.AirportSessionBeanRemote;
+import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
+import ejb.session.stateless.FlightRoutesSessionBeanRemote;
+import ejb.session.stateless.FlightSessionBeanRemote;
 import entity.Account;
 import entity.Customer;
 import entity.Employee;
@@ -18,17 +24,36 @@ import javax.ejb.EJB;
  */
 public class Main {
 
-    @EJB(name = "CustomerSessionBeanRemote")
-    private static CustomerSessionBeanRemote customerSessionBeanRemote;
+    @EJB(name = "FlightSessionBeanRemote")
+    private static FlightSessionBeanRemote flightSessionBeanRemote;
+
+    @EJB(name = "FlightRoutesSessionBeanRemote")
+    private static FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote;
 
     @EJB(name = "EmployeeSessionBeanRemote")
     private static EmployeeSessionBeanRemote employeeSessionBeanRemote;
 
-    /**
-     * @param args the command line arguments
-     */
+    @EJB(name = "CustomerSessionBeanRemote")
+    private static CustomerSessionBeanRemote customerSessionBeanRemote;
+
+    @EJB(name = "AirportSessionBeanRemote")
+    private static AirportSessionBeanRemote airportSessionBeanRemote;
+
+    @EJB(name = "AircraftConfigurationSessionBeanRemote")
+    private static AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote;
+
+    @EJB(name = "CabinCustomerSessionBeanRemote")
+    private static CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote;
+
+    @EJB(name = "AircraftSessionBeanRemote")
+    private static AircraftSessionBeanRemote aircraftSessionBeanRemote;
+    
     public static void main(String[] args) {
-           MainApp mainApp = new MainApp(customerSessionBeanRemote, employeeSessionBeanRemote);
-           mainApp.runApp();
+        MainApp mainApp = new MainApp(employeeSessionBeanRemote, customerSessionBeanRemote, 
+                    aircraftSessionBeanRemote, aircraftConfigurationSessionBeanRemote, 
+                    cabinCustomerSessionBeanRemote, flightRoutesSessionBeanRemote, 
+                    airportSessionBeanRemote, flightSessionBeanRemote);
+        mainApp.runApp();
     }
+    
 }

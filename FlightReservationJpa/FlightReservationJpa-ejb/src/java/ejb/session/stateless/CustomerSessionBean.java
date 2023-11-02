@@ -5,11 +5,14 @@
 package ejb.session.stateless;
 
 import entity.Customer;
+import entity.Employee;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.InvalidLoginCredentialException;
 
 /**
  *
@@ -38,5 +41,29 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
 
     public void persist(Object object) {
         em.persist(object);
+    }
+    
+    @Override
+    public Long login(String email, String password) throws InvalidLoginCredentialException
+    {
+        try
+        {
+            Query query = em.createQuery("SELECT e FROM Customer e WHERE e.email = :email");
+            query.setParameter("email", email);
+            Customer cust = (Customer)query.getSingleResult();
+            
+            if(cust.getPassword().equals(password))
+            {
+                return cust.getAccountId();
+            }
+            else
+            {
+                throw new InvalidLoginCredentialException("Invalid login credential");
+            }
+        }
+        catch(NoResultException ex)
+        {
+            throw new InvalidLoginCredentialException("Invalid login credential");
+        }
     }
 }
