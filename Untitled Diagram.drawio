@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-11-02T14:07:50.229Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36" etag="j0N0EaZWisiTMGAhGOn8" version="22.0.8" type="github">
+<mxfile host="app.diagrams.net" modified="2023-11-02T14:08:25.616Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36" etag="kehlYp2ojWFDbGcf0opN" version="22.0.8" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="1941" dy="1840" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -301,7 +301,7 @@
         <mxCell id="0N_LeVZSWV3AMLVlqRJy-179" value="-departureDate: Date" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="0N_LeVZSWV3AMLVlqRJy-178" vertex="1">
           <mxGeometry y="26" width="160" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="0N_LeVZSWV3AMLVlqRJy-180" value="-flightDuration: Time" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" parent="0N_LeVZSWV3AMLVlqRJy-178" vertex="1">
+        <mxCell id="0N_LeVZSWV3AMLVlqRJy-180" value="-flightDuration: Duration" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" parent="0N_LeVZSWV3AMLVlqRJy-178" vertex="1">
           <mxGeometry y="52" width="160" height="26" as="geometry" />
         </mxCell>
         <mxCell id="0N_LeVZSWV3AMLVlqRJy-181" value="-arrivalDate: Date" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" parent="0N_LeVZSWV3AMLVlqRJy-178" vertex="1">
