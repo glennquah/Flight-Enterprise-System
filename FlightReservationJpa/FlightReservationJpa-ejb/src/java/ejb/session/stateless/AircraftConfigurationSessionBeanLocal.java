@@ -8,6 +8,9 @@ import entity.AircraftConfiguration;
 import entity.Cabin;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.AircraftDoesNotExistException;
+import util.exception.AirportDoesNotExistException;
+import util.exception.CabinDoesNotExistException;
 
 /**
  *
@@ -15,8 +18,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface AircraftConfigurationSessionBeanLocal {
-    public Long createAircraftConfiguration(AircraftConfiguration aircraftConfig, Long aircraftId);
+    public Long createAircraftConfiguration(AircraftConfiguration aircraftConfig, Long aircraftId) throws AirportDoesNotExistException;
     public List<AircraftConfiguration> retrieveAllAircraftConfigurations();
-    public void linkAircraft(Long aircraftId, Long aircraftConfigId);
-    public List<Cabin> retrieveCabinsWithId(Long Id);
+    public List<Cabin> retrieveCabinsWithId(Long Id) throws CabinDoesNotExistException;
+    public void linkAircraft(Long aircraftId, Long aircraftConfigId) throws AircraftDoesNotExistException;
 }
