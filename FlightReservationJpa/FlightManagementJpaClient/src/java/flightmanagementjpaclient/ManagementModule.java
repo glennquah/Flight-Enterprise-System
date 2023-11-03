@@ -322,7 +322,12 @@ public class ManagementModule {
         }
 
         for (int i = 0; i < numCabinClass; i++) {
-            System.out.print(String.format("\nEnter Name of No.%s Cabin Class> ", i + 1));
+            System.out.println("\n*** TYPES OF CLASSES ***");
+            System.out.println("First Class: F");
+            System.out.println("Business Class: J");
+            System.out.println("Premium Economy Class: W");
+            System.out.println("Economy Class: Y");
+            System.out.print(String.format("\nEnter Cabin Class> ", i + 1));
             String cabinName = sc.nextLine().trim();
             System.out.print(String.format("Enter Number of isles for No.%s Cabin (Max 2)> ", i + 1));
             int numOfIsles = sc.nextInt();

@@ -7,6 +7,7 @@ package ejb.session.stateless;
 import entity.Flight;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Remote;
 
@@ -17,4 +18,5 @@ import javax.ejb.Remote;
 @Remote
 public interface FlightScheduleSessionBeanRemote {
     public FlightSchedule createNewFlightSchedule(FlightSchedule flightSchedule);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) ;
 }

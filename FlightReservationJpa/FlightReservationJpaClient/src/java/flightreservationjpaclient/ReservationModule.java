@@ -16,6 +16,7 @@ import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
 import entity.Airport;
 import entity.Flight;
+import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.text.ParseException;
 import java.util.Date;
@@ -121,14 +122,14 @@ public class ReservationModule {
         System.out.print("Enter Departure Date (in the format YYYY-MM-DD)> ");
         //LocalDateTime departureDateTime = LocalDateTime.parse(sc.nextLine());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date departureDateTime = dateFormat.parse(sc.nextLine());
+        Date departureDate = dateFormat.parse(sc.nextLine());
         
         //check
-        System.out.println("Departure Date> " + departureDateTime);
+        System.out.println("Departure Date> " + departureDate);
     
         if (tripType == 2) {
             System.out.print("Enter Return Date (in the format YYYY-MM-DD)> ");
-            Date returnDateTime = dateFormat.parse(sc.nextLine());
+            Date returnDate = dateFormat.parse(sc.nextLine());
         }
         
         System.out.print("Enter number of Passengers> ");
@@ -144,14 +145,31 @@ public class ReservationModule {
         
         //1. Get list of flights that have origin to destination the same as input
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
-        System.out.println("FLIGHTID=" + listOfFlights.get(0).getFlightId());
+        System.out.println("FLIGHT ID =" + listOfFlights.get(0).getFlightId());
         //PICK CABIN TYPE
+        for(int i = 0; i < listOfFlights.size(); i ++) {
+            System.out.println("Filght ID: " + listOfFlights.get(i).getFlightId());
+        }
         
         //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
         List<FlightSchedulePlan> listOfFlightSchedulePlan = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
-        System.out.println("FLIGHTID=" + listOfFlightSchedulePlan.get(0).getFlightSchedulePlanId());
+        System.out.println("FLGHT SCHED PLAN = " + listOfFlightSchedulePlan.get(0).getFlightSchedulePlanId());
+        for(int i = 0; i < listOfFlightSchedulePlan.size(); i ++) {
+            System.out.println("Flight Schedule: " + (i + 1));
+            System.out.println("Filght Schedule Plan ID: " + listOfFlightSchedulePlan.get(i).getFlightSchedulePlanId());
+        }
         
-        //3. get list of flight schedule that has the same origin and destination
+        //3. get list of flight schedule that is on the same day
+        List<FlightSchedule> listOfFlightSchedule = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlan, departureDate);
+        for(int i = 0; i < listOfFlightSchedule.size(); i ++) {
+            System.out.println("Flight Schedule: " + (i + 1));
+            System.out.println("Filght Schedule ID: " + listOfFlightSchedule.get(i).getFlightScheduleId());
+            System.out.println("Filght Departure Date Time: " + listOfFlightSchedule.get(i).getDepartureDateTime());
+            System.out.println("Filght Estimated Arrival Date Time: " + listOfFlightSchedule.get(i).getArrivalDateTime());
+            System.out.println("Filght Estimated Time: " + listOfFlightSchedule.get(i).getEstimatedTime());
+        }
+        
+        System.out.println("THIS IS THE SIZE OF THE LIST = " + listOfFlightSchedule.size());
     }
     
     

@@ -5,6 +5,9 @@
 package ejb.session.stateless;
 
 import entity.FlightSchedule;
+import entity.FlightSchedulePlan;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +17,5 @@ import javax.ejb.Local;
 @Local
 public interface FlightScheduleSessionBeanLocal {
     public FlightSchedule createNewFlightSchedule(FlightSchedule flightSchedule);
-    
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) ;
 }
