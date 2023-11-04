@@ -5,10 +5,12 @@
 package ejb.session.stateless;
 
 import entity.Airport;
+import entity.Flight;
 import entity.FlightRoute;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +23,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import util.exception.AirportDoesNotExistException;
+import util.exception.FlightDoesNotExist;
 import util.exception.FlightRouteAlreadyExistException;
 
 /**
@@ -120,6 +123,34 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
 
         return newList;
     }
+    
+    @Override
+    public Date retrieveDateOfFlightPicked(Long id) throws FlightDoesNotExist {
+        FlightSchedule flightSchedule = em.find(FlightSchedule.class, id);
+        //add buffer?
+        return flightSchedule.getArrivalDateTime();
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDateTime) {
+        List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
 
+        List<FlightSchedule> newList = new ArrayList<>();
+
+        LocalDate desiredDate = departureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalTime desiredTime = departureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+
+        for (FlightSchedule flightSchedule : listOfFlightSchedules) {
+            Date scheduleDepartureDateTime = flightSchedule.getDepartureDateTime();
+            LocalDate localDate = scheduleDepartureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalTime localTime = scheduleDepartureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+
+            if (localDate.isEqual(desiredDate) && localTime.isAfter(desiredTime)) {
+                newList.add(flightSchedule);
+            }
+        }
+
+        return newList;
+    }
 
 }

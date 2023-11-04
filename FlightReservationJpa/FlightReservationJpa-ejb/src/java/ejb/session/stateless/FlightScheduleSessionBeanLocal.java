@@ -6,9 +6,11 @@ package ejb.session.stateless;
 
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.FlightDoesNotExist;
 
 /**
  *
@@ -21,4 +23,6 @@ public interface FlightScheduleSessionBeanLocal {
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBefore(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate);
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfter(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate);
     public List<FlightSchedule> retrieveFlightScheduleInPlan(List<FlightSchedulePlan> listOfFlightSchedulePlan);
+    public Date retrieveDateOfFlightPicked(Long id) throws FlightDoesNotExist;
+    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDateTime);
 }
