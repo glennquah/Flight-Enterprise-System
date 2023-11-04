@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  *
@@ -105,6 +106,10 @@ public class ReservationModule {
         System.out.println("2: Round Trip");
         System.out.print("Enter Trip Type> ");
         int tripType = sc.nextInt();
+        if (tripType != 1 && tripType != 2) {
+            System.out.println("Wrong input, try again");
+            reserveFlight(sc);
+        }
         sc.nextLine();
         System.out.print("All Aiport: ");
         List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAiports();
@@ -125,7 +130,7 @@ public class ReservationModule {
         Date departureDate = dateFormat.parse(sc.nextLine());
         
         //check
-        System.out.println("Departure Date> " + departureDate);
+        //System.out.println("Departure Date> " + departureDate);
     
         if (tripType == 2) {
             System.out.print("Enter Return Date (in the format YYYY-MM-DD)> ");
@@ -141,10 +146,20 @@ public class ReservationModule {
         System.out.println("2: Connecting Flight");
         System.out.print("Enter Flight Type> ");
         int flightType = sc.nextInt();
+        if (flightType != 1 && flightType != 2) {
+            System.out.println("Wrong input, try again");
+            reserveFlight(sc);
+        }
         sc.nextLine();
-        
+        List<Flight> listOfFlights = new ArrayList<>();
         //1. Get list of flights that have origin to destination the same as input
-        List<Flight> listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
+        if (flightType == 1) {
+        //1a. If this is direct flight
+            listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
+        } else {
+            listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDestConnectingFlight(depAirport, destAirport);
+        }
+        System.out.println("SIZE IS =" + listOfFlights.size());
 
         //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
         List<FlightSchedulePlan> listOfFlightSchedulePlan = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);

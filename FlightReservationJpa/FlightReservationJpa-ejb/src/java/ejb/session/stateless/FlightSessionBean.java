@@ -197,4 +197,23 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
         query.setParameter("destination", desAirport);
         return (List<Flight>)query.getResultList();
     }     
+    
+    @Override
+    public List<Flight> retrieveFlightsThatHasDepAndDestConnectingFlight(Long originAirport, Long destAirport) {
+        Airport ogAirport = em.find(Airport.class, originAirport);
+        //Becasuse hub is TPE
+        long hubAirportId = 1;
+        Airport hubAirport = em.find(Airport.class, hubAirportId);
+        Airport desAirport = em.find(Airport.class, destAirport);
+        Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute.origin = :origin AND f.flightRoute.destination = :destination");
+        query.setParameter("origin", ogAirport);
+        query.setParameter("destination", hubAirport);
+        List<Flight> listOFlightsToHub = (List<Flight>)query.getResultList();
+        query.setParameter("origin", hubAirport);
+        query.setParameter("destination", desAirport);
+        List<Flight> listOFlightsFromHub = (List<Flight>)query.getResultList();
+        List<Flight> combinedList = new ArrayList<>(listOFlightsFromHub); 
+        combinedList.addAll(listOFlightsToHub); 
+        return combinedList;
+    }   
 }
