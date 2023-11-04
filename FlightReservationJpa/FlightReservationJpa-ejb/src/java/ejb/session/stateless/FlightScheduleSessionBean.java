@@ -44,7 +44,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
+    public List<FlightSchedule> retrieveFlightScheduleInPlan(List<FlightSchedulePlan> listOfFlightSchedulePlan) {
         List<Long> flightSchedNumbers = new ArrayList<>();
 
         for (FlightSchedulePlan flightSchedPlan : listOfFlightSchedulePlan) {
@@ -58,7 +58,12 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         Query query = em.createQuery("SELECT f FROM FlightSchedule f WHERE f.flightSchedulePlan.flightSchedulePlanId IN :flightSchedNumbers");
         query.setParameter("flightSchedNumbers", flightSchedNumbers);
 
-        List<FlightSchedule> listOfFlightSchedules = query.getResultList();
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
+        List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
 
         List<FlightSchedule> newList = new ArrayList<>();
 
@@ -73,5 +78,48 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
 
         return newList;
     }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBefore(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
+        List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
+
+        List<FlightSchedule> newList = new ArrayList<>();
+
+        // Calculate the date that is 3 days before departureDate
+        LocalDate threeDaysBeforeDate = departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().minusDays(4);
+
+        for (FlightSchedule flightSchedule : listOfFlightSchedules) {
+            Date departureDateTime = flightSchedule.getDepartureDateTime();
+            LocalDate localDate = departureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (localDate.isAfter(threeDaysBeforeDate) && localDate.isBefore(threeDaysBeforeDate.plusDays(4))) {
+                newList.add(flightSchedule);
+            }
+        }
+
+        return newList;
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfter(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
+        List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
+
+        List<FlightSchedule> newList = new ArrayList<>();
+
+        // Calculate the date that is 3 days before departureDate
+        LocalDate threeDaysAfterDate = departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(4);
+
+        for (FlightSchedule flightSchedule : listOfFlightSchedules) {
+            Date departureDateTime = flightSchedule.getDepartureDateTime();
+            LocalDate localDate = departureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (localDate.isBefore(threeDaysAfterDate) && localDate.isAfter(threeDaysAfterDate.minusDays(4))) {
+                newList.add(flightSchedule);
+            }
+        }
+
+        return newList;
+    }
+
 
 }

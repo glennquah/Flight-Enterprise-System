@@ -73,8 +73,8 @@ public class ReservationModule {
     public void customerLoginPage() throws Exception {
         Scanner sc = new Scanner(System.in);
         Integer response;
+        System.out.println("*** YOU HAVE SUCCESSFULLY LOGIN ***\n");
         while(true) {
-            System.out.println("*** YOU HAVE SUCCESSFULLY LOGIN ***\n");
             System.out.println("Please select the following options \n");
             System.out.println("1: Reserve Flight");
             System.out.println("2: View My Flight Reservation");
@@ -139,37 +139,54 @@ public class ReservationModule {
         System.out.println("Pick Flight Type: ");
         System.out.println("1: Direct Flight");
         System.out.println("2: Connecting Flight");
-        System.out.println("Enter Flight Type > ");
+        System.out.print("Enter Flight Type> ");
         int flightType = sc.nextInt();
         sc.nextLine();
         
         //1. Get list of flights that have origin to destination the same as input
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
-        System.out.println("FLIGHT ID =" + listOfFlights.get(0).getFlightId());
-        //PICK CABIN TYPE
-        for(int i = 0; i < listOfFlights.size(); i ++) {
-            System.out.println("Filght ID: " + listOfFlights.get(i).getFlightId());
-        }
-        
+
         //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
         List<FlightSchedulePlan> listOfFlightSchedulePlan = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
-        System.out.println("FLGHT SCHED PLAN = " + listOfFlightSchedulePlan.get(0).getFlightSchedulePlanId());
-        for(int i = 0; i < listOfFlightSchedulePlan.size(); i ++) {
-            System.out.println("Flight Schedule: " + (i + 1));
-            System.out.println("Filght Schedule Plan ID: " + listOfFlightSchedulePlan.get(i).getFlightSchedulePlanId());
-        }
         
         //3. get list of flight schedule that is on the same day
+        int flightnum = 1;
         List<FlightSchedule> listOfFlightSchedule = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlan, departureDate);
+        System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***\n", listOfFlightSchedule.size()));
         for(int i = 0; i < listOfFlightSchedule.size(); i ++) {
-            System.out.println("Flight Schedule: " + (i + 1));
+            System.out.println("Number: " + (flightnum++));
             System.out.println("Filght Schedule ID: " + listOfFlightSchedule.get(i).getFlightScheduleId());
             System.out.println("Filght Departure Date Time: " + listOfFlightSchedule.get(i).getDepartureDateTime());
             System.out.println("Filght Estimated Arrival Date Time: " + listOfFlightSchedule.get(i).getArrivalDateTime());
             System.out.println("Filght Estimated Time: " + listOfFlightSchedule.get(i).getEstimatedTime());
+            System.out.println("");
         }
         
-        System.out.println("THIS IS THE SIZE OF THE LIST = " + listOfFlightSchedule.size());
+        //4. get list of flight schedule that is 3 days before
+        List<FlightSchedule> listOfFlightSchedule3daysBefore = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith3DaysBefore(listOfFlightSchedulePlan, departureDate);
+        System.out.println(String.format("\n*** %s FLIGHT 3 DAYS BEFORE ***\n", listOfFlightSchedule3daysBefore.size()));
+        for(int i = 0; i < listOfFlightSchedule3daysBefore.size(); i ++) {
+            System.out.println("Number : " + (flightnum++));
+            System.out.println("Filght Schedule ID: " + listOfFlightSchedule3daysBefore.get(i).getFlightScheduleId());
+            System.out.println("Filght Departure Date Time: " + listOfFlightSchedule3daysBefore.get(i).getDepartureDateTime());
+            System.out.println("Filght Estimated Arrival Date Time: " + listOfFlightSchedule3daysBefore.get(i).getArrivalDateTime());
+            System.out.println("Filght Estimated Time: " + listOfFlightSchedule3daysBefore.get(i).getEstimatedTime());
+            System.out.println("");
+        }
+        
+        //5. get list of flight schedule that is 3 days After
+        List<FlightSchedule> listOfFlightSchedule3daysAfter = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith3DaysAfter(listOfFlightSchedulePlan, departureDate);
+        System.out.println(String.format("\n*** %s FLIGHT 3 DAYS AFTER ***\n", listOfFlightSchedule3daysAfter.size()));
+        for(int i = 0; i < listOfFlightSchedule3daysAfter.size(); i ++) {
+            System.out.println("Number: " + (flightnum++));
+            System.out.println("Filght Schedule ID: " + listOfFlightSchedule3daysAfter.get(i).getFlightScheduleId());
+            System.out.println("Filght Departure Date Time: " + listOfFlightSchedule3daysAfter.get(i).getDepartureDateTime());
+            System.out.println("Filght Estimated Arrival Date Time: " + listOfFlightSchedule3daysAfter.get(i).getArrivalDateTime());
+            System.out.println("Filght Estimated Time: " + listOfFlightSchedule3daysAfter.get(i).getEstimatedTime().toString());
+            System.out.println("");
+        }
+        
+        System.out.println("Enter Schedule ID You Want to Reserve> ");
     }
     
     
