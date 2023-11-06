@@ -350,7 +350,7 @@ public class ReservationModule {
             System.out.print(seatNum);
             seatNum++;
             count++;
-            if (count == islesPlan[c] && c != islesPlan.length) {
+            if (count == islesPlan[c] && c != islesPlan.length - 1) {
                 System.out.print("|");
                 c++;
                 count = 0;
@@ -376,5 +376,19 @@ public class ReservationModule {
             }
             System.out.println("");
         }
+        
+        for (int i = 0; i < numOfSeats; i ++) {
+            System.out.println(String.format("Enter No. %s Seat you wan to reserve: ", (i + 1)));
+            System.out.print("Enter Row Number> ");
+            int rowNum = sc.nextInt();
+            sc.nextLine();
+            System.out.print("Enter Seat Letter> ");
+            String seat = sc.nextLine().trim();
+            char letter = seat.charAt(0);
+            flightScheduleSessionBeanRemote.bookSeat(flightScheduleId, cabin, rowNum, letter);
+            System.out.println("*** SEAT BOOKED ***");
+            System.out.println("");
+        }
+        
     }
 }

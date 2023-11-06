@@ -189,4 +189,15 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
        }
        return null;
     }
+    
+    @Override
+    public long bookSeat(long id, String cabName, int seat, char letter) {
+        List<Cabin> cabins = getCabins(id);
+       for (Cabin c : cabins) {
+           if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+               c.bookSeat(seat, letter);
+           }
+       }
+       return id;
+    }
 }

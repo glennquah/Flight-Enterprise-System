@@ -77,8 +77,8 @@ public class Cabin implements Serializable {
     }
 
     public void bookSeat(int row, char column) {
-        int colm = column - 41;
-        this.getSeatingPlan()[row - 1][colm] = 'X';
+        int colm = column - 65;
+        this.seatingPlan[row - 1][colm] = 'X';
         this.reservedSeats++;
     }
     
