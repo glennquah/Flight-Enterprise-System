@@ -73,17 +73,17 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
             List<FlightRoute> flightRoutes = (List<FlightRoute>)thirdQuery.getResultList();
   
             for (FlightRoute f:flightRoutes) {
-                if (f.getOrigin() == airportOne && f.getDestination() == airportTwo) {
-                    throw new FlightRouteAlreadyExistException("Flight route already exist!");
-                } else if(f.getOrigin() == airportTwo && f.getDestination() == airportOne && f.getComplementaryRoute()) {
+                if (f.getOrigin() == airportOne && f.getDestination() == airportTwo || f.getOrigin() == airportTwo && f.getDestination() == airportOne) {
                     throw new FlightRouteAlreadyExistException("Flight route already exist!");
                 }
             }
             
             FlightRoute newFlightRoute = new FlightRoute(airportOne, airportTwo, true);
+            FlightRoute newReturnFlightRoute = new FlightRoute(airportTwo, airportOne, true);
             em.persist(newFlightRoute);
             em.flush();
-            
+            em.persist(newReturnFlightRoute);
+            em.flush();            
             return newFlightRoute.getFlightRouteId();
         } catch (NoResultException ex) {
             throw new AirportDoesNotExistException("Aiport does not exist!");

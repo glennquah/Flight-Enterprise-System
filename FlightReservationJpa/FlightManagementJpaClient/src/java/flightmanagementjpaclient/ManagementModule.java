@@ -209,18 +209,30 @@ public class ManagementModule {
     public void viewFlightRoutes(Scanner sc) {
         System.out.println("*** YOU HAVE PICKED VIEW FLIGHT ROUTE ***\n");
         List<FlightRoute> listOfFlightRoutes = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
+        List<FlightRoute> printedFlightRoutes = new ArrayList<FlightRoute>();
         
         for (FlightRoute f:listOfFlightRoutes) {
-            System.out.println("Flight Route ID: " + f.getFlightRouteId());
-            System.out.println("Origin Airport: " + f.getOrigin().getName());
-            System.out.println("Destination Airport: " + f.getDestination().getName());
-            System.out.println("");
-            
-            if (f.getComplementaryRoute()) {
-                System.out.println("Flight Route ID: " + f.getFlightRouteId() + " (Complementary Flight Route)");
-                System.out.println("Origin Airport: " + f.getDestination().getName());
-                System.out.println("Destination Airport: " + f.getOrigin().getName());
+            if (!printedFlightRoutes.contains(f)) {
+                System.out.println("Flight Route ID: " + f.getFlightRouteId());
+                System.out.println("Origin Airport: " + f.getOrigin().getName());
+                System.out.println("Destination Airport: " + f.getDestination().getName());
                 System.out.println("");
+                printedFlightRoutes.add(f);
+
+                if (f.getComplementaryRoute()) {
+                    for (int i = 0; i < listOfFlightRoutes.size(); i++) {
+                        if (listOfFlightRoutes.get(i).getOrigin() == f.getDestination() && listOfFlightRoutes.get(i).getDestination() == f.getOrigin()) {
+                            System.out.println("Flight Route ID: " + listOfFlightRoutes.get(i).getFlightRouteId() + " (Complementary Flight Route)");
+                            System.out.println("Origin Airport: " + listOfFlightRoutes.get(i).getOrigin().getName());
+                            System.out.println("Destination Airport: " + listOfFlightRoutes.get(i).getDestination().getName());
+                            System.out.println("");
+
+                            printedFlightRoutes.add(listOfFlightRoutes.get(i));
+                            break;
+                        } 
+                    }
+
+                } 
             }
         }
     }
@@ -424,18 +436,30 @@ public class ManagementModule {
         System.out.println("");
         System.out.println("*** SELECT FLIGHT ROUTE ***\n");
         List<FlightRoute> listOfFlightRoutes = flightRoutesSessionBeanRemote.retrieveAllFlightRoutes();
-        
+        List<FlightRoute> printedFlightRoutes = new ArrayList<FlightRoute>();
+         
         for (FlightRoute f:listOfFlightRoutes) {
-            System.out.println("Flight Route ID: " + f.getFlightRouteId());
-            System.out.println("Origin Airport: " + f.getOrigin().getName());
-            System.out.println("Destination Airport: " + f.getDestination().getName());
-            System.out.println("");
-            
-            if (f.getComplementaryRoute()) {
-                System.out.println("Flight Route ID: " + f.getFlightRouteId() + " (Complementary Flight Route)");
-                System.out.println("Origin Airport: " + f.getDestination().getName());
-                System.out.println("Destination Airport: " + f.getOrigin().getName());
+            if (!printedFlightRoutes.contains(f)) {
+                System.out.println("Flight Route ID: " + f.getFlightRouteId());
+                System.out.println("Origin Airport: " + f.getOrigin().getName());
+                System.out.println("Destination Airport: " + f.getDestination().getName());
                 System.out.println("");
+                printedFlightRoutes.add(f);
+
+                if (f.getComplementaryRoute()) {
+                    for (int i = 0; i < listOfFlightRoutes.size(); i++) {
+                        if (listOfFlightRoutes.get(i).getOrigin() == f.getDestination() && listOfFlightRoutes.get(i).getDestination() == f.getOrigin()) {
+                            System.out.println("Flight Route ID: " + listOfFlightRoutes.get(i).getFlightRouteId() + " (Complementary Flight Route)");
+                            System.out.println("Origin Airport: " + listOfFlightRoutes.get(i).getOrigin().getName());
+                            System.out.println("Destination Airport: " + listOfFlightRoutes.get(i).getDestination().getName());
+                            System.out.println("");
+
+                            printedFlightRoutes.add(listOfFlightRoutes.get(i));
+                            break;
+                        } 
+                    }
+
+                } 
             }
         }
         
@@ -515,7 +539,7 @@ public class ManagementModule {
         System.out.println("");
 
         if (f.getComplementaryRoute()) {
-            System.out.println("Flight Route ID: " + f.getFlightRouteId() + " (Complementary Flight Route)");
+            System.out.println("Complementary Flight Route");
             System.out.println("Origin Airport: " + f.getDestination().getName());
             System.out.println("Destination Airport: " + f.getOrigin().getName());
         }
