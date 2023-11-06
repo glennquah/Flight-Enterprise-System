@@ -132,10 +132,10 @@ public class ReservationModule {
         
         //check
         //System.out.println("Departure Date> " + departureDate);
-    
+        Date returnDate = null;
         if (tripType == 2) {
             System.out.print("Enter Return Date (in the format YYYY-MM-DD)> ");
-            Date returnDate = dateFormat.parse(sc.nextLine());
+            returnDate = dateFormat.parse(sc.nextLine());
         }
         
         System.out.print("Enter number of Passengers> ");
@@ -154,12 +154,23 @@ public class ReservationModule {
         sc.nextLine();
         List<Flight> listOfFlights = new ArrayList<>();
         //1. Get list of flights that have origin to destination the same as input
+        if (tripType == 2) {
+            System.out.println("*** FIRST FLIGHT ***");
+        }
         if (flightType == 1) {
             bookingDirectFlight(sc, depAirport, destAirport, departureDate);
         } else {
             bookConnectingFlight(sc, depAirport, destAirport, departureDate);
         }
         
+        if (tripType == 2) {
+            System.out.println("*** RETURN FLIGHT ***");
+            if (flightType == 1){
+                bookingDirectFlight(sc, destAirport, depAirport, returnDate);
+            } else {
+                bookConnectingFlight(sc, destAirport, depAirport, returnDate);
+            }
+        }
     }
     
     public void bookConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate) throws FlightDoesNotExist {
