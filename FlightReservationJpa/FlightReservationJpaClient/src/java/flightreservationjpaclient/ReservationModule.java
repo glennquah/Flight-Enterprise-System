@@ -386,6 +386,12 @@ public class ReservationModule {
             String seat = sc.nextLine().trim();
             char letter = seat.charAt(0);
             flightScheduleSessionBeanRemote.bookSeat(flightScheduleId, cabin, rowNum, letter);
+            System.out.print("Enter First Name Of Customer> ");
+            String firstName = sc.nextLine().trim();
+            System.out.print("Enter Last Name Of Customer> ");
+            String lastName = sc.nextLine().trim();
+            System.out.print("Enter Passport Number Of Customer> ");
+            String passport = sc.nextLine().trim();
             System.out.println("*** SEAT BOOKED ***");
             System.out.println("");
         }
