@@ -15,6 +15,7 @@ import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
 import entity.Airport;
+import entity.Cabin;
 import entity.Flight;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
@@ -86,7 +87,7 @@ public class ReservationModule {
             response = sc.nextInt();
             sc.nextLine();
             if(response == 1) {
-                reserveFlight(sc);
+                searchFlight(sc);
             } else if (response == 2) {
                 System.out.println("2");
             } else if (response == 3) {
@@ -99,7 +100,7 @@ public class ReservationModule {
     }
     
     // **************************************** RESERVE FLIGHT ***************************************************
-    public void reserveFlight(Scanner sc) throws Exception{
+    public void searchFlight(Scanner sc) throws Exception{
         System.out.println("\n*** YOU HAVE PICKED RESERVE FLIGHT ***");
         System.out.println("*** ENTER FLIGHT DETAILS ***\n");
         System.out.println("Trip Type: ");
@@ -109,7 +110,7 @@ public class ReservationModule {
         int tripType = sc.nextInt();
         if (tripType != 1 && tripType != 2) {
             System.out.println("Wrong input, try again");
-            reserveFlight(sc);
+            searchFlight(sc);
         }
         sc.nextLine();
         System.out.print("All Aiport: ");
@@ -149,31 +150,31 @@ public class ReservationModule {
         int flightType = sc.nextInt();
         if (flightType != 1 && flightType != 2) {
             System.out.println("Wrong input, try again");
-            reserveFlight(sc);
+            searchFlight(sc);
         }
         sc.nextLine();
         List<Flight> listOfFlights = new ArrayList<>();
         //1. Get list of flights that have origin to destination the same as input
         if (tripType == 2) {
-            System.out.println("*** FIRST FLIGHT ***");
+            System.out.println("\n*** FIRST FLIGHT BOOKING ***");
         }
         if (flightType == 1) {
-            bookingDirectFlight(sc, depAirport, destAirport, departureDate);
+            searchDirectFlight(sc, depAirport, destAirport, departureDate);
         } else {
-            bookConnectingFlight(sc, depAirport, destAirport, departureDate);
+            searchConnectingFlight(sc, depAirport, destAirport, departureDate);
         }
         
         if (tripType == 2) {
-            System.out.println("*** RETURN FLIGHT ***");
+            System.out.println("\n*** RETURN FLIGHT BOOKING ***");
             if (flightType == 1){
-                bookingDirectFlight(sc, destAirport, depAirport, returnDate);
+                searchDirectFlight(sc, destAirport, depAirport, returnDate);
             } else {
-                bookConnectingFlight(sc, destAirport, depAirport, returnDate);
+                searchConnectingFlight(sc, destAirport, depAirport, returnDate);
             }
         }
     }
     
-    public void bookConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate) throws FlightDoesNotExist {
+    public void searchConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate) throws FlightDoesNotExist, Exception {
         long hubId = 1;
         List<Flight> listOfFlightsToHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
         List<Flight> listOfFlightsFromHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(hubId, destAirport);
@@ -182,7 +183,7 @@ public class ReservationModule {
         int flightnum = 1;
         List<FlightSchedule> listOfFlightScheduleToHubSameDay = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlanToHub, departureDate);
         
-        System.out.println("\n*** FIRST, PICK FLIGHT GOING TO TAOYUAN AIRPORT (HUB) ***");
+        System.out.print("\n*** FIRST, PICK FLIGHT GOING TO TAOYUAN AIRPORT (HUB) ***");
         System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***\n", listOfFlightScheduleToHubSameDay.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleToHubSameDay, flightnum);
         
@@ -197,10 +198,30 @@ public class ReservationModule {
         System.out.println(String.format("\n*** %s FLIGHT 3 DAYS AFTER ***\n", listOfFlightScheduleHub3daysAfter.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleHub3daysAfter, flightnum);
         
-        System.out.print("Enter Schedule ID of Flight You Want to Reserve> ");
-        int flightSchedToHub = sc.nextInt();
+        int schedId = -1;
+        while(schedId != 0) {
+            System.out.println("\n(Enter 0 to Reserve Flight)");
+            System.out.print("Enter Schedule ID to see more details> ");
+            schedId = sc.nextInt();
+            if (schedId != 0) {
+                checkFlightDetails(sc, schedId);
+            }
+        }
+        
         sc.nextLine();
-        long flightSchedId = flightSchedToHub;
+        System.out.print("Enter Flight Schedule Id to reserve> ");
+        int confirmId = sc.nextInt();
+        sc.nextLine();
+        System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
+        System.out.println("Press Y to confirm N to restart");
+        String next = sc.nextLine().trim();
+        if (next.equalsIgnoreCase("N")) {
+            customerLoginPage();
+        } else {
+            System.out.println("BOOKED FIRST FLIGHT");
+        }
+        
+        long flightSchedId = confirmId;
         Date dateOfFlightPicked = flightScheduleSessionBeanRemote.retrieveDateOfFlightPicked(flightSchedId);
         
         flightnum = 1;
@@ -214,24 +235,43 @@ public class ReservationModule {
         System.out.println(String.format("\n*** %s FLIGHT 3 DAYS AFTER ***", listOfFlightScheduleFromHub3daysAfter.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleFromHub3daysAfter, flightnum);
         
-        System.out.print("Enter Schedule ID of Flight You Want to Reserve> ");
-        int flightSchedFromHub = sc.nextInt();
+        schedId = -1;
+        while(schedId != 0) {
+            System.out.println("\n(Enter 0 to Reserve Flight)");
+            System.out.print("Enter Schedule ID to see more details> ");
+            schedId = sc.nextInt();
+            if (schedId != 0) {
+                checkFlightDetails(sc, schedId);
+            }
+        }
+        
         sc.nextLine();
+        System.out.print("Enter Flight Schedule Id to reserve> ");
+        confirmId = sc.nextInt();
+        sc.nextLine();
+        System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
+        System.out.println("Press Y to confirm N to restart");
+        next = sc.nextLine().trim();
+        if (next.equalsIgnoreCase("N")) {
+            customerLoginPage();
+        } else {
+            System.out.println("BOOKED FIRST FLIGHT");
+        }
     }
     
     public int printStatementForFlightSchedule(List<FlightSchedule> flightSchedules, int Number) {
         for(int i = 0; i < flightSchedules.size(); i ++) {
-            System.out.println("No." + (Number++));
-            System.out.println("Filght Schedule ID: " + flightSchedules.get(i).getFlightScheduleId());
-            System.out.println("Filght Departure Date Time: " + flightSchedules.get(i).getDepartureDateTime());
-            System.out.println("Filght Estimated Arrival Date Time: " + flightSchedules.get(i).getArrivalDateTime());
-            System.out.println("Filght Estimated Time: " + flightSchedules.get(i).getEstimatedTime());
-            System.out.println("");
+            //System.out.println("No." + (Number++));
+            FlightSchedule fs = flightSchedules.get(i);
+            System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
+            System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
+            System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
+            System.out.println("Filght Estimated Time: " + fs.getEstimatedTime());
         }
         return Number;
     }
     
-    public void bookingDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate) {
+    public void searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate) throws Exception {
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
         //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
         List<FlightSchedulePlan> listOfFlightSchedulePlan = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
@@ -252,6 +292,45 @@ public class ReservationModule {
         System.out.println(String.format("\n*** %s FLIGHT 3 DAYS AFTER ***", listOfFlightSchedule3daysAfter.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightSchedule3daysAfter, flightnum);
         
-        System.out.print("Enter Schedule ID You Want to Reserve> ");
+        int schedId = -1;
+        while(schedId != 0) {
+            System.out.println("\n(Enter 0 to Reserve Flight)");
+            System.out.print("Enter Schedule ID to see more details> ");
+            schedId = sc.nextInt();
+            if (schedId != 0) {
+                checkFlightDetails(sc, schedId);
+            }
+        }
+        
+        sc.nextLine();
+        System.out.print("Enter Flight Schedule Id to reserve> ");
+        int confirmId = sc.nextInt();
+        sc.nextLine();
+        System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
+        System.out.println("Press Y to confirm N to restart");
+        String next = sc.nextLine().trim();
+        if (next.equalsIgnoreCase("N")) {
+            customerLoginPage();
+        } else {
+            System.out.println("BOOKED FIRST FLIGHT");
+        }
+    }
+    
+    public void checkFlightDetails(Scanner sc, long scheduleId) {
+        System.out.println(String.format("\n*** DETAILS FOR FLIGHT SCHEDULE %s ***", scheduleId));
+        FlightSchedule fs = flightScheduleSessionBeanRemote.getFlightScheduleWithId(scheduleId);
+        System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
+        System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
+        System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
+        System.out.println("Filght Estimated Time: " + fs.getEstimatedTime());
+        System.out.println("\n*** CABIN DETAILS ***");
+        List<Cabin> cabins = flightScheduleSessionBeanRemote.getCabins(scheduleId);
+        for (Cabin c : cabins) {
+            System.out.println("Cabin Class : " + c.getCabinClassName());
+            System.out.println("Total Seats: " + c.getTotalSeats());
+            System.out.println("Remaining Seats: " + (c.getTotalSeats() - c.getReservedSeats()));
+            System.out.println("");
+            //print out price here as well
+        }
     }
 }

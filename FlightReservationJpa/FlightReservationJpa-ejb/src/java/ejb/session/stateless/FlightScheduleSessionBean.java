@@ -5,6 +5,7 @@
 package ejb.session.stateless;
 
 import entity.Airport;
+import entity.Cabin;
 import entity.Flight;
 import entity.FlightRoute;
 import entity.FlightSchedule;
@@ -153,4 +154,16 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         return newList;
     }
 
+    @Override
+    public FlightSchedule getFlightScheduleWithId(long id) {
+        return em.find(FlightSchedule.class, id);
+    }
+    
+    @Override
+    public List<Cabin> getCabins(long id) {
+        FlightSchedule fs = getFlightScheduleWithId(id);
+        List<Cabin> listOfCabins = fs.getFlightSchedulePlan().getFlight().getAircraftConfig().getListOfCabins();
+        listOfCabins.size();
+        return listOfCabins;
+    }
 }

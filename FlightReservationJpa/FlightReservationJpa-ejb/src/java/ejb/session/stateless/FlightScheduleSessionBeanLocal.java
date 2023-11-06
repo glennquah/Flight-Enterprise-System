@@ -4,6 +4,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Cabin;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.time.LocalTime;
@@ -25,4 +26,6 @@ public interface FlightScheduleSessionBeanLocal {
     public List<FlightSchedule> retrieveFlightScheduleInPlan(List<FlightSchedulePlan> listOfFlightSchedulePlan);
     public Date retrieveDateOfFlightPicked(Long id) throws FlightDoesNotExist;
     public List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDateTime);
+    public FlightSchedule getFlightScheduleWithId(long id);
+    public List<Cabin> getCabins(long id);
 }
