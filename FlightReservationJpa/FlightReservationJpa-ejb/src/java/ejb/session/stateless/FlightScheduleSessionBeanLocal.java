@@ -28,4 +28,5 @@ public interface FlightScheduleSessionBeanLocal {
     public List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDateTime);
     public FlightSchedule getFlightScheduleWithId(long id);
     public List<Cabin> getCabins(long id);
+    public char[][] getCabinSeats(long id, String cabName);
 }

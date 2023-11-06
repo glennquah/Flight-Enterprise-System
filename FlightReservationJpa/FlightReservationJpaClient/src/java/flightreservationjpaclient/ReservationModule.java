@@ -312,6 +312,7 @@ public class ReservationModule {
         if (next.equalsIgnoreCase("N")) {
             customerLoginPage();
         } else {
+            checkFlightDetails(sc, confirmId);
             System.out.println("BOOKED FIRST FLIGHT");
         }
     }
@@ -331,6 +332,19 @@ public class ReservationModule {
             System.out.println("Remaining Seats: " + (c.getTotalSeats() - c.getReservedSeats()));
             System.out.println("");
             //print out price here as well
+        }
+    }
+    
+    public void reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats) {
+        checkFlightDetails(sc, flightScheduleId);
+        System.out.print("Enter Cabin You wan to Reserve> ");
+        String cabin = sc.nextLine().trim();
+        char[][] cabinSeatingPlan = flightScheduleSessionBeanRemote.getCabinSeats(flightScheduleId, cabin);
+        for (int i = 0; i < cabinSeatingPlan.length; i++) {
+            for (int j = 0; j < cabinSeatingPlan[0].length; j++) {
+                System.out.print(cabinSeatingPlan[i][j]);
+            }
+            System.out.println("");
         }
     }
 }
