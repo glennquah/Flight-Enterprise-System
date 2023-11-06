@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -36,7 +37,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
 
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
-
+    
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
@@ -165,5 +166,38 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         List<Cabin> listOfCabins = fs.getFlightSchedulePlan().getFlight().getAircraftConfig().getListOfCabins();
         listOfCabins.size();
         return listOfCabins;
+    }
+    
+    @Override
+    public char[][] getCabinSeats(long id, String cabName) {
+       List<Cabin> cabins = getCabins(id);
+       for (Cabin c : cabins) {
+           if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+               return c.getSeatingPlan();
+           }
+       }
+       return null;
+    }
+    
+    @Override
+    public Integer[] getIslesPlan(long id, String cabName) {
+       List<Cabin> cabins = getCabins(id);
+       for (Cabin c : cabins) {
+           if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+               return c.getSeatingConfiguration();
+           }
+       }
+       return null;
+    }
+    
+    @Override
+    public long bookSeat(long id, String cabName, int seat, char letter) {
+        List<Cabin> cabins = getCabins(id);
+       for (Cabin c : cabins) {
+           if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+               c.bookSeat(seat, letter);
+           }
+       }
+       return id;
     }
 }
