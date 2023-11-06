@@ -30,4 +30,5 @@ public interface FlightScheduleSessionBeanRemote {
     public FlightSchedule getFlightScheduleWithId(long id);
     public List<Cabin> getCabins(long id);
     public char[][] getCabinSeats(long id, String cabName);
+    public Integer[] getIslesPlan(long id, String cabName);
 }

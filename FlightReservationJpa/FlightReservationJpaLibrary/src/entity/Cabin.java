@@ -65,7 +65,7 @@ public class Cabin implements Serializable {
         for (int i = 0; i < seatingConfiguration.length; i ++) {
             colm += seatingConfiguration[i];
         }
-        this.seatingPlan = new char[colm][numOfRows];
+        this.seatingPlan = new char[numOfRows][colm];
         for (int i = 0; i < numOfRows; i ++) {
             for (int j = 0; j < colm; j++) {
                 seatingPlan[i][j] = 'O';

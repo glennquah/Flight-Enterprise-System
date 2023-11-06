@@ -35,9 +35,6 @@ import util.exception.FlightRouteAlreadyExistException;
 @Stateless
 public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemote, FlightScheduleSessionBeanLocal {
 
-    @EJB(name = "AircraftConfigurationSessionBeanRemote")
-    private AircraftConfigurationSessionBeanRemote aircraftConfigurationSessionBeanRemote;
-
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
     
@@ -177,6 +174,17 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
        for (Cabin c : cabins) {
            if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
                return c.getSeatingPlan();
+           }
+       }
+       return null;
+    }
+    
+    @Override
+    public Integer[] getIslesPlan(long id, String cabName) {
+       List<Cabin> cabins = getCabins(id);
+       for (Cabin c : cabins) {
+           if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+               return c.getSeatingConfiguration();
            }
        }
        return null;

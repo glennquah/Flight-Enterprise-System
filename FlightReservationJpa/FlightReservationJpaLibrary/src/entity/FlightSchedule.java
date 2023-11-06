@@ -8,13 +8,16 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -45,9 +48,8 @@ public class FlightSchedule implements Serializable {
     @ManyToOne
     private FlightSchedulePlan flightSchedulePlan;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
-    private Customer customer;
+    @ManyToMany
+    private List<Customer> customer;
 
     public FlightSchedule() {
     }
@@ -58,6 +60,7 @@ public class FlightSchedule implements Serializable {
         
         Instant instant = departureDateTime.toInstant();
         this.arrivalDateTime = Date.from(instant.plus(estimatedTime));
+        this.customer = new ArrayList<Customer>();
     }
 
     public Long getFlightScheduleId() {
@@ -124,4 +127,19 @@ public class FlightSchedule implements Serializable {
     public String toString() {
         return "entity.FlightSchedule[ id=" + flightScheduleId + " ]";
     }
+
+    /**
+     * @return the customer
+     */
+    public List<Customer> getCustomer() {
+        return customer;
+    }
+
+    /**
+     * @param customer the customer to set
+     */
+    public void setCustomer(List<Customer> customer) {
+        this.customer = customer;
+    }
+
 }

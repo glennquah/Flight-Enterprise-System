@@ -159,7 +159,7 @@ public class ReservationModule {
             System.out.println("\n*** FIRST FLIGHT BOOKING ***");
         }
         if (flightType == 1) {
-            searchDirectFlight(sc, depAirport, destAirport, departureDate);
+            searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers);
         } else {
             searchConnectingFlight(sc, depAirport, destAirport, departureDate);
         }
@@ -167,7 +167,7 @@ public class ReservationModule {
         if (tripType == 2) {
             System.out.println("\n*** RETURN FLIGHT BOOKING ***");
             if (flightType == 1){
-                searchDirectFlight(sc, destAirport, depAirport, returnDate);
+                searchDirectFlight(sc, destAirport, depAirport, returnDate, numOfPassengers);
             } else {
                 searchConnectingFlight(sc, destAirport, depAirport, returnDate);
             }
@@ -271,7 +271,7 @@ public class ReservationModule {
         return Number;
     }
     
-    public void searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate) throws Exception {
+    public void searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats) throws Exception {
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
         //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
         List<FlightSchedulePlan> listOfFlightSchedulePlan = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
@@ -312,7 +312,7 @@ public class ReservationModule {
         if (next.equalsIgnoreCase("N")) {
             customerLoginPage();
         } else {
-            checkFlightDetails(sc, confirmId);
+            reserveFlight(confirmId, sc, numOfSeats);
             System.out.println("BOOKED FIRST FLIGHT");
         }
     }
@@ -340,9 +340,39 @@ public class ReservationModule {
         System.out.print("Enter Cabin You wan to Reserve> ");
         String cabin = sc.nextLine().trim();
         char[][] cabinSeatingPlan = flightScheduleSessionBeanRemote.getCabinSeats(flightScheduleId, cabin);
+        Integer[] islesPlan = flightScheduleSessionBeanRemote.getIslesPlan(flightScheduleId, cabin);
+        System.out.println("*** SEATING CONFIGURATION *** ");
+        System.out.print("LETTER ");
+        char seatNum = 'A';
+        int count = 0;
+        int c = 0;
+        for (int i = 0; i < cabinSeatingPlan[0].length; i++) {
+            System.out.print(seatNum);
+            seatNum++;
+            count++;
+            if (count == islesPlan[c] && c != islesPlan.length) {
+                System.out.print("|");
+                c++;
+                count = 0;
+            }
+        }
+        System.out.println("");
         for (int i = 0; i < cabinSeatingPlan.length; i++) {
+            if (i < 9) {
+                System.out.print("ROW  " + (i + 1) + " ");
+            } else {
+                System.out.print("ROW " + (i + 1) + " ");
+            }
+            count = 0;
+            c = 0;
             for (int j = 0; j < cabinSeatingPlan[0].length; j++) {
                 System.out.print(cabinSeatingPlan[i][j]);
+                count++;
+                if (count == islesPlan[c] && c != islesPlan.length - 1) {
+                    System.out.print("|");
+                    c++;
+                    count = 0;
+                }
             }
             System.out.println("");
         }
