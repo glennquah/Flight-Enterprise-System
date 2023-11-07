@@ -24,21 +24,25 @@ nbproject/private/
 build/
 dist/
 
-EnterpriseApplication1-ejb/nbproject/private/
-EnterpriseApplication1-ejb/build/
-EnterpriseApplication1-ejb/dist/
+FlightReservationJpa-ejb/nbproject/private/
+FlightReservationJpa-ejb/build/
+FlightReservationJpa-ejb/dist/
 
 # EnterpriseApplication1-war/nbproject/private/
 # EnterpriseApplication1-war/build/
 # EnterpriseApplication1-war/dist/
 
-EnterpriseApplication1Client/nbproject/private/
-EnterpriseApplication1Client/build/
-EnterpriseApplication1Client/dist/
+FlightManagementJpaClient/nbproject/private/
+FlightManagementJpaClient/build/
+FlightManagementJpaClient/dist/
 
-EnterpriseApplication1Library/nbproject/private/
-EnterpriseApplication1Library/build/
-EnterpriseApplication1Library/dist/
+FlightReservationJpaClient/nbproject/private/
+FlightReservationJpaClient/build/
+FlightRservationJpaClient/dist/
+
+FlightReservationJpaLibrary/nbproject/private/
+FlightReservationJpaLibrary/build/
+FlightReservationJpaLibrary/dist/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
