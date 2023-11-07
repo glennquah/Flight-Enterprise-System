@@ -23,7 +23,7 @@ public class Customer extends Account implements Serializable {
     private String phoneNumber;
     @Column(length = 64, nullable = false)
     private String address;
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private String creditCardNumber;
     
     @OneToMany(mappedBy="Customer")
@@ -39,6 +39,7 @@ public class Customer extends Account implements Serializable {
         super(firstName, lastName, email, password);
         this.phoneNumber = phoneNumber;
         this.address = address;
+        //this.creditCardNumber = null;
         this.listOfReservationDetails = new ArrayList<ReservationDetails>();
         this.listOfFlightSchedules = new ArrayList<FlightSchedule>();
     }
