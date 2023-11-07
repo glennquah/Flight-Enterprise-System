@@ -125,7 +125,7 @@ public class Airport implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Airport[ id=" + airportId + " ]";
+        return String.format("%s airport with ID %s", name, airportId);
     }
 
     /**

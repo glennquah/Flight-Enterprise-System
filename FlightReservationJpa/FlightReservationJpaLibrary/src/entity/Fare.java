@@ -6,6 +6,7 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,9 +31,21 @@ public class Fare implements Serializable {
     private Cabin cabin;
     
     private String fareBasisCode;
+    
     private BigDecimal fareAmount;
+    
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    private FlightSchedulePlan flightSchedulePlan;
 
     public Fare() {
+    }
+
+    public Fare(Cabin cabin, String fareBasisCode, BigDecimal fareAmount, FlightSchedulePlan flightSchedulePlan) {
+        this.cabin = cabin;
+        this.fareBasisCode = fareBasisCode;
+        this.fareAmount = fareAmount;
+        this.flightSchedulePlan = flightSchedulePlan;
     }
 
     public Cabin getCabin() {
@@ -89,7 +102,7 @@ public class Fare implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Fare[ id=" + id + " ]";
+        return String.format("Fare of ID %s has Fare Basis Code %s which cost %s ", id,fareBasisCode, fareAmount.toPlainString());
     }
     
 }

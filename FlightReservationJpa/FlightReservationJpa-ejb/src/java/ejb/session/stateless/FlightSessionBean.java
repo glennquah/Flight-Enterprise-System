@@ -17,7 +17,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.AircraftConfigurationDoesNotExistException;
-import util.exception.FlightDoesNotExist;
+import util.exception.FlightDoesNotExistException;
 import util.exception.FlightRouteDoesNotExistException;
 
 /**
@@ -64,7 +64,7 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     }
     
     @Override
-    public Integer getTotalSeats(Long id) throws FlightDoesNotExist {
+    public Integer getTotalSeats(Long id) throws FlightDoesNotExistException {
             Flight flight = getFlightWithId(id);
             List<Cabin> listOfCabs = flight.getAircraftConfig().getListOfCabins();
             listOfCabs.size();
@@ -76,7 +76,7 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     }
     
     @Override
-    public Integer getReservedSeats(Long id) throws FlightDoesNotExist {
+    public Integer getReservedSeats(Long id) throws FlightDoesNotExistException {
         try {
             Flight flight = getFlightWithId(id);
             List<Cabin> listOfCabs = flight.getAircraftConfig().getListOfCabins();
@@ -87,7 +87,7 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
             }
             return reservedSeats;
         } catch (NoResultException e) {
-            throw new FlightDoesNotExist("Flight Route Does Not Exist");
+            throw new FlightDoesNotExistException("Flight Route Does Not Exist");
         }
     }
     
@@ -99,7 +99,7 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     }
     
     @Override
-    public Flight getFlightWithId(Long id) throws FlightDoesNotExist {
+    public Flight getFlightWithId(Long id) throws FlightDoesNotExistException {
         try {
             Query query = em.createQuery("Select f from Flight f WHERE f.flightId = :flightId");
             query.setParameter("flightId", id);
@@ -107,35 +107,35 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
             System.out.println("*********************** f:" + f.getFlightId());
             return f;
         } catch (NoResultException e) {
-            throw new FlightDoesNotExist("Flight Route Does Not Exist");
+            throw new FlightDoesNotExistException("Flight Route Does Not Exist");
         }
     }
 
     @Override
-    public long removeFlight(Long id) throws FlightDoesNotExist {
+    public long removeFlight(Long id) throws FlightDoesNotExistException {
         try {
             Flight flight = getFlightWithId(id);
             em.remove(flight);
             em.flush();
             return flight.getFlightId();
         } catch (NoResultException e) {
-            throw new FlightDoesNotExist("Flight Does Not Exist");
+            throw new FlightDoesNotExistException("Flight Does Not Exist");
         }
     }
     
     @Override
-    public Long changeFlightNumber(Long flightIdNum, Integer newFlightNum) throws FlightDoesNotExist {
+    public Long changeFlightNumber(Long flightIdNum, Integer newFlightNum) throws FlightDoesNotExistException {
         try {
             Flight flight = getFlightWithId(flightIdNum);
             flight.setFlightNumber(newFlightNum);
             return flight.getFlightId();
         } catch (NoResultException e) {
-            throw new FlightDoesNotExist("Flight Does Not Exist");
+            throw new FlightDoesNotExistException("Flight Does Not Exist");
         }
     }
     
     @Override
-    public Long changeFlightRoute(Long flightIdNum, Long newFlightRouteId, Long oldFlightRouteId) throws FlightDoesNotExist {
+    public Long changeFlightRoute(Long flightIdNum, Long newFlightRouteId, Long oldFlightRouteId) throws FlightDoesNotExistException {
         try {        
             Flight flight = getFlightWithId(flightIdNum);
             // to desynch first
@@ -157,12 +157,12 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
             flight.setFlightRoute(Newfr);
             return flight.getFlightId();
         } catch (NoResultException e) {
-            throw new FlightDoesNotExist("Flight Does Not Exist");
+            throw new FlightDoesNotExistException("Flight Does Not Exist");
         }
     }
     
     @Override
-    public Long changeFlightConfig(Long flightIdNum, Long newFlightConfigId, Long oldFlightConfigId) throws FlightDoesNotExist {
+    public Long changeFlightConfig(Long flightIdNum, Long newFlightConfigId, Long oldFlightConfigId) throws FlightDoesNotExistException {
         try {
             Flight flight = getFlightWithId(flightIdNum);
             // to desynch first
@@ -186,5 +186,17 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
         } catch (NoResultException e) {
             throw new NoResultException("Flight Does Not Exist");
         }
+    }
+    
+    @Override 
+    public List<Cabin> getCabin(Integer flightNumber) {
+        Query query = em.createQuery("Select f from Flight f WHERE f.flightNumber = :flightNumber");
+        query.setParameter("flightNumber", flightNumber);
+        Flight flight = (Flight)query.getSingleResult();
+        
+        List<Cabin> cabins = flight.getAircraftConfig().getListOfCabins();
+        cabins.size();
+
+        return cabins;
     }
 }

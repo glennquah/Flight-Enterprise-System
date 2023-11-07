@@ -6,24 +6,24 @@ package util.exception;
 
 /**
  *
- * @author Lenovo
+ * @author admin
  */
-public class FlightDoesNotExist extends Exception {
+public class FareDoesNotExistException extends Exception {
 
     /**
-     * Creates a new instance of <code>FlightDoesNotExist</code> without detail
-     * message.
+     * Creates a new instance of <code>FareDoesNotExistException</code> without
+     * detail message.
      */
-    public FlightDoesNotExist() {
+    public FareDoesNotExistException() {
     }
 
     /**
-     * Constructs an instance of <code>FlightDoesNotExist</code> with the
+     * Constructs an instance of <code>FareDoesNotExistException</code> with the
      * specified detail message.
      *
      * @param msg the detail message.
      */
-    public FlightDoesNotExist(String msg) {
+    public FareDoesNotExistException(String msg) {
         super(msg);
     }
 }

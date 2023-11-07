@@ -10,6 +10,7 @@ import ejb.session.stateless.AirportSessionBeanRemote;
 import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
+import ejb.session.stateless.FareSessionBeanRemote;
 import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
@@ -23,6 +24,9 @@ import util.exception.InvalidInputException;
  * @author admin
  */
 public class Main {
+
+    @EJB(name = "FareSessionBeanRemote")
+    private static FareSessionBeanRemote fareSessionBeanRemote;
 
     @EJB(name = "FlightSessionBeanRemote")
     private static FlightSessionBeanRemote flightSessionBeanRemote;
@@ -59,7 +63,7 @@ public class Main {
                     aircraftSessionBeanRemote, aircraftConfigurationSessionBeanRemote, 
                     cabinCustomerSessionBeanRemote, flightRoutesSessionBeanRemote, 
                     airportSessionBeanRemote, flightSessionBeanRemote, flightScheduleSessionBeanRemote,
-                    flightSchedulePlanSessionBeanRemote);
+                    flightSchedulePlanSessionBeanRemote, fareSessionBeanRemote);
         mainApp.runApp();
     }
     

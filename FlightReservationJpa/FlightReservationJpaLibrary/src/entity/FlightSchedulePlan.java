@@ -6,7 +6,9 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,22 +36,18 @@ public class FlightSchedulePlan implements Serializable {
     
     @OneToMany(mappedBy="FlightSchedulePlan")
     private List<FlightSchedule> flightSchedules;
+    
+    @OneToMany(mappedBy="FlightSchedulePlan")
+    private List<Fare> listOfFares;
 
     public FlightSchedulePlan() {
-        
     }
 
     public FlightSchedulePlan(Integer flightNumber) {
         this.flightNumber = flightNumber;
         this.flightSchedules = new ArrayList<>();
+        this.listOfFares = new ArrayList<>();
     }
-
-    public FlightSchedulePlan(Integer flightNumber, FlightSchedule flightSchedule) {
-        this.flightNumber = flightNumber;
-        flightSchedules.add(flightSchedule);
-        this.flightSchedules = flightSchedules;
-    }
-    
 
     public Long getFlightSchedulePlanId() {
         return flightSchedulePlanId;
@@ -97,9 +95,21 @@ public class FlightSchedulePlan implements Serializable {
     }
 
     public void setFlightSchedules(List<FlightSchedule> flightSchedules) {
+        FlightScheduleComparator flightComp = new FlightScheduleComparator();
         this.flightSchedules = flightSchedules;
+        
+        if (this.flightSchedules != null) {
+            Collections.sort(this.flightSchedules, flightComp);
+        }
     }
 
+    public List<Fare> getListOfFares() {
+        return listOfFares;
+    }
+
+    public void setListOfFares(List<Fare> listOfFares) {
+        this.listOfFares = listOfFares;
+    }
 
     /**
      * @return the flight

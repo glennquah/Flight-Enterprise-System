@@ -10,6 +10,7 @@ import javax.ejb.Remote;
 import util.exception.AirportDoesNotExistException;
 import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
+import util.exception.FlightScheduleDoesNotExistException;
 
 /**
  *
@@ -22,4 +23,5 @@ public interface FlightRoutesSessionBeanRemote {
     public List<FlightRoute> retrieveAllFlightRoutes();
     public Long deleteFlightRoute(Long flightRouteId) throws FlightRouteDoesNotExistException;
     public FlightRoute getFlightRouteWithId(Long id);
+    public FlightRoute getFlightRouteWithFS(Long flightSchedulePlanId) throws FlightScheduleDoesNotExistException;
 }

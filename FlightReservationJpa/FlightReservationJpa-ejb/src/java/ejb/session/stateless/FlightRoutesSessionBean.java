@@ -5,7 +5,9 @@
 package ejb.session.stateless;
 
 import entity.Airport;
+import entity.Flight;
 import entity.FlightRoute;
+import entity.FlightSchedulePlan;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,6 +17,7 @@ import javax.persistence.Query;
 import util.exception.AirportDoesNotExistException;
 import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
+import util.exception.FlightScheduleDoesNotExistException;
 
 /**
  *
@@ -129,5 +132,14 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
         return em.find(FlightRoute.class, id);
     }
 
-    
+    @Override 
+    public FlightRoute getFlightRouteWithFS(Long flightSchedulePlanId) throws FlightScheduleDoesNotExistException {
+        try {
+            FlightSchedulePlan flightSchedulePlan = em.find(FlightSchedulePlan.class, flightSchedulePlanId);
+            Flight flight = flightSchedulePlan.getFlight();
+            return flight.getFlightRoute();
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+        }
+    }
 }
