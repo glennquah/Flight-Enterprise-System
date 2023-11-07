@@ -14,11 +14,13 @@ import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
+import ejb.session.stateless.ReservationDetailsSessionBeanRemote;
 import entity.Airport;
 import entity.Cabin;
 import entity.Flight;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
+import entity.ReservationDetails;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +46,7 @@ public class ReservationModule {
     private FlightSessionBeanRemote flightSessionBeanRemote;
     private FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote;
     private FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
+    private ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote;
 
     public ReservationModule() {
     }
@@ -58,7 +61,8 @@ public class ReservationModule {
             AirportSessionBeanRemote airportSessionBeanRemote,
             FlightSessionBeanRemote flightSessionBeanRemote,
             FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote,
-            FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote) {
+            FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote,
+            ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote) {
         this.customerId = customerId;
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
@@ -70,6 +74,7 @@ public class ReservationModule {
         this.flightSessionBeanRemote = flightSessionBeanRemote;
         this.flightSchedulePlanSessionBeanRemote = flightSchedulePlanSessionBeanRemote;
         this.flightScheduleSessionBeanRemote = flightScheduleSessionBeanRemote;
+        this.reservationDetailsSessionBeanRemote = reservationDetailsSessionBeanRemote;
     }
     
     public void customerLoginPage() throws Exception {
@@ -391,9 +396,19 @@ public class ReservationModule {
             String lastName = sc.nextLine().trim();
             System.out.print("Enter Passport Number Of Customer> ");
             String passport = sc.nextLine().trim();
+            ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport);
+            Long reservId = reservationDetailsSessionBeanRemote.createReservationDetails(reservationDetails, this.customerId, flightScheduleId);
+            System.out.println("Reservation Created!");
+            System.out.println("Reservation ID = " + reservId);
             System.out.println("*** SEAT BOOKED ***");
             System.out.println("");
+            
         }
         
+        System.out.print("Enter Credit Card Details> ");
+        String ccd = sc.nextLine().trim();
+        customerSessionBean.linkFlightSchedule(this.customerId, flightScheduleId, ccd);
+        System.out.println("Credit Card Details Set!");
+        System.out.println("*** FLIGHT RESERVATION DONE ***");
     }
 }

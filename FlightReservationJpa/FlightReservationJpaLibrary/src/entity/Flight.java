@@ -43,9 +43,6 @@ public class Flight implements Serializable {
     private AircraftConfiguration aircraftConfig;
     
     @OneToMany(mappedBy = "Flight")
-    private List<ReservationDetails> listOfReservationDetails;
-    
-    @OneToMany(mappedBy = "Flight")
     private List<FlightSchedulePlan> listOfFlightSchedulePlans;
 
     public Flight() {
@@ -57,7 +54,6 @@ public class Flight implements Serializable {
         this.bookedDates = new ArrayList<Date>();
         this.flightRoute = new FlightRoute();
         this.aircraftConfig = new AircraftConfiguration();
-        this.listOfReservationDetails = new ArrayList<ReservationDetails>();
         this.listOfFlightSchedulePlans = new ArrayList<FlightSchedulePlan>();
     }
 
@@ -76,15 +72,6 @@ public class Flight implements Serializable {
 
     public void setFlightRoute(FlightRoute flightRoute) {
         this.flightRoute = flightRoute;
-    }
-    
-
-    public List<ReservationDetails> getListOfReservationDetails() {
-        return listOfReservationDetails;
-    }
-
-    public void setListOfReservationDetails(List<ReservationDetails> listOfReservationDetails) {
-        this.listOfReservationDetails = listOfReservationDetails;
     }
     
     public Long getFlightId() {

@@ -14,6 +14,7 @@ import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
+import ejb.session.stateless.ReservationDetailsSessionBeanRemote;
 import entity.Account;
 import entity.Customer;
 import entity.Employee;
@@ -25,6 +26,9 @@ import javax.ejb.EJB;
  * @author Lenovo
  */
 public class Main {
+
+    @EJB(name = "ReservationDetailsSessionBeanRemote")
+    private static ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote;
 
     @EJB(name = "FlightScheduleSessionBeanRemote")
     private static FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
@@ -58,11 +62,12 @@ public class Main {
     
     
     
+    
     public static void main(String[] args) throws Exception {
         MainApp mainApp = new MainApp(employeeSessionBeanRemote, customerSessionBeanRemote, 
                     aircraftSessionBeanRemote, aircraftConfigurationSessionBeanRemote, 
                     cabinCustomerSessionBeanRemote, flightRoutesSessionBeanRemote, 
-                    airportSessionBeanRemote, flightSessionBeanRemote, flightSchedulePlanSessionBeanRemote, flightScheduleSessionBeanRemote);
+                    airportSessionBeanRemote, flightSessionBeanRemote, flightSchedulePlanSessionBeanRemote, flightScheduleSessionBeanRemote, reservationDetailsSessionBeanRemote);
         mainApp.runApp();
     }
     

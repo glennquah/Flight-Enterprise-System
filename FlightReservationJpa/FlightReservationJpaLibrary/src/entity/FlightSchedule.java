@@ -146,6 +146,20 @@ public class FlightSchedule implements Serializable {
     public String toString() {
         return String.format("Flight Schedule of ID %s departs on %s and lands on %s", flightScheduleId, departureDateTime, arrivalDateTime);
     }
+
+    /**
+     * @return the reservationDetails
+     */
+    public ReservationDetails getReservationDetails() {
+        return reservationDetails;
+    }
+
+    /**
+     * @param reservationDetails the reservationDetails to set
+     */
+    public void setReservationDetails(ReservationDetails reservationDetails) {
+        this.reservationDetails = reservationDetails;
+    }
 }
 
 

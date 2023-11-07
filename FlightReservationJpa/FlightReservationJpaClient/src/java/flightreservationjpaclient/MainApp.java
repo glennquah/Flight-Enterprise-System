@@ -14,6 +14,7 @@ import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
+import ejb.session.stateless.ReservationDetailsSessionBeanRemote;
 import entity.Customer;
 import java.util.Scanner;
 import javax.ejb.EJB;
@@ -34,6 +35,7 @@ public class MainApp {
     private FlightSessionBeanRemote flightSessionBeanRemote;
     private FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
     private FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote;
+    private ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote;
             
 
     public MainApp() {
@@ -48,7 +50,8 @@ public class MainApp {
                    AirportSessionBeanRemote airportSessionBeanRemote,
                    FlightSessionBeanRemote flightSessionBeanRemote,
                    FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote,
-                   FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote) {
+                   FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote,
+                   ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote) {
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
         this.aircraftSessionBeanRemote = aircraftSessionBeanRemote;
@@ -59,6 +62,7 @@ public class MainApp {
         this.flightSessionBeanRemote = flightSessionBeanRemote;
         this.flightSchedulePlanSessionBeanRemote = flightSchedulePlanSessionBeanRemote;
         this.flightScheduleSessionBeanRemote = flightScheduleSessionBeanRemote;
+        this.reservationDetailsSessionBeanRemote = reservationDetailsSessionBeanRemote;
     }
     
     public void runApp() throws Exception {
@@ -94,7 +98,8 @@ public class MainApp {
                                                                     airportSessionBeanRemote,
                                                                     flightSessionBeanRemote,
                                                                     flightSchedulePlanSessionBeanRemote,
-                                                                    flightScheduleSessionBeanRemote);
+                                                                    flightScheduleSessionBeanRemote,
+                                                                    reservationDetailsSessionBeanRemote);
                         resModule.customerLoginPage();
                     }
                     catch(InvalidLoginCredentialException ex) 
@@ -117,7 +122,8 @@ public class MainApp {
                                                                     airportSessionBeanRemote,
                                                                     flightSessionBeanRemote,
                                                                     flightSchedulePlanSessionBeanRemote,
-                                                                    flightScheduleSessionBeanRemote);
+                                                                    flightScheduleSessionBeanRemote,
+                                                                    reservationDetailsSessionBeanRemote);
                         resModule.customerLoginPage();
                     }
                     catch(InvalidLoginCredentialException ex) 

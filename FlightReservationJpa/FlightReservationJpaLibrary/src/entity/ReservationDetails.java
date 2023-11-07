@@ -37,10 +37,6 @@ public class ReservationDetails implements Serializable {
     @JoinColumn(nullable = false)
     private Customer customer;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
-    private Flight flight;
-    
     @OneToOne
     private FlightSchedule flightSchedule;
 
@@ -51,7 +47,6 @@ public class ReservationDetails implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.passportNumber = passportNumber;
-        this.flight = new Flight();
         this.customer = new Customer();
         this.flightSchedule = new FlightSchedule();
     }
@@ -125,20 +120,6 @@ public class ReservationDetails implements Serializable {
     @Override
     public String toString() {
         return "entity.ReservationDetails[ id=" + id + " ]";
-    }
-
-    /**
-     * @return the flight
-     */
-    public Flight getFlight() {
-        return flight;
-    }
-
-    /**
-     * @param flight the flight to set
-     */
-    public void setFlight(Flight flight) {
-        this.flight = flight;
     }
 
     /**
