@@ -26,7 +26,6 @@ import java.util.Scanner;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import util.exception.FlightDoesNotExist;
 
 /**
  *
@@ -174,7 +173,7 @@ public class ReservationModule {
         }
     }
     
-    public void searchConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate) throws FlightDoesNotExist, Exception {
+    public void searchConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate) throws Exception {
         long hubId = 1;
         List<Flight> listOfFlightsToHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
         List<Flight> listOfFlightsFromHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(hubId, destAirport);

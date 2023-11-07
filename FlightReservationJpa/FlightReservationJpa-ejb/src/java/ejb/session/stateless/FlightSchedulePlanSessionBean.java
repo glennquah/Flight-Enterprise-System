@@ -149,4 +149,15 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
         em.remove(flightSchedulePlan);
         em.flush();
     }
+    
+    @Override
+    public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(List<Flight> listOfFlights) {
+        Query query = em.createQuery("SELECT f FROM FlightSchedulePlan f WHERE f.flightNumber IN :flightNumbers");
+        List<Integer> flightNumbers = new ArrayList<>();
+        for (Flight flight : listOfFlights) {
+            flightNumbers.add(flight.getFlightNumber());
+        }
+        query.setParameter("flightNumbers", flightNumbers);
+        return query.getResultList();
+    }
 }
