@@ -396,7 +396,7 @@ public class ReservationModule {
             String lastName = sc.nextLine().trim();
             System.out.print("Enter Passport Number Of Customer> ");
             String passport = sc.nextLine().trim();
-            ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport);
+            ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);
             Long reservId = reservationDetailsSessionBeanRemote.createReservationDetails(reservationDetails, this.customerId, flightScheduleId);
             System.out.println("Reservation Created!");
             System.out.println("Reservation ID = " + reservId);

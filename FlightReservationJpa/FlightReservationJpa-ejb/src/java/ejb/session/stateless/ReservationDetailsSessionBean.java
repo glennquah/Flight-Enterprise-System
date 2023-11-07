@@ -35,7 +35,9 @@ public class ReservationDetailsSessionBean implements ReservationDetailsSessionB
         cust.setListOfReservationDetails(listOfRes);
         
         //synch flightshcedule to res details
-        fs.setReservationDetails(reservationDetails);
+        List<ReservationDetails> listOfRes2 = fs.getListOfReservationDetails();
+        listOfRes2.size();
+        fs.setListOfReservationDetails(listOfRes2);
         
         em.persist(reservationDetails);
         em.flush();

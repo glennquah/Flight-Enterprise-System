@@ -32,21 +32,28 @@ public class ReservationDetails implements Serializable {
     private String lastName;
     @Column(length = 32, nullable = false)
     private String passportNumber;
+    @Column(length = 3, nullable = false)
+    private int rowNum;
+    @Column(nullable = false)
+    private char seatLetter;
     
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Customer customer;
     
-    @OneToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private FlightSchedule flightSchedule;
 
     public ReservationDetails() {
     }
 
-    public ReservationDetails(String firstName, String lastName, String passportNumber) {
+    public ReservationDetails(String firstName, String lastName, String passportNumber, int rowNum, char seatLetter) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.passportNumber = passportNumber;
+        this.rowNum = rowNum;
+        this.seatLetter = seatLetter;
         this.customer = new Customer();
         this.flightSchedule = new FlightSchedule();
     }
@@ -134,6 +141,34 @@ public class ReservationDetails implements Serializable {
      */
     public void setFlightSchedule(FlightSchedule flightSchedule) {
         this.flightSchedule = flightSchedule;
+    }
+
+    /**
+     * @return the rowNum
+     */
+    public int getRowNum() {
+        return rowNum;
+    }
+
+    /**
+     * @param rowNum the rowNum to set
+     */
+    public void setRowNum(int rowNum) {
+        this.rowNum = rowNum;
+    }
+
+    /**
+     * @return the seatLetter
+     */
+    public char getSeatLetter() {
+        return seatLetter;
+    }
+
+    /**
+     * @param seatLetter the seatLetter to set
+     */
+    public void setSeatLetter(char seatLetter) {
+        this.seatLetter = seatLetter;
     }
     
 }
