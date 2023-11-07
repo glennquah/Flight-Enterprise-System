@@ -7,6 +7,9 @@ package ejb.session.stateless;
 import entity.AircraftConfiguration;
 import entity.Airport;
 import entity.Cabin;
+import entity.Fare;
+import entity.FlightSchedule;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -49,5 +52,17 @@ public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote,
         return query.getResultList();
     }
     
-    
+    @Override
+    public BigDecimal getLowestFareInCabin(long id) {
+        Cabin cab = em.find(Cabin.class, id);
+        List<Fare> listOfFare = cab.getListOfFare();
+        listOfFare.size();
+        BigDecimal least = BigDecimal.valueOf(Integer.MAX_VALUE);
+        for (Fare f : listOfFare) {
+            if (f.getFareAmount().compareTo(least) < 0) {
+                least = f.getFareAmount();
+            }
+        }
+        return least;
+    }
 }

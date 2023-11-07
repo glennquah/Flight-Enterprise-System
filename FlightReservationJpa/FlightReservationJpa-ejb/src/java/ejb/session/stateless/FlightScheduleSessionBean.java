@@ -12,6 +12,7 @@ import java.time.Instant;
 import entity.Airport;
 import entity.Cabin;
 import entity.FlightRoute;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -39,8 +40,13 @@ import util.exception.FlightRouteAlreadyExistException;
 @Stateless
 public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemote, FlightScheduleSessionBeanLocal {
 
+    @EJB(name = "CabinCustomerSessionBeanRemote")
+    private CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote;
+
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
+    
+    
     
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -288,12 +294,24 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     
     @Override
     public long bookSeat(long id, String cabName, int seat, char letter) {
-        List<Cabin> cabins = getCabins(id);
+       List<Cabin> cabins = getCabins(id);
        for (Cabin c : cabins) {
            if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
                c.bookSeat(seat, letter);
            }
        }
        return id;
+    }
+    
+    @Override
+    public BigDecimal getLowestFareUsingCabinName(String cabName, long id) {
+       List<Cabin> cabins = getCabins(id);
+       for (Cabin c : cabins) {
+           if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+               return cabinCustomerSessionBeanRemote.getLowestFareInCabin(c.getCabinId());
+           }
+       }
+       return BigDecimal.ZERO;
+       //throw error?
     }
 }
