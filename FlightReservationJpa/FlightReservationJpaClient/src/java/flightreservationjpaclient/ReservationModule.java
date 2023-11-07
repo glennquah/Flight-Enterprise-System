@@ -166,23 +166,24 @@ public class ReservationModule {
         if (tripType == 2) {
             System.out.println("\n*** FIRST FLIGHT BOOKING ***");
         }
+        BigDecimal fare = BigDecimal.ZERO;
         if (flightType == 1) {
-            searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers);
+            fare = searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare);
         } else {
-            searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers);
+            fare = searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false);
         }
         
         if (tripType == 2) {
             System.out.println("\n*** RETURN FLIGHT BOOKING ***");
             if (flightType == 1){
-                searchDirectFlight(sc, destAirport, depAirport, returnDate, numOfPassengers);
+                searchDirectFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare);
             } else {
-                searchConnectingFlight(sc, destAirport, depAirport, returnDate, numOfPassengers);
+                searchConnectingFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true);
             }
         }
     }
     
-    public void searchConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats) throws Exception {
+    public BigDecimal searchConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, boolean connectedFlight) throws Exception {
         long hubId = 1;
         List<Flight> listOfFlightsToHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
         List<Flight> listOfFlightsFromHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(hubId, destAirport);
@@ -225,7 +226,7 @@ public class ReservationModule {
         if (next.equalsIgnoreCase("N")) {
             customerLoginPage();
         } else {
-            System.out.println("BOOKED FIRST FLIGHT");
+            fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
         }
         
         long flightSchedId = confirmId;
@@ -261,8 +262,13 @@ public class ReservationModule {
         if (next.equalsIgnoreCase("N")) {
             customerLoginPage();
         } else {
-            System.out.println("isi tis BOOKED FIRST FLIGHT");
+            if (connectedFlight) {
+                fare.add(reserveFlight(confirmId, sc, numOfSeats, true, fare));
+            } else {
+                fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
+            }
         }
+        return fare;
     }
     
     public int printStatementForFlightSchedule(List<FlightSchedule> flightSchedules, int Number) {
@@ -281,7 +287,7 @@ public class ReservationModule {
         return Number;
     }
     
-    public void searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats) throws Exception {
+    public BigDecimal searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare) throws Exception {
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
         //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
         List<FlightSchedulePlan> listOfFlightSchedulePlan = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
@@ -321,8 +327,9 @@ public class ReservationModule {
         if (next.equalsIgnoreCase("N")) {
             customerLoginPage();
         } else {
-            reserveFlight(confirmId, sc, numOfSeats);
+            fare.add(reserveFlight(confirmId, sc, numOfSeats, true, BigDecimal.ZERO));
         }
+        return fare;
     }
     
     public void checkFlightDetails(Scanner sc, long scheduleId, int numOfSeats) {
@@ -344,7 +351,7 @@ public class ReservationModule {
         }
     }
     
-    public void reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats) {
+    public BigDecimal reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats, Boolean payment, BigDecimal existingFare) {
         checkFlightDetails(sc, flightScheduleId, numOfSeats);
         System.out.print("Enter Cabin You wan to Reserve> ");
         String cabin = sc.nextLine().trim();
@@ -410,13 +417,19 @@ public class ReservationModule {
             
         }
         
+
         BigDecimal lowestFare = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
-        System.out.println("Price per Ticket: " + lowestFare);
-        System.out.println("Total Price: " + (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
-        System.out.print("Enter Credit Card Details> ");
-        String ccd = sc.nextLine().trim();
-        customerSessionBean.linkFlightSchedule(this.customerId, flightScheduleId, ccd);
-        System.out.println("Credit Card Details Set!");
-        System.out.println("*** FLIGHT RESERVATION DONE ***");
+        //System.out.println("Price per Ticket: " + lowestFare);
+        BigDecimal fare = (lowestFare.multiply(BigDecimal.valueOf(numOfSeats)));
+        fare = fare.add(existingFare);
+        if (payment) {
+            System.out.println("Total Price: " + fare);
+            System.out.print("Enter Credit Card Details> ");
+            String ccd = sc.nextLine().trim();
+            customerSessionBean.linkFlightSchedule(this.customerId, flightScheduleId, ccd);
+            System.out.println("Credit Card Details Set!");
+            System.out.println("*** FLIGHT RESERVATION DONE ***");
+        }
+        return fare;
     }
 }
