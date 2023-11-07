@@ -4,6 +4,7 @@
  */
 package ejb.session.stateless;
 
+import entity.ReservationDetails;
 import javax.ejb.Local;
 
 /**
@@ -12,5 +13,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface ReservationDetailsSessionBeanLocal {
-    
+    public Long createReservationDetails(ReservationDetails reservationDetails, long customerId, long flightScheduleId);
 }
