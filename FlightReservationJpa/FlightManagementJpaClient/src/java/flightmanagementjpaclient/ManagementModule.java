@@ -1042,7 +1042,7 @@ public class ManagementModule {
         System.out.println("Flight has Destination Aiport: " + flightRoute.getDestination());
         System.out.println("");
         
-        List<FlightSchedule> flightSchedules = flightScheduleSessionBeanRemote.getFlightScheduleWithId((long) flightSchedulePlanId);
+        List<FlightSchedule> flightSchedules = flightScheduleSessionBeanRemote.getFlightSchedulesWithId((long) flightSchedulePlanId);
         System.out.println("The Flight Schedules are:");
         for (FlightSchedule f : flightSchedules) {
             System.out.println(f);

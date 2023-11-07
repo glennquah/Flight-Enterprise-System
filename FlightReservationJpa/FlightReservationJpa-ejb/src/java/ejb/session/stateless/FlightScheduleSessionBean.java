@@ -29,7 +29,7 @@ import util.exception.ConflictingFlightScheduleException;
 import util.exception.FlightScheduleDoesNotExistException;
 import javax.persistence.TemporalType;
 import util.exception.AirportDoesNotExistException;
-import util.exception.FlightDoesNotExist;
+import util.exception.FlightDoesNotExistException;
 import util.exception.FlightRouteAlreadyExistException;
 
 /**
@@ -115,7 +115,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public List<FlightSchedule> getFlightScheduleWithId(Long id) throws FlightScheduleDoesNotExistException {
+    public List<FlightSchedule> getFlightSchedulesWithId(Long id) throws FlightScheduleDoesNotExistException {
         try {
             FlightSchedulePlan flightSchedulePlan = em.find(FlightSchedulePlan.class, id);
             Query query = em.createQuery("Select f from FlightSchedule f WHERE f.flightSchedulePlan = :flightSchedulePlan");
@@ -142,6 +142,9 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         } catch (NoResultException e) {
             throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
         }
+    }
+    
+    @Override
     public List<FlightSchedule> retrieveFlightScheduleInPlan(List<FlightSchedulePlan> listOfFlightSchedulePlan) {
         List<Long> flightSchedNumbers = new ArrayList<>();
 
@@ -220,7 +223,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public Date retrieveDateOfFlightPicked(Long id) throws FlightDoesNotExist {
+    public Date retrieveDateOfFlightPicked(Long id) throws FlightDoesNotExistException {
         FlightSchedule flightSchedule = em.find(FlightSchedule.class, id);
         //add buffer?
         return flightSchedule.getArrivalDateTime();
