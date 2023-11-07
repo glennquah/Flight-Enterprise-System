@@ -52,3 +52,6 @@ FlightReservationJpaLibrary/dist/
 hs_err_pid*
 /FlightReservationJpa/FlightManagementJpaClient/nbproject/private/
 /FlightReservationJpa/FlightReservationJpaLibrary/build
+FlightReservationJpa/FlightReservationJpa-ejb/.DS_Store
+FlightReservationJpa/.DS_Store
+FlightReservationJpa/FlightReservationJpa-ejb/.DS_Store
