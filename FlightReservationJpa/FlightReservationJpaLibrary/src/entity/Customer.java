@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 /**
@@ -17,6 +18,8 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Customer extends Account implements Serializable {
+
+    
     @Column(length = 8, nullable = false)
     private String phoneNumber;
     @Column(length = 64, nullable = false)
@@ -24,6 +27,9 @@ public class Customer extends Account implements Serializable {
     
     @OneToMany(mappedBy="Customer")
     private List<ReservationDetails> listOfReservationDetails;
+    
+    @ManyToMany(mappedBy = "Customer")
+    private List<FlightSchedule> listOfFlightSchedules;
 
     public Customer() {
     }
@@ -33,6 +39,7 @@ public class Customer extends Account implements Serializable {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.listOfReservationDetails = new ArrayList<ReservationDetails>();
+        this.listOfFlightSchedules = new ArrayList<FlightSchedule>();
     }
 
     public List<ReservationDetails> getListOfReservationDetails() {
@@ -68,5 +75,19 @@ public class Customer extends Account implements Serializable {
      */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+    
+    /**
+     * @return the listOfFlightSchedules
+     */
+    public List<FlightSchedule> getListOfFlightSchedules() {
+        return listOfFlightSchedules;
+    }
+
+    /**
+     * @param listOfFlightSchedules the listOfFlightSchedules to set
+     */
+    public void setListOfFlightSchedules(List<FlightSchedule> listOfFlightSchedules) {
+        this.listOfFlightSchedules = listOfFlightSchedules;
     }
 }

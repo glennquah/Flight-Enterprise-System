@@ -37,4 +37,6 @@ public interface FlightSchedulePlanSessionBeanLocal {
     public void createFare(Long flightSchedulePlanId, Long cabinId, List<String> fareBasisCodes, List<BigDecimal> fareAmounts);
 
     public List<FlightSchedule> retrieveFlightSchedule(Long flightSchedulePlanId);
+    
+    public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(List<Flight> listOfFlights);
 }

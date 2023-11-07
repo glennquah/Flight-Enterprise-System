@@ -33,6 +33,7 @@ public class Cabin implements Serializable {
     private Integer availableSeats;
     private Integer reservedSeats;
     private Integer totalSeats;
+    private char [][] seatingPlan;
     
     @Column(nullable = false)
     @Min(value = 0)
@@ -64,12 +65,24 @@ public class Cabin implements Serializable {
         for (int i = 0; i < seatingConfiguration.length; i ++) {
             colm += seatingConfiguration[i];
         }
+        this.seatingPlan = new char[numOfRows][colm];
+        for (int i = 0; i < numOfRows; i ++) {
+            for (int j = 0; j < colm; j++) {
+                seatingPlan[i][j] = 'O';
+            }
+        }
         this.availableSeats = numOfRows * colm;
         this.totalSeats = numOfRows * colm;
         this.reservedSeats = 0;
         this.listOfFare = new ArrayList<>();
     }
 
+    public void bookSeat(int row, char column) {
+        int colm = column - 65;
+        this.seatingPlan[row - 1][colm] = 'X';
+        this.reservedSeats++;
+    }
+    
     public Long getCabinId() {
         return cabinId;
     }
@@ -227,4 +240,19 @@ public class Cabin implements Serializable {
     public void setListOfFare(List<Fare> listOfFare) {
         this.listOfFare = listOfFare;
     }
+    /**
+     * @return the seatingPlan
+     */
+    public char[][] getSeatingPlan() {
+        return seatingPlan;
+    }
+
+    /**
+     * @param seatingPlan the seatingPlan to set
+     */
+    public void setSeatingPlan(char[][] seatingPlan) {
+        this.seatingPlan = seatingPlan;
+    }
+    
+    
 }

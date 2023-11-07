@@ -81,7 +81,7 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
                 }
             }
             
-            FlightRoute newFlightRoute = new FlightRoute(airportOne, airportTwo);
+            FlightRoute newFlightRoute = new FlightRoute(airportOne, airportTwo, true);
             FlightRoute newReturnFlightRoute = new FlightRoute(airportTwo, airportOne, true);
             em.persist(newFlightRoute);
             em.flush();

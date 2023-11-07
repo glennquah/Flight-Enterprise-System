@@ -9,6 +9,7 @@ import entity.Fare;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.math.BigDecimal;
+import entity.Flight;
 import java.util.List;
 import javax.ejb.Remote;
 import util.exception.AirportDoesNotExistException;
@@ -37,4 +38,6 @@ public interface FlightSchedulePlanSessionBeanRemote {
     public void createFare(Long flightSchedulePlanId, Long cabinId, List<String> fareBasisCodes, List<BigDecimal> fareAmounts);
     
     public List<FlightSchedule> retrieveFlightSchedule(Long flightSchedulePlanId);
+    
+    public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(List<Flight> listOfFlights);
 }

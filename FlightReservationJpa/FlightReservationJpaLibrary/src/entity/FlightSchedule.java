@@ -8,12 +8,17 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,6 +47,9 @@ public class FlightSchedule implements Serializable {
     
     @ManyToOne
     private FlightSchedulePlan flightSchedulePlan;
+    
+    @ManyToMany
+    private List<Customer> customer;
 
     public FlightSchedule() {
     }
@@ -52,6 +60,7 @@ public class FlightSchedule implements Serializable {
         
         Instant instant = departureDateTime.toInstant();
         this.arrivalDateTime = Date.from(instant.plus(estimatedTime));
+        this.customer = new ArrayList<Customer>();
     }
 
     public Long getFlightScheduleId() {
@@ -125,4 +134,19 @@ class FlightScheduleComparator implements Comparator<FlightSchedule> {
     public int compare(FlightSchedule f1, FlightSchedule f2) { 
        return f1.getDepartureDateTime().before(f2.getDepartureDateTime()) ? -1 : 0;
     }
+
+    /**
+     * @return the customer
+     */
+    public List<Customer> getCustomer() {
+        return customer;
+    }
+
+    /**
+     * @param customer the customer to set
+     */
+    public void setCustomer(List<Customer> customer) {
+        this.customer = customer;
+    }
+
 }
