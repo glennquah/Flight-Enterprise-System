@@ -4,17 +4,15 @@
  */
 package ejb.session.stateless;
 
-import entity.Cabin;
 import entity.Fare;
+import entity.Flight;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Local;
-import util.exception.AirportDoesNotExistException;
 import util.exception.ConflictingFlightScheduleException;
 import util.exception.FlightDoesNotExistException;
-import util.exception.FlightSchedulePlanDoesNotExistException;
 
 /**
  *
