@@ -20,6 +20,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Future;
@@ -50,6 +52,9 @@ public class FlightSchedule implements Serializable {
     
     @ManyToMany
     private List<Customer> customer;
+    
+    @OneToMany(mappedBy = "FlightSchedule")
+    private List<ReservationDetails> listOfReservationDetails;
 
     public FlightSchedule() {
     }
@@ -57,10 +62,10 @@ public class FlightSchedule implements Serializable {
     public FlightSchedule(Date departureDateTime, Duration estimatedTime) {
         this.departureDateTime = departureDateTime;
         this.estimatedTime = estimatedTime;
-        
         Instant instant = departureDateTime.toInstant();
         this.arrivalDateTime = Date.from(instant.plus(estimatedTime));
         this.customer = new ArrayList<Customer>();
+        this.listOfReservationDetails = new ArrayList<ReservationDetails>();
     }
 
     public Long getFlightScheduleId() {
@@ -124,6 +129,16 @@ public class FlightSchedule implements Serializable {
         return hash;
     }
 
+    public List<ReservationDetails> getListOfReservationDetails() {
+        return listOfReservationDetails;
+    }
+
+    public void setListOfReservationDetails(List<ReservationDetails> listOfReservationDetails) {
+        this.listOfReservationDetails = listOfReservationDetails;
+    }
+    
+    
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the flightScheduleId fields are not set
@@ -141,11 +156,13 @@ public class FlightSchedule implements Serializable {
     public String toString() {
         return String.format("Flight Schedule of ID %s departs on %s and lands on %s", flightScheduleId, departureDateTime, arrivalDateTime);
     }
+
 }
 
-
-class FlightScheduleComparator implements Comparator<FlightSchedule> {
-    public int compare(FlightSchedule f1, FlightSchedule f2) { 
-       return f1.getDepartureDateTime().before(f2.getDepartureDateTime()) ? -1 : 0;
+    class FlightScheduleComparator implements Comparator<FlightSchedule> {
+        public int compare(FlightSchedule f1, FlightSchedule f2) { 
+           return f1.getDepartureDateTime().before(f2.getDepartureDateTime()) ? -1 : 0;
+        }
     }
-}
+
+

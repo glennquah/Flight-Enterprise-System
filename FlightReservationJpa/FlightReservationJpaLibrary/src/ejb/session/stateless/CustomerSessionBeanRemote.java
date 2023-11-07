@@ -18,4 +18,5 @@ public interface CustomerSessionBeanRemote {
     public List<Customer> retrieveAllAccounts();
     public Long createNewAccount(Customer newCustAccount);
     public Long login(String email, String password) throws InvalidLoginCredentialException;
+    public long linkFlightSchedule(long customerId, long flightScheduleId, String ccd);
 }

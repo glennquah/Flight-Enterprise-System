@@ -6,6 +6,7 @@ package ejb.session.stateless;
 
 import entity.Customer;
 import entity.Employee;
+import entity.FlightSchedule;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -65,5 +66,19 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
         {
             throw new InvalidLoginCredentialException("Invalid login credential");
         }
+    }
+    
+    @Override
+    public long linkFlightSchedule(long customerId, long flightScheduleId, String ccd) {
+        Customer cust = em.find(Customer.class, customerId);
+        FlightSchedule fs = em.find(FlightSchedule.class, flightScheduleId);
+        cust.setCreditCardNumber(ccd);
+        List<Customer> custs = fs.getCustomer();
+        custs.size();
+        custs.add(cust);
+        List<FlightSchedule> flightSchedules = cust.getListOfFlightSchedules();
+        flightSchedules.size();
+        flightSchedules.add(fs);
+        return customerId;
     }
 }

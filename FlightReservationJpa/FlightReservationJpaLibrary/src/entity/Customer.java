@@ -18,12 +18,13 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Customer extends Account implements Serializable {
-
     
     @Column(length = 8, nullable = false)
     private String phoneNumber;
     @Column(length = 64, nullable = false)
     private String address;
+    @Column(length = 32)
+    private String creditCardNumber;
     
     @OneToMany(mappedBy="Customer")
     private List<ReservationDetails> listOfReservationDetails;
@@ -38,6 +39,7 @@ public class Customer extends Account implements Serializable {
         super(firstName, lastName, email, password);
         this.phoneNumber = phoneNumber;
         this.address = address;
+        //this.creditCardNumber = null;
         this.listOfReservationDetails = new ArrayList<ReservationDetails>();
         this.listOfFlightSchedules = new ArrayList<FlightSchedule>();
     }
@@ -56,6 +58,20 @@ public class Customer extends Account implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+        /**
+     * @return the creditCardNumber
+     */
+    public String getCreditCardNumber() {
+        return creditCardNumber;
+    }
+
+    /**
+     * @param creditCardNumber the creditCardNumber to set
+     */
+    public void setCreditCardNumber(String creditCardNumber) {
+        this.creditCardNumber = creditCardNumber;
     }
 
 
