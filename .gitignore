@@ -28,6 +28,10 @@ FlightReservationJpa-ejb/nbproject/private/
 FlightReservationJpa-ejb/build/
 FlightReservationJpa-ejb/dist/
 
+FlightReservationJpa/nbproject/private/
+FlightReservationJpa/build/
+FlightReservationJpa/dist/
+
 # EnterpriseApplication1-war/nbproject/private/
 # EnterpriseApplication1-war/build/
 # EnterpriseApplication1-war/dist/
