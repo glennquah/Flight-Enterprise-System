@@ -53,8 +53,6 @@ public class AircraftConfiguration implements Serializable {
         this.aircraft = new Aircraft();
         this.listOfFlights = new ArrayList<>();
     }
-    
-    
 
     public Long getAircraftConfigurationId() {
         return aircraftConfigurationId;

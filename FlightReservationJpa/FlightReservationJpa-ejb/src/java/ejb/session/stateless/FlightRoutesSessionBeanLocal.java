@@ -10,6 +10,7 @@ import javax.ejb.Local;
 import util.exception.AirportDoesNotExistException;
 import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
+import util.exception.FlightScheduleDoesNotExistException;
 
 /**
  *
@@ -22,4 +23,5 @@ public interface FlightRoutesSessionBeanLocal {
     public Long createNewFlightRoute(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException, FlightRouteAlreadyExistException;
     public Long createNewFlightRouteWithReturn(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException, FlightRouteAlreadyExistException;
     public FlightRoute getFlightRouteWithId(Long id);
+    public FlightRoute getFlightRouteWithFS(Long flightSchedulePlanId) throws FlightScheduleDoesNotExistException;
 }

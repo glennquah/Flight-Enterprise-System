@@ -4,11 +4,12 @@
  */
 package ejb.session.stateless;
 
+import entity.Cabin;
 import entity.Flight;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.AircraftConfigurationDoesNotExistException;
-import util.exception.FlightDoesNotExist;
+import util.exception.FlightDoesNotExistException;
 import util.exception.FlightRouteDoesNotExistException;
 
 /**
@@ -19,11 +20,12 @@ import util.exception.FlightRouteDoesNotExistException;
 public interface FlightSessionBeanLocal {
     public Long createNewFlight(Flight flight, Long flightRouteId, Long aircraftConfigId) throws FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException;
     public List<Flight> retrieveAllFlights();
-    public Flight getFlightWithId(Long id) throws FlightDoesNotExist;
-    public long removeFlight(Long id) throws FlightDoesNotExist;
-    public Integer getReservedSeats(Long id) throws FlightDoesNotExist;
-    public Integer getTotalSeats(Long id) throws FlightDoesNotExist;
-    public Long changeFlightNumber(Long flightIdNum, Integer newFlightNum) throws FlightDoesNotExist;
-    public Long changeFlightRoute(Long flightIdNum, Long newFlightRouteId, Long oldFlightRouteId) throws FlightDoesNotExist;
-    public Long changeFlightConfig(Long flightIdNum, Long newFlightConfigId, Long oldFlightConfigId) throws FlightDoesNotExist;
+    public Flight getFlightWithId(Long id) throws FlightDoesNotExistException;
+    public long removeFlight(Long id) throws FlightDoesNotExistException;
+    public Integer getReservedSeats(Long id) throws FlightDoesNotExistException;
+    public Integer getTotalSeats(Long id) throws FlightDoesNotExistException;
+    public Long changeFlightNumber(Long flightIdNum, Integer newFlightNum) throws FlightDoesNotExistException;
+    public Long changeFlightRoute(Long flightIdNum, Long newFlightRouteId, Long oldFlightRouteId) throws FlightDoesNotExistException;
+    public Long changeFlightConfig(Long flightIdNum, Long newFlightConfigId, Long oldFlightConfigId) throws FlightDoesNotExistException;
+    public List<Cabin> getCabin(Integer flightNumber);
 }

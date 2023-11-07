@@ -67,10 +67,9 @@ public class Cabin implements Serializable {
         this.availableSeats = numOfRows * colm;
         this.totalSeats = numOfRows * colm;
         this.reservedSeats = 0;
+        this.listOfFare = new ArrayList<>();
     }
 
-    
-    
     public Long getCabinId() {
         return cabinId;
     }
@@ -220,6 +219,12 @@ public class Cabin implements Serializable {
         this.reservedSeats += num;
         this.availableSeats -= num;
     }
-    
-    
+
+    public List<Fare> getListOfFare() {
+        return listOfFare;
+    }
+
+    public void setListOfFare(List<Fare> listOfFare) {
+        this.listOfFare = listOfFare;
+    }
 }

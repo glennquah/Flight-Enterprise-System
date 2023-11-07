@@ -7,7 +7,7 @@ package entity;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +25,6 @@ import javax.validation.constraints.Future;
  */
 @Entity
 public class FlightSchedule implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,6 +116,13 @@ public class FlightSchedule implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.FlightSchedule[ id=" + flightScheduleId + " ]";
+        return String.format("Flight Schedule of ID %s departs on %s and lands on %s", flightScheduleId, departureDateTime, arrivalDateTime);
+    }
+}
+
+
+class FlightScheduleComparator implements Comparator<FlightSchedule> {
+    public int compare(FlightSchedule f1, FlightSchedule f2) { 
+       return f1.getDepartureDateTime().before(f2.getDepartureDateTime()) ? -1 : 0;
     }
 }

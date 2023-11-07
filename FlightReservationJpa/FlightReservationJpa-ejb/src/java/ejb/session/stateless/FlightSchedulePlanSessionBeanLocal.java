@@ -4,10 +4,17 @@
  */
 package ejb.session.stateless;
 
+import entity.Cabin;
+import entity.Fare;
+import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
+import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.Local;
 import util.exception.AirportDoesNotExistException;
 import util.exception.ConflictingFlightScheduleException;
+import util.exception.FlightDoesNotExistException;
+import util.exception.FlightSchedulePlanDoesNotExistException;
 
 /**
  *
@@ -15,5 +22,19 @@ import util.exception.ConflictingFlightScheduleException;
  */
 @Local
 public interface FlightSchedulePlanSessionBeanLocal {
-    public Long createSingleFlightSchedulePlan(FlightSchedulePlan flightSchedulePlan, Long flightScheduleid) throws AirportDoesNotExistException, ConflictingFlightScheduleException;
+    public Long createSingleFlightSchedulePlan(FlightSchedulePlan flightSchedulePlan, Long flightScheduleid) throws FlightDoesNotExistException, ConflictingFlightScheduleException;
+
+    public Long createMultipleFlightSchedulePlan(FlightSchedulePlan flightSchedulePlan, List<Long> flightScheduleIds) throws FlightDoesNotExistException, ConflictingFlightScheduleException;
+
+    public List<FlightSchedulePlan> retrieveAllFlightSchedulePlans();
+
+    public List<Fare> getFlightSchedulePlanFares(Long flightSchedulePlanId);
+
+    public FlightSchedulePlan retrieveFlightSchedulePlan(Long flightSchedulePlanId);
+
+    public void deleteFlightSchedulePlan(Long flightSchedulePlanId);
+
+    public void createFare(Long flightSchedulePlanId, Long cabinId, List<String> fareBasisCodes, List<BigDecimal> fareAmounts);
+
+    public List<FlightSchedule> retrieveFlightSchedule(Long flightSchedulePlanId);
 }

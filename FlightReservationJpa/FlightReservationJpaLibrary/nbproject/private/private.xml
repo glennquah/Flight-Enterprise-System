@@ -4,8 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpaLibrary/src/entity/FlightSchedule.java</file>
+<<<<<<< HEAD
             <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpaLibrary/src/entity/Flight.java</file>
             <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpaLibrary/src/entity/FlightSchedulePlan.java</file>
+=======
+>>>>>>> origin/FlightManagement/Feature/FlightSchedulePlan
             <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpaLibrary/src/entity/Fare.java</file>
         </group>
     </open-files>
