@@ -103,6 +103,20 @@ public class FlightSchedule implements Serializable {
         this.flightSchedulePlan = flightSchedulePlan;
     }
 
+        /**
+     * @return the customer
+     */
+    public List<Customer> getCustomer() {
+        return customer;
+    }
+
+    /**
+     * @param customer the customer to set
+     */
+    public void setCustomer(List<Customer> customer) {
+        this.customer = customer;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -134,19 +148,4 @@ class FlightScheduleComparator implements Comparator<FlightSchedule> {
     public int compare(FlightSchedule f1, FlightSchedule f2) { 
        return f1.getDepartureDateTime().before(f2.getDepartureDateTime()) ? -1 : 0;
     }
-
-    /**
-     * @return the customer
-     */
-    public List<Customer> getCustomer() {
-        return customer;
-    }
-
-    /**
-     * @param customer the customer to set
-     */
-    public void setCustomer(List<Customer> customer) {
-        this.customer = customer;
-    }
-
 }
