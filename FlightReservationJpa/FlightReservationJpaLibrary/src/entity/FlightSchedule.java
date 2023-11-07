@@ -20,6 +20,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Future;
@@ -50,6 +52,9 @@ public class FlightSchedule implements Serializable {
     
     @ManyToMany
     private List<Customer> customer;
+    
+    @OneToOne(mappedBy = "FlightSchedule")
+    private ReservationDetails reservationDetails;
 
     public FlightSchedule() {
     }
@@ -57,10 +62,10 @@ public class FlightSchedule implements Serializable {
     public FlightSchedule(Date departureDateTime, Duration estimatedTime) {
         this.departureDateTime = departureDateTime;
         this.estimatedTime = estimatedTime;
-        
         Instant instant = departureDateTime.toInstant();
         this.arrivalDateTime = Date.from(instant.plus(estimatedTime));
         this.customer = new ArrayList<Customer>();
+        this.reservationDetails = new ReservationDetails();
     }
 
     public Long getFlightScheduleId() {
