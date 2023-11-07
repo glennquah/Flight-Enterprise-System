@@ -204,8 +204,7 @@ public class ReservationModule {
         
         int schedId = -1;
         while(schedId != 0) {
-            System.out.println("\n(Enter 0 to Reserve Flight)");
-            System.out.print("Enter Schedule ID to see more details> ");
+            System.out.print("\nEnter Schedule ID to see more details (Enter 0 to Reserve Flight)> ");
             schedId = sc.nextInt();
             if (schedId != 0) {
                 checkFlightDetails(sc, schedId);
@@ -241,8 +240,7 @@ public class ReservationModule {
         
         schedId = -1;
         while(schedId != 0) {
-            System.out.println("\n(Enter 0 to Reserve Flight)");
-            System.out.print("Enter Schedule ID to see more details> ");
+            System.out.print("\nEnter Schedule ID to see more details (Enter 0 to Reserve Flight)> ");
             schedId = sc.nextInt();
             if (schedId != 0) {
                 checkFlightDetails(sc, schedId);
@@ -298,8 +296,7 @@ public class ReservationModule {
         
         int schedId = -1;
         while(schedId != 0) {
-            System.out.println("\n(Enter 0 to Reserve Flight)");
-            System.out.print("Enter Schedule ID to see more details> ");
+            System.out.print("\nEnter Schedule ID to see more details (Enter 0 to Reserve Flight)> ");
             schedId = sc.nextInt();
             if (schedId != 0) {
                 checkFlightDetails(sc, schedId);
