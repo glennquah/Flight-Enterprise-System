@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.enumeration.FlightRouteStatusEnum;
 import util.exception.AirportDoesNotExistException;
 import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
@@ -46,9 +47,7 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
             for (FlightRoute f:flightRoutes) {
                 if (f.getOrigin() == airportOne && f.getDestination() == airportTwo) {
                     throw new FlightRouteAlreadyExistException("Flight route already exist!");
-                } else if(f.getOrigin() == airportTwo && f.getDestination() == airportOne && f.getComplementaryRoute()) {
-                    throw new FlightRouteAlreadyExistException("Flight route already exist!");
-                }
+                } 
             }
             
             FlightRoute newFlightRoute = new FlightRoute(airportOne, airportTwo);
@@ -96,23 +95,17 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
     @Override
     public Long deleteFlightRoute(Long flightRouteId) throws FlightRouteDoesNotExistException {
         try {
-            Query query = em.createQuery("SELECT f FROM FlightRoute f WHERE f.flightRouteId = :flightRouteId");
-            query.setParameter("flightRouteId", flightRouteId);
-            FlightRoute flightRoute = (FlightRoute)query.getSingleResult();
+            FlightRoute flightRoute = em.find(FlightRoute.class, flightRouteId);
             
-//            Add when flight is settled
-//            Query secondQuery = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute = :flightRoute");
-//            query.setParameter("flightRoute", flightRoute);
-//            List<Flight> flights = (List<Flight>)query.getResultList();
-//            
-//            if (flights != null) {
-//                for (Flight f: flights) {
-//                    f.setFlightRoute(null);
-//                }
-//            }
+            List<Flight> flights = flightRoute.getListOfFlights();
+            flights.size();
             
-            em.remove(flightRoute);
-            em.flush();
+            if (flights.size() == 0) {
+                em.remove(flightRoute);
+                em.flush();
+            } else {
+                flightRoute.setFlightRouteStatus(FlightRouteStatusEnum.DISABLED);
+            }
             
             return flightRouteId;
         } catch (NoResultException ex) {
