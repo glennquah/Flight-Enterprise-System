@@ -13,6 +13,7 @@ import javax.ejb.Local;
 import util.exception.ConflictingFlightScheduleException;
 import util.exception.FlightScheduleDoesNotExistException;
 import entity.FlightSchedulePlan;
+import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import util.exception.FlightDoesNotExistException;
@@ -40,4 +41,5 @@ public interface FlightScheduleSessionBeanLocal {
     public Integer[] getIslesPlan(long id, String cabName);
     public long bookSeat(long id, String cabName, int seat, char letter);
     public BigDecimal getLowestFareUsingCabinName(String cabName, long id);
+    public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId);
 }

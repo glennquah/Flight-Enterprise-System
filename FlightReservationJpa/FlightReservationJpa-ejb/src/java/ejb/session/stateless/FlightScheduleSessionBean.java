@@ -11,7 +11,9 @@ import java.time.Duration;
 import java.time.Instant;
 import entity.Airport;
 import entity.Cabin;
+import entity.Customer;
 import entity.FlightRoute;
+import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -313,5 +315,19 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
        }
        return BigDecimal.ZERO;
        //throw error?
+    }
+    
+    @Override
+    public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId) {
+        FlightSchedule fs = getFlightScheduleWithId(flightScheduleId);
+        Customer cust = em.find(Customer.class, customerId);
+        List<ReservationDetails> newDetails = new ArrayList<>();
+        List<ReservationDetails> listOfResDetails = fs.getListOfReservationDetails();
+        for (ReservationDetails rd : listOfResDetails) {
+            if (rd.getCustomer().getAccountId().equals(cust.getAccountId())) {
+                newDetails.add(rd);
+            }
+        }
+        return newDetails;
     }
 }

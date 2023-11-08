@@ -97,7 +97,7 @@ public class ReservationModule {
             if(response == 1) {
                 searchFlight(sc);
             } else if (response == 2) {
-                System.out.println("2");
+                viewFlightReservation(sc);
             } else if (response == 3) {
                 System.out.println("*** SUCCESSFULLY LOGOUT ***");
                 break;
@@ -432,4 +432,31 @@ public class ReservationModule {
         }
         return fare;
     }
+    
+    // =========================================VIEW MY FLIGHT RESERVATION=====================================================
+    public void viewFlightReservation(Scanner sc) {
+        System.out.println("\n*** YOU HAVE SLECTED VIEW ALL FLIGHT RESERVATION ***\n");
+        List<FlightSchedule> listOfFlightSchedules = customerSessionBean.getFlightSchedules(this.customerId);
+        for (FlightSchedule fs : listOfFlightSchedules) {
+            System.out.println("Flight Schedule Schedule ID: " + fs.getFlightScheduleId());
+            System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
+        }
+        
+        System.out.print("Enter Flight Schedule ID for more Details> ");
+        long flightScheduleId = sc.nextLong();
+        viewFlightReservationDetails(sc, flightScheduleId);
+    }
+    
+    public void viewFlightReservationDetails(Scanner sc, long flightScheduleId) {
+        System.out.println("\n*** VIEW MORE FLIGHT RESERVATION DETAILS ***\n");
+        List<ReservationDetails> listOfReservationDetails = flightScheduleSessionBeanRemote.getReservationDetails(flightScheduleId, this.customerId);
+        for (ReservationDetails rd : listOfReservationDetails) {
+            System.out.println("Name: " + rd.getFirstName());
+            System.out.println("Seat: " + rd.getRowNum() + rd.getSeatLetter());
+            System.out.println("");
+        }
+        //add fare entity into reservation details
+        System.out.println();
+    }
+    
 }
