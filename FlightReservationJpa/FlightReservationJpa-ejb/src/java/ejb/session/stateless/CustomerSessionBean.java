@@ -81,4 +81,12 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
         flightSchedules.add(fs);
         return customerId;
     }
+    
+    @Override
+    public List<FlightSchedule> getFlightSchedules(long customerId) {
+        Customer cust = em.find(Customer.class, customerId);
+        List<FlightSchedule> listOFlightSchedules = cust.getListOfFlightSchedules();
+        listOFlightSchedules.size();
+        return listOFlightSchedules;
+    }
 }

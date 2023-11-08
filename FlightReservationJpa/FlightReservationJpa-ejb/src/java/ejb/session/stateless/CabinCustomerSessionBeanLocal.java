@@ -5,6 +5,7 @@
 package ejb.session.stateless;
 
 import entity.Cabin;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.AircraftConfigurationDoesNotExistException;
@@ -17,4 +18,5 @@ import util.exception.AircraftConfigurationDoesNotExistException;
 public interface CabinCustomerSessionBeanLocal {
     public Long createCabin(Cabin cabin, Long aircraftConfigId) throws AircraftConfigurationDoesNotExistException; 
     public List<Cabin> retrieveAllCabins();
+     public BigDecimal getLowestFareInCabin(long id);
 }

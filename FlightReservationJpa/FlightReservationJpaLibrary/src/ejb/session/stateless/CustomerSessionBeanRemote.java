@@ -5,6 +5,7 @@
 package ejb.session.stateless;
 
 import entity.Customer;
+import entity.FlightSchedule;
 import java.util.List;
 import javax.ejb.Remote;
 import util.exception.InvalidLoginCredentialException;
@@ -19,4 +20,5 @@ public interface CustomerSessionBeanRemote {
     public Long createNewAccount(Customer newCustAccount);
     public Long login(String email, String password) throws InvalidLoginCredentialException;
     public long linkFlightSchedule(long customerId, long flightScheduleId, String ccd);
+    public List<FlightSchedule> getFlightSchedules(long customerId);
 }
