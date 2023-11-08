@@ -9,18 +9,18 @@ import entity.Fare;
 import entity.Flight;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
+import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.enumeration.FlightSchedulePlanStatusEnum;
 import util.exception.ConflictingFlightScheduleException;
 import util.exception.FlightDoesNotExistException;
-import util.exception.FlightSchedulePlanDoesNotExistException;
 
 /**
  *
@@ -146,8 +146,39 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
     @Override
     public void deleteFlightSchedulePlan(Long flightSchedulePlanId) {
         FlightSchedulePlan flightSchedulePlan = retrieveFlightSchedulePlan(flightSchedulePlanId);
-        em.remove(flightSchedulePlan);
-        em.flush();
+        Boolean used = false;
+        
+        List<FlightSchedule> flightSchedules = flightSchedulePlan.getFlightSchedules();
+        flightSchedules.size();
+        
+        for (FlightSchedule f: flightSchedules) {
+            List<ReservationDetails> reservations = f.getListOfReservationDetails();
+            reservations.size();
+            
+            if (reservations.size() > 0) {
+                used = true;
+                break;
+            }
+        }
+        
+        if (used) {
+            flightSchedulePlan.setFlightSchedulePlanStatus(FlightSchedulePlanStatusEnum.DISABLED);
+        } else {
+            List<Fare> fares = flightSchedulePlan.getListOfFares();
+            flightSchedulePlan.setFlightSchedules(new ArrayList<>());
+            flightSchedulePlan.setListOfFares(new ArrayList<>());
+            
+            for (Fare f: fares) {
+                em.remove(f);
+            }
+            
+            for (FlightSchedule f: flightSchedules) {
+                em.remove(f);
+            }
+            
+            em.remove(flightSchedulePlan);
+            em.flush();
+        }
     }
     
     @Override

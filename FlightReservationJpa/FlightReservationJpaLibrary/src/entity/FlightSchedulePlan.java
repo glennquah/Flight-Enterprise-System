@@ -129,4 +129,12 @@ public class FlightSchedulePlan implements Serializable {
         this.flight = flight;
     }
 
+    public FlightSchedulePlanStatusEnum getFlightSchedulePlanStatus() {
+        return flightSchedulePlanStatus;
+    }
+
+    public void setFlightSchedulePlanStatus(FlightSchedulePlanStatusEnum flightSchedulePlanStatus) {
+        this.flightSchedulePlanStatus = flightSchedulePlanStatus;
+    }
+
 }
