@@ -5,7 +5,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -17,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import util.enumeration.FlightStatusEnum;
 
 /**
  *
@@ -35,6 +35,8 @@ public class Flight implements Serializable {
     private Integer flightNumber;
     @Column(nullable = false)
     private List<Date> bookedDates;
+    @Column(nullable = false)
+    private FlightStatusEnum flightStatus;
     
     @ManyToOne
     private FlightRoute flightRoute;
@@ -52,6 +54,7 @@ public class Flight implements Serializable {
         this.flightNumber = flightNumber;
         this.prefix = "IATA";
         this.bookedDates = new ArrayList<Date>();
+        this.flightStatus = FlightStatusEnum.ACTIVE;
         this.flightRoute = new FlightRoute();
         this.aircraftConfig = new AircraftConfiguration();
         this.listOfFlightSchedulePlans = new ArrayList<FlightSchedulePlan>();
@@ -80,6 +83,14 @@ public class Flight implements Serializable {
 
     public void setFlightId(Long flightId) {
         this.flightId = flightId;
+    }
+
+    public FlightStatusEnum getFlightStatus() {
+        return flightStatus;
+    }
+
+    public void setFlightStatus(FlightStatusEnum flightStatus) {
+        this.flightStatus = flightStatus;
     }
 
     @Override

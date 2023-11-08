@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import util.enumeration.FlightRouteStatusEnum;
 
 /**
  *
@@ -37,6 +38,9 @@ public class FlightRoute implements Serializable {
     @JoinColumn(name = "destination")
     private Airport destination;
     
+    @Column(nullable = false)
+    private FlightRouteStatusEnum flightRouteStatus;
+    
     private Boolean complementaryRoute;
     
     @OneToMany(mappedBy="FlightRoute")
@@ -48,6 +52,7 @@ public class FlightRoute implements Serializable {
     public FlightRoute(Airport origin, Airport destination) {
         this.origin = origin;
         this.destination = destination;
+        this.flightRouteStatus = FlightRouteStatusEnum.ACTIVE;
         this.complementaryRoute = false;
         this.listOfFlights = new ArrayList<Flight>();
     }
@@ -55,6 +60,7 @@ public class FlightRoute implements Serializable {
     public FlightRoute(Airport originAirport, Airport destinationAirport, boolean haveComplementaryRoute) {
         this.origin = originAirport;
         this.destination = destinationAirport;
+        this.flightRouteStatus = FlightRouteStatusEnum.ACTIVE;
         this.complementaryRoute = true;
         this.listOfFlights = new ArrayList<Flight>();
     }
@@ -77,6 +83,14 @@ public class FlightRoute implements Serializable {
 
     public void setComplementaryRoute(Boolean complementaryRoute) {
         this.complementaryRoute = complementaryRoute;
+    }
+
+    public FlightRouteStatusEnum getFlightRouteStatus() {
+        return flightRouteStatus;
+    }
+
+    public void setFlightRouteStatus(FlightRouteStatusEnum flightRouteStatus) {
+        this.flightRouteStatus = flightRouteStatus;
     }
 
     public void setOrigin(Airport origin) {

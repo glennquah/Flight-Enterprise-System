@@ -9,16 +9,19 @@ import entity.Airport;
 import entity.Cabin;
 import entity.Flight;
 import entity.FlightRoute;
+import entity.FlightSchedulePlan;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.enumeration.FlightRouteStatusEnum;
+import util.enumeration.FlightStatusEnum;
 import util.exception.AircraftConfigurationDoesNotExistException;
 import util.exception.FlightDoesNotExistException;
+import util.exception.FlightRouteDisabledException;
 import util.exception.FlightRouteDoesNotExistException;
 
 /**
@@ -32,9 +35,13 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     private EntityManager em;
 
     @Override
-    public Long createNewFlight(Flight flight, Long flightRouteId, Long aircraftConfigId) throws FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException {
+    public Long createNewFlight(Flight flight, Long flightRouteId, Long aircraftConfigId) throws FlightRouteDisabledException, FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException {
         try {
             FlightRoute fr = em.find(FlightRoute.class, flightRouteId);
+            
+            if (fr.getFlightRouteStatus() == FlightRouteStatusEnum.DISABLED) {
+                throw new FlightRouteDisabledException("This Flight Route is Disabled!");
+            }
             try {
                 AircraftConfiguration ac = em.find(AircraftConfiguration.class, aircraftConfigId);
 
@@ -116,8 +123,16 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     public long removeFlight(Long id) throws FlightDoesNotExistException {
         try {
             Flight flight = getFlightWithId(id);
-            em.remove(flight);
-            em.flush();
+            List<FlightSchedulePlan> flightSchedulePlan = flight.getListOfFlightSchedulePlans();
+            flightSchedulePlan.size();
+            
+            if (flightSchedulePlan.size() == 0) {
+                em.remove(flight);
+                em.flush();
+            } else {
+                flight.setFlightStatus(FlightStatusEnum.DISABLED);
+            }      
+
             return flight.getFlightId();
         } catch (NoResultException e) {
             throw new FlightDoesNotExistException("Flight Does Not Exist");
@@ -136,7 +151,7 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     }
     
     @Override
-    public Long changeFlightRoute(Long flightIdNum, Long newFlightRouteId, Long oldFlightRouteId) throws FlightDoesNotExistException {
+    public Long changeFlightRoute(Long flightIdNum, Long newFlightRouteId, Long oldFlightRouteId) throws FlightRouteDisabledException, FlightDoesNotExistException {
         try {        
             Flight flight = getFlightWithId(flightIdNum);
             // to desynch first
@@ -152,6 +167,10 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
 
             //synch new one
             FlightRoute Newfr = em.find(FlightRoute.class, newFlightRouteId);
+            if (Newfr.getFlightRouteStatus() == FlightRouteStatusEnum.DISABLED) {
+                throw new FlightRouteDisabledException("This Flight Route is Disabled!");
+            }
+            
             List<Flight> listOfFlightsNew = Newfr.getListOfFlights();
             listOfFlightsNew.add(flight);
             Newfr.setListOfFlights(listOfFlightsNew);

@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import util.enumeration.FlightSchedulePlanStatusEnum;
 
 /**
  *
@@ -31,6 +31,9 @@ public class FlightSchedulePlan implements Serializable {
     @Column(length = 32, nullable = false)
     private Integer flightNumber;
     
+    @Column(nullable = false)
+    private FlightSchedulePlanStatusEnum flightSchedulePlanStatus;
+    
     @ManyToOne
     private Flight flight;
     
@@ -45,6 +48,7 @@ public class FlightSchedulePlan implements Serializable {
 
     public FlightSchedulePlan(Integer flightNumber) {
         this.flightNumber = flightNumber;
+        this.flightSchedulePlanStatus = FlightSchedulePlanStatusEnum.ACTIVE;
         this.flightSchedules = new ArrayList<>();
         this.listOfFares = new ArrayList<>();
     }
