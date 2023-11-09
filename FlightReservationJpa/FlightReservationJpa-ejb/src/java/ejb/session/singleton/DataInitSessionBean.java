@@ -4,10 +4,15 @@
  */
 package ejb.session.singleton;
 
+import ejb.session.stateless.AircraftSessionBeanLocal;
 import ejb.session.stateless.AircraftSessionBeanRemote;
+import ejb.session.stateless.AirportSessionBeanLocal;
 import ejb.session.stateless.AirportSessionBeanRemote;
+import ejb.session.stateless.CustomerSessionBeanLocal;
 import ejb.session.stateless.CustomerSessionBeanRemote;
+import ejb.session.stateless.EmployeeSessionBeanLocal;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
+import ejb.session.stateless.FlightRoutesSessionBeanLocal;
 import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import entity.Aircraft;
@@ -33,23 +38,17 @@ import util.enumeration.EmployeeAccessRightEnum;
 
 public class DataInitSessionBean {
 
-    @EJB
-    private FlightRoutesSessionBeanRemote flightRoutesSessionBeanRemote;
+    @EJB(name = "CustomerSessionBeanLocal")
+    private CustomerSessionBeanLocal customerSessionBeanLocal;
 
-    @EJB(name = "AircraftSessionBeanRemote")
-    private AircraftSessionBeanRemote aircraftSessionBeanRemote;
+    @EJB(name = "EmployeeSessionBeanLocal")
+    private EmployeeSessionBeanLocal employeeSessionBeanLocal;
 
-    @EJB(name = "AirportSessionBeanRemote")
-    private AirportSessionBeanRemote airportSessionBeanRemote;
+    @EJB(name = "AirportSessionBeanLocal")
+    private AirportSessionBeanLocal airportSessionBeanLocal;
 
-    @EJB(name = "EmployeeSessionBeanRemote")
-    private EmployeeSessionBeanRemote employeeSessionBeanRemote;
-
-    @EJB(name = "CustomerSessionBeanRemote")
-    private CustomerSessionBeanRemote customerSessionBeanRemote;
-    
-    @EJB
-    private FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
+    @EJB(name = "AircraftSessionBeanLocal")
+    private AircraftSessionBeanLocal aircraftSessionBeanLocal;
 
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
@@ -61,16 +60,16 @@ public class DataInitSessionBean {
             
             Customer c1 = new Customer("Glenn", "Quah", "quah.glenn@gmail.com", "password", "87534510", "Kent Ridge");
             Customer c2 = new Customer("Ryan", "Tang", "ryan@gmail.com", "password", "999", "RVRC");
-            customerSessionBeanRemote.createNewAccount(c1);
-            customerSessionBeanRemote.createNewAccount(c2);
+            customerSessionBeanLocal.createNewAccount(c1);
+            customerSessionBeanLocal.createNewAccount(c2);
         }
         
         if(em.find(Employee.class, 1l) == null) {
             //if data is empty, inject 2 accounts
             Employee em1 = new Employee("Glenn", "Quah", "quah.glenn@gmail.com", "password", EmployeeAccessRightEnum.MANAGER);
             Employee em2 = new Employee("Ryan", "Tang", "ryan@gmail.com", "password", EmployeeAccessRightEnum.STAFF);
-            employeeSessionBeanRemote.createNewAccount(em1);
-            employeeSessionBeanRemote.createNewAccount(em2);
+            employeeSessionBeanLocal.createNewAccount(em1);
+            employeeSessionBeanLocal.createNewAccount(em2);
         }
         
         if(em.find(Airport.class, 1l) == null) {           
@@ -106,36 +105,36 @@ public class DataInitSessionBean {
             Airport a30 = new Airport("Ruby Valley Airport", "RVA", "Ruby Valley", "Ohio", "United States");
 
 
-            airportSessionBeanRemote.createNewAirport(a1);
-            airportSessionBeanRemote.createNewAirport(a2);
-            airportSessionBeanRemote.createNewAirport(a3);
-            airportSessionBeanRemote.createNewAirport(a4);
-            airportSessionBeanRemote.createNewAirport(a5);
-            airportSessionBeanRemote.createNewAirport(a6);
-            airportSessionBeanRemote.createNewAirport(a7);
-            airportSessionBeanRemote.createNewAirport(a8);
-            airportSessionBeanRemote.createNewAirport(a9);
-            airportSessionBeanRemote.createNewAirport(a10);
-            airportSessionBeanRemote.createNewAirport(a11);
-            airportSessionBeanRemote.createNewAirport(a12);
-            airportSessionBeanRemote.createNewAirport(a13);
-            airportSessionBeanRemote.createNewAirport(a14);
-            airportSessionBeanRemote.createNewAirport(a15);
-            airportSessionBeanRemote.createNewAirport(a16);
-            airportSessionBeanRemote.createNewAirport(a17);
-            airportSessionBeanRemote.createNewAirport(a18);
-            airportSessionBeanRemote.createNewAirport(a19);
-            airportSessionBeanRemote.createNewAirport(a20);
-            airportSessionBeanRemote.createNewAirport(a21);
-            airportSessionBeanRemote.createNewAirport(a22);
-            airportSessionBeanRemote.createNewAirport(a23);
-            airportSessionBeanRemote.createNewAirport(a24);
-            airportSessionBeanRemote.createNewAirport(a25);
-            airportSessionBeanRemote.createNewAirport(a26);
-            airportSessionBeanRemote.createNewAirport(a27);
-            airportSessionBeanRemote.createNewAirport(a28);
-            airportSessionBeanRemote.createNewAirport(a29);
-            airportSessionBeanRemote.createNewAirport(a30);
+            airportSessionBeanLocal.createNewAirport(a1);
+            airportSessionBeanLocal.createNewAirport(a2);
+            airportSessionBeanLocal.createNewAirport(a3);
+            airportSessionBeanLocal.createNewAirport(a4);
+            airportSessionBeanLocal.createNewAirport(a5);
+            airportSessionBeanLocal.createNewAirport(a6);
+            airportSessionBeanLocal.createNewAirport(a7);
+            airportSessionBeanLocal.createNewAirport(a8);
+            airportSessionBeanLocal.createNewAirport(a9);
+            airportSessionBeanLocal.createNewAirport(a10);
+            airportSessionBeanLocal.createNewAirport(a11);
+            airportSessionBeanLocal.createNewAirport(a12);
+            airportSessionBeanLocal.createNewAirport(a13);
+            airportSessionBeanLocal.createNewAirport(a14);
+            airportSessionBeanLocal.createNewAirport(a15);
+            airportSessionBeanLocal.createNewAirport(a16);
+            airportSessionBeanLocal.createNewAirport(a17);
+            airportSessionBeanLocal.createNewAirport(a18);
+            airportSessionBeanLocal.createNewAirport(a19);
+            airportSessionBeanLocal.createNewAirport(a20);
+            airportSessionBeanLocal.createNewAirport(a21);
+            airportSessionBeanLocal.createNewAirport(a22);
+            airportSessionBeanLocal.createNewAirport(a23);
+            airportSessionBeanLocal.createNewAirport(a24);
+            airportSessionBeanLocal.createNewAirport(a25);
+            airportSessionBeanLocal.createNewAirport(a26);
+            airportSessionBeanLocal.createNewAirport(a27);
+            airportSessionBeanLocal.createNewAirport(a28);
+            airportSessionBeanLocal.createNewAirport(a29);
+            airportSessionBeanLocal.createNewAirport(a30);
         }
         
         if(em.find(Aircraft.class, 1l) == null) {
@@ -169,36 +168,36 @@ public class DataInitSessionBean {
             Aircraft ac28 = new Aircraft("Cessna 208", 10);
             Aircraft ac29 = new Aircraft("Boeing 777X", 350);
             Aircraft ac30 = new Aircraft("Airbus A310", 240);
-            aircraftSessionBeanRemote.createAircraft(ac1);
-            aircraftSessionBeanRemote.createAircraft(ac2);
-            aircraftSessionBeanRemote.createAircraft(ac3);
-            aircraftSessionBeanRemote.createAircraft(ac4);
-            aircraftSessionBeanRemote.createAircraft(ac5);
-            aircraftSessionBeanRemote.createAircraft(ac6);
-            aircraftSessionBeanRemote.createAircraft(ac7);
-            aircraftSessionBeanRemote.createAircraft(ac8);
-            aircraftSessionBeanRemote.createAircraft(ac9);
-            aircraftSessionBeanRemote.createAircraft(ac10);
-            aircraftSessionBeanRemote.createAircraft(ac11);
-            aircraftSessionBeanRemote.createAircraft(ac12);
-            aircraftSessionBeanRemote.createAircraft(ac13);
-            aircraftSessionBeanRemote.createAircraft(ac14);
-            aircraftSessionBeanRemote.createAircraft(ac15);
-            aircraftSessionBeanRemote.createAircraft(ac16);
-            aircraftSessionBeanRemote.createAircraft(ac17);
-            aircraftSessionBeanRemote.createAircraft(ac18);
-            aircraftSessionBeanRemote.createAircraft(ac19);
-            aircraftSessionBeanRemote.createAircraft(ac20);
-            aircraftSessionBeanRemote.createAircraft(ac21);
-            aircraftSessionBeanRemote.createAircraft(ac22);
-            aircraftSessionBeanRemote.createAircraft(ac23);
-            aircraftSessionBeanRemote.createAircraft(ac24);
-            aircraftSessionBeanRemote.createAircraft(ac25);
-            aircraftSessionBeanRemote.createAircraft(ac26);
-            aircraftSessionBeanRemote.createAircraft(ac27);
-            aircraftSessionBeanRemote.createAircraft(ac28);
-            aircraftSessionBeanRemote.createAircraft(ac29);
-            aircraftSessionBeanRemote.createAircraft(ac30);
+            aircraftSessionBeanLocal.createAircraft(ac1);
+            aircraftSessionBeanLocal.createAircraft(ac2);
+            aircraftSessionBeanLocal.createAircraft(ac3);
+            aircraftSessionBeanLocal.createAircraft(ac4);
+            aircraftSessionBeanLocal.createAircraft(ac5);
+            aircraftSessionBeanLocal.createAircraft(ac6);
+            aircraftSessionBeanLocal.createAircraft(ac7);
+            aircraftSessionBeanLocal.createAircraft(ac8);
+            aircraftSessionBeanLocal.createAircraft(ac9);
+            aircraftSessionBeanLocal.createAircraft(ac10);
+            aircraftSessionBeanLocal.createAircraft(ac11);
+            aircraftSessionBeanLocal.createAircraft(ac12);
+            aircraftSessionBeanLocal.createAircraft(ac13);
+            aircraftSessionBeanLocal.createAircraft(ac14);
+            aircraftSessionBeanLocal.createAircraft(ac15);
+            aircraftSessionBeanLocal.createAircraft(ac16);
+            aircraftSessionBeanLocal.createAircraft(ac17);
+            aircraftSessionBeanLocal.createAircraft(ac18);
+            aircraftSessionBeanLocal.createAircraft(ac19);
+            aircraftSessionBeanLocal.createAircraft(ac20);
+            aircraftSessionBeanLocal.createAircraft(ac21);
+            aircraftSessionBeanLocal.createAircraft(ac22);
+            aircraftSessionBeanLocal.createAircraft(ac23);
+            aircraftSessionBeanLocal.createAircraft(ac24);
+            aircraftSessionBeanLocal.createAircraft(ac25);
+            aircraftSessionBeanLocal.createAircraft(ac26);
+            aircraftSessionBeanLocal.createAircraft(ac27);
+            aircraftSessionBeanLocal.createAircraft(ac28);
+            aircraftSessionBeanLocal.createAircraft(ac29);
+            aircraftSessionBeanLocal.createAircraft(ac30);
         }
         
     }

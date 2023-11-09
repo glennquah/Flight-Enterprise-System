@@ -42,14 +42,12 @@ import util.exception.FlightRouteAlreadyExistException;
 @Stateless
 public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemote, FlightScheduleSessionBeanLocal {
 
-    @EJB(name = "CabinCustomerSessionBeanRemote")
-    private CabinCustomerSessionBeanRemote cabinCustomerSessionBeanRemote;
+    @EJB(name = "CabinCustomerSessionBeanLocal")
+    private CabinCustomerSessionBeanLocal cabinCustomerSessionBeanLocal;    
 
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
-    
-    
-    
+     
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
@@ -310,7 +308,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
        List<Cabin> cabins = getCabins(id);
        for (Cabin c : cabins) {
            if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
-               return cabinCustomerSessionBeanRemote.getLowestFareInCabin(c.getCabinId());
+               return cabinCustomerSessionBeanLocal.getLowestFareInCabin(c.getCabinId());
            }
        }
        return BigDecimal.ZERO;
