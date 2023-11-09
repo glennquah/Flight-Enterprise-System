@@ -19,4 +19,5 @@ public interface CabinCustomerSessionBeanLocal {
     public Long createCabin(Cabin cabin, Long aircraftConfigId) throws AircraftConfigurationDoesNotExistException; 
     public List<Cabin> retrieveAllCabins();
     public long getLowestFareIdInCabin(long id);
+    public Cabin createCabinOnly(Cabin cabin);
 }
