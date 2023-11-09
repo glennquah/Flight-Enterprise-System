@@ -47,6 +47,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
 
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
+  
      
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -106,11 +107,18 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
-        
+        long aircraftConfigId = flight.getAircraftConfig().getAircraftConfigurationId();
         //set cabin
         List<Cabin> listOfCabins = flight.getAircraftConfig().getListOfCabins();
         listOfCabins.size();
-        flightSchedule.setListOfCabins(listOfCabins);
+        //duplicate cabins, if not now u are juz linking to the other cabins
+        List<Cabin> newCabins = new ArrayList<>();
+        for (Cabin c : listOfCabins) {
+            
+            Cabin cab = cabinCustomerSessionBeanLocal.createCabinOnly(c);
+            newCabins.add(cab);
+        }
+        flightSchedule.setListOfCabins(newCabins);
             
         Date departureDateTime = flightSchedule.getDepartureDateTime();
         List<Date> bookedDates = flight.getBookedDates();

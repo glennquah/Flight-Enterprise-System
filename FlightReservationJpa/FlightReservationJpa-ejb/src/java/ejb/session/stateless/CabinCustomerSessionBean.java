@@ -34,6 +34,7 @@ public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote,
             AircraftConfiguration ac = em.find(AircraftConfiguration.class, aircraftConfigId);
             List<Cabin> listOfCabs = ac.getListOfCabins();
             // lazy loading??
+            listOfCabs.size();
             listOfCabs.add(cabin);
             ac.setListOfCabins(listOfCabs);
             cabin.setAircraftConfiguration(ac);
@@ -43,6 +44,13 @@ public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote,
         } catch (NoResultException e) {
             throw new AircraftConfigurationDoesNotExistException("Aircraft Configuration Does Not Exist");
         }
+    }
+    
+    @Override
+    public Cabin createCabinOnly(Cabin cabin) {
+        em.persist(cabin);
+        em.flush();
+        return cabin;
     }
     
     @Override
