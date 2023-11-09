@@ -105,6 +105,11 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
+        
+        //set cabin
+        List<Cabin> listOfCabins = flight.getAircraftConfig().getListOfCabins();
+        listOfCabins.size();
+        flightSchedule.setListOfCabins(listOfCabins);
             
         Date departureDateTime = flightSchedule.getDepartureDateTime();
         List<Date> bookedDates = flight.getBookedDates();
@@ -265,7 +270,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     @Override
     public List<Cabin> getCabins(long id) {
         FlightSchedule fs = getFlightScheduleWithId(id);
-        List<Cabin> listOfCabins = fs.getFlightSchedulePlan().getFlight().getAircraftConfig().getListOfCabins();
+        List<Cabin> listOfCabins = fs.getListOfCabins();
         listOfCabins.size();
         return listOfCabins;
     }
