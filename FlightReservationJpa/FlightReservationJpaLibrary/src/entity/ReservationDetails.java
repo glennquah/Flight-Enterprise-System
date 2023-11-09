@@ -37,7 +37,8 @@ public class ReservationDetails implements Serializable {
     @Column(nullable = false)
     private char seatLetter;
     
-    @OneToOne(mappedBy="reserationDetails")
+    @OneToOne
+    @JoinColumn(nullable = false)
     private Fare fare;
     
     @ManyToOne(optional = false)

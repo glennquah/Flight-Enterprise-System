@@ -49,7 +49,7 @@ public class Cabin implements Serializable {
     @ManyToOne
     private AircraftConfiguration aircraftConfiguration;
     
-    @OneToMany(mappedBy="Cabin")
+    @OneToMany
     private List<Fare> listOfFare;
 
     public Cabin() {

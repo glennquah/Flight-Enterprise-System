@@ -39,9 +39,8 @@ public class Customer extends Account implements Serializable {
         super(firstName, lastName, email, password);
         this.phoneNumber = phoneNumber;
         this.address = address;
-        //this.creditCardNumber = null;
-        this.listOfReservationDetails = new ArrayList<ReservationDetails>();
-        this.listOfFlightSchedules = new ArrayList<FlightSchedule>();
+        this.listOfReservationDetails = new ArrayList<>();
+        this.listOfFlightSchedules = new ArrayList<>();
     }
 
     public List<ReservationDetails> getListOfReservationDetails() {

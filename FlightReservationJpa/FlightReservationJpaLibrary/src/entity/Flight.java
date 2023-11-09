@@ -53,11 +53,11 @@ public class Flight implements Serializable {
     public Flight(Integer flightNumber) {
         this.flightNumber = flightNumber;
         this.prefix = "IATA";
-        this.bookedDates = new ArrayList<Date>();
+        this.bookedDates = new ArrayList<>();
         this.flightStatus = FlightStatusEnum.ACTIVE;
         this.flightRoute = new FlightRoute();
         this.aircraftConfig = new AircraftConfiguration();
-        this.listOfFlightSchedulePlans = new ArrayList<FlightSchedulePlan>();
+        this.listOfFlightSchedulePlans = new ArrayList<>();
     }
 
     public List<Date> getBookedDates() {

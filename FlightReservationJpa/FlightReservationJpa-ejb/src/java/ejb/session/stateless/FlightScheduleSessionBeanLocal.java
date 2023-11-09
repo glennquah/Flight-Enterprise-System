@@ -40,6 +40,6 @@ public interface FlightScheduleSessionBeanLocal {
     public char[][] getCabinSeats(long id, String cabName);
     public Integer[] getIslesPlan(long id, String cabName);
     public long bookSeat(long id, String cabName, int seat, char letter);
-    public BigDecimal getLowestFareUsingCabinName(String cabName, long id);
+    public long getLowestFareUsingCabinName(String cabName, long id);
     public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId);
 }

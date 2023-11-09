@@ -37,4 +37,10 @@ public class FareSessionBean implements FareSessionBeanRemote, FareSessionBeanLo
         }
         
     }
+    
+    @Override
+    public BigDecimal getFareUsingId(long id) {
+        Fare fare = em.find(Fare.class, id);
+        return fare.getFareAmount();
+    }
 }

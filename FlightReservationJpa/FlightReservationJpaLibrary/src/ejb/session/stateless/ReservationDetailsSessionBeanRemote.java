@@ -13,5 +13,5 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface ReservationDetailsSessionBeanRemote {
-    public Long createReservationDetails(ReservationDetails reservationDetails, long customerId, long flightScheduleId);
+    public Long createReservationDetails(ReservationDetails reservationDetails, long customerId, long flightScheduleId, long lowestFareId);
 }

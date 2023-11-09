@@ -15,4 +15,5 @@ import util.exception.FareDoesNotExistException;
 @Remote
 public interface FareSessionBeanRemote {
     public Long updateFare(Long fareId, String fareBasisCode, BigDecimal fareAmount) throws FareDoesNotExistException;
+    public BigDecimal getFareUsingId(long id);
 }

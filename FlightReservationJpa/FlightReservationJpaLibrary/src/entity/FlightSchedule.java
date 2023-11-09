@@ -57,7 +57,7 @@ public class FlightSchedule implements Serializable {
     @OneToMany(mappedBy = "FlightSchedule")
     private List<ReservationDetails> listOfReservationDetails;
     
-    @OneToMany(mappedBy="flightSchedule")
+    @OneToMany
     private List<Cabin> listOfCabins;
 
     public FlightSchedule() {

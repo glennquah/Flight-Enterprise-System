@@ -309,14 +309,15 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public BigDecimal getLowestFareUsingCabinName(String cabName, long id) {
+    public long getLowestFareUsingCabinName(String cabName, long id) {
        List<Cabin> cabins = getCabins(id);
+       Long lowestFareid;
        for (Cabin c : cabins) {
            if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
-               return cabinCustomerSessionBeanLocal.getLowestFareInCabin(c.getCabinId());
+               lowestFareid = cabinCustomerSessionBeanLocal.getLowestFareIdInCabin(c.getCabinId());
            }
        }
-       return BigDecimal.ZERO;
+       return 0;
        //throw error?
     }
     

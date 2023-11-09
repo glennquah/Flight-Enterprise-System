@@ -10,6 +10,7 @@ import ejb.session.stateless.AirportSessionBeanRemote;
 import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
+import ejb.session.stateless.FareSessionBeanRemote;
 import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
@@ -50,6 +51,7 @@ public class ReservationModule {
     private FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote;
     private FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
     private ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote;
+    private FareSessionBeanRemote fareSessionBeanRemote;
 
     public ReservationModule() {
     }
@@ -65,7 +67,8 @@ public class ReservationModule {
             FlightSessionBeanRemote flightSessionBeanRemote,
             FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote,
             FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote,
-            ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote) {
+            ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote,
+            FareSessionBeanRemote fareSessionBeanRemote) {
         this.customerId = customerId;
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
@@ -78,6 +81,7 @@ public class ReservationModule {
         this.flightSchedulePlanSessionBeanRemote = flightSchedulePlanSessionBeanRemote;
         this.flightScheduleSessionBeanRemote = flightScheduleSessionBeanRemote;
         this.reservationDetailsSessionBeanRemote = reservationDetailsSessionBeanRemote;
+        this.fareSessionBeanRemote = fareSessionBeanRemote;
     }
     
     // =========================================LOGIN SCREEN=====================================================
@@ -345,7 +349,8 @@ public class ReservationModule {
             System.out.println("Cabin Class : " + c.getCabinClassName());
             System.out.println("Total Seats: " + c.getTotalSeats());
             System.out.println("Remaining Seats: " + (c.getTotalSeats() - c.getReservedSeats()));
-            BigDecimal lowestFare = cabinCustomerSessionBeanRemote.getLowestFareInCabin(c.getCabinId());
+            long lowestFareid = cabinCustomerSessionBeanRemote.getLowestFareIdInCabin(c.getCabinId());
+            BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareid);
             System.out.println("Fare per Ticket: " + lowestFare);
             System.out.println("Total Fare: " + (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
         }
@@ -393,6 +398,7 @@ public class ReservationModule {
             System.out.println("");
         }
         
+        long lowestFareId = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
         for (int i = 0; i < numOfSeats; i ++) {
             System.out.println(String.format("Enter No. %s Seat you wan to reserve: ", (i + 1)));
             System.out.print("Enter Row Number> ");
@@ -408,8 +414,8 @@ public class ReservationModule {
             String lastName = sc.nextLine().trim();
             System.out.print("Enter Passport Number Of Customer> ");
             String passport = sc.nextLine().trim();
-            ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);
-            Long reservId = reservationDetailsSessionBeanRemote.createReservationDetails(reservationDetails, this.customerId, flightScheduleId);
+            ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);   
+            Long reservId = reservationDetailsSessionBeanRemote.createReservationDetails(reservationDetails, this.customerId, flightScheduleId, lowestFareId);
             System.out.println("Reservation Created!");
             System.out.println("Reservation ID = " + reservId);
             System.out.println("*** SEAT BOOKED ***");
@@ -417,9 +423,10 @@ public class ReservationModule {
             
         }
         
-
-        BigDecimal lowestFare = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
+        
+//        BigDecimal lowestFare = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
         //System.out.println("Price per Ticket: " + lowestFare);
+        BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareId);
         BigDecimal fare = (lowestFare.multiply(BigDecimal.valueOf(numOfSeats)));
         fare = fare.add(existingFare);
         if (payment) {
@@ -435,6 +442,7 @@ public class ReservationModule {
     
     // =========================================VIEW MY FLIGHT RESERVATION=====================================================
     public void viewFlightReservation(Scanner sc) {
+        //change this?
         System.out.println("\n*** YOU HAVE SLECTED VIEW ALL FLIGHT RESERVATION ***\n");
         List<FlightSchedule> listOfFlightSchedules = customerSessionBean.getFlightSchedules(this.customerId);
         for (FlightSchedule fs : listOfFlightSchedules) {
@@ -451,8 +459,10 @@ public class ReservationModule {
         System.out.println("\n*** VIEW MORE FLIGHT RESERVATION DETAILS ***\n");
         List<ReservationDetails> listOfReservationDetails = flightScheduleSessionBeanRemote.getReservationDetails(flightScheduleId, this.customerId);
         for (ReservationDetails rd : listOfReservationDetails) {
+            System.out.println("Cabin: " + rd.getFare().getCabin().getCabinClassName());
             System.out.println("Name: " + rd.getFirstName());
             System.out.println("Seat: " + rd.getRowNum() + rd.getSeatLetter());
+            System.out.println("Fare: " + rd.getFare().getFareAmount());
             System.out.println("");
         }
         //add fare entity into reservation details
