@@ -353,6 +353,7 @@ public class ReservationModule {
             BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareid);
             System.out.println("Fare per Ticket: " + lowestFare);
             System.out.println("Total Fare: " + (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
+            System.out.println("");
         }
     }
     
@@ -399,6 +400,7 @@ public class ReservationModule {
         }
         
         long lowestFareId = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
+        System.out.println("LOWEST FARE ID= " + lowestFareId);
         for (int i = 0; i < numOfSeats; i ++) {
             System.out.println(String.format("Enter No. %s Seat you wan to reserve: ", (i + 1)));
             System.out.print("Enter Row Number> ");

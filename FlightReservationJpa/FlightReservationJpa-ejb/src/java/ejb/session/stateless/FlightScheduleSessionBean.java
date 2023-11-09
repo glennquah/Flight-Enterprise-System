@@ -102,6 +102,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     
     @Override
     public FlightSchedule createNewFlightSchedule(Integer flightNumber, FlightSchedule flightSchedule) {
+        em.persist(flightSchedule);
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
@@ -119,7 +120,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         bookedDates.add(flightSchedule.getArrivalDateTime());
         flight.setBookedDates(bookedDates);
 
-        em.persist(flightSchedule);
+
         em.flush();
         
         return flightSchedule;
@@ -311,14 +312,13 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     @Override
     public long getLowestFareUsingCabinName(String cabName, long id) {
        List<Cabin> cabins = getCabins(id);
-       Long lowestFareid;
+       long lowestFareId = -1;
        for (Cabin c : cabins) {
            if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
-               lowestFareid = cabinCustomerSessionBeanLocal.getLowestFareIdInCabin(c.getCabinId());
+               lowestFareId = cabinCustomerSessionBeanLocal.getLowestFareIdInCabin(c.getCabinId());
            }
        }
-       return 0;
-       //throw error?
+       return lowestFareId;
     }
     
     @Override
