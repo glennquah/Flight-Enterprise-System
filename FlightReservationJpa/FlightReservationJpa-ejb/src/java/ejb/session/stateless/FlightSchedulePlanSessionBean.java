@@ -80,7 +80,7 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
             
             return flightSchedulePlan.getFlightSchedulePlanId();
         } catch (NoResultException ex) {
-            throw new FlightDoesNotExistException("Flight does not exist!");
+            throw new FlightDoesNotExistException("Flight Does Not Exist!");
         }
     }
     
@@ -112,7 +112,7 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
             
             return flightSchedulePlan.getFlightSchedulePlanId();
         } catch (NoResultException ex) {
-            throw new FlightDoesNotExistException("Flight does not exist!");
+            throw new FlightDoesNotExistException("Flight Does Not Exist!");
         }
     }
     

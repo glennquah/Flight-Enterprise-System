@@ -36,6 +36,5 @@ public class AircraftSessionBean implements AircraftSessionBeanRemote, AircraftS
         //Whatever JPQL Statement u want
         Query query = em.createQuery("SELECT a FROM Aircraft a");
         return query.getResultList();
-    }
-    
+    }  
 }

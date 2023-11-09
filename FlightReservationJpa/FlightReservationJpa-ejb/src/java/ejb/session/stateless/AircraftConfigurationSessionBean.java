@@ -32,10 +32,11 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
         try {
             Aircraft ac = em.find(Aircraft.class, aircraftId);
             aircraftConfig.setAircraft(ac);
+            
             em.persist(aircraftConfig);
             em.flush();
         } catch (NoResultException e) {
-            throw new AirportDoesNotExistException("Aircraft does not exist");
+            throw new AirportDoesNotExistException("Aircraft Does Not Exist!");
         }
         
         
@@ -56,9 +57,10 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
 
             List<Cabin> cab = ac.getListOfCabins();
             cab.size();
+            
             return cab;
         } catch (NoResultException e) {
-            throw new CabinDoesNotExistException("Cabin does not exist");
+            throw new CabinDoesNotExistException("Cabin Does Not Exist!");
         }
     }
     
@@ -69,9 +71,7 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
             AircraftConfiguration aircraftConfig = em.find(AircraftConfiguration.class, aircraftConfigId);
             aircraftConfig.setAircraft(ac);
         } catch(NoResultException e) {
-            throw new AircraftDoesNotExistException("Aircraft does not exist");
+            throw new AircraftDoesNotExistException("Aircraft Does Not Exist!");
         }
     }
-
-
 }

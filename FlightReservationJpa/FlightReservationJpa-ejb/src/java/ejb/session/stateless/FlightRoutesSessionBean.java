@@ -56,7 +56,7 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
             
             return newFlightRoute.getFlightRouteId();
         } catch (NoResultException ex) {
-            throw new AirportDoesNotExistException("Aiport does not exist!");
+            throw new AirportDoesNotExistException("Aiport Does Not Exist!");
         }
     }
     
@@ -76,7 +76,7 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
   
             for (FlightRoute f:flightRoutes) {
                 if (f.getOrigin() == airportOne && f.getDestination() == airportTwo || f.getOrigin() == airportTwo && f.getDestination() == airportOne) {
-                    throw new FlightRouteAlreadyExistException("Flight route already exist!");
+                    throw new FlightRouteAlreadyExistException("Flight Route Already Exist!");
                 }
             }
             
@@ -88,7 +88,7 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
             em.flush();            
             return newFlightRoute.getFlightRouteId();
         } catch (NoResultException ex) {
-            throw new AirportDoesNotExistException("Aiport does not exist!");
+            throw new AirportDoesNotExistException("Aiport Does Not Exist!");
         }
     }
     
@@ -109,7 +109,7 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
             
             return flightRouteId;
         } catch (NoResultException ex) {
-            throw new FlightRouteDoesNotExistException("Flight Route does not exist!");
+            throw new FlightRouteDoesNotExistException("Flight Route Does Not Exist!");
         }
     }
     
@@ -132,7 +132,7 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
             Flight flight = flightSchedulePlan.getFlight();
             return flight.getFlightRoute();
         } catch (NoResultException e) {
-            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist!");
         }
     }
 }
