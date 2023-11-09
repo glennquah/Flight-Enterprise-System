@@ -32,6 +32,7 @@ import javax.validation.constraints.Future;
  */
 @Entity
 public class FlightSchedule implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +56,9 @@ public class FlightSchedule implements Serializable {
     
     @OneToMany(mappedBy = "FlightSchedule")
     private List<ReservationDetails> listOfReservationDetails;
+    
+    @OneToMany(mappedBy="flightSchedule")
+    private List<Cabin> listOfCabins;
 
     public FlightSchedule() {
     }
@@ -64,8 +68,9 @@ public class FlightSchedule implements Serializable {
         this.estimatedTime = estimatedTime;
         Instant instant = departureDateTime.toInstant();
         this.arrivalDateTime = Date.from(instant.plus(estimatedTime));
-        this.customer = new ArrayList<Customer>();
-        this.listOfReservationDetails = new ArrayList<ReservationDetails>();
+        this.customer = new ArrayList<>();
+        this.listOfReservationDetails = new ArrayList<>();
+        this.listOfCabins = new ArrayList<>();
     }
 
     public Long getFlightScheduleId() {
@@ -155,6 +160,20 @@ public class FlightSchedule implements Serializable {
     @Override
     public String toString() {
         return String.format("Flight Schedule of ID %s departs on %s and lands on %s", flightScheduleId, departureDateTime, arrivalDateTime);
+    }
+    
+        /**
+     * @return the listOfCabins
+     */
+    public List<Cabin> getListOfCabins() {
+        return listOfCabins;
+    }
+
+    /**
+     * @param listOfCabins the listOfCabins to set
+     */
+    public void setListOfCabins(List<Cabin> listOfCabins) {
+        this.listOfCabins = listOfCabins;
     }
 
 }
