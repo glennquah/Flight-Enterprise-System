@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import util.enumeration.FlightSchedulePlanStatusEnum;
@@ -34,7 +35,8 @@ public class FlightSchedulePlan implements Serializable {
     @Column(nullable = false)
     private FlightSchedulePlanStatusEnum flightSchedulePlanStatus;
     
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private Flight flight;
     
     @OneToMany(mappedBy="FlightSchedulePlan")
