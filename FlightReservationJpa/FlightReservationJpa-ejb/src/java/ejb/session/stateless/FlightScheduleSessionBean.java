@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -347,14 +348,14 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     
     @Override
     public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId) {
-        FlightSchedule fs = getFlightScheduleWithId(flightScheduleId);
+        FlightSchedule fs = em.find(FlightSchedule.class, flightScheduleId);
         Customer cust = em.find(Customer.class, customerId);
         
         List<ReservationDetails> newDetails = new ArrayList<>();
         List<ReservationDetails> listOfResDetails = fs.getListOfReservationDetails();
-        listOfResDetails.size();
+        int size = listOfResDetails.size();
         for (ReservationDetails rd : listOfResDetails) {
-            if (rd.getCustomer().getAccountId().equals(cust.getAccountId())) {
+            if (Objects.equals(rd.getCustomer().getAccountId(), cust.getAccountId())) {
                 newDetails.add(rd);
             }
         }
