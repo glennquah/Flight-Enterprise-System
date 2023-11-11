@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import util.exception.FlightScheduleDoesNotExistException;
 
 /**
  *
@@ -346,7 +347,7 @@ public class ReservationModule {
         return fare;
     }
     
-    public void checkFlightDetails(Scanner sc, long scheduleId, int numOfSeats) {
+    public void checkFlightDetails(Scanner sc, long scheduleId, int numOfSeats) throws FlightScheduleDoesNotExistException {
         System.out.println(String.format("\n*** DETAILS FOR FLIGHT SCHEDULE %s ***", scheduleId));
         FlightSchedule fs = flightScheduleSessionBeanRemote.getFlightScheduleWithId(scheduleId);
         System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
@@ -371,7 +372,7 @@ public class ReservationModule {
         }
     }
     
-    public BigDecimal reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats, Boolean payment, BigDecimal existingFare) {
+    public BigDecimal reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats, Boolean payment, BigDecimal existingFare) throws FlightScheduleDoesNotExistException {
         //System.out.println("EXISTING FARE = " + existingFare);
         checkFlightDetails(sc, flightScheduleId, numOfSeats);
         System.out.print("Enter Cabin You wan to Reserve> ");
@@ -424,7 +425,13 @@ public class ReservationModule {
             System.out.print("Enter Seat Letter> ");
             String seat = sc.nextLine().trim().toUpperCase();
             char letter = seat.charAt(0);
-            flightScheduleSessionBeanRemote.bookSeat(flightScheduleId, cabin, rowNum, letter);
+            Boolean seatAvailable = flightScheduleSessionBeanRemote.checkSeatIfAvailable(flightScheduleId, cabin, rowNum, letter);
+            if (seatAvailable) {
+                flightScheduleSessionBeanRemote.bookSeat(flightScheduleId, cabin, rowNum, letter);
+            } else {
+                System.out.println("SEAT IS UNAVAILABLE, PLEASE TRY AGAIN");
+                reserveFlight(flightScheduleId, sc, numOfSeats, payment, existingFare);
+            }
             System.out.print("Enter First Name Of Customer> ");
             String firstName = sc.nextLine().trim();
             System.out.print("Enter Last Name Of Customer> ");
@@ -460,7 +467,7 @@ public class ReservationModule {
     }
     
     // =========================================VIEW MY FLIGHT RESERVATION=====================================================
-    public void viewFlightReservation(Scanner sc) {
+    public void viewFlightReservation(Scanner sc) throws FlightScheduleDoesNotExistException {
         //change this?
         System.out.println("\n*** YOU HAVE SLECTED VIEW ALL FLIGHT RESERVATION ***\n");
         List<FlightSchedule> listOfFlightSchedules = customerSessionBean.getFlightSchedules(this.customerId);
@@ -483,7 +490,7 @@ public class ReservationModule {
         viewFlightReservationDetails(sc, flightScheduleId);
     }
     
-    public void viewFlightReservationDetails(Scanner sc, long flightScheduleId) {
+    public void viewFlightReservationDetails(Scanner sc, long flightScheduleId) throws FlightScheduleDoesNotExistException {
         System.out.println("\n*** VIEW MORE FLIGHT RESERVATION DETAILS ***\n");
         List<ReservationDetails> listOfReservationDetails = flightScheduleSessionBeanRemote.getReservationDetails(flightScheduleId, this.customerId);
         listOfReservationDetails.size();

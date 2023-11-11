@@ -75,9 +75,13 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
         List<Customer> custs = fs.getCustomer();
         custs.size();
         custs.add(cust);
+        fs.setCustomer(custs);
+        
         List<FlightSchedule> flightSchedules = cust.getListOfFlightSchedules();
         flightSchedules.size();
         flightSchedules.add(fs);
+        cust.setListOfFlightSchedules(flightSchedules);
+        
         return customerId;
     }
     
