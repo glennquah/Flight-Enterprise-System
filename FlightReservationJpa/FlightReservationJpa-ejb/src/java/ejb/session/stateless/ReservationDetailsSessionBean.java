@@ -31,14 +31,16 @@ public class ReservationDetailsSessionBean implements ReservationDetailsSessionB
         reservationDetails.setFlightSchedule(fs);
         
         //synch customer to new res details
-        List<ReservationDetails> listOfRes = cust.getListOfReservationDetails();
-        listOfRes.add(reservationDetails);
-        cust.setListOfReservationDetails(listOfRes);
+        List<ReservationDetails> listOfResCust = cust.getListOfReservationDetails();
+        listOfResCust.size();
+        listOfResCust.add(reservationDetails);
+        cust.setListOfReservationDetails(listOfResCust);
         
         //synch flightshcedule to res details
-        List<ReservationDetails> listOfRes2 = fs.getListOfReservationDetails();
-        listOfRes2.size();
-        fs.setListOfReservationDetails(listOfRes2);
+        List<ReservationDetails> listOfResFs = fs.getListOfReservationDetails();
+        listOfResFs.size();
+        listOfResFs.add(reservationDetails);
+        fs.setListOfReservationDetails(listOfResFs);
         
         Fare f = em.find(Fare.class, lowestFareId);
         reservationDetails.setFare(f);

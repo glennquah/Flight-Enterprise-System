@@ -227,7 +227,7 @@ public class ReservationModule {
         }
         
         sc.nextLine();
-        System.out.print("Enter Flight Schedule Id to reserve> ");
+        System.out.print("Enter Flight Schedule ID to reserve> ");
         int confirmId = sc.nextInt();
         sc.nextLine();
         System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
@@ -263,7 +263,7 @@ public class ReservationModule {
         }
         
         sc.nextLine();
-        System.out.print("Enter Flight Schedule Id to reserve> ");
+        System.out.print("Enter Flight Schedule ID to reserve> ");
         confirmId = sc.nextInt();
         sc.nextLine();
         System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
@@ -328,7 +328,7 @@ public class ReservationModule {
         }
         
         sc.nextLine();
-        System.out.print("Enter Flight Schedule Id to reserve> ");
+        System.out.print("Enter Flight Schedule ID to reserve> ");
         int confirmId = sc.nextInt();
         sc.nextLine();
         System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
@@ -375,7 +375,7 @@ public class ReservationModule {
     public BigDecimal reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats, Boolean payment, BigDecimal existingFare) throws FlightScheduleDoesNotExistException {
         //System.out.println("EXISTING FARE = " + existingFare);
         checkFlightDetails(sc, flightScheduleId, numOfSeats);
-        System.out.print("Enter Cabin You wan to Reserve> ");
+        System.out.print("Enter Cabin you want to Reserve> ");
         String cabin = sc.nextLine().trim();
         char[][] cabinSeatingPlan = flightScheduleSessionBeanRemote.getCabinSeats(flightScheduleId, cabin);
         Integer[] islesPlan = flightScheduleSessionBeanRemote.getIslesPlan(flightScheduleId, cabin);

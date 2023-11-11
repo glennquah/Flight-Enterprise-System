@@ -727,8 +727,7 @@ public class ManagementModule {
                 Integer flightNumber = sc.nextInt();
                 
                 try {
-                    System.out.println("Enter DEPARTURE DATE AND TIME (yyyy-MM-dd HH:mm)");
-                    System.out.print("> ");
+                    System.out.print("Enter DEPARTURE DATE AND TIME (yyyy-MM-dd HH:mm)> ");
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     sc.nextLine();
                     Date departureDateTime = dateFormat.parse(sc.nextLine());
@@ -750,8 +749,7 @@ public class ManagementModule {
                     Long flightSchedulePlanId = flightSchedulePlanSessionBeanRemote.createSingleFlightSchedulePlan(flightSchedulePlan, flightSchedule.getFlightScheduleId());
                     
                     for (int i = 0; i < cabins.size(); i++) {
-                        System.out.println(String.format("Enter the Number of Fares for Cabin Class %s ", cabins.get(i).getCabinClassName()));
-                        System.out.print("> ");
+                        System.out.print(String.format("Enter the Number of Fares for Cabin Class %s >", cabins.get(i).getCabinClassName()));
                         
                         int numFares = sc.nextInt();
                         ArrayList<String> fareBasisCodes = new ArrayList<>();
@@ -759,8 +757,7 @@ public class ManagementModule {
                         
                         sc.nextLine();
                         for (int j = 0; j < numFares; j++) {
-                            System.out.println("Enter the Fare Basis Code ");
-                            System.out.print("> ");
+                            System.out.print("Enter the Fare Basis Code> ");
                             String fareBasisCode = sc.nextLine();
                             
                             if (fareBasisCodes.contains(fareBasisCode)) {
