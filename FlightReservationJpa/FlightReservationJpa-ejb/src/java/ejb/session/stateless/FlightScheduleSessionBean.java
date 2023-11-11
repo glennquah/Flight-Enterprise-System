@@ -31,6 +31,7 @@ import javax.persistence.Query;
 import util.exception.ConflictingFlightScheduleException;
 import util.exception.FlightScheduleDoesNotExistException;
 import javax.persistence.TemporalType;
+import util.exception.AircraftConfigurationDoesNotExistException;
 import util.exception.AirportDoesNotExistException;
 import util.exception.FlightDoesNotExistException;
 import util.exception.FlightRouteAlreadyExistException;
@@ -102,22 +103,26 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public FlightSchedule createNewFlightSchedule(Integer flightNumber, FlightSchedule flightSchedule) {
-        em.persist(flightSchedule);
+    public FlightSchedule createNewFlightSchedule(Integer flightNumber, FlightSchedule flightSchedule) throws AircraftConfigurationDoesNotExistException, ConflictingFlightScheduleException {
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
         long aircraftConfigId = flight.getAircraftConfig().getAircraftConfigurationId();
-        //set cabin
-        List<Cabin> listOfCabins = flight.getAircraftConfig().getListOfCabins();
-        listOfCabins.size();
+        //set cabin       
         //duplicate cabins, if not now u are juz linking to the other cabins
+        List<Cabin> listOfCabins = new ArrayList<>(flight.getAircraftConfig().getListOfCabins());
+        listOfCabins.size();
         List<Cabin> newCabins = new ArrayList<>();
-        for (Cabin c : listOfCabins) {
-            
-            Cabin cab = cabinCustomerSessionBeanLocal.createCabinOnly(c);
+        for (Cabin c : listOfCabins) { 
+            Cabin newCab = new Cabin(c.getCabinClassName(), c.getNumOfIsles(), c.getNumOfRows(), c.getSeatingConfiguration());
+            long cabId = cabinCustomerSessionBeanLocal.createCabin(newCab, aircraftConfigId);
+            Cabin cab = em.find(Cabin.class, cabId);
             newCabins.add(cab);
         }
+
+        flightSchedule.setListOfCabins(newCabins);
+
+        
         flightSchedule.setListOfCabins(newCabins);
             
         Date departureDateTime = flightSchedule.getDepartureDateTime();
@@ -128,7 +133,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         bookedDates.add(flightSchedule.getArrivalDateTime());
         flight.setBookedDates(bookedDates);
 
-
+        em.persist(flightSchedule);
         em.flush();
         
         return flightSchedule;
