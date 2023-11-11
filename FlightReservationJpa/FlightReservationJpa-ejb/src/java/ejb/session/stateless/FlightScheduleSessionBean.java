@@ -281,21 +281,30 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
 
     @Override
-    public FlightSchedule getFlightScheduleWithId(long id) {
-        return em.find(FlightSchedule.class, id);
+    public FlightSchedule getFlightScheduleWithId(long id) throws FlightScheduleDoesNotExistException {
+        try {
+            return em.find(FlightSchedule.class, id);
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+        }
     }
     
     @Override
-    public List<Cabin> getCabins(long id) {
-        FlightSchedule fs = getFlightScheduleWithId(id);
-        List<Cabin> listOfCabins = fs.getListOfCabins();
-        listOfCabins.size();
-        
-        return listOfCabins;
+    public List<Cabin> getCabins(long id) throws FlightScheduleDoesNotExistException {
+        try {
+            FlightSchedule fs = getFlightScheduleWithId(id);
+            List<Cabin> listOfCabins = fs.getListOfCabins();
+            listOfCabins.size();
+
+            return listOfCabins;
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+        }
     }
     
     @Override
-    public char[][] getCabinSeats(long id, String cabName) {
+    public char[][] getCabinSeats(long id, String cabName) throws FlightScheduleDoesNotExistException {
+       try { 
        List<Cabin> cabins = getCabins(id);
        
        for (Cabin c : cabins) {
@@ -305,67 +314,86 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
        }
        
        return null;
-    }
-    
-    @Override
-    public Integer[] getIslesPlan(long id, String cabName) {
-       List<Cabin> cabins = getCabins(id);
-       
-       for (Cabin c : cabins) {
-           if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
-               return c.getSeatingConfiguration();
-           }
+       } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
        }
-       
-       return null;
     }
     
     @Override
-    public long bookSeat(long id, String cabName, int seat, char letter) {
-       List<Cabin> cabins = getCabins(id);
-       
-       for (Cabin c : cabins) {
-           if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
-               c.bookSeat(seat, letter);
-           }
-       }
-       
-       return id;
-    }
-    
-    @Override
-    public long getLowestFareUsingCabinName(String cabName, long id) {
-       List<Cabin> cabins = getCabins(id);
-       long lowestFareId = -1;
-       
-       for (Cabin c : cabins) {
-           if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
-               lowestFareId = cabinCustomerSessionBeanLocal.getLowestFareIdInCabin(c.getCabinId());
-           }
-       }
+    public Integer[] getIslesPlan(long id, String cabName) throws FlightScheduleDoesNotExistException {
+       try {
+            List<Cabin> cabins = getCabins(id);
 
-       return lowestFareId;
-    }
-    
-    @Override
-    public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId) {
-        String jpql = "SELECT fs FROM FlightSchedule fs LEFT JOIN FETCH fs.listOfReservationDetails WHERE fs.flightScheduleId = :flightScheduleId";
-        TypedQuery<FlightSchedule> query = em.createQuery(jpql, FlightSchedule.class);
-        query.setParameter("flightScheduleId", flightScheduleId);
-
-        FlightSchedule fs = query.getSingleResult(); 
-
-        Customer cust = em.find(Customer.class, customerId);
-
-        List<ReservationDetails> newDetails = new ArrayList<>();
-        List<ReservationDetails> listOfResDetails = fs.getListOfReservationDetails();
-        for (ReservationDetails rd : listOfResDetails) {
-            if (Objects.equals(rd.getCustomer().getAccountId(), cust.getAccountId())) {
-                newDetails.add(rd);
+            for (Cabin c : cabins) {
+                if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+                    return c.getSeatingConfiguration();
+                }
             }
-        }
 
-        return newDetails;
+            return null;
+       } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+       }
+    }
+    
+    @Override
+    public long bookSeat(long id, String cabName, int seat, char letter) throws FlightScheduleDoesNotExistException {
+        try {
+            List<Cabin> cabins = getCabins(id);
+
+            for (Cabin c : cabins) {
+                if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+                    c.bookSeat(seat, letter);
+                }
+            }
+
+            return id;
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+       }
+    }
+    
+    @Override
+    public long getLowestFareUsingCabinName(String cabName, long id) throws FlightScheduleDoesNotExistException {
+        try {
+            List<Cabin> cabins = getCabins(id);
+            long lowestFareId = -1;
+
+            for (Cabin c : cabins) {
+                if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+                    lowestFareId = cabinCustomerSessionBeanLocal.getLowestFareIdInCabin(c.getCabinId());
+                }
+            }
+
+            return lowestFareId;
+       } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+       }
+    }
+    
+    @Override
+    public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId) throws  FlightScheduleDoesNotExistException {
+        try {
+            String jpql = "SELECT fs FROM FlightSchedule fs LEFT JOIN FETCH fs.listOfReservationDetails WHERE fs.flightScheduleId = :flightScheduleId";
+            TypedQuery<FlightSchedule> query = em.createQuery(jpql, FlightSchedule.class);
+            query.setParameter("flightScheduleId", flightScheduleId);
+
+            FlightSchedule fs = query.getSingleResult(); 
+
+            Customer cust = em.find(Customer.class, customerId);
+
+            List<ReservationDetails> newDetails = new ArrayList<>();
+            List<ReservationDetails> listOfResDetails = fs.getListOfReservationDetails();
+            for (ReservationDetails rd : listOfResDetails) {
+                if (Objects.equals(rd.getCustomer().getAccountId(), cust.getAccountId())) {
+                    newDetails.add(rd);
+                }
+            }
+
+            return newDetails;
+        }   catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+       }
     }
 
     

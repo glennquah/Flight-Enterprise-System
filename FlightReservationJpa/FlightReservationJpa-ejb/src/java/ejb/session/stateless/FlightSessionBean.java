@@ -23,6 +23,7 @@ import util.exception.AircraftConfigurationDoesNotExistException;
 import util.exception.FlightDoesNotExistException;
 import util.exception.FlightRouteDisabledException;
 import util.exception.FlightRouteDoesNotExistException;
+import util.exception.FlightScheduleDoesNotExistException;
 
 /**
  *
@@ -219,7 +220,8 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     }
     
     @Override 
-    public List<Cabin> getCabin(Integer flightNumber) {
+    public List<Cabin> getCabin(Integer flightNumber) throws FlightScheduleDoesNotExistException {
+        try {
         Query query = em.createQuery("Select f from Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
@@ -228,6 +230,9 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
         cabins.size();
 
         return cabins;
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+        }
     }
     
     @Override

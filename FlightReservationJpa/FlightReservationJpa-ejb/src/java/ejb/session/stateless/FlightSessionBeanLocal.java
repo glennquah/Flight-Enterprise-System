@@ -12,6 +12,7 @@ import util.exception.AircraftConfigurationDoesNotExistException;
 import util.exception.FlightDoesNotExistException;
 import util.exception.FlightRouteDisabledException;
 import util.exception.FlightRouteDoesNotExistException;
+import util.exception.FlightScheduleDoesNotExistException;
 
 /**
  *
@@ -28,7 +29,7 @@ public interface FlightSessionBeanLocal {
     public Long changeFlightNumber(Long flightIdNum, Integer newFlightNum) throws FlightDoesNotExistException;
     public Long changeFlightRoute(Long flightIdNum, Long newFlightRouteId, Long oldFlightRouteId) throws FlightRouteDisabledException, FlightDoesNotExistException;
     public Long changeFlightConfig(Long flightIdNum, Long newFlightConfigId, Long oldFlightConfigId) throws FlightDoesNotExistException;
-    public List<Cabin> getCabin(Integer flightNumber);
+    public List<Cabin> getCabin(Integer flightNumber) throws FlightScheduleDoesNotExistException;
     public List<Flight> retrieveFlightsThatHasDepAndDest(Long originAirport, Long destAirport);
     public List<Flight> retrieveFlightsThatHasDepAndDestConnectingFlight(Long originAirport, Long destAirport);
 }

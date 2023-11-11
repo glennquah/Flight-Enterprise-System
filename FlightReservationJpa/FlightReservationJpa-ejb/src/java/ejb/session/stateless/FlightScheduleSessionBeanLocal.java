@@ -37,13 +37,13 @@ public interface FlightScheduleSessionBeanLocal {
     public List<FlightSchedule> retrieveFlightScheduleInPlan(List<FlightSchedulePlan> listOfFlightSchedulePlan);
     public Date retrieveDateOfFlightPicked(Long id) throws FlightDoesNotExistException;
     public List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDateTime);
-    public FlightSchedule getFlightScheduleWithId(long id);
-    public List<Cabin> getCabins(long id);
-    public char[][] getCabinSeats(long id, String cabName);
-    public Integer[] getIslesPlan(long id, String cabName);
-    public long bookSeat(long id, String cabName, int seat, char letter);
-    public long getLowestFareUsingCabinName(String cabName, long id);
-    public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId);
+    public FlightSchedule getFlightScheduleWithId(long id) throws FlightScheduleDoesNotExistException ;
+    public List<Cabin> getCabins(long id) throws FlightScheduleDoesNotExistException;
+    public char[][] getCabinSeats(long id, String cabName) throws FlightScheduleDoesNotExistException;
+    public Integer[] getIslesPlan(long id, String cabName) throws FlightScheduleDoesNotExistException;
+    public long bookSeat(long id, String cabName, int seat, char letter) throws FlightScheduleDoesNotExistException ;
+    public long getLowestFareUsingCabinName(String cabName, long id) throws FlightScheduleDoesNotExistException;
+    public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId) throws  FlightScheduleDoesNotExistException;
     public Long deleteFlightSchedule(Long flightScheduleId) throws FlightScheduleBookedException;
     public Boolean checkSeatIfAvailable(long flightSchedId, String cabinName, int rowNum, char seat);
 }
