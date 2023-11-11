@@ -69,16 +69,22 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
     }
     
     @Override
-    public long linkFlightSchedule(long customerId, long flightScheduleId, String ccd) {
+    public long linkFlightSchedule(long customerId, long flightScheduleId) {
         Customer cust = em.find(Customer.class, customerId);
         FlightSchedule fs = em.find(FlightSchedule.class, flightScheduleId);
-        cust.setCreditCardNumber(ccd);
         List<Customer> custs = fs.getCustomer();
         custs.size();
         custs.add(cust);
         List<FlightSchedule> flightSchedules = cust.getListOfFlightSchedules();
         flightSchedules.size();
         flightSchedules.add(fs);
+        return customerId;
+    }
+    
+    @Override
+    public long linkCreditCard(long customerId, String ccd) {
+        Customer cust = em.find(Customer.class, customerId);
+        cust.setCreditCardNumber(ccd);
         return customerId;
     }
     

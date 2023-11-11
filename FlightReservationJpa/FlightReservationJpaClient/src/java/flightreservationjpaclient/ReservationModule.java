@@ -20,6 +20,7 @@ import entity.Airport;
 import entity.Cabin;
 import entity.Fare;
 import entity.Flight;
+import entity.FlightRoute;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import entity.ReservationDetails;
@@ -351,7 +352,11 @@ public class ReservationModule {
         System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
         System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
         System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
-        System.out.println("Filght Estimated Time: " + fs.getEstimatedTime());
+        Duration duration = fs.getEstimatedTime();
+        long hours = duration.toHours();
+        long minutes = duration.toMinutes() % 60;
+        String formattedTime = String.format("%02d:%02d", hours, minutes);
+        System.out.println("Filght Estimated Time: " + formattedTime);
         System.out.println("\n*** CABIN DETAILS ***");
         List<Cabin> cabins = flightScheduleSessionBeanRemote.getCabins(scheduleId);
         for (Cabin c : cabins) {
@@ -446,10 +451,11 @@ public class ReservationModule {
             System.out.println("Total Price: $" + totalFare);
             System.out.print("Enter Credit Card Details> ");
             String ccd = sc.nextLine().trim();
-            customerSessionBean.linkFlightSchedule(this.customerId, flightScheduleId, ccd);
+            customerSessionBean.linkCreditCard(this.customerId, ccd);
             System.out.println("Credit Card Details Set!");
             System.out.println("*** FLIGHT RESERVATION DONE ***");
         }
+        customerSessionBean.linkFlightSchedule(this.customerId, flightScheduleId);
         return fare;
     }
     
@@ -459,8 +465,17 @@ public class ReservationModule {
         System.out.println("\n*** YOU HAVE SLECTED VIEW ALL FLIGHT RESERVATION ***\n");
         List<FlightSchedule> listOfFlightSchedules = customerSessionBean.getFlightSchedules(this.customerId);
         for (FlightSchedule fs : listOfFlightSchedules) {
-            System.out.println("Flight Schedule Schedule ID: " + fs.getFlightScheduleId());
+            System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
+            FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
+            Duration duration = fs.getEstimatedTime();
+            long hours = duration.toHours();
+            long minutes = duration.toMinutes() % 60;
+            String formattedTime = String.format("%02d:%02d", hours, minutes);
+            System.out.println("Flight Estimate Duration: " + formattedTime + "H");
+            System.out.println("Flight Origin: " + fr.getOrigin().getName());
+            System.out.println("Flight Destination: " + fr.getDestination().getName());
+            System.out.println("");
         }
         
         System.out.print("Enter Flight Schedule ID for more Details> ");
@@ -471,13 +486,18 @@ public class ReservationModule {
     public void viewFlightReservationDetails(Scanner sc, long flightScheduleId) {
         System.out.println("\n*** VIEW MORE FLIGHT RESERVATION DETAILS ***\n");
         List<ReservationDetails> listOfReservationDetails = flightScheduleSessionBeanRemote.getReservationDetails(flightScheduleId, this.customerId);
+        listOfReservationDetails.size();
+        BigDecimal fare = BigDecimal.ZERO;
         for (ReservationDetails rd : listOfReservationDetails) {
             System.out.println("Cabin: " + rd.getFare().getCabin().getCabinClassName());
-            System.out.println("Name: " + rd.getFirstName());
+            System.out.println("First Name: " + rd.getFirstName());
+            System.out.println("Last Name: " + rd.getLastName());
             System.out.println("Seat: " + rd.getRowNum() + rd.getSeatLetter());
             System.out.println("Fare: $" + rd.getFare().getFareAmount());
+            fare = rd.getFare().getFareAmount();
             System.out.println("");
         }
+        System.out.println("Total Amount Paid: $" + fare.multiply(BigDecimal.valueOf(listOfReservationDetails.size())));
         //add fare entity into reservation details
         System.out.println();
     }

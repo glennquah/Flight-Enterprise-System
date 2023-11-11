@@ -352,7 +352,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         
         List<ReservationDetails> newDetails = new ArrayList<>();
         List<ReservationDetails> listOfResDetails = fs.getListOfReservationDetails();
-        
+        listOfResDetails.size();
         for (ReservationDetails rd : listOfResDetails) {
             if (rd.getCustomer().getAccountId().equals(cust.getAccountId())) {
                 newDetails.add(rd);
