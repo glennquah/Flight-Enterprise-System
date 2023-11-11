@@ -165,10 +165,14 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
             flightSchedulePlan.setFlightSchedulePlanStatus(FlightSchedulePlanStatusEnum.DISABLED);
         } else {
             List<Fare> fares = flightSchedulePlan.getListOfFares();
+            fares.size();
             flightSchedulePlan.setFlightSchedules(new ArrayList<>());
             flightSchedulePlan.setListOfFares(new ArrayList<>());
+            Cabin cabin;
             
             for (Fare f: fares) {
+                cabin = f.getCabin();
+                em.remove(cabin);
                 em.remove(f);
             }
             

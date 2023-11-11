@@ -846,6 +846,7 @@ public class ManagementModule {
                             System.out.print("Enter the Fare Amount> ");
                             fareAmounts.add(new BigDecimal(sc.nextLine()));
                         }
+                        System.out.println("");
                         
                         flightSchedulePlanSessionBeanRemote.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                     } 
