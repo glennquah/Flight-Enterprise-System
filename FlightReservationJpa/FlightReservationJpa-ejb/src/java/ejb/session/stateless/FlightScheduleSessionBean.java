@@ -12,6 +12,7 @@ import java.time.Instant;
 import entity.Airport;
 import entity.Cabin;
 import entity.Customer;
+import entity.Fare;
 import entity.FlightRoute;
 import entity.ReservationDetails;
 import java.math.BigDecimal;
@@ -114,9 +115,10 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         listOfCabins.size();
         List<Cabin> newCabins = new ArrayList<>();
         for (Cabin c : listOfCabins) { 
+            List<Fare> listOfFares = c.getListOfFare();
             Cabin newCab = new Cabin(c.getCabinClassName(), c.getNumOfIsles(), c.getNumOfRows(), c.getSeatingConfiguration());
-//            long cabId = cabinCustomerSessionBeanLocal.createCabin(newCab, aircraftConfigId);
-//            Cabin cab = em.find(Cabin.class, cabId);
+            newCab.setAircraftConfiguration(null);
+            newCab.setListOfFare(listOfFares);
             Cabin cab = cabinCustomerSessionBeanLocal.createCabinOnly(newCab);
             newCabins.add(cab);
         }

@@ -743,7 +743,9 @@ public class ManagementModule {
                     FlightSchedule flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDateTime, duration));
                     
                     FlightSchedulePlan flightSchedulePlan = new FlightSchedulePlan(flightNumber);
-                    List<Cabin> cabins = flightSessionBeanRemote.getCabin(flightNumber);
+                    List<Cabin> cabins = flightSchedule.getListOfCabins();
+                    cabins.size();
+//                    List<Cabin> cabins = flightSessionBeanRemote.getCabin(flightNumber);
                     
                     Long flightSchedulePlanId = flightSchedulePlanSessionBeanRemote.createSingleFlightSchedulePlan(flightSchedulePlan, flightSchedule.getFlightScheduleId());
                     
@@ -812,16 +814,18 @@ public class ManagementModule {
                     }
                     
                     flightScheduleSessionBeanRemote.checkForConflictingFlights(flightNumber, departureDates, durations);
-                    
+                    FlightSchedule flightSchedule = new FlightSchedule();
                     for (int i = 0; i < departureDates.size(); i++) { 
                         Date departureDateTime = departureDates.get(i);
                         Duration duration = durations.get(i);
-                        FlightSchedule flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDateTime, duration));
+                        flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDateTime, duration));
                         flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                     }
                     
                     FlightSchedulePlan flightSchedulePlan = new FlightSchedulePlan(flightNumber);
-                    List<Cabin> cabins = flightSessionBeanRemote.getCabin(flightNumber);
+//                    List<Cabin> cabins = flightSessionBeanRemote.getCabin(flightNumber);
+                    List<Cabin> cabins = flightSchedule.getListOfCabins();
+                    cabins.size();
                     Long flightSchedulePlanId = flightSchedulePlanSessionBeanRemote.createMultipleFlightSchedulePlan(flightSchedulePlan, flightScheduleIds);
                     
                     for (int i = 0; i < cabins.size(); i++) {
@@ -896,15 +900,17 @@ public class ManagementModule {
                     }
                     
                     flightScheduleSessionBeanRemote.checkForConflictingFlights(flightNumber, departureDates, durations);
-                    
+                    FlightSchedule flightSchedule = new FlightSchedule();
                     for (int i = 0; i < departureDates.size(); i++) { 
                         Date departureDate = departureDates.get(i);
-                        FlightSchedule flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDate, duration));
+                        flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDate, duration));
                         flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                     }
                     
                     FlightSchedulePlan flightSchedulePlan = new FlightSchedulePlan(flightNumber);
-                    List<Cabin> cabins = flightSessionBeanRemote.getCabin(flightNumber);
+//                    List<Cabin> cabins = flightSessionBeanRemote.getCabin(flightNumber);
+                    List<Cabin> cabins = flightSchedule.getListOfCabins();
+                    cabins.size();
                     Long flightSchedulePlanId = flightSchedulePlanSessionBeanRemote.createMultipleFlightSchedulePlan(flightSchedulePlan, flightScheduleIds);
                     
                     for (int i = 0; i < cabins.size(); i++) {
@@ -975,15 +981,17 @@ public class ManagementModule {
                     }
                     
                     flightScheduleSessionBeanRemote.checkForConflictingFlights(flightNumber, departureDates, durations);
-                    
+                    FlightSchedule flightSchedule = new FlightSchedule();
                     for (int i = 0; i < departureDates.size(); i++) { 
                         Date departureDate = departureDates.get(i);
-                        FlightSchedule flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDate, duration));
+                        flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDate, duration));
                         flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                     }
                     
                     FlightSchedulePlan flightSchedulePlan = new FlightSchedulePlan(flightNumber);
-                    List<Cabin> cabins = flightSessionBeanRemote.getCabin(flightNumber);
+//                    List<Cabin> cabins = flightSessionBeanRemote.getCabin(flightNumber);
+                    List<Cabin> cabins = flightSchedule.getListOfCabins();
+                    cabins.size();
                     Long flightSchedulePlanId = flightSchedulePlanSessionBeanRemote.createMultipleFlightSchedulePlan(flightSchedulePlan, flightScheduleIds);
                     
                     for (int i = 0; i < cabins.size(); i++) {
