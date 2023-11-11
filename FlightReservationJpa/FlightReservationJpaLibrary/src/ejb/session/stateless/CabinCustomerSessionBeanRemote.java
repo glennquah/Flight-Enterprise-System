@@ -18,5 +18,6 @@ import util.exception.AircraftConfigurationDoesNotExistException;
 public interface CabinCustomerSessionBeanRemote {
     public Long createCabin(Cabin cabin, Long aircraftConfigId) throws AircraftConfigurationDoesNotExistException; 
     public List<Cabin> retrieveAllCabins();
-     public BigDecimal getLowestFareInCabin(long id);
+    public long getLowestFareIdInCabin(long id);
+    public Cabin createCabinOnly(Cabin cabin);
 }

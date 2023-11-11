@@ -34,8 +34,6 @@ public class Airport implements Serializable {
     private String state;
     @Column(length = 32, nullable = false)
     private String country;
-//    @ManyToMany
-//    private List<FlightRoute> listOfFlightRoutes;
 
     public Airport() {
     }
@@ -46,8 +44,6 @@ public class Airport implements Serializable {
         this.city = city;
         this.state = state;
         this.country = country;
-        
-//        this.listOfFlightRoutes = new ArrayList<FlightRoute>();
     }
 
     public String getCountry() {

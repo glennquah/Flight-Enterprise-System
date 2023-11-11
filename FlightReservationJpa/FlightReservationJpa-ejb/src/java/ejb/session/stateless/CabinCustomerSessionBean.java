@@ -34,6 +34,7 @@ public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote,
             AircraftConfiguration ac = em.find(AircraftConfiguration.class, aircraftConfigId);
             List<Cabin> listOfCabs = ac.getListOfCabins();
             // lazy loading??
+            listOfCabs.size();
             listOfCabs.add(cabin);
             ac.setListOfCabins(listOfCabs);
             cabin.setAircraftConfiguration(ac);
@@ -46,6 +47,13 @@ public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote,
     }
     
     @Override
+    public Cabin createCabinOnly(Cabin cabin) {
+        em.persist(cabin);
+        em.flush();
+        return cabin;
+    }
+    
+    @Override
     public List<Cabin> retrieveAllCabins() {
         //Whatever JPQL Statement u want
         Query query = em.createQuery("SELECT c FROM Cabin c");
@@ -53,16 +61,18 @@ public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote,
     }
     
     @Override
-    public BigDecimal getLowestFareInCabin(long id) {
+    public long getLowestFareIdInCabin(long id) {
         Cabin cab = em.find(Cabin.class, id);
         List<Fare> listOfFare = cab.getListOfFare();
         listOfFare.size();
         BigDecimal least = BigDecimal.valueOf(Integer.MAX_VALUE);
+        long leastFareid = 0;
         for (Fare f : listOfFare) {
             if (f.getFareAmount().compareTo(least) < 0) {
                 least = f.getFareAmount();
+                leastFareid = f.getId();
             }
         }
-        return least;
+        return leastFareid;
     }
 }

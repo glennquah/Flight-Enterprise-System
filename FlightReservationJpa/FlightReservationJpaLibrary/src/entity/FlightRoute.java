@@ -54,7 +54,7 @@ public class FlightRoute implements Serializable {
         this.destination = destination;
         this.flightRouteStatus = FlightRouteStatusEnum.ACTIVE;
         this.complementaryRoute = false;
-        this.listOfFlights = new ArrayList<Flight>();
+        this.listOfFlights = new ArrayList<>();
     }
 
     public FlightRoute(Airport originAirport, Airport destinationAirport, boolean haveComplementaryRoute) {
@@ -62,7 +62,7 @@ public class FlightRoute implements Serializable {
         this.destination = destinationAirport;
         this.flightRouteStatus = FlightRouteStatusEnum.ACTIVE;
         this.complementaryRoute = true;
-        this.listOfFlights = new ArrayList<Flight>();
+        this.listOfFlights = new ArrayList<>();
     }
 
     public Long getFlightRouteId() {

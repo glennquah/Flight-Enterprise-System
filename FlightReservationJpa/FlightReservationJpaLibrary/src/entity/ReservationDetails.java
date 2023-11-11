@@ -37,6 +37,10 @@ public class ReservationDetails implements Serializable {
     @Column(nullable = false)
     private char seatLetter;
     
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private Fare fare;
+    
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Customer customer;
@@ -56,6 +60,7 @@ public class ReservationDetails implements Serializable {
         this.seatLetter = seatLetter;
         this.customer = new Customer();
         this.flightSchedule = new FlightSchedule();
+        this.fare = new Fare();
     }
     
     
@@ -171,4 +176,19 @@ public class ReservationDetails implements Serializable {
         this.seatLetter = seatLetter;
     }
     
+    
+    /**
+     * @return the fare
+     */
+    public Fare getFare() {
+        return fare;
+    }
+
+    /**
+     * @param fare the fare to set
+     */
+    public void setFare(Fare fare) {
+        this.fare = fare;
+    }
+
 }

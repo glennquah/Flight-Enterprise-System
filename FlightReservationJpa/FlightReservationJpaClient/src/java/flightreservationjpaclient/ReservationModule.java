@@ -10,6 +10,7 @@ import ejb.session.stateless.AirportSessionBeanRemote;
 import ejb.session.stateless.CabinCustomerSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
+import ejb.session.stateless.FareSessionBeanRemote;
 import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
@@ -50,6 +51,7 @@ public class ReservationModule {
     private FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote;
     private FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
     private ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote;
+    private FareSessionBeanRemote fareSessionBeanRemote;
 
     public ReservationModule() {
     }
@@ -65,7 +67,8 @@ public class ReservationModule {
             FlightSessionBeanRemote flightSessionBeanRemote,
             FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote,
             FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote,
-            ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote) {
+            ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote,
+            FareSessionBeanRemote fareSessionBeanRemote) {
         this.customerId = customerId;
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
@@ -78,6 +81,7 @@ public class ReservationModule {
         this.flightSchedulePlanSessionBeanRemote = flightSchedulePlanSessionBeanRemote;
         this.flightScheduleSessionBeanRemote = flightScheduleSessionBeanRemote;
         this.reservationDetailsSessionBeanRemote = reservationDetailsSessionBeanRemote;
+        this.fareSessionBeanRemote = fareSessionBeanRemote;
     }
     
     // =========================================LOGIN SCREEN=====================================================
@@ -168,7 +172,11 @@ public class ReservationModule {
         }
         BigDecimal fare = BigDecimal.ZERO;
         if (flightType == 1) {
-            fare = searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare);
+            if (tripType == 2) {
+                fare = searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false);
+            } else {
+                fare = searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, true);
+            }
         } else {
             fare = searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false);
         }
@@ -176,7 +184,7 @@ public class ReservationModule {
         if (tripType == 2) {
             System.out.println("\n*** RETURN FLIGHT BOOKING ***");
             if (flightType == 1){
-                searchDirectFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare);
+                searchDirectFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true);
             } else {
                 searchConnectingFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true);
             }
@@ -287,7 +295,7 @@ public class ReservationModule {
         return Number;
     }
     
-    public BigDecimal searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare) throws Exception {
+    public BigDecimal searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, Boolean lastFlight) throws Exception {
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
         //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
         List<FlightSchedulePlan> listOfFlightSchedulePlan = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
@@ -327,7 +335,12 @@ public class ReservationModule {
         if (next.equalsIgnoreCase("N")) {
             customerLoginPage();
         } else {
-            fare.add(reserveFlight(confirmId, sc, numOfSeats, true, BigDecimal.ZERO));
+            if (lastFlight) {
+                fare.add(reserveFlight(confirmId, sc, numOfSeats, true, BigDecimal.ZERO));
+            } else {
+                fare.add(reserveFlight(confirmId, sc, numOfSeats, false, BigDecimal.ZERO));
+            }
+            
         }
         return fare;
     }
@@ -345,9 +358,11 @@ public class ReservationModule {
             System.out.println("Cabin Class : " + c.getCabinClassName());
             System.out.println("Total Seats: " + c.getTotalSeats());
             System.out.println("Remaining Seats: " + (c.getTotalSeats() - c.getReservedSeats()));
-            BigDecimal lowestFare = cabinCustomerSessionBeanRemote.getLowestFareInCabin(c.getCabinId());
+            long lowestFareid = cabinCustomerSessionBeanRemote.getLowestFareIdInCabin(c.getCabinId());
+            BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareid);
             System.out.println("Fare per Ticket: " + lowestFare);
             System.out.println("Total Fare: " + (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
+            System.out.println("");
         }
     }
     
@@ -393,6 +408,8 @@ public class ReservationModule {
             System.out.println("");
         }
         
+        long lowestFareId = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
+        System.out.println("LOWEST FARE ID= " + lowestFareId);
         for (int i = 0; i < numOfSeats; i ++) {
             System.out.println(String.format("Enter No. %s Seat you wan to reserve: ", (i + 1)));
             System.out.print("Enter Row Number> ");
@@ -408,8 +425,8 @@ public class ReservationModule {
             String lastName = sc.nextLine().trim();
             System.out.print("Enter Passport Number Of Customer> ");
             String passport = sc.nextLine().trim();
-            ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);
-            Long reservId = reservationDetailsSessionBeanRemote.createReservationDetails(reservationDetails, this.customerId, flightScheduleId);
+            ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);   
+            Long reservId = reservationDetailsSessionBeanRemote.createReservationDetails(reservationDetails, this.customerId, flightScheduleId, lowestFareId);
             System.out.println("Reservation Created!");
             System.out.println("Reservation ID = " + reservId);
             System.out.println("*** SEAT BOOKED ***");
@@ -417,9 +434,10 @@ public class ReservationModule {
             
         }
         
-
-        BigDecimal lowestFare = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
+        
+//        BigDecimal lowestFare = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
         //System.out.println("Price per Ticket: " + lowestFare);
+        BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareId);
         BigDecimal fare = (lowestFare.multiply(BigDecimal.valueOf(numOfSeats)));
         fare = fare.add(existingFare);
         if (payment) {
@@ -435,6 +453,7 @@ public class ReservationModule {
     
     // =========================================VIEW MY FLIGHT RESERVATION=====================================================
     public void viewFlightReservation(Scanner sc) {
+        //change this?
         System.out.println("\n*** YOU HAVE SLECTED VIEW ALL FLIGHT RESERVATION ***\n");
         List<FlightSchedule> listOfFlightSchedules = customerSessionBean.getFlightSchedules(this.customerId);
         for (FlightSchedule fs : listOfFlightSchedules) {
@@ -451,8 +470,10 @@ public class ReservationModule {
         System.out.println("\n*** VIEW MORE FLIGHT RESERVATION DETAILS ***\n");
         List<ReservationDetails> listOfReservationDetails = flightScheduleSessionBeanRemote.getReservationDetails(flightScheduleId, this.customerId);
         for (ReservationDetails rd : listOfReservationDetails) {
+            System.out.println("Cabin: " + rd.getFare().getCabin().getCabinClassName());
             System.out.println("Name: " + rd.getFirstName());
             System.out.println("Seat: " + rd.getRowNum() + rd.getSeatLetter());
+            System.out.println("Fare: " + rd.getFare().getFareAmount());
             System.out.println("");
         }
         //add fare entity into reservation details

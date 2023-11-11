@@ -38,8 +38,6 @@ public class Aircraft implements Serializable {
 
     public Aircraft() {
     }
-    
-    
 
     public Aircraft(String aircraftName, Integer numOfSeats) {
         this.aircraftName = aircraftName;

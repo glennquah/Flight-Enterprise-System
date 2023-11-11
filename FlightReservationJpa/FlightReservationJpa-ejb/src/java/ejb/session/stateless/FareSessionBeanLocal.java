@@ -15,5 +15,5 @@ import util.exception.FareDoesNotExistException;
 @Local
 public interface FareSessionBeanLocal {
     public Long updateFare(Long fareId, String fareBasisCode, BigDecimal fareAmount) throws FareDoesNotExistException;
-    
+    public BigDecimal getFareUsingId(long id);
 }

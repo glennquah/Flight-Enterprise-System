@@ -5,6 +5,7 @@
 package ejb.session.stateless;
 
 import entity.Customer;
+import entity.Fare;
 import entity.FlightSchedule;
 import entity.ReservationDetails;
 import java.util.List;
@@ -23,7 +24,7 @@ public class ReservationDetailsSessionBean implements ReservationDetailsSessionB
     private EntityManager em;
 
     @Override
-    public Long createReservationDetails(ReservationDetails reservationDetails, long customerId, long flightScheduleId) {
+    public Long createReservationDetails(ReservationDetails reservationDetails, long customerId, long flightScheduleId, long lowestFareId) {
         Customer cust = em.find(Customer.class, customerId);
         FlightSchedule fs = em.find(FlightSchedule.class, flightScheduleId);
         reservationDetails.setCustomer(cust);
@@ -38,6 +39,9 @@ public class ReservationDetailsSessionBean implements ReservationDetailsSessionB
         List<ReservationDetails> listOfRes2 = fs.getListOfReservationDetails();
         listOfRes2.size();
         fs.setListOfReservationDetails(listOfRes2);
+        
+        Fare f = em.find(Fare.class, lowestFareId);
+        reservationDetails.setFare(f);
         
         em.persist(reservationDetails);
         em.flush();

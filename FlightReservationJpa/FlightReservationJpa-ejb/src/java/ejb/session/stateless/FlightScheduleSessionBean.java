@@ -12,6 +12,7 @@ import java.time.Instant;
 import entity.Airport;
 import entity.Cabin;
 import entity.Customer;
+import entity.Fare;
 import entity.FlightRoute;
 import entity.ReservationDetails;
 import java.math.BigDecimal;
@@ -31,6 +32,7 @@ import javax.persistence.Query;
 import util.exception.ConflictingFlightScheduleException;
 import util.exception.FlightScheduleDoesNotExistException;
 import javax.persistence.TemporalType;
+import util.exception.AircraftConfigurationDoesNotExistException;
 import util.exception.AirportDoesNotExistException;
 import util.exception.FlightDoesNotExistException;
 import util.exception.FlightRouteAlreadyExistException;
@@ -47,6 +49,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
 
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
+  
      
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -101,10 +104,29 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public FlightSchedule createNewFlightSchedule(Integer flightNumber, FlightSchedule flightSchedule) {
+    public FlightSchedule createNewFlightSchedule(Integer flightNumber, FlightSchedule flightSchedule) throws AircraftConfigurationDoesNotExistException, ConflictingFlightScheduleException {
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
+        long aircraftConfigId = flight.getAircraftConfig().getAircraftConfigurationId();
+        //set cabin       
+        //duplicate cabins, if not now u are juz linking to the other cabins
+        List<Cabin> listOfCabins = new ArrayList<>(flight.getAircraftConfig().getListOfCabins());
+        listOfCabins.size();
+        List<Cabin> newCabins = new ArrayList<>();
+        for (Cabin c : listOfCabins) { 
+            //List<Fare> listOfFares = c.getListOfFare();
+            Cabin newCab = new Cabin(c.getCabinClassName(), c.getNumOfIsles(), c.getNumOfRows(), c.getSeatingConfiguration());
+            newCab.setAircraftConfiguration(null);
+            //newCab.setListOfFare(listOfFares);
+            Cabin cab = cabinCustomerSessionBeanLocal.createCabinOnly(newCab);
+            newCabins.add(cab);
+        }
+
+        flightSchedule.setListOfCabins(newCabins);
+
+        
+        flightSchedule.setListOfCabins(newCabins);
             
         Date departureDateTime = flightSchedule.getDepartureDateTime();
         List<Date> bookedDates = flight.getBookedDates();
@@ -265,7 +287,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     @Override
     public List<Cabin> getCabins(long id) {
         FlightSchedule fs = getFlightScheduleWithId(id);
-        List<Cabin> listOfCabins = fs.getFlightSchedulePlan().getFlight().getAircraftConfig().getListOfCabins();
+        List<Cabin> listOfCabins = fs.getListOfCabins();
         listOfCabins.size();
         return listOfCabins;
     }
@@ -304,15 +326,15 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public BigDecimal getLowestFareUsingCabinName(String cabName, long id) {
+    public long getLowestFareUsingCabinName(String cabName, long id) {
        List<Cabin> cabins = getCabins(id);
+       long lowestFareId = -1;
        for (Cabin c : cabins) {
            if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
-               return cabinCustomerSessionBeanLocal.getLowestFareInCabin(c.getCabinId());
+               lowestFareId = cabinCustomerSessionBeanLocal.getLowestFareIdInCabin(c.getCabinId());
            }
        }
-       return BigDecimal.ZERO;
-       //throw error?
+       return lowestFareId;
     }
     
     @Override

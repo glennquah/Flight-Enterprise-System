@@ -16,6 +16,7 @@ import entity.FlightSchedulePlan;
 import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.time.LocalTime;
+import util.exception.AircraftConfigurationDoesNotExistException;
 import util.exception.FlightDoesNotExistException;
 
 /**
@@ -24,7 +25,7 @@ import util.exception.FlightDoesNotExistException;
  */
 @Local
 public interface FlightScheduleSessionBeanLocal {
-    public FlightSchedule createNewFlightSchedule(Integer flightNumber, FlightSchedule flightSchedule) throws ConflictingFlightScheduleException;
+    public FlightSchedule createNewFlightSchedule(Integer flightNumber, FlightSchedule flightSchedule) throws AircraftConfigurationDoesNotExistException, ConflictingFlightScheduleException;
     public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Duration> durations) throws ConflictingFlightScheduleException;
     public void checkForConflictingFlights(Integer flightNumber, Date departureDate, Duration duration) throws ConflictingFlightScheduleException;
     public List<FlightSchedule> getFlightSchedulesWithId(Long id) throws FlightScheduleDoesNotExistException;
@@ -40,6 +41,6 @@ public interface FlightScheduleSessionBeanLocal {
     public char[][] getCabinSeats(long id, String cabName);
     public Integer[] getIslesPlan(long id, String cabName);
     public long bookSeat(long id, String cabName, int seat, char letter);
-    public BigDecimal getLowestFareUsingCabinName(String cabName, long id);
+    public long getLowestFareUsingCabinName(String cabName, long id);
     public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId);
 }
