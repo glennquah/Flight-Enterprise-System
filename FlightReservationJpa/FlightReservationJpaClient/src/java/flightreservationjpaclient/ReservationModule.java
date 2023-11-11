@@ -172,7 +172,11 @@ public class ReservationModule {
         }
         BigDecimal fare = BigDecimal.ZERO;
         if (flightType == 1) {
-            fare = searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare);
+            if (tripType == 2) {
+                fare = searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false);
+            } else {
+                fare = searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, true);
+            }
         } else {
             fare = searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false);
         }
@@ -180,7 +184,7 @@ public class ReservationModule {
         if (tripType == 2) {
             System.out.println("\n*** RETURN FLIGHT BOOKING ***");
             if (flightType == 1){
-                searchDirectFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare);
+                searchDirectFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true);
             } else {
                 searchConnectingFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true);
             }
@@ -291,7 +295,7 @@ public class ReservationModule {
         return Number;
     }
     
-    public BigDecimal searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare) throws Exception {
+    public BigDecimal searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, Boolean lastFlight) throws Exception {
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
         //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
         List<FlightSchedulePlan> listOfFlightSchedulePlan = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
@@ -331,7 +335,12 @@ public class ReservationModule {
         if (next.equalsIgnoreCase("N")) {
             customerLoginPage();
         } else {
-            fare.add(reserveFlight(confirmId, sc, numOfSeats, true, BigDecimal.ZERO));
+            if (lastFlight) {
+                fare.add(reserveFlight(confirmId, sc, numOfSeats, true, BigDecimal.ZERO));
+            } else {
+                fare.add(reserveFlight(confirmId, sc, numOfSeats, false, BigDecimal.ZERO));
+            }
+            
         }
         return fare;
     }

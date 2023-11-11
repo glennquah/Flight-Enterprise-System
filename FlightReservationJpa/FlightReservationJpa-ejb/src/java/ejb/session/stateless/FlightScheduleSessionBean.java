@@ -115,8 +115,9 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         List<Cabin> newCabins = new ArrayList<>();
         for (Cabin c : listOfCabins) { 
             Cabin newCab = new Cabin(c.getCabinClassName(), c.getNumOfIsles(), c.getNumOfRows(), c.getSeatingConfiguration());
-            long cabId = cabinCustomerSessionBeanLocal.createCabin(newCab, aircraftConfigId);
-            Cabin cab = em.find(Cabin.class, cabId);
+//            long cabId = cabinCustomerSessionBeanLocal.createCabin(newCab, aircraftConfigId);
+//            Cabin cab = em.find(Cabin.class, cabId);
+            Cabin cab = cabinCustomerSessionBeanLocal.createCabinOnly(newCab);
             newCabins.add(cab);
         }
 
