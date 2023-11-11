@@ -173,20 +173,20 @@ public class ReservationModule {
         BigDecimal fare = BigDecimal.ZERO;
         if (flightType == 1) {
             if (tripType == 2) {
-                fare = searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false);
+                fare = fare.add(searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false));
             } else {
-                fare = searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, true);
+                fare = fare.add(searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, true));
             }
         } else {
-            fare = searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false);
+            fare = fare.add(searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false));
         }
         
         if (tripType == 2) {
             System.out.println("\n*** RETURN FLIGHT BOOKING ***");
             if (flightType == 1){
-                searchDirectFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true);
+                fare = fare.add(searchDirectFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true));
             } else {
-                searchConnectingFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true);
+                fare = fare.add(searchConnectingFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true));
             }
         }
     }
@@ -229,12 +229,12 @@ public class ReservationModule {
         int confirmId = sc.nextInt();
         sc.nextLine();
         System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
-        System.out.println("Press Y to confirm N to restart");
+        System.out.print("Press Y to confirm N to restart> ");
         String next = sc.nextLine().trim();
         if (next.equalsIgnoreCase("N")) {
             customerLoginPage();
         } else {
-            fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
+            fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
         }
         
         long flightSchedId = confirmId;
@@ -265,15 +265,15 @@ public class ReservationModule {
         confirmId = sc.nextInt();
         sc.nextLine();
         System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
-        System.out.println("Press Y to confirm N to restart");
+        System.out.print("Press Y to confirm N to restart> ");
         next = sc.nextLine().trim();
         if (next.equalsIgnoreCase("N")) {
             customerLoginPage();
         } else {
             if (connectedFlight) {
-                fare.add(reserveFlight(confirmId, sc, numOfSeats, true, fare));
+                fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, true, fare));
             } else {
-                fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
+                fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
             }
         }
         return fare;
@@ -330,15 +330,15 @@ public class ReservationModule {
         int confirmId = sc.nextInt();
         sc.nextLine();
         System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
-        System.out.println("Press Y to confirm N to restart");
+        System.out.print("Press Y to confirm N to restart> ");
         String next = sc.nextLine().trim();
         if (next.equalsIgnoreCase("N")) {
             customerLoginPage();
         } else {
             if (lastFlight) {
-                fare.add(reserveFlight(confirmId, sc, numOfSeats, true, BigDecimal.ZERO));
+                fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, true, fare));
             } else {
-                fare.add(reserveFlight(confirmId, sc, numOfSeats, false, BigDecimal.ZERO));
+                fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
             }
             
         }
@@ -360,13 +360,14 @@ public class ReservationModule {
             System.out.println("Remaining Seats: " + (c.getTotalSeats() - c.getReservedSeats()));
             long lowestFareid = cabinCustomerSessionBeanRemote.getLowestFareIdInCabin(c.getCabinId());
             BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareid);
-            System.out.println("Fare per Ticket: " + lowestFare);
-            System.out.println("Total Fare: " + (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
+            System.out.println("Fare per Ticket: $" + lowestFare);
+            System.out.println("Total Fare: $" + (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
             System.out.println("");
         }
     }
     
     public BigDecimal reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats, Boolean payment, BigDecimal existingFare) {
+        //System.out.println("EXISTING FARE = " + existingFare);
         checkFlightDetails(sc, flightScheduleId, numOfSeats);
         System.out.print("Enter Cabin You wan to Reserve> ");
         String cabin = sc.nextLine().trim();
@@ -439,9 +440,10 @@ public class ReservationModule {
         //System.out.println("Price per Ticket: " + lowestFare);
         BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareId);
         BigDecimal fare = (lowestFare.multiply(BigDecimal.valueOf(numOfSeats)));
-        fare = fare.add(existingFare);
+        
         if (payment) {
-            System.out.println("Total Price: " + fare);
+            BigDecimal totalFare = fare.add(existingFare);
+            System.out.println("Total Price: $" + totalFare);
             System.out.print("Enter Credit Card Details> ");
             String ccd = sc.nextLine().trim();
             customerSessionBean.linkFlightSchedule(this.customerId, flightScheduleId, ccd);
@@ -473,7 +475,7 @@ public class ReservationModule {
             System.out.println("Cabin: " + rd.getFare().getCabin().getCabinClassName());
             System.out.println("Name: " + rd.getFirstName());
             System.out.println("Seat: " + rd.getRowNum() + rd.getSeatLetter());
-            System.out.println("Fare: " + rd.getFare().getFareAmount());
+            System.out.println("Fare: $" + rd.getFare().getFareAmount());
             System.out.println("");
         }
         //add fare entity into reservation details
