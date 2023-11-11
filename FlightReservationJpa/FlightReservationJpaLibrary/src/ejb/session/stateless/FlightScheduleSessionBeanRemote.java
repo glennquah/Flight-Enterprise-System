@@ -18,6 +18,7 @@ import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import util.exception.FlightDoesNotExistException;
+import util.exception.FlightScheduleBookedException;
 
 /**
  *
@@ -43,4 +44,5 @@ public interface FlightScheduleSessionBeanRemote {
     public long bookSeat(long id, String cabName, int seat, char letter);
     public BigDecimal getLowestFareUsingCabinName(String cabName, long id);
     public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId);
+    public Long deleteFlightSchedule(Long flightScheduleId) throws FlightScheduleBookedException;
 }

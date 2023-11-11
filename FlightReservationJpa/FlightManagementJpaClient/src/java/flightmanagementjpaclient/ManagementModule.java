@@ -1100,7 +1100,22 @@ public class ManagementModule {
         sc.nextLine();
         
         System.out.println("*** UPDATE DETAILS FOR FLIGHT SCHEDULE ***\n");
+        System.out.print("Delete Flight Schedule? (Y/N)> ");
+        if (sc.nextLine().trim().equalsIgnoreCase("Y")) {
+            List<FlightSchedule> flightSchedules = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedule((long) flightSchedulePlanId);
+            for (FlightSchedule f: flightSchedules) {
+                System.out.println(f);
+            }
+            
+            System.out.print("Input the Flight Schedule ID you wish to delete> ");
+            Integer flightScheduleId = sc.nextInt();
+            
+            Long Id = flightScheduleSessionBeanRemote.deleteFlightSchedule((long) flightScheduleId);
+            System.out.println("*** FLIGHT SCHEDULE DELETED! ***\n");
+        }
+        
         System.out.print("Change Flight Schedule? (Y/N)> ");
+        sc.nextLine();
         if (sc.nextLine().trim().equalsIgnoreCase("Y")) {
             List<FlightSchedule> flightSchedules = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedule((long) flightSchedulePlanId);
             for (FlightSchedule f: flightSchedules) {
