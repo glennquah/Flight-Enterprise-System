@@ -59,3 +59,5 @@ FlightReservationJpa/FlightReservationJpa-ejb/.DS_Store
 *.properties
 *.properties
 *.xml
+FlightReservationJpa/FlightReservationJpaClient/nbproject/private/private.properties
+FlightReservationJpa/FlightReservationJpaClient/nbproject/private/private.xml
