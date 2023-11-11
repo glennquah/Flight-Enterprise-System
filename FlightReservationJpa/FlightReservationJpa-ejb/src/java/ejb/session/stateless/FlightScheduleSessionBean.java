@@ -32,6 +32,7 @@ import javax.persistence.Query;
 import util.exception.ConflictingFlightScheduleException;
 import util.exception.FlightScheduleDoesNotExistException;
 import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 import util.exception.AircraftConfigurationDoesNotExistException;
 import util.exception.AirportDoesNotExistException;
 import util.exception.FlightDoesNotExistException;
@@ -348,20 +349,25 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     
     @Override
     public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId) {
-        FlightSchedule fs = em.find(FlightSchedule.class, flightScheduleId);
+        String jpql = "SELECT fs FROM FlightSchedule fs LEFT JOIN FETCH fs.listOfReservationDetails WHERE fs.flightScheduleId = :flightScheduleId";
+        TypedQuery<FlightSchedule> query = em.createQuery(jpql, FlightSchedule.class);
+        query.setParameter("flightScheduleId", flightScheduleId);
+
+        FlightSchedule fs = query.getSingleResult(); 
+
         Customer cust = em.find(Customer.class, customerId);
-        
+
         List<ReservationDetails> newDetails = new ArrayList<>();
         List<ReservationDetails> listOfResDetails = fs.getListOfReservationDetails();
-        int size = listOfResDetails.size();
         for (ReservationDetails rd : listOfResDetails) {
             if (Objects.equals(rd.getCustomer().getAccountId(), cust.getAccountId())) {
                 newDetails.add(rd);
             }
         }
-        
+
         return newDetails;
     }
+
     
     @Override
     public Long deleteFlightSchedule(Long flightScheduleId) throws FlightScheduleBookedException {
@@ -377,5 +383,24 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         }
         
         return flightSchedule.getFlightScheduleId();
+    }
+    
+    @Override
+    public Boolean checkSeatIfAvailable(long flightSchedId, String cabinName, int rowNum, char seat) {
+        FlightSchedule flightSchedule = em.find(FlightSchedule.class, flightSchedId);
+        List<Cabin> listOfCabins = flightSchedule.getListOfCabins();
+        listOfCabins.size();
+        for (Cabin c : listOfCabins) {
+            if (c.getCabinClassName().equalsIgnoreCase(cabinName)) {     
+                char[][] seatingPlan = c.getSeatingPlan();
+                int seatNum = seat - 65;
+                if (seatingPlan[rowNum - 1][seatNum] == 'X') {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

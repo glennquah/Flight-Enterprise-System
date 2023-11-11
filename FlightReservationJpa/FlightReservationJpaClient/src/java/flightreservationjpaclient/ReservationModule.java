@@ -424,7 +424,13 @@ public class ReservationModule {
             System.out.print("Enter Seat Letter> ");
             String seat = sc.nextLine().trim().toUpperCase();
             char letter = seat.charAt(0);
-            flightScheduleSessionBeanRemote.bookSeat(flightScheduleId, cabin, rowNum, letter);
+            Boolean seatAvailable = flightScheduleSessionBeanRemote.checkSeatIfAvailable(flightScheduleId, cabin, rowNum, letter);
+            if (seatAvailable) {
+                flightScheduleSessionBeanRemote.bookSeat(flightScheduleId, cabin, rowNum, letter);
+            } else {
+                System.out.println("SEAT IS UNAVAILABLE, PLEASE TRY AGAIN");
+                reserveFlight(flightScheduleId, sc, numOfSeats, payment, existingFare);
+            }
             System.out.print("Enter First Name Of Customer> ");
             String firstName = sc.nextLine().trim();
             System.out.print("Enter Last Name Of Customer> ");

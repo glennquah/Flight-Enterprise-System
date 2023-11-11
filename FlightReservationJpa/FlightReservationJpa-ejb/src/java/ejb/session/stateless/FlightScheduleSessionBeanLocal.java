@@ -45,4 +45,5 @@ public interface FlightScheduleSessionBeanLocal {
     public long getLowestFareUsingCabinName(String cabName, long id);
     public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId);
     public Long deleteFlightSchedule(Long flightScheduleId) throws FlightScheduleBookedException;
+    public Boolean checkSeatIfAvailable(long flightSchedId, String cabinName, int rowNum, char seat);
 }
