@@ -9,7 +9,6 @@ import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.time.Duration;
 import java.time.Instant;
-import entity.Airport;
 import entity.Cabin;
 import entity.Customer;
 import entity.Fare;
@@ -35,7 +34,7 @@ import javax.persistence.TemporalType;
 import util.exception.AircraftConfigurationDoesNotExistException;
 import util.exception.AirportDoesNotExistException;
 import util.exception.FlightDoesNotExistException;
-import util.exception.FlightRouteAlreadyExistException;
+import util.exception.FlightScheduleBookedException;
 
 /**
  *
@@ -289,39 +288,46 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         FlightSchedule fs = getFlightScheduleWithId(id);
         List<Cabin> listOfCabins = fs.getListOfCabins();
         listOfCabins.size();
+        
         return listOfCabins;
     }
     
     @Override
     public char[][] getCabinSeats(long id, String cabName) {
        List<Cabin> cabins = getCabins(id);
+       
        for (Cabin c : cabins) {
            if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
                return c.getSeatingPlan();
            }
        }
+       
        return null;
     }
     
     @Override
     public Integer[] getIslesPlan(long id, String cabName) {
        List<Cabin> cabins = getCabins(id);
+       
        for (Cabin c : cabins) {
            if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
                return c.getSeatingConfiguration();
            }
        }
+       
        return null;
     }
     
     @Override
     public long bookSeat(long id, String cabName, int seat, char letter) {
        List<Cabin> cabins = getCabins(id);
+       
        for (Cabin c : cabins) {
            if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
                c.bookSeat(seat, letter);
            }
        }
+       
        return id;
     }
     
@@ -329,11 +335,13 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     public long getLowestFareUsingCabinName(String cabName, long id) {
        List<Cabin> cabins = getCabins(id);
        long lowestFareId = -1;
+       
        for (Cabin c : cabins) {
            if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
                lowestFareId = cabinCustomerSessionBeanLocal.getLowestFareIdInCabin(c.getCabinId());
            }
        }
+
        return lowestFareId;
     }
     
@@ -341,13 +349,32 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId) {
         FlightSchedule fs = getFlightScheduleWithId(flightScheduleId);
         Customer cust = em.find(Customer.class, customerId);
+        
         List<ReservationDetails> newDetails = new ArrayList<>();
         List<ReservationDetails> listOfResDetails = fs.getListOfReservationDetails();
+        
         for (ReservationDetails rd : listOfResDetails) {
             if (rd.getCustomer().getAccountId().equals(cust.getAccountId())) {
                 newDetails.add(rd);
             }
         }
+        
         return newDetails;
+    }
+    
+    @Override
+    public Long deleteFlightSchedule(Long flightScheduleId) throws FlightScheduleBookedException {
+        FlightSchedule flightSchedule = em.find(FlightSchedule.class, flightScheduleId);
+        
+        List<ReservationDetails> reservationDetails = flightSchedule.getListOfReservationDetails();
+        reservationDetails.size();
+        
+        if (reservationDetails.size() == 0) {
+            em.remove(flightSchedule);
+        } else {
+            throw new FlightScheduleBookedException("This Flight Schedule has bookings and cannot be deleted!");
+        }
+        
+        return flightSchedule.getFlightScheduleId();
     }
 }
