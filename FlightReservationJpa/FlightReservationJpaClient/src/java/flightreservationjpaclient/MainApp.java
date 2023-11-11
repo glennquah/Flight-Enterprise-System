@@ -176,13 +176,13 @@ public class MainApp {
         String firstName = scanner.nextLine().trim();
         System.out.print("Enter Last Name> ");
         String lastName = scanner.nextLine().trim();
-        System.out.print("Enter Email Name> ");
+        System.out.print("Enter Email> ");
         String email = scanner.nextLine().trim();
-        System.out.print("Enter Password Name> ");
+        System.out.print("Enter Password> ");
         String password = scanner.nextLine().trim();
-        System.out.print("Enter Phone Number Name> ");
+        System.out.print("Enter Phone Number> ");
         String phoneNum = scanner.nextLine().trim();
-        System.out.print("Enter Address Name> ");
+        System.out.print("Enter Address> ");
         String address = scanner.nextLine().trim();
         Customer cust = new Customer(firstName, lastName, email, password, phoneNum, address);
         
