@@ -57,3 +57,5 @@ FlightReservationJpa/.DS_Store
 FlightReservationJpa/FlightReservationJpa-ejb/.DS_Store
 *.xml
 *.properties
+*.properties
+*.xml
