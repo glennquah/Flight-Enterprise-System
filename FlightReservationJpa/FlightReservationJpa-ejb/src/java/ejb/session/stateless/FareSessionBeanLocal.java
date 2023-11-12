@@ -4,6 +4,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Fare;
 import java.math.BigDecimal;
 import javax.ejb.Local;
 import util.exception.FareDoesNotExistException;
@@ -16,4 +17,5 @@ import util.exception.FareDoesNotExistException;
 public interface FareSessionBeanLocal {
     public Long updateFare(Long fareId, String fareBasisCode, BigDecimal fareAmount) throws FareDoesNotExistException;
     public BigDecimal getFareUsingId(long id);
+    public long createFare(Fare fare);
 }

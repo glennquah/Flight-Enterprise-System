@@ -13,6 +13,7 @@ import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -29,9 +30,13 @@ import util.exception.FlightDoesNotExistException;
 @Stateless
 public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionBeanRemote, FlightSchedulePlanSessionBeanLocal {
 
+    @EJB(name = "FareSessionBeanLocal")
+    private FareSessionBeanLocal fareSessionBeanLocal;
+
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
 
+    
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override 
@@ -42,16 +47,25 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
         
         for (int i = 0; i < fareBasisCodes.size(); i++) {
             Fare fare = new Fare(cabin, fareBasisCodes.get(i), fareAmounts.get(i), flightSchedulePlan);
+//            em.persist(fare);
+            long fareId = fareSessionBeanLocal.createFare(fare);
+            System.out.println("Fare ID: " + fareId);
+            Fare fareNew = em.find(Fare.class, fareId);
             List<Fare> listOfFares = flightSchedulePlan.getListOfFares();
-            listOfFares.add(fare);
+            System.out.println("listOfFares size before adding: " + listOfFares.size());
+            listOfFares.add(fareNew);
+            System.out.println("listOfFares size after adding: " + listOfFares.size());
             flightSchedulePlan.setListOfFares(listOfFares);
 
             List<Fare> listOfFaresCabin = cabin.getListOfFare();
-            listOfFaresCabin.add(fare);
+            System.out.println("listOfFaresCabin size before adding: " + listOfFaresCabin.size());
+            listOfFaresCabin.add(fareNew);
+            System.out.println("listOfFaresCabin size after adding: " + listOfFaresCabin.size());
             cabin.setListOfFare(listOfFaresCabin);
 
-            em.persist(fare);
+            System.out.println("Fare persisted: " + fareNew.getId());
         }
+
         
         em.flush();
     }
@@ -194,5 +208,9 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
         }
         query.setParameter("flightNumbers", flightNumbers);
         return query.getResultList();
+    }
+
+    public void persist(Object object) {
+        em.persist(object);
     }
 }

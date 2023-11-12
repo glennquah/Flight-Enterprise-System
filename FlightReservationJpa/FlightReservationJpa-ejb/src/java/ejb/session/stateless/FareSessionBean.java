@@ -43,4 +43,12 @@ public class FareSessionBean implements FareSessionBeanRemote, FareSessionBeanLo
         Fare fare = em.find(Fare.class, id);
         return fare.getFareAmount();
     }
+    
+    @Override
+    public long createFare(Fare fare) {
+        em.persist(fare);
+        em.flush();
+        System.out.println("CREATED IN FARE ID= " + fare.getId());
+        return fare.getId();
+    }
 }
