@@ -64,7 +64,7 @@ public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote,
     public long getLowestFareIdInCabin(long id) {
         Cabin cab = em.find(Cabin.class, id);
         List<Fare> listOfFare = cab.getListOfFare();
-        listOfFare.size();
+        System.out.println("SIZE = " + listOfFare.size());
         
         BigDecimal least = BigDecimal.valueOf(Integer.MAX_VALUE);
         long leastFareid = 0;

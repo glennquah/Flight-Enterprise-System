@@ -365,7 +365,6 @@ public class ReservationModule {
             System.out.println("Total Seats: " + c.getTotalSeats());
             System.out.println("Remaining Seats: " + (c.getTotalSeats() - c.getReservedSeats()));
             long lowestFareid = cabinCustomerSessionBeanRemote.getLowestFareIdInCabin(c.getCabinId());
-            System.out.println("************LOWEST FARE ID = " + lowestFareid);
             System.out.println(lowestFareid);
             BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareid);
             System.out.println("Fare per Ticket: $" + lowestFare);

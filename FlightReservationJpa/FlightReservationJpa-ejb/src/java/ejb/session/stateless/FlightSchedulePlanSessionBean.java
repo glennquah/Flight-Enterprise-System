@@ -42,28 +42,35 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
     @Override 
     public void createFare(Long flightSchedulePlanId, Long cabinId, List<String> fareBasisCodes, List<BigDecimal> fareAmounts) {
         FlightSchedulePlan flightSchedulePlan = em.find(FlightSchedulePlan.class, flightSchedulePlanId);
-        Cabin cabin = em.find(Cabin.class, cabinId);
+        //Cabin cabin = em.find(Cabin.class, cabinId);
         
+        List<FlightSchedule> listOfFs = flightSchedulePlan.getFlightSchedules();
+        listOfFs.size();
         
-        for (int i = 0; i < fareBasisCodes.size(); i++) {
-            Fare fare = new Fare(cabin, fareBasisCodes.get(i), fareAmounts.get(i), flightSchedulePlan);
-//            em.persist(fare);
-            long fareId = fareSessionBeanLocal.createFare(fare);
-            System.out.println("Fare ID: " + fareId);
-            Fare fareNew = em.find(Fare.class, fareId);
-            List<Fare> listOfFares = flightSchedulePlan.getListOfFares();
-            System.out.println("listOfFares size before adding: " + listOfFares.size());
-            listOfFares.add(fareNew);
-            System.out.println("listOfFares size after adding: " + listOfFares.size());
-            flightSchedulePlan.setListOfFares(listOfFares);
+        for (FlightSchedule fs : listOfFs) {
+            List<Cabin> cabins = fs.getListOfCabins();
+            cabins.size();
+            for (Cabin cabin : cabins) {
+                for (int i = 0; i < fareBasisCodes.size(); i++) {
+                    Fare fare = new Fare(cabin, fareBasisCodes.get(i), fareAmounts.get(i), flightSchedulePlan);
+                    long fareId = fareSessionBeanLocal.createFare(fare);
+                    //System.out.println("Fare ID: " + fareId);
+                    Fare fareNew = em.find(Fare.class, fareId);
+                    List<Fare> listOfFares = flightSchedulePlan.getListOfFares();
+                    //System.out.println("listOfFares size before adding: " + listOfFares.size());
+                    listOfFares.add(fareNew);
+                    //System.out.println("listOfFares size after adding: " + listOfFares.size());
+                    flightSchedulePlan.setListOfFares(listOfFares);
 
-            List<Fare> listOfFaresCabin = cabin.getListOfFare();
-            System.out.println("listOfFaresCabin size before adding: " + listOfFaresCabin.size());
-            listOfFaresCabin.add(fareNew);
-            System.out.println("listOfFaresCabin size after adding: " + listOfFaresCabin.size());
-            cabin.setListOfFare(listOfFaresCabin);
+                    List<Fare> listOfFaresCabin = cabin.getListOfFare();
+                    //System.out.println("listOfFaresCabin size before adding: " + listOfFaresCabin.size());
+                    listOfFaresCabin.add(fareNew);
+                    //System.out.println("listOfFaresCabin size after adding: " + listOfFaresCabin.size());
+                    cabin.setListOfFare(listOfFaresCabin);
 
-            System.out.println("Fare persisted: " + fareNew.getId());
+                    //System.out.println("Fare persisted: " + fareNew.getId());
+                }
+            }         
         }
 
         
