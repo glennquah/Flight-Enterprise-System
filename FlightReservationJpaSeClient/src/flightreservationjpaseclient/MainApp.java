@@ -17,7 +17,7 @@ import ws.partner.PartnerWebService_Service;
  * @author admin
  */
 public class MainApp {
-    public void runApp() {
+    public void runApp() throws Exception {
         Scanner scanner = new Scanner(System.in);
         Long customerId;
         Integer response;
@@ -44,7 +44,9 @@ public class MainApp {
                         System.out.print("Enter password> ");
                         String password = scanner.nextLine().trim();
                         Long partnerId = login(email, password);
-
+                        
+                        HolidayReservationModule holidayReservationModule = new HolidayReservationModule();            
+                        holidayReservationModule.adminLoginPage();
                     } catch (InvalidLoginCredentialException_Exception ex) {
                         System.out.println("The login credentials are wrong!");
                     } 
