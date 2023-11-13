@@ -4,6 +4,7 @@
  */
 package flightreservationjpaseclient;
 
+import ejb.session.stateless.PartnerSessionBeanRemote;
 import entity.Airport;
 import entity.Cabin;
 import entity.Flight;
@@ -389,7 +390,7 @@ public class HolidayReservationModule {
             System.out.print("Enter Passport Number Of Customer> ");
             String passport = sc.nextLine().trim();
             ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);   
-            Long reservId = reservationDetailsSessionBeanRemote.createReservationDetails(reservationDetails, this.partnerId, flightScheduleId, highestFareId);
+            Long reservId = reservationDetailsSessionBeanRemote.createReservationDetailsForPartner(reservationDetails, this.partnerId, flightScheduleId, highestFareId);
             System.out.println("Reservation Created!");
             System.out.println("Reservation ID = " + reservId);
             System.out.println("*** SEAT BOOKED ***");
@@ -408,11 +409,11 @@ public class HolidayReservationModule {
             System.out.println("Total Price: $" + totalFare);
             System.out.print("Enter Credit Card Details> ");
             String ccd = sc.nextLine().trim();
-            customerSessionBean.linkCreditCard(this.partnerId, ccd);
+            partnerSessionBeanRemote.linkCreditCard(this.partnerId, ccd);
             System.out.println("Credit Card Details Set!");
             System.out.println("*** FLIGHT RESERVATION DONE ***");
         }
-        customerSessionBean.linkFlightSchedule(this.partnerId, flightScheduleId);
+        partnerSessionBeanRemote.linkFlightSchedule(this.partnerId, flightScheduleId);
         return fare;
     }
     
@@ -420,7 +421,7 @@ public class HolidayReservationModule {
     public void viewFlightReservation(Scanner sc) throws FlightScheduleDoesNotExistException {
         //change this?
         System.out.println("\n*** YOU HAVE SLECTED VIEW ALL FLIGHT RESERVATION ***\n");
-        List<FlightSchedule> listOfFlightSchedules = customerSessionBean.getFlightSchedules(this.partnerId);
+        List<FlightSchedule> listOfFlightSchedules = partnerSessionBeanRemote.getFlightSchedules(this.partnerId);
         for (FlightSchedule fs : listOfFlightSchedules) {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
@@ -442,7 +443,7 @@ public class HolidayReservationModule {
     
     public void viewFlightReservationDetails(Scanner sc, long flightScheduleId) throws FlightScheduleDoesNotExistException {
         System.out.println("\n*** VIEW MORE FLIGHT RESERVATION DETAILS ***\n");
-        List<ReservationDetails> listOfReservationDetails = flightScheduleSessionBeanRemote.getReservationDetails(flightScheduleId, this.partnerId);
+        List<ReservationDetails> listOfReservationDetails = flightScheduleSessionBeanRemote.getReservationDetailsPartner(flightScheduleId, this.partnerId);
         listOfReservationDetails.size();
         BigDecimal fare = BigDecimal.ZERO;
         for (ReservationDetails rd : listOfReservationDetails) {

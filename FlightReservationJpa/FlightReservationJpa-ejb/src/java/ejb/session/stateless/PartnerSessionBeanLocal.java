@@ -4,7 +4,9 @@
  */
 package ejb.session.stateless;
 
+import entity.FlightSchedule;
 import entity.Partner;
+import java.util.List;
 import javax.ejb.Local;
 import util.exception.InvalidLoginCredentialException;
 
@@ -14,9 +16,9 @@ import util.exception.InvalidLoginCredentialException;
  */
 @Local
 public interface PartnerSessionBeanLocal {
-
     public Long login(String email, String password) throws InvalidLoginCredentialException;
-
     public Long createNewAccount(Partner newPartAccount);
-    
+    public long linkCreditCard(long partnerId, String ccd);
+    public long linkFlightSchedule(long partnerId, long flightScheduleId);
+    public List<FlightSchedule> getFlightSchedules(long partnerId);
 }
