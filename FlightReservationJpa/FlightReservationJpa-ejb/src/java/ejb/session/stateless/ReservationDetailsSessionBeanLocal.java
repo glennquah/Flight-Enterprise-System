@@ -14,4 +14,5 @@ import javax.ejb.Local;
 @Local
 public interface ReservationDetailsSessionBeanLocal {
     public Long createReservationDetails(ReservationDetails reservationDetails, long customerId, long flightScheduleId, long lowestFareId);
+    public Long createReservationDetailsForPartner(ReservationDetails reservationDetails, long partnerId, long flightScheduleId, long lowestFareId);
 }

@@ -13,6 +13,7 @@ import entity.Cabin;
 import entity.Customer;
 import entity.Fare;
 import entity.FlightRoute;
+import entity.Partner;
 import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -404,6 +405,31 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
             List<ReservationDetails> listOfResDetails = fs.getListOfReservationDetails();
             for (ReservationDetails rd : listOfResDetails) {
                 if (Objects.equals(rd.getCustomer().getAccountId(), cust.getAccountId())) {
+                    newDetails.add(rd);
+                }
+            }
+
+            return newDetails;
+        }   catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+       }
+    }
+    
+    @Override
+    public List<ReservationDetails> getReservationDetailsPartner(long flightScheduleId, long partnerId) throws  FlightScheduleDoesNotExistException {
+        try {
+            String jpql = "SELECT fs FROM FlightSchedule fs LEFT JOIN FETCH fs.listOfReservationDetails WHERE fs.flightScheduleId = :flightScheduleId";
+            TypedQuery<FlightSchedule> query = em.createQuery(jpql, FlightSchedule.class);
+            query.setParameter("flightScheduleId", flightScheduleId);
+
+            FlightSchedule fs = query.getSingleResult(); 
+
+            Partner partner = em.find(Partner.class, partnerId);
+
+            List<ReservationDetails> newDetails = new ArrayList<>();
+            List<ReservationDetails> listOfResDetails = fs.getListOfReservationDetails();
+            for (ReservationDetails rd : listOfResDetails) {
+                if (Objects.equals(rd.getPartner().getAccountId(), partner.getAccountId())) {
                     newDetails.add(rd);
                 }
             }

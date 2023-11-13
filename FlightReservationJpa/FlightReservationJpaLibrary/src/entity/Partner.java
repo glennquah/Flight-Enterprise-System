@@ -7,6 +7,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,9 @@ public class Partner extends Account implements Serializable {
     @ManyToMany
     private List<FlightSchedule> listOfFlightSchedules;
     
+    @Column(length = 32)
+    private String creditCardNumber;
+    
 
     public Partner() {
     }
@@ -35,7 +39,17 @@ public class Partner extends Account implements Serializable {
         super(firstName, "", email, password);
         this.listOfReservationDetails = new ArrayList<>();
         this.listOfFlightSchedules = new ArrayList<>();
+        this.creditCardNumber = null;
     }
+
+    public String getCreditCardNumber() {
+        return creditCardNumber;
+    }
+
+    public void setCreditCardNumber(String creditCardNumber) {
+        this.creditCardNumber = creditCardNumber;
+    }
+
 
     /**
      * @return the listOfReservationDetails

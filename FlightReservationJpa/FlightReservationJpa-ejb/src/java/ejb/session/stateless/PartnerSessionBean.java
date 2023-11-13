@@ -4,8 +4,11 @@
  */
 package ejb.session.stateless;
 
+import entity.Customer;
 import entity.Employee;
+import entity.FlightSchedule;
 import entity.Partner;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -52,5 +55,37 @@ public class PartnerSessionBean implements PartnerSessionBeanRemote, PartnerSess
         {
             throw new InvalidLoginCredentialException("Invalid login credential");
         }
+    }
+    
+    @Override
+    public long linkCreditCard(long partnerId, String ccd) {
+        Partner partner = em.find(Partner.class, partnerId);
+        partner.setCreditCardNumber(ccd);
+        return partnerId;
+    }
+    
+    @Override
+    public long linkFlightSchedule(long partnerId, long flightScheduleId) {
+        Partner partner = em.find(Partner.class, partnerId);
+        FlightSchedule fs = em.find(FlightSchedule.class, flightScheduleId);
+        List<Partner> partners = fs.getPartners();
+        partners.size();
+        partners.add(partner);
+        fs.setPartners(partners);
+        
+        List<FlightSchedule> flightSchedules = partner.getListOfFlightSchedules();
+        flightSchedules.size();
+        flightSchedules.add(fs);
+        partner.setListOfFlightSchedules(flightSchedules);
+        
+        return partnerId;
+    }
+    
+    @Override
+    public List<FlightSchedule> getFlightSchedules(long partnerId) {
+        Partner partner = em.find(Partner.class, partnerId);
+        List<FlightSchedule> listOFlightSchedules = partner.getListOfFlightSchedules();
+        listOFlightSchedules.size();
+        return listOFlightSchedules;
     }
 }
