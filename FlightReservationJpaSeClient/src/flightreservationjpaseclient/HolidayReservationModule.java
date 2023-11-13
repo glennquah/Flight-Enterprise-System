@@ -4,22 +4,20 @@
  */
 package flightreservationjpaseclient;
 
-import entity.Cabin;
 import entity.Flight;
-import entity.FlightRoute;
-import entity.FlightSchedule;
-import entity.FlightSchedulePlan;
 import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import javax.xml.datatype.XMLGregorianCalendar;
 import util.exception.FlightScheduleDoesNotExistException;
+import ws.partner.FlightDoesNotExistException_Exception;
+import ws.partner.FlightSchedule;
 import ws.partner.FlightScheduleDoesNotExistException_Exception;
+import ws.partner.FlightSchedulePlan;
 import ws.partner.InvalidLoginCredentialException_Exception;
 import ws.partner.UnsignedShortArray;
 
@@ -192,7 +190,7 @@ public class HolidayReservationModule {
         }
         
         long flightSchedId = confirmId;
-        ws.partner.Date dateOfFlightPicked = retrieveDateOfFlightPicked(flightSchedId);
+        XMLGregorianCalendar dateOfFlightPicked = retrieveDateOfFlightPicked(flightSchedId);
         
         flightnum = 1;
         System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF TAOYUAN AIRPORT (HUB) ***");
@@ -299,13 +297,13 @@ public class HolidayReservationModule {
         return fare;
     }
     
-    public void checkFlightDetails(Scanner sc, long scheduleId, int numOfSeats) throws FlightScheduleDoesNotExistException {
+    public void checkFlightDetails(Scanner sc, long scheduleId, int numOfSeats) throws FlightScheduleDoesNotExistException_Exception {
         System.out.println(String.format("\n*** DETAILS FOR FLIGHT SCHEDULE %s ***", scheduleId));
         ws.partner.FlightSchedule fs = getFlightScheduleWithId(scheduleId);
         System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
         System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
         System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
-        Duration duration = fs.getEstimatedTime();
+        ws.partner.Duration duration = fs.getEstimatedTime();
         long hours = duration.toHours();
         long minutes = duration.toMinutes() % 60;
         String formattedTime = String.format("%02d:%02d", hours, minutes);
@@ -325,18 +323,18 @@ public class HolidayReservationModule {
         }
     }
     
-//    public BigDecimal reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats, Boolean payment, BigDecimal existingFare) throws FlightScheduleDoesNotExistException, FlightScheduleDoesNotExistException_Exception {
-//        //System.out.println("EXISTING FARE = " + existingFare);
-//        checkFlightDetails(sc, flightScheduleId, numOfSeats);
-//        System.out.print("Enter Cabin you want to Reserve> ");
-//        String cabin = sc.nextLine().trim();
-//        List<UnsignedShortArray> cabinSeatingPlan = getCabinSeats(flightScheduleId, cabin);
-//        List<Integer> islesPlan = getIslesPlan(flightScheduleId, cabin);
-//        System.out.println("*** SEATING CONFIGURATION *** ");
-//        System.out.print("LETTER ");
-//        char seatNum = 'A';
-//        int count = 0;
-//        int c = 0;
+    public BigDecimal reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats, Boolean payment, BigDecimal existingFare) throws FlightScheduleDoesNotExistException, FlightScheduleDoesNotExistException_Exception {
+        //System.out.println("EXISTING FARE = " + existingFare);
+        checkFlightDetails(sc, flightScheduleId, numOfSeats);
+        System.out.print("Enter Cabin you want to Reserve> ");
+        String cabin = sc.nextLine().trim();
+        List<UnsignedShortArray> cabinSeatingPlan = getCabinSeats(flightScheduleId, cabin);
+        List<Integer> islesPlan = getIslesPlan(flightScheduleId, cabin);
+        System.out.println("*** SEATING CONFIGURATION *** ");
+        System.out.print("LETTER ");
+        char seatNum = 'A';
+        int count = 0;
+        int c = 0;
 //        for (int i = 0; i < cabinSeatingPlan[0].length; i++) {
 //            System.out.print(seatNum);
 //            seatNum++;
@@ -347,7 +345,7 @@ public class HolidayReservationModule {
 //                count = 0;
 //            }
 //        }
-//        System.out.println("");
+        System.out.println("");
 //        for (int i = 0; i < cabinSeatingPlan.length; i++) {
 //            if (i < 9) {
 //                System.out.print("ROW  " + (i + 1) + " ");
@@ -367,60 +365,60 @@ public class HolidayReservationModule {
 //            }
 //            System.out.println("");
 //        }
-//        
-//        long highestFareId = getHighestFareUsingCabinName(cabin, flightScheduleId);
-//        System.out.println("HIGHEST FARE ID= " + highestFareId);
-//        for (int i = 0; i < numOfSeats; i ++) {
-//            System.out.println(String.format("Enter No. %s Seat you wan to reserve: ", (i + 1)));
-//            System.out.print("Enter Row Number> ");
-//            int rowNum = sc.nextInt();
-//            sc.nextLine();
-//            System.out.print("Enter Seat Letter> ");
-//            String seat = sc.nextLine().trim().toUpperCase();
-//            char letter = seat.charAt(0);
-//            Boolean seatAvailable = checkSeatIfAvailable(flightScheduleId, cabin, rowNum, letter);
-//            if (seatAvailable) {
-//                bookSeat(flightScheduleId, cabin, rowNum, letter);
-//            } else {
-//                System.out.println("SEAT IS UNAVAILABLE, PLEASE TRY AGAIN");
-//                reserveFlight(flightScheduleId, sc, numOfSeats, payment, existingFare);
-//            }
-//            System.out.print("Enter First Name Of Customer> ");
-//            String firstName = sc.nextLine().trim();
-//            System.out.print("Enter Last Name Of Customer> ");
-//            String lastName = sc.nextLine().trim();
-//            System.out.print("Enter Passport Number Of Customer> ");
-//            String passport = sc.nextLine().trim();
-//            ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);   
-//            Long reservId = reservationDetailsSessionBeanRemote.createReservationDetails(reservationDetails, this.partnerId, flightScheduleId, highestFareId);
-//            System.out.println("Reservation Created!");
-//            System.out.println("Reservation ID = " + reservId);
-//            System.out.println("*** SEAT BOOKED ***");
-//            System.out.println("");
-//            
-//        }
-//        
-//        
-////        BigDecimal lowestFare = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
-//        //System.out.println("Price per Ticket: " + lowestFare);
-//        BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(highestFareId);
-//        BigDecimal fare = (lowestFare.multiply(BigDecimal.valueOf(numOfSeats)));
-//        
-//        if (payment) {
-//            BigDecimal totalFare = fare.add(existingFare);
-//            System.out.println("Total Price: $" + totalFare);
-//            System.out.print("Enter Credit Card Details> ");
-//            String ccd = sc.nextLine().trim();
-//            customerSessionBean.linkCreditCard(this.partnerId, ccd);
-//            System.out.println("Credit Card Details Set!");
-//            System.out.println("*** FLIGHT RESERVATION DONE ***");
-//        }
-//        customerSessionBean.linkFlightSchedule(this.partnerId, flightScheduleId);
-//        return fare;
-//    }
+        
+        long highestFareId = getHighestFareUsingCabinName(cabin, flightScheduleId);
+        System.out.println("HIGHEST FARE ID= " + highestFareId);
+        for (int i = 0; i < numOfSeats; i ++) {
+            System.out.println(String.format("Enter No. %s Seat you wan to reserve: ", (i + 1)));
+            System.out.print("Enter Row Number> ");
+            int rowNum = sc.nextInt();
+            sc.nextLine();
+            System.out.print("Enter Seat Letter> ");
+            String seat = sc.nextLine().trim().toUpperCase();
+            char letter = seat.charAt(0);
+            Boolean seatAvailable = checkSeatIfAvailable(flightScheduleId, cabin, rowNum, letter);
+            if (seatAvailable) {
+                bookSeat(flightScheduleId, cabin, rowNum, letter);
+            } else {
+                System.out.println("SEAT IS UNAVAILABLE, PLEASE TRY AGAIN");
+                reserveFlight(flightScheduleId, sc, numOfSeats, payment, existingFare);
+            }
+            System.out.print("Enter First Name Of Customer> ");
+            String firstName = sc.nextLine().trim();
+            System.out.print("Enter Last Name Of Customer> ");
+            String lastName = sc.nextLine().trim();
+            System.out.print("Enter Passport Number Of Customer> ");
+            String passport = sc.nextLine().trim();
+            ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);   
+            Long reservId = createReservationDetails(reservationDetails, this.partnerId, flightScheduleId, highestFareId);
+            System.out.println("Reservation Created!");
+            System.out.println("Reservation ID = " + reservId);
+            System.out.println("*** SEAT BOOKED ***");
+            System.out.println("");
+            
+        }
+        
+        
+//        BigDecimal lowestFare = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
+        //System.out.println("Price per Ticket: " + lowestFare);
+        BigDecimal lowestFare = getFareUsingId(highestFareId);
+        BigDecimal fare = (lowestFare.multiply(BigDecimal.valueOf(numOfSeats)));
+        
+        if (payment) {
+            BigDecimal totalFare = fare.add(existingFare);
+            System.out.println("Total Price: $" + totalFare);
+            System.out.print("Enter Credit Card Details> ");
+            String ccd = sc.nextLine().trim();
+            linkCreditCard(this.partnerId, ccd);
+            System.out.println("Credit Card Details Set!");
+            System.out.println("*** FLIGHT RESERVATION DONE ***");
+        }
+        linkFlightSchedule(this.partnerId, flightScheduleId);
+        return fare;
+    }
     
     // =========================================VIEW MY FLIGHT RESERVATION=====================================================
-    public void viewFlightReservation(Scanner sc) throws FlightScheduleDoesNotExistException {
+    public void viewFlightReservation(Scanner sc) throws FlightScheduleDoesNotExistException_Exception {
         //change this?
         System.out.println("\n*** YOU HAVE SLECTED VIEW ALL FLIGHT RESERVATION ***\n");
         List<ws.partner.FlightSchedule> listOfFlightSchedules = getFlightSchedules(this.partnerId);
@@ -443,7 +441,7 @@ public class HolidayReservationModule {
         viewFlightReservationDetails(sc, flightScheduleId);
     }
     
-    public void viewFlightReservationDetails(Scanner sc, long flightScheduleId) throws FlightScheduleDoesNotExistException {
+    public void viewFlightReservationDetails(Scanner sc, long flightScheduleId) throws FlightScheduleDoesNotExistException_Exception {
         System.out.println("\n*** VIEW MORE FLIGHT RESERVATION DETAILS ***\n");
         List<ws.partner.ReservationDetails> listOfReservationDetails = getReservationDetails(flightScheduleId, this.partnerId);
         listOfReservationDetails.size();
@@ -498,7 +496,7 @@ public class HolidayReservationModule {
         return port.retrieveFlightSchedulePlanWith3DaysAfter(listOfFlightSchedulePlan, departureDate);
     }
     
-    private static XMLGregorianCalendar retrieveDateOfFlightPicked(java.lang.Long id) {
+    private static XMLGregorianCalendar retrieveDateOfFlightPicked(java.lang.Long id) throws FlightDoesNotExistException_Exception {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         return port.retrieveDateOfFlightPicked(id);
@@ -545,7 +543,7 @@ public class HolidayReservationModule {
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         return port.getReservationDetails(flightScheduleId, customerId);
     }
-}
+    
     private static List<ws.partner.FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(java.util.List listOfFlightsToHub) {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
@@ -570,13 +568,14 @@ public class HolidayReservationModule {
         return port.getFareUsingId(fareId);
     }
     
-    private static Long createReservationDetails(ws.partner.ReservationDetails reservationDetails,
+    private static Long createReservationDetails(ReservationDetails reservationDetails,
                                                            java.lang.Long partnerId,
                                                            java.lang.Long flightScheduleId,
                                                            java.lang.Long highestFareId) {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.createReservationDetails(reservationDetails, partnerId, flightScheduleId, highestFareId);
+//        return port.createReservationDetails(reservationDetails, partnerId, flightScheduleId, highestFareId);
+        return 0l;
     }
     
     private static Long linkCreditCard(java.lang.Long partnerId, java.lang.String ccd) {
@@ -596,4 +595,13 @@ public class HolidayReservationModule {
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         return port.getFlightSchedules(partnerId);
     }
+
+    private List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub, XMLGregorianCalendar dateOfFlightPicked) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfter(List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub, XMLGregorianCalendar dateOfFlightPicked) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
+

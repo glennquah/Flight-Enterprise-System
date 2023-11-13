@@ -192,7 +192,7 @@ public class PartnerWebService {
         return flightScheduleSessionBeanLocal.bookSeat(id, cabName, seat, letter);
     }
     
-    @WebMethod(operationName = "getHighestFareUsingCabinNameSeat")
+    @WebMethod(operationName = "getHighestFareUsingCabinName")
     public long getHighestFareUsingCabinName(@WebParam(name = "cabName") String cabName, @WebParam(name = "id") long id) throws FlightScheduleDoesNotExistException {
         return flightScheduleSessionBeanLocal.getHighestFareUsingCabinName(cabName, id);
     }
