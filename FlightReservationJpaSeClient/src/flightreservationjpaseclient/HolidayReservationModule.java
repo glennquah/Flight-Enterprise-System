@@ -425,8 +425,8 @@ public class HolidayReservationModule {
         for (ws.partner.FlightSchedule fs : listOfFlightSchedules) {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
-            FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
-            Duration duration = fs.getEstimatedTime();
+            ws.partner.FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
+            ws.partner.Duration duration = fs.getEstimatedTime();
             long hours = duration.toHours();
             long minutes = duration.toMinutes() % 60;
             String formattedTime = String.format("%02d:%02d", hours, minutes);
