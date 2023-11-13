@@ -4,6 +4,7 @@
  */
 package ejb.session.ws;
 
+import ejb.session.stateless.PartnerSessionBeanLocal;
 import ejb.session.stateless.PartnerSessionBeanRemote;
 import javax.ejb.EJB;
 import javax.jws.WebService;
@@ -20,8 +21,8 @@ import util.exception.InvalidLoginCredentialException;
 @Stateless()
 public class PartnerWebService {
 
-    @EJB(name = "PartnerSessionBeanRemote")
-    private PartnerSessionBeanRemote partnerSessionBeanRemote;
+    @EJB(name = "PartnerSessionBeanLocal")
+    private PartnerSessionBeanLocal partnerSessionBeanLocal;
     
     /**
      * This is a sample web service operation
@@ -31,7 +32,7 @@ public class PartnerWebService {
                       @WebParam(name = "password") String password) throws InvalidLoginCredentialException {
         if(email.length() > 0 && password.length() > 0)
         {
-            return partnerSessionBeanRemote.login(email, password);
+            return partnerSessionBeanLocal.login(email, password);
         }
         else
         {
