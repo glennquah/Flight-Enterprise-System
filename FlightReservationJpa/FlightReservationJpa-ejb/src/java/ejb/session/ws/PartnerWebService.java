@@ -4,10 +4,13 @@
  */
 package ejb.session.ws;
 
+import ejb.session.stateless.PartnerSessionBeanRemote;
+import javax.ejb.EJB;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
+import util.exception.InvalidLoginCredentialException;
 
 /**
  *
@@ -17,11 +20,24 @@ import javax.ejb.Stateless;
 @Stateless()
 public class PartnerWebService {
 
+    @EJB(name = "PartnerSessionBeanRemote")
+    private PartnerSessionBeanRemote partnerSessionBeanRemote;
+    
     /**
      * This is a sample web service operation
      */
-    @WebMethod(operationName = "hello")
-    public String hello(@WebParam(name = "name") String txt) {
-        return "Hello " + txt + " !";
+    @WebMethod(operationName = "login")
+    public Long login(@WebParam(name = "email") String email,
+                      @WebParam(name = "password") String password) throws InvalidLoginCredentialException {
+        if(email.length() > 0 && password.length() > 0)
+        {
+            return partnerSessionBeanRemote.login(email, password);
+        }
+        else
+        {
+            throw new InvalidLoginCredentialException("Missing login credential!");
+        }
     }
+
+    
 }

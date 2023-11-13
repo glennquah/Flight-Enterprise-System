@@ -5,20 +5,15 @@
 package ejb.session.singleton;
 
 import ejb.session.stateless.AircraftSessionBeanLocal;
-import ejb.session.stateless.AircraftSessionBeanRemote;
 import ejb.session.stateless.AirportSessionBeanLocal;
-import ejb.session.stateless.AirportSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanLocal;
-import ejb.session.stateless.CustomerSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanLocal;
-import ejb.session.stateless.EmployeeSessionBeanRemote;
-import ejb.session.stateless.FlightRoutesSessionBeanLocal;
-import ejb.session.stateless.FlightRoutesSessionBeanRemote;
-import ejb.session.stateless.FlightScheduleSessionBeanRemote;
+import ejb.session.stateless.PartnerSessionBeanLocal;
 import entity.Aircraft;
 import entity.Airport;
 import entity.Customer;
 import entity.Employee;
+import entity.Partner;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -49,6 +44,9 @@ public class DataInitSessionBean {
 
     @EJB(name = "AircraftSessionBeanLocal")
     private AircraftSessionBeanLocal aircraftSessionBeanLocal;
+    
+    @EJB(name = "PartnerSessionBeanLocal")
+    private PartnerSessionBeanLocal partnerSessionBeanLocal;
 
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
@@ -200,6 +198,10 @@ public class DataInitSessionBean {
             aircraftSessionBeanLocal.createAircraft(ac30);
         }
         
+        if(em.find(Partner.class, 1l) == null) {
+            Partner em1 = new Partner("Holiday.com", "mlair@holiday.com", "password");
+            partnerSessionBeanLocal.createNewAccount(em1);
+        }
     }
     
 }
