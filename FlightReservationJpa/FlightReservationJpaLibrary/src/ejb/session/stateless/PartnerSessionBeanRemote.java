@@ -19,11 +19,7 @@ public interface PartnerSessionBeanRemote {
     public Long login(String email, String password) throws InvalidLoginCredentialException;
     public long linkCreditCard(long partnerId, String ccd);
     public Long createNewAccount(Partner newPartAccount);
-<<<<<<< Updated upstream
     public long linkFlightSchedule(long partnerId, long flightScheduleId);
     public List<FlightSchedule> getFlightSchedules(long partnerId);
-=======
-    
     public Long getPartnerId(String email);
->>>>>>> Stashed changes
 }
