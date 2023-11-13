@@ -206,4 +206,9 @@ public class PartnerWebService {
     public List<ReservationDetails> getReservationDetails(@WebParam(name = "flightScheduleId") long flightScheduleId, @WebParam(name = "customerId") long customerId) throws  FlightScheduleDoesNotExistException {
         return flightScheduleSessionBeanLocal.getReservationDetails(flightScheduleId, customerId);
     }
+    
+    @WebMethod(operationName = "retrieveFlightSchedulePlanAfterTiming")
+    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(@WebParam(name = "listOfFlightSchedulePlan") List<FlightSchedulePlan> listOfFlightSchedulePlan, @WebParam(name = "departureDateTime") Date departureDateTime) {
+        return flightScheduleSessionBeanLocal.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlan, departureDateTime);
+    }
 }

@@ -10,8 +10,11 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Scanner;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import util.exception.FlightScheduleDoesNotExistException;
 import ws.partner.FlightDoesNotExistException_Exception;
@@ -190,7 +193,7 @@ public class HolidayReservationModule {
         }
         
         long flightSchedId = confirmId;
-        XMLGregorianCalendar dateOfFlightPicked = retrieveDateOfFlightPicked(flightSchedId);
+        Date dateOfFlightPicked = retrieveDateOfFlightPicked(flightSchedId);
         
         flightnum = 1;
         System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF TAOYUAN AIRPORT (HUB) ***");
@@ -239,10 +242,10 @@ public class HolidayReservationModule {
             System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
             System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
             ws.partner.Duration duration = fs.getEstimatedTime();
-            long hours = duration.toHours();
-            long minutes = duration.toMinutes() % 60;
-            String formattedTime = String.format("%02d:%02d", hours, minutes);
-            System.out.println("Filght Estimated Time: " + formattedTime);
+//            long hours = duration.toHours();
+//            long minutes = duration.toMinutes() % 60;
+//            String formattedTime = String.format("%02d:%02d", hours, minutes);
+//            System.out.println("Filght Estimated Time: " + formattedTime);
         }
         return Number;
     }
@@ -304,10 +307,10 @@ public class HolidayReservationModule {
         System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
         System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
         ws.partner.Duration duration = fs.getEstimatedTime();
-        long hours = duration.toHours();
-        long minutes = duration.toMinutes() % 60;
-        String formattedTime = String.format("%02d:%02d", hours, minutes);
-        System.out.println("Filght Estimated Time: " + formattedTime);
+//        long hours = duration.toHours();
+//        long minutes = duration.toMinutes() % 60;
+//        String formattedTime = String.format("%02d:%02d", hours, minutes);
+//        System.out.println("Filght Estimated Time: " + formattedTime);
         System.out.println("\n*** CABIN DETAILS ***");
         List<ws.partner.Cabin> cabins = getCabins(scheduleId);
         for (ws.partner.Cabin c : cabins) {
@@ -427,10 +430,10 @@ public class HolidayReservationModule {
             System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
             ws.partner.FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
             ws.partner.Duration duration = fs.getEstimatedTime();
-            long hours = duration.toHours();
-            long minutes = duration.toMinutes() % 60;
-            String formattedTime = String.format("%02d:%02d", hours, minutes);
-            System.out.println("Flight Estimate Duration: " + formattedTime + "H");
+//            long hours = duration.toHours();
+//            long minutes = duration.toMinutes() % 60;
+//            String formattedTime = String.format("%02d:%02d", hours, minutes);
+//            System.out.println("Flight Estimate Duration: " + formattedTime + "H");
             System.out.println("Flight Origin: " + fr.getOrigin().getName());
             System.out.println("Flight Destination: " + fr.getDestination().getName());
             System.out.println("");
@@ -478,22 +481,34 @@ public class HolidayReservationModule {
         return port.getFlightScheduleWithId(id);
     }
     
-    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
+    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) throws DatatypeConfigurationException {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlan, departureDate);
+        
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(departureDate);
+        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+        return port.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlan, xmlDate);
     }
     
-    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith3DaysBefore(List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
+    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith3DaysBefore(List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) throws DatatypeConfigurationException {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.retrieveFlightSchedulePlanWith3DaysBefore(listOfFlightSchedulePlan, departureDate);
+        
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(departureDate);
+        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+        return port.retrieveFlightSchedulePlanWith3DaysBefore(listOfFlightSchedulePlan, xmlDate);
     }
     
-    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfter(List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
+    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfter(List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) throws DatatypeConfigurationException {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.retrieveFlightSchedulePlanWith3DaysAfter(listOfFlightSchedulePlan, departureDate);
+        
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(departureDate);
+        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+        return port.retrieveFlightSchedulePlanWith3DaysAfter(listOfFlightSchedulePlan, xmlDate);
     }
     
     private static XMLGregorianCalendar retrieveDateOfFlightPicked(java.lang.Long id) throws FlightDoesNotExistException_Exception {
@@ -595,13 +610,19 @@ public class HolidayReservationModule {
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         return port.getFlightSchedules(partnerId);
     }
-
-    private List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub, XMLGregorianCalendar dateOfFlightPicked) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    private static List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDateTime) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlan, departureDateTime);
     }
-
-    private List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfter(List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub, XMLGregorianCalendar dateOfFlightPicked) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//
+//    private List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub, XMLGregorianCalendar dateOfFlightPicked) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    private List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfter(List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub, XMLGregorianCalendar dateOfFlightPicked) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 }
 
