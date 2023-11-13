@@ -7,6 +7,7 @@
 <xsd:import namespace="http://jaxb.dev.java.net/array" schemaLocation="http://localhost:8080/PartnerWebService/PartnerWebService?xsd=2"/>
 </xsd:schema>
 </types>
+<<<<<<< HEAD
 <message name="getFlightScheduleWithId">
 <part name="parameters" element="tns:getFlightScheduleWithId"/>
 </message>
@@ -48,19 +49,51 @@
 </message>
 <message name="getPartnerId">
 <part name="parameters" element="tns:getPartnerId"/>
+=======
+<message name="getFareUsingId">
+<part name="parameters" element="tns:getFareUsingId"/>
+>>>>>>> SOAP/HolidayReservationModule
 </message>
-<message name="getPartnerIdResponse">
-<part name="parameters" element="tns:getPartnerIdResponse"/>
+<message name="getFareUsingIdResponse">
+<part name="parameters" element="tns:getFareUsingIdResponse"/>
+</message>
+<message name="retrieveFlightSchedulePlanWithSameFlight">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanWithSameFlight"/>
+</message>
+<message name="retrieveFlightSchedulePlanWithSameFlightResponse">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanWithSameFlightResponse"/>
+</message>
+<<<<<<< HEAD
+=======
+<message name="login">
+<part name="parameters" element="tns:login"/>
+</message>
+<message name="loginResponse">
+<part name="parameters" element="tns:loginResponse"/>
 </message>
 <message name="InvalidLoginCredentialException">
 <part name="fault" element="tns:InvalidLoginCredentialException"/>
 </message>
+<message name="linkCreditCard">
+<part name="parameters" element="tns:linkCreditCard"/>
+</message>
+<message name="linkCreditCardResponse">
+<part name="parameters" element="tns:linkCreditCardResponse"/>
+</message>
+<message name="getPartnerId">
+<part name="parameters" element="tns:getPartnerId"/>
+</message>
+<message name="getPartnerIdResponse">
+<part name="parameters" element="tns:getPartnerIdResponse"/>
+</message>
+>>>>>>> SOAP/HolidayReservationModule
 <message name="retrieveAllAirports">
 <part name="parameters" element="tns:retrieveAllAirports"/>
 </message>
 <message name="retrieveAllAirportsResponse">
 <part name="parameters" element="tns:retrieveAllAirportsResponse"/>
 </message>
+<<<<<<< HEAD
 <message name="bookSeat">
 <part name="parameters" element="tns:bookSeat"/>
 </message>
@@ -156,11 +189,53 @@
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/bookSeatResponse" message="tns:bookSeatResponse"/>
 <fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/bookSeat/Fault/FlightScheduleDoesNotExistException"/>
 </operation>
+=======
+<message name="createReservationDetails">
+<part name="parameters" element="tns:createReservationDetails"/>
+</message>
+<message name="createReservationDetailsResponse">
+<part name="parameters" element="tns:createReservationDetailsResponse"/>
+</message>
+<message name="getFlightSchedules">
+<part name="parameters" element="tns:getFlightSchedules"/>
+</message>
+<message name="getFlightSchedulesResponse">
+<part name="parameters" element="tns:getFlightSchedulesResponse"/>
+</message>
+<message name="getHighestFareIdInCabin">
+<part name="parameters" element="tns:getHighestFareIdInCabin"/>
+</message>
+<message name="getHighestFareIdInCabinResponse">
+<part name="parameters" element="tns:getHighestFareIdInCabinResponse"/>
+</message>
+<message name="linkFlightSchedule">
+<part name="parameters" element="tns:linkFlightSchedule"/>
+</message>
+<message name="linkFlightScheduleResponse">
+<part name="parameters" element="tns:linkFlightScheduleResponse"/>
+</message>
+<message name="retrieveFlightsThatHasDepAndDest">
+<part name="parameters" element="tns:retrieveFlightsThatHasDepAndDest"/>
+</message>
+<message name="retrieveFlightsThatHasDepAndDestResponse">
+<part name="parameters" element="tns:retrieveFlightsThatHasDepAndDestResponse"/>
+</message>
+<portType name="PartnerWebService">
+<operation name="getFareUsingId">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getFareUsingIdRequest" message="tns:getFareUsingId"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getFareUsingIdResponse" message="tns:getFareUsingIdResponse"/>
+</operation>
+<operation name="retrieveFlightSchedulePlanWithSameFlight">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameFlightRequest" message="tns:retrieveFlightSchedulePlanWithSameFlight"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameFlightResponse" message="tns:retrieveFlightSchedulePlanWithSameFlightResponse"/>
+</operation>
+>>>>>>> SOAP/HolidayReservationModule
 <operation name="login">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/loginRequest" message="tns:login"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/loginResponse" message="tns:loginResponse"/>
 <fault message="tns:InvalidLoginCredentialException" name="InvalidLoginCredentialException" wsam:Action="http://ws.session.ejb/PartnerWebService/login/Fault/InvalidLoginCredentialException"/>
 </operation>
+<<<<<<< HEAD
 <operation name="retrieveFlightScheduleInPlan">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightScheduleInPlanRequest" message="tns:retrieveFlightScheduleInPlan"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightScheduleInPlanResponse" message="tns:retrieveFlightScheduleInPlanResponse"/>
@@ -186,10 +261,45 @@
 <operation name="retrieveFlightSchedulePlanWith3DaysBefore">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysBeforeRequest" message="tns:retrieveFlightSchedulePlanWith3DaysBefore"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysBeforeResponse" message="tns:retrieveFlightSchedulePlanWith3DaysBeforeResponse"/>
+=======
+<operation name="linkCreditCard">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/linkCreditCardRequest" message="tns:linkCreditCard"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/linkCreditCardResponse" message="tns:linkCreditCardResponse"/>
+</operation>
+<operation name="getPartnerId">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerIdRequest" message="tns:getPartnerId"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerIdResponse" message="tns:getPartnerIdResponse"/>
+<fault message="tns:InvalidLoginCredentialException" name="InvalidLoginCredentialException" wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerId/Fault/InvalidLoginCredentialException"/>
+</operation>
+<operation name="retrieveAllAirports">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveAllAirportsRequest" message="tns:retrieveAllAirports"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveAllAirportsResponse" message="tns:retrieveAllAirportsResponse"/>
+>>>>>>> SOAP/HolidayReservationModule
+</operation>
+<operation name="createReservationDetails">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/createReservationDetailsRequest" message="tns:createReservationDetails"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/createReservationDetailsResponse" message="tns:createReservationDetailsResponse"/>
+</operation>
+<operation name="getFlightSchedules">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightSchedulesRequest" message="tns:getFlightSchedules"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightSchedulesResponse" message="tns:getFlightSchedulesResponse"/>
+</operation>
+<operation name="getHighestFareIdInCabin">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getHighestFareIdInCabinRequest" message="tns:getHighestFareIdInCabin"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getHighestFareIdInCabinResponse" message="tns:getHighestFareIdInCabinResponse"/>
+</operation>
+<operation name="linkFlightSchedule">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/linkFlightScheduleRequest" message="tns:linkFlightSchedule"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/linkFlightScheduleResponse" message="tns:linkFlightScheduleResponse"/>
+</operation>
+<operation name="retrieveFlightsThatHasDepAndDest">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightsThatHasDepAndDestRequest" message="tns:retrieveFlightsThatHasDepAndDest"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightsThatHasDepAndDestResponse" message="tns:retrieveFlightsThatHasDepAndDestResponse"/>
 </operation>
 </portType>
 <binding name="PartnerWebServicePortBinding" type="tns:PartnerWebService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<<<<<<< HEAD
 <operation name="getFlightScheduleWithId">
 <soap:operation soapAction=""/>
 <input>
@@ -251,6 +361,9 @@
 </fault>
 </operation>
 <operation name="checkSeatIfAvailable">
+=======
+<operation name="getFareUsingId">
+>>>>>>> SOAP/HolidayReservationModule
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -259,7 +372,11 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<<<<<<< HEAD
 <operation name="getPartnerId">
+=======
+<operation name="retrieveFlightSchedulePlanWithSameFlight">
+>>>>>>> SOAP/HolidayReservationModule
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -267,10 +384,8 @@
 <output>
 <soap:body use="literal"/>
 </output>
-<fault name="InvalidLoginCredentialException">
-<soap:fault name="InvalidLoginCredentialException" use="literal"/>
-</fault>
 </operation>
+<<<<<<< HEAD
 <operation name="retrieveAllAirports">
 <soap:operation soapAction=""/>
 <input>
@@ -292,6 +407,8 @@
 <soap:fault name="FlightScheduleDoesNotExistException" use="literal"/>
 </fault>
 </operation>
+=======
+>>>>>>> SOAP/HolidayReservationModule
 <operation name="login">
 <soap:operation soapAction=""/>
 <input>
@@ -304,7 +421,11 @@
 <soap:fault name="InvalidLoginCredentialException" use="literal"/>
 </fault>
 </operation>
+<<<<<<< HEAD
 <operation name="retrieveFlightScheduleInPlan">
+=======
+<operation name="linkCreditCard">
+>>>>>>> SOAP/HolidayReservationModule
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -313,7 +434,11 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<<<<<<< HEAD
 <operation name="retrieveFlightSchedulePlanWithSameTiming">
+=======
+<operation name="getPartnerId">
+>>>>>>> SOAP/HolidayReservationModule
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -321,6 +446,7 @@
 <output>
 <soap:body use="literal"/>
 </output>
+<<<<<<< HEAD
 </operation>
 <operation name="retrieveFlightSchedulePlanWith3DaysAfter">
 <soap:operation soapAction=""/>
@@ -356,6 +482,13 @@
 </fault>
 </operation>
 <operation name="retrieveFlightSchedulePlanWith3DaysBefore">
+=======
+<fault name="InvalidLoginCredentialException">
+<soap:fault name="InvalidLoginCredentialException" use="literal"/>
+</fault>
+</operation>
+<operation name="retrieveAllAirports">
+>>>>>>> SOAP/HolidayReservationModule
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -364,6 +497,54 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<<<<<<< HEAD
+=======
+<operation name="createReservationDetails">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getFlightSchedules">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getHighestFareIdInCabin">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="linkFlightSchedule">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="retrieveFlightsThatHasDepAndDest">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+>>>>>>> SOAP/HolidayReservationModule
 </binding>
 <service name="PartnerWebService">
 <port name="PartnerWebServicePort" binding="tns:PartnerWebServicePortBinding">

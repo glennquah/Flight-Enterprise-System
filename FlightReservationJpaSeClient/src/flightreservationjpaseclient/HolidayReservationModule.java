@@ -55,7 +55,7 @@ public class HolidayReservationModule {
             if(response == 1) {
                 searchFlight(sc);
             } else if (response == 2) {
-                viewFlightReservation(sc);
+                //viewFlightReservation(sc);
             } else if (response == 3) {
                 System.out.println("*** SUCCESSFULLY LOGOUT ***");
                 break;
@@ -147,8 +147,8 @@ public class HolidayReservationModule {
     
     public BigDecimal searchConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, boolean connectedFlight) throws Exception {
         long hubId = 1;
-        List<Flight> listOfFlightsToHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
-        List<Flight> listOfFlightsFromHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(hubId, destAirport);
+        List<ws.partner.Flight> listOfFlightsToHub = retrieveFlightsThatHasDepAndDest(depAirport, hubId);
+        List<ws.partner.Flight> listOfFlightsFromHub = retrieveFlightsThatHasDepAndDest(hubId, destAirport);
         List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlanToHub = retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
         List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlanFromHub = retrieveFlightSchedulePlanWithSameFlight(listOfFlightsFromHub);
         int flightnum = 1;
@@ -250,9 +250,9 @@ public class HolidayReservationModule {
     }
     
     public BigDecimal searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, Boolean lastFlight) throws Exception {
-        List<Flight> listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
+        List<ws.partner.Flight> listOfFlights = retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
         //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
-        List<FlightSchedulePlan> listOfFlightSchedulePlan = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
+        List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlan = retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
         
         //3. get list of flight schedule that is on the same day
         int flightnum = 1;
@@ -316,9 +316,9 @@ public class HolidayReservationModule {
             System.out.println("Cabin Class : " + c.getCabinClassName());
             System.out.println("Total Seats: " + c.getTotalSeats());
             System.out.println("Remaining Seats: " + (c.getTotalSeats() - c.getReservedSeats()));
-            long lowestFareid = cabinCustomerSessionBeanRemote.getHighestFareIdInCabin(c.getCabinId());
-            System.out.println(lowestFareid);
-            BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareid);
+            long highestFareId = getHighestFareIdInCabin(c.getCabinId());
+            System.out.println(highestFareId);
+            BigDecimal lowestFare = getFareUsingId(highestFareId);
             System.out.println("Fare per Ticket: $" + lowestFare);
             System.out.println("Total Fare: $" + (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
             System.out.println("");
@@ -423,12 +423,12 @@ public class HolidayReservationModule {
     public void viewFlightReservation(Scanner sc) throws FlightScheduleDoesNotExistException {
         //change this?
         System.out.println("\n*** YOU HAVE SLECTED VIEW ALL FLIGHT RESERVATION ***\n");
-        List<FlightSchedule> listOfFlightSchedules = customerSessionBean.getFlightSchedules(this.partnerId);
-        for (FlightSchedule fs : listOfFlightSchedules) {
+        List<ws.partner.FlightSchedule> listOfFlightSchedules = getFlightSchedules(this.partnerId);
+        for (ws.partner.FlightSchedule fs : listOfFlightSchedules) {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
-            FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
-            Duration duration = fs.getEstimatedTime();
+            ws.partner.FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
+            ws.partner.Duration duration = fs.getEstimatedTime();
             long hours = duration.toHours();
             long minutes = duration.toMinutes() % 60;
             String formattedTime = String.format("%02d:%02d", hours, minutes);
@@ -544,5 +544,56 @@ public class HolidayReservationModule {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         return port.getReservationDetails(flightScheduleId, customerId);
+    }
+}
+    private static List<ws.partner.FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(java.util.List listOfFlightsToHub) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
+    }
+    
+    private static List<ws.partner.Flight> retrieveFlightsThatHasDepAndDest(java.lang.Long depAirport, java.lang.Long hubId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
+    }
+    
+    private static Long getHighestFareIdInCabin(java.lang.Long cabinId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getHighestFareIdInCabin(cabinId);
+    }
+    
+    private static BigDecimal getFareUsingId(java.lang.Long fareId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getFareUsingId(fareId);
+    }
+    
+    private static Long createReservationDetails(ws.partner.ReservationDetails reservationDetails,
+                                                           java.lang.Long partnerId,
+                                                           java.lang.Long flightScheduleId,
+                                                           java.lang.Long highestFareId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.createReservationDetails(reservationDetails, partnerId, flightScheduleId, highestFareId);
+    }
+    
+    private static Long linkCreditCard(java.lang.Long partnerId, java.lang.String ccd) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.linkCreditCard(partnerId, ccd);
+    }
+    
+    private static Long linkFlightSchedule(java.lang.Long partnerId, java.lang.Long fsId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.linkFlightSchedule(partnerId, fsId);
+    }
+    
+    private static List<ws.partner.FlightSchedule> getFlightSchedules(java.lang.Long partnerId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getFlightSchedules(partnerId);
     }
 }

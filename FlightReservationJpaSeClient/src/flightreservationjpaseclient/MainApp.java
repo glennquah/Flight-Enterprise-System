@@ -24,7 +24,10 @@ public class MainApp {
     Long customerId;
     Integer response;
 
-
+    System.out.println("*** Welcome to Holiday Reservation System ***");
+    System.out.println("1: Login");
+    System.out.println("2: Exit\n");
+    System.out.print("> ");
     response = scanner.nextInt();
     scanner.nextLine();
     if (response == 1)
@@ -80,6 +83,7 @@ public class MainApp {
     }
 
     }
+    
     private static Long login(java.lang.String email, java.lang.String password) throws InvalidLoginCredentialException_Exception {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();

@@ -6,7 +6,12 @@ package ejb.session.ws;
 
 import ejb.session.stateless.AirportSessionBeanLocal;
 import ejb.session.stateless.FlightScheduleSessionBeanLocal;
+import ejb.session.stateless.CabinCustomerSessionBeanLocal;
+import ejb.session.stateless.FareSessionBeanLocal;
+import ejb.session.stateless.FlightSchedulePlanSessionBeanLocal;
+import ejb.session.stateless.FlightSessionBeanLocal;
 import ejb.session.stateless.PartnerSessionBeanLocal;
+import ejb.session.stateless.ReservationDetailsSessionBeanLocal;
 import entity.Airport;
 import entity.Cabin;
 import entity.Customer;
@@ -17,6 +22,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import entity.Flight;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import javax.ejb.EJB;
@@ -41,11 +48,28 @@ public class PartnerWebService {
     @EJB(name = "FlightScheduleSessionBeanLocal")
     private FlightScheduleSessionBeanLocal flightScheduleSessionBeanLocal;
     
+    @EJB(name = "ReservationDetailsSessionBeanLocal")
+    private ReservationDetailsSessionBeanLocal reservationDetailsSessionBeanLocal;
+
+    @EJB(name = "FareSessionBeanLocal")
+    private FareSessionBeanLocal fareSessionBeanLocal;
+
+    @EJB(name = "CabinCustomerSessionBeanLocal")
+    private CabinCustomerSessionBeanLocal cabinCustomerSessionBeanLocal;
+
+    @EJB(name = "FlightSessionBeanLocal")
+    private FlightSessionBeanLocal flightSessionBeanLocal;
+
+    @EJB(name = "FlightSchedulePlanSessionBeanLocal")
+    private FlightSchedulePlanSessionBeanLocal flightSchedulePlanSessionBeanLocal;
+
     @EJB(name = "AirportSessionBeanLocal")
     private AirportSessionBeanLocal airportSessionBeanLocal;
 
     @EJB(name = "PartnerSessionBeanLocal")
     private PartnerSessionBeanLocal partnerSessionBeanLocal;
+    
+    
     
     /**
      * This is a sample web service operation
@@ -78,6 +102,50 @@ public class PartnerWebService {
     public List<FlightSchedule> retrieveFlightScheduleInPlan(@WebParam(name = "listOfFlightSchedulePlan") List<FlightSchedulePlan> listOfFlightSchedulePlan) {
         return flightScheduleSessionBeanLocal.retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
     }
+    @WebMethod(operationName = "retrieveFlightSchedulePlanWithSameFlight")
+    public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(@WebParam(name = "listOfFlightsToHub") List<Flight> listOfFlightsToHub) {
+        return flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
+    }
+    
+    
+    @WebMethod(operationName = "retrieveFlightsThatHasDepAndDest")
+    public List<Flight> retrieveFlightsThatHasDepAndDest(@WebParam(name = "depAirport") long depAirport, @WebParam(name = "hubId") long hubId) {
+        return flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
+    }
+    
+    @WebMethod(operationName = "getHighestFareIdInCabin")
+    public Long getHighestFareIdInCabin(@WebParam(name = "cabinId") long cabinId) {
+        return cabinCustomerSessionBeanLocal.getHighestFareIdInCabin(cabinId);
+    }
+    
+    @WebMethod(operationName = "getFareUsingId")
+    public BigDecimal getFareUsingId(@WebParam(name = "fareId") long fareId) {
+        return fareSessionBeanLocal.getFareUsingId(fareId);
+    }
+    
+    @WebMethod(operationName = "createReservationDetails")
+    public Long createReservationDetails(@WebParam(name = "reservationDetails") ReservationDetails reservationDetails,
+                                         @WebParam(name = "partnerId") long partnerId,
+                                         @WebParam(name = "flightScheduleId") long flightScheduleId,
+                                         @WebParam(name = "highestFareId") long highestFareId) {
+        return reservationDetailsSessionBeanLocal.createReservationDetails(reservationDetails, partnerId, flightScheduleId, highestFareId);
+    }
+    
+    @WebMethod(operationName = "linkCreditCard")
+    public Long linkCreditCard(@WebParam(name = "partnerId") long partnerId, @WebParam(name = "ccd") String ccd) {
+        return partnerSessionBeanLocal.linkCreditCard(partnerId, ccd);
+    }
+    
+    @WebMethod(operationName = "linkFlightSchedule")
+    public Long linkFlightSchedule(@WebParam(name = "partnerId") long partnerId, @WebParam(name = "fsId") long fsId) {
+        return partnerSessionBeanLocal.linkFlightSchedule(partnerId, fsId);
+    }
+    
+    @WebMethod(operationName = "getFlightSchedules")
+    public List<FlightSchedule> getFlightSchedules(@WebParam(name = "partnerId") long partnerId) {
+        return partnerSessionBeanLocal.getFlightSchedules(partnerId);
+    }
+    
     
     @WebMethod(operationName = "retrieveFlightSchedulePlanWithSameTiming")
     public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(@WebParam(name = "listOfFlightSchedulePlan") List<FlightSchedulePlan> listOfFlightSchedulePlan, @WebParam(name = "departureDate") Date departureDate) {
