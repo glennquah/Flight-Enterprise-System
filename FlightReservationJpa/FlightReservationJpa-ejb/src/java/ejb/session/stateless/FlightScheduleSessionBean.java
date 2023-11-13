@@ -372,6 +372,24 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
+    public long getHighestFareUsingCabinName(String cabName, long id) throws FlightScheduleDoesNotExistException {
+        try {
+            List<Cabin> cabins = getCabins(id);
+            long lowestFareId = -1;
+
+            for (Cabin c : cabins) {
+                if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+                    lowestFareId = cabinCustomerSessionBeanLocal.getHighestFareIdInCabin(c.getCabinId());
+                }
+            }
+
+            return lowestFareId;
+       } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+       }
+    }
+    
+    @Override
     public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId) throws  FlightScheduleDoesNotExistException {
         try {
             String jpql = "SELECT fs FROM FlightSchedule fs LEFT JOIN FETCH fs.listOfReservationDetails WHERE fs.flightScheduleId = :flightScheduleId";
