@@ -3,62 +3,130 @@
 <xsd:schema>
 <xsd:import namespace="http://ws.session.ejb/" schemaLocation="http://localhost:8080/PartnerWebService/PartnerWebService?xsd=1"/>
 </xsd:schema>
+<xsd:schema>
+<xsd:import namespace="http://jaxb.dev.java.net/array" schemaLocation="http://localhost:8080/PartnerWebService/PartnerWebService?xsd=2"/>
+</xsd:schema>
 </types>
-<<<<<<< Updated upstream
-=======
-<message name="getPartnerId">
-<part name="parameters" element="tns:getPartnerId"/>
+<message name="getFareUsingId">
+<part name="parameters" element="tns:getFareUsingId"/>
 </message>
-<message name="getPartnerIdResponse">
-<part name="parameters" element="tns:getPartnerIdResponse"/>
+<message name="getFareUsingIdResponse">
+<part name="parameters" element="tns:getFareUsingIdResponse"/>
 </message>
-<message name="InvalidLoginCredentialException">
-<part name="fault" element="tns:InvalidLoginCredentialException"/>
+<message name="retrieveFlightSchedulePlanWithSameFlight">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanWithSameFlight"/>
 </message>
->>>>>>> Stashed changes
+<message name="retrieveFlightSchedulePlanWithSameFlightResponse">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanWithSameFlightResponse"/>
+</message>
 <message name="login">
 <part name="parameters" element="tns:login"/>
 </message>
 <message name="loginResponse">
 <part name="parameters" element="tns:loginResponse"/>
 </message>
-<<<<<<< Updated upstream
 <message name="InvalidLoginCredentialException">
 <part name="fault" element="tns:InvalidLoginCredentialException"/>
 </message>
-<portType name="PartnerWebService">
-=======
+<message name="linkCreditCard">
+<part name="parameters" element="tns:linkCreditCard"/>
+</message>
+<message name="linkCreditCardResponse">
+<part name="parameters" element="tns:linkCreditCardResponse"/>
+</message>
+<message name="getPartnerId">
+<part name="parameters" element="tns:getPartnerId"/>
+</message>
+<message name="getPartnerIdResponse">
+<part name="parameters" element="tns:getPartnerIdResponse"/>
+</message>
 <message name="retrieveAllAirports">
 <part name="parameters" element="tns:retrieveAllAirports"/>
 </message>
 <message name="retrieveAllAirportsResponse">
 <part name="parameters" element="tns:retrieveAllAirportsResponse"/>
 </message>
+<message name="createReservationDetails">
+<part name="parameters" element="tns:createReservationDetails"/>
+</message>
+<message name="createReservationDetailsResponse">
+<part name="parameters" element="tns:createReservationDetailsResponse"/>
+</message>
+<message name="getFlightSchedules">
+<part name="parameters" element="tns:getFlightSchedules"/>
+</message>
+<message name="getFlightSchedulesResponse">
+<part name="parameters" element="tns:getFlightSchedulesResponse"/>
+</message>
+<message name="getHighestFareIdInCabin">
+<part name="parameters" element="tns:getHighestFareIdInCabin"/>
+</message>
+<message name="getHighestFareIdInCabinResponse">
+<part name="parameters" element="tns:getHighestFareIdInCabinResponse"/>
+</message>
+<message name="linkFlightSchedule">
+<part name="parameters" element="tns:linkFlightSchedule"/>
+</message>
+<message name="linkFlightScheduleResponse">
+<part name="parameters" element="tns:linkFlightScheduleResponse"/>
+</message>
+<message name="retrieveFlightsThatHasDepAndDest">
+<part name="parameters" element="tns:retrieveFlightsThatHasDepAndDest"/>
+</message>
+<message name="retrieveFlightsThatHasDepAndDestResponse">
+<part name="parameters" element="tns:retrieveFlightsThatHasDepAndDestResponse"/>
+</message>
 <portType name="PartnerWebService">
-<operation name="getPartnerId">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerIdRequest" message="tns:getPartnerId"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerIdResponse" message="tns:getPartnerIdResponse"/>
-<fault message="tns:InvalidLoginCredentialException" name="InvalidLoginCredentialException" wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerId/Fault/InvalidLoginCredentialException"/>
+<operation name="getFareUsingId">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getFareUsingIdRequest" message="tns:getFareUsingId"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getFareUsingIdResponse" message="tns:getFareUsingIdResponse"/>
 </operation>
->>>>>>> Stashed changes
+<operation name="retrieveFlightSchedulePlanWithSameFlight">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameFlightRequest" message="tns:retrieveFlightSchedulePlanWithSameFlight"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameFlightResponse" message="tns:retrieveFlightSchedulePlanWithSameFlightResponse"/>
+</operation>
 <operation name="login">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/loginRequest" message="tns:login"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/loginResponse" message="tns:loginResponse"/>
 <fault message="tns:InvalidLoginCredentialException" name="InvalidLoginCredentialException" wsam:Action="http://ws.session.ejb/PartnerWebService/login/Fault/InvalidLoginCredentialException"/>
 </operation>
-<<<<<<< Updated upstream
-</portType>
-<binding name="PartnerWebServicePortBinding" type="tns:PartnerWebService">
-<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-=======
+<operation name="linkCreditCard">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/linkCreditCardRequest" message="tns:linkCreditCard"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/linkCreditCardResponse" message="tns:linkCreditCardResponse"/>
+</operation>
+<operation name="getPartnerId">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerIdRequest" message="tns:getPartnerId"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerIdResponse" message="tns:getPartnerIdResponse"/>
+<fault message="tns:InvalidLoginCredentialException" name="InvalidLoginCredentialException" wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerId/Fault/InvalidLoginCredentialException"/>
+</operation>
 <operation name="retrieveAllAirports">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveAllAirportsRequest" message="tns:retrieveAllAirports"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveAllAirportsResponse" message="tns:retrieveAllAirportsResponse"/>
 </operation>
+<operation name="createReservationDetails">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/createReservationDetailsRequest" message="tns:createReservationDetails"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/createReservationDetailsResponse" message="tns:createReservationDetailsResponse"/>
+</operation>
+<operation name="getFlightSchedules">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightSchedulesRequest" message="tns:getFlightSchedules"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightSchedulesResponse" message="tns:getFlightSchedulesResponse"/>
+</operation>
+<operation name="getHighestFareIdInCabin">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getHighestFareIdInCabinRequest" message="tns:getHighestFareIdInCabin"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getHighestFareIdInCabinResponse" message="tns:getHighestFareIdInCabinResponse"/>
+</operation>
+<operation name="linkFlightSchedule">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/linkFlightScheduleRequest" message="tns:linkFlightSchedule"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/linkFlightScheduleResponse" message="tns:linkFlightScheduleResponse"/>
+</operation>
+<operation name="retrieveFlightsThatHasDepAndDest">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightsThatHasDepAndDestRequest" message="tns:retrieveFlightsThatHasDepAndDest"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightsThatHasDepAndDestResponse" message="tns:retrieveFlightsThatHasDepAndDestResponse"/>
+</operation>
 </portType>
 <binding name="PartnerWebServicePortBinding" type="tns:PartnerWebService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="getPartnerId">
+<operation name="getFareUsingId">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -66,11 +134,16 @@
 <output>
 <soap:body use="literal"/>
 </output>
-<fault name="InvalidLoginCredentialException">
-<soap:fault name="InvalidLoginCredentialException" use="literal"/>
-</fault>
 </operation>
->>>>>>> Stashed changes
+<operation name="retrieveFlightSchedulePlanWithSameFlight">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="login">
 <soap:operation soapAction=""/>
 <input>
@@ -83,8 +156,27 @@
 <soap:fault name="InvalidLoginCredentialException" use="literal"/>
 </fault>
 </operation>
-<<<<<<< Updated upstream
-=======
+<operation name="linkCreditCard">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getPartnerId">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="InvalidLoginCredentialException">
+<soap:fault name="InvalidLoginCredentialException" use="literal"/>
+</fault>
+</operation>
 <operation name="retrieveAllAirports">
 <soap:operation soapAction=""/>
 <input>
@@ -94,7 +186,51 @@
 <soap:body use="literal"/>
 </output>
 </operation>
->>>>>>> Stashed changes
+<operation name="createReservationDetails">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getFlightSchedules">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getHighestFareIdInCabin">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="linkFlightSchedule">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="retrieveFlightsThatHasDepAndDest">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 </binding>
 <service name="PartnerWebService">
 <port name="PartnerWebServicePort" binding="tns:PartnerWebServicePortBinding">
