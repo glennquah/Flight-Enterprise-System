@@ -46,4 +46,5 @@ public interface FlightScheduleSessionBeanLocal {
     public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId) throws  FlightScheduleDoesNotExistException;
     public Long deleteFlightSchedule(Long flightScheduleId) throws FlightScheduleBookedException;
     public Boolean checkSeatIfAvailable(long flightSchedId, String cabinName, int rowNum, char seat);
+    public long getHighestFareUsingCabinName(String cabName, long id) throws FlightScheduleDoesNotExistException;
 }

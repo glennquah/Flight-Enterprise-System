@@ -4,14 +4,21 @@
  */
 package flightreservationjpaseclient;
 
+import entity.Airport;
+import entity.Cabin;
+import entity.Flight;
+import entity.FlightRoute;
+import entity.FlightSchedule;
+import entity.FlightSchedulePlan;
+import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import util.exception.FlightScheduleDoesNotExistException;
 
 /**
  *
@@ -19,7 +26,13 @@ import java.util.Scanner;
  */
 public class HolidayReservationModule {
 
+    private long partnerId;
+    
     public HolidayReservationModule() {
+    }
+    
+    public HolidayReservationModule(long partnerId) {
+        this.partnerId = partnerId;
     }
     
      // =========================================LOGIN SCREEN=====================================================
@@ -170,7 +183,7 @@ public class HolidayReservationModule {
         System.out.print("Press Y to confirm N to restart> ");
         String next = sc.nextLine().trim();
         if (next.equalsIgnoreCase("N")) {
-            customerLoginPage();
+            partnerLoginPage();
         } else {
             fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
         }
@@ -206,7 +219,7 @@ public class HolidayReservationModule {
         System.out.print("Press Y to confirm N to restart> ");
         next = sc.nextLine().trim();
         if (next.equalsIgnoreCase("N")) {
-            customerLoginPage();
+            partnerLoginPage();
         } else {
             if (connectedFlight) {
                 fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, true, fare));
@@ -271,7 +284,7 @@ public class HolidayReservationModule {
         System.out.print("Press Y to confirm N to restart> ");
         String next = sc.nextLine().trim();
         if (next.equalsIgnoreCase("N")) {
-            customerLoginPage();
+            partnerLoginPage();
         } else {
             if (lastFlight) {
                 fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, true, fare));
@@ -352,8 +365,8 @@ public class HolidayReservationModule {
             System.out.println("");
         }
         
-        long lowestFareId = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
-        System.out.println("LOWEST FARE ID= " + lowestFareId);
+        long highestFareId = flightScheduleSessionBeanRemote.getHighestFareUsingCabinName(cabin, flightScheduleId);
+        System.out.println("HIGHEST FARE ID= " + highestFareId);
         for (int i = 0; i < numOfSeats; i ++) {
             System.out.println(String.format("Enter No. %s Seat you wan to reserve: ", (i + 1)));
             System.out.print("Enter Row Number> ");
@@ -376,7 +389,7 @@ public class HolidayReservationModule {
             System.out.print("Enter Passport Number Of Customer> ");
             String passport = sc.nextLine().trim();
             ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);   
-            Long reservId = reservationDetailsSessionBeanRemote.createReservationDetails(reservationDetails, this.customerId, flightScheduleId, lowestFareId);
+            Long reservId = reservationDetailsSessionBeanRemote.createReservationDetails(reservationDetails, this.partnerId, flightScheduleId, highestFareId);
             System.out.println("Reservation Created!");
             System.out.println("Reservation ID = " + reservId);
             System.out.println("*** SEAT BOOKED ***");
@@ -387,7 +400,7 @@ public class HolidayReservationModule {
         
 //        BigDecimal lowestFare = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
         //System.out.println("Price per Ticket: " + lowestFare);
-        BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareId);
+        BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(highestFareId);
         BigDecimal fare = (lowestFare.multiply(BigDecimal.valueOf(numOfSeats)));
         
         if (payment) {
@@ -395,11 +408,11 @@ public class HolidayReservationModule {
             System.out.println("Total Price: $" + totalFare);
             System.out.print("Enter Credit Card Details> ");
             String ccd = sc.nextLine().trim();
-            customerSessionBean.linkCreditCard(this.customerId, ccd);
+            customerSessionBean.linkCreditCard(this.partnerId, ccd);
             System.out.println("Credit Card Details Set!");
             System.out.println("*** FLIGHT RESERVATION DONE ***");
         }
-        customerSessionBean.linkFlightSchedule(this.customerId, flightScheduleId);
+        customerSessionBean.linkFlightSchedule(this.partnerId, flightScheduleId);
         return fare;
     }
     
@@ -407,7 +420,7 @@ public class HolidayReservationModule {
     public void viewFlightReservation(Scanner sc) throws FlightScheduleDoesNotExistException {
         //change this?
         System.out.println("\n*** YOU HAVE SLECTED VIEW ALL FLIGHT RESERVATION ***\n");
-        List<FlightSchedule> listOfFlightSchedules = customerSessionBean.getFlightSchedules(this.customerId);
+        List<FlightSchedule> listOfFlightSchedules = customerSessionBean.getFlightSchedules(this.partnerId);
         for (FlightSchedule fs : listOfFlightSchedules) {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
@@ -429,7 +442,7 @@ public class HolidayReservationModule {
     
     public void viewFlightReservationDetails(Scanner sc, long flightScheduleId) throws FlightScheduleDoesNotExistException {
         System.out.println("\n*** VIEW MORE FLIGHT RESERVATION DETAILS ***\n");
-        List<ReservationDetails> listOfReservationDetails = flightScheduleSessionBeanRemote.getReservationDetails(flightScheduleId, this.customerId);
+        List<ReservationDetails> listOfReservationDetails = flightScheduleSessionBeanRemote.getReservationDetails(flightScheduleId, this.partnerId);
         listOfReservationDetails.size();
         BigDecimal fare = BigDecimal.ZERO;
         for (ReservationDetails rd : listOfReservationDetails) {

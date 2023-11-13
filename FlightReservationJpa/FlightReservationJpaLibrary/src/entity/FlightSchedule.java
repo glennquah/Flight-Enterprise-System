@@ -52,7 +52,10 @@ public class FlightSchedule implements Serializable {
     private FlightSchedulePlan flightSchedulePlan;
     
     @ManyToMany
-    private List<Customer> customer;
+    private List<Customer> customers;
+    
+    @ManyToMany
+    private List<Partner> partners;
     
     @OneToMany(mappedBy = "FlightSchedule")
     private List<ReservationDetails> listOfReservationDetails;
@@ -68,7 +71,8 @@ public class FlightSchedule implements Serializable {
         this.estimatedTime = estimatedTime;
         Instant instant = departureDateTime.toInstant();
         this.arrivalDateTime = Date.from(instant.plus(estimatedTime));
-        this.customer = new ArrayList<>();
+        this.customers = new ArrayList<>();
+        this.partners = new ArrayList<>();
         this.listOfReservationDetails = new ArrayList<>();
         this.listOfCabins = new ArrayList<>();
     }
@@ -114,17 +118,17 @@ public class FlightSchedule implements Serializable {
     }
 
         /**
-     * @return the customer
+     * @return the customers
      */
-    public List<Customer> getCustomer() {
-        return customer;
+    public List<Customer> getCustomers() {
+        return customers;
     }
 
     /**
-     * @param customer the customer to set
+     * @param customers the customers to set
      */
-    public void setCustomer(List<Customer> customer) {
-        this.customer = customer;
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
     
     @Override
@@ -175,6 +179,22 @@ public class FlightSchedule implements Serializable {
     public void setListOfCabins(List<Cabin> listOfCabins) {
         this.listOfCabins = listOfCabins;
     }
+
+    /**
+     * @return the partners
+     */
+    public List<Partner> getPartners() {
+        return partners;
+    }
+
+    /**
+     * @param partners the partners to set
+     */
+    public void setPartners(List<Partner> partners) {
+        this.partners = partners;
+    }
+    
+    
 
 }
 
