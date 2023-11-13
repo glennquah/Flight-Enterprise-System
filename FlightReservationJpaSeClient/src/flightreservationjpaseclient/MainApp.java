@@ -61,19 +61,10 @@ public class MainApp {
                         String email = scanner.nextLine().trim();
                         System.out.print("Enter password> ");
                         String password = scanner.nextLine().trim();
-                        login(email, password);
-    //                    
-                        Long partnerId = getPartnerId(email);
-                        System.out.println(partnerId);
+                        Long partnerId = login(email, password);
 
-
-                        List<ws.partner.Airport> airports = retrieveAllAirports();
-                        for (ws.partner.Airport a: airports) {
-                            System.out.println(a.getCountry());
-                        }
-
-                        // HolidayReservationModule holidayReservationModule = new HolidayReservationModule();            
-                        // holidayReservationModule.partnerLoginPage();
+                         HolidayReservationModule holidayReservationModule = new HolidayReservationModule(partnerId);            
+                         holidayReservationModule.partnerLoginPage();
                     } catch (InvalidLoginCredentialException_Exception ex) {
                         System.out.println("The login credentials are wrong!");
                     }
@@ -94,17 +85,4 @@ public class MainApp {
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         return port.login(email, password);
     }
-
-    private static Long getPartnerId(java.lang.String email) throws InvalidLoginCredentialException_Exception {
-        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
-        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.getPartnerId(email);
-    }
-    
-    private static List<ws.partner.Airport> retrieveAllAirports() {
-        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
-        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.retrieveAllAirports();
-    }
 }
-    

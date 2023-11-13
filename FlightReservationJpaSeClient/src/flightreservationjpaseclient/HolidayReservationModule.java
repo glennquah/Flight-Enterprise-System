@@ -77,7 +77,7 @@ public class HolidayReservationModule {
         }
         sc.nextLine();
         System.out.print("All Aiport: ");
-        List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAiports();
+        List<Airport> listOfAirports = retrieveAllAiports();
         for (int i = 0; i < listOfAirports.size(); i++) {
             System.out.println(String.format("%s: Airport Name: ", i + 1) + listOfAirports.get(i).getName());
             System.out.println("ID: " + listOfAirports.get(i).getAirportId());
@@ -457,5 +457,17 @@ public class HolidayReservationModule {
         System.out.println("Total Amount Paid: $" + fare.multiply(BigDecimal.valueOf(listOfReservationDetails.size())));
         //add fare entity into reservation details
         System.out.println();
+    }
+    
+    private static Long getPartnerId(java.lang.String email) throws InvalidLoginCredentialException_Exception {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getPartnerId(email);
+    }
+    
+    private static List<ws.partner.Airport> retrieveAllAirports() {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.retrieveAllAirports();
     }
 }
