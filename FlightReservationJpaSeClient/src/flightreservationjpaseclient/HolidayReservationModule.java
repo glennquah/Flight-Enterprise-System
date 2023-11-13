@@ -23,7 +23,7 @@ public class HolidayReservationModule {
     }
     
      // =========================================LOGIN SCREEN=====================================================
-    public void customerLoginPage() throws Exception {
+    public void partnerLoginPage() throws Exception {
         Scanner sc = new Scanner(System.in);
         Integer response;
         System.out.println("*** YOU HAVE SUCCESSFULLY LOGIN ***\n");

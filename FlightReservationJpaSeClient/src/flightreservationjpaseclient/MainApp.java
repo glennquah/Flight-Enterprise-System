@@ -46,7 +46,7 @@ public class MainApp {
                         Long partnerId = login(email, password);
                         
                         HolidayReservationModule holidayReservationModule = new HolidayReservationModule();            
-                        holidayReservationModule.adminLoginPage();
+                        holidayReservationModule.partnerLoginPage();
                     } catch (InvalidLoginCredentialException_Exception ex) {
                         System.out.println("The login credentials are wrong!");
                     } 
