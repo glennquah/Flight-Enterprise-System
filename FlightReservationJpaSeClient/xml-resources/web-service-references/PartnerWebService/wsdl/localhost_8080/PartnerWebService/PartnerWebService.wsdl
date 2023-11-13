@@ -4,24 +4,57 @@
 <xsd:import namespace="http://ws.session.ejb/" schemaLocation="http://localhost:8080/PartnerWebService/PartnerWebService?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="getPartnerId">
+<part name="parameters" element="tns:getPartnerId"/>
+</message>
+<message name="getPartnerIdResponse">
+<part name="parameters" element="tns:getPartnerIdResponse"/>
+</message>
+<message name="InvalidLoginCredentialException">
+<part name="fault" element="tns:InvalidLoginCredentialException"/>
+</message>
 <message name="login">
 <part name="parameters" element="tns:login"/>
 </message>
 <message name="loginResponse">
 <part name="parameters" element="tns:loginResponse"/>
 </message>
-<message name="InvalidLoginCredentialException">
-<part name="fault" element="tns:InvalidLoginCredentialException"/>
+<message name="retrieveAllAirports">
+<part name="parameters" element="tns:retrieveAllAirports"/>
+</message>
+<message name="retrieveAllAirportsResponse">
+<part name="parameters" element="tns:retrieveAllAirportsResponse"/>
 </message>
 <portType name="PartnerWebService">
+<operation name="getPartnerId">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerIdRequest" message="tns:getPartnerId"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerIdResponse" message="tns:getPartnerIdResponse"/>
+<fault message="tns:InvalidLoginCredentialException" name="InvalidLoginCredentialException" wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerId/Fault/InvalidLoginCredentialException"/>
+</operation>
 <operation name="login">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/loginRequest" message="tns:login"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/loginResponse" message="tns:loginResponse"/>
 <fault message="tns:InvalidLoginCredentialException" name="InvalidLoginCredentialException" wsam:Action="http://ws.session.ejb/PartnerWebService/login/Fault/InvalidLoginCredentialException"/>
 </operation>
+<operation name="retrieveAllAirports">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveAllAirportsRequest" message="tns:retrieveAllAirports"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveAllAirportsResponse" message="tns:retrieveAllAirportsResponse"/>
+</operation>
 </portType>
 <binding name="PartnerWebServicePortBinding" type="tns:PartnerWebService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="getPartnerId">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="InvalidLoginCredentialException">
+<soap:fault name="InvalidLoginCredentialException" use="literal"/>
+</fault>
+</operation>
 <operation name="login">
 <soap:operation soapAction=""/>
 <input>
@@ -33,6 +66,15 @@
 <fault name="InvalidLoginCredentialException">
 <soap:fault name="InvalidLoginCredentialException" use="literal"/>
 </fault>
+</operation>
+<operation name="retrieveAllAirports">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
 </operation>
 </binding>
 <service name="PartnerWebService">

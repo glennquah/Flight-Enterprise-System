@@ -1,6 +1,7 @@
 
 package ws.partner;
 
+import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -27,6 +28,26 @@ public interface PartnerWebService {
 
     /**
      * 
+     * @param email
+     * @return
+     *     returns java.lang.Long
+     * @throws InvalidLoginCredentialException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getPartnerId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetPartnerId")
+    @ResponseWrapper(localName = "getPartnerIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetPartnerIdResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getPartnerIdRequest", output = "http://ws.session.ejb/PartnerWebService/getPartnerIdResponse", fault = {
+        @FaultAction(className = InvalidLoginCredentialException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getPartnerId/Fault/InvalidLoginCredentialException")
+    })
+    public Long getPartnerId(
+        @WebParam(name = "email", targetNamespace = "")
+        String email)
+        throws InvalidLoginCredentialException_Exception
+    ;
+
+    /**
+     * 
      * @param password
      * @param email
      * @return
@@ -47,5 +68,17 @@ public interface PartnerWebService {
         String password)
         throws InvalidLoginCredentialException_Exception
     ;
+
+    /**
+     * 
+     * @return
+     *     returns java.util.List&lt;ws.partner.Airport&gt;
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "retrieveAllAirports", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveAllAirports")
+    @ResponseWrapper(localName = "retrieveAllAirportsResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveAllAirportsResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveAllAirportsRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveAllAirportsResponse")
+    public List<Airport> retrieveAllAirports();
 
 }

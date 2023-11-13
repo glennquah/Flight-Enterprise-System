@@ -128,7 +128,7 @@ public class ReservationModule {
         }
         sc.nextLine();
         System.out.print("All Aiport: ");
-        List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAiports();
+        List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAirports();
         for (int i = 0; i < listOfAirports.size(); i++) {
             System.out.println(String.format("%s: Airport Name: ", i + 1) + listOfAirports.get(i).getName());
             System.out.println("ID: " + listOfAirports.get(i).getAirportId());

@@ -10,14 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author admin
  */
 @Entity
+//@XmlRootElement
 public class Airport implements Serializable {
 
     private static final long serialVersionUID = 1L;

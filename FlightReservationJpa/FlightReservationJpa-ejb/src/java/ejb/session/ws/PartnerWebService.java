@@ -4,8 +4,10 @@
  */
 package ejb.session.ws;
 
+import ejb.session.stateless.AirportSessionBeanLocal;
 import ejb.session.stateless.PartnerSessionBeanLocal;
-import ejb.session.stateless.PartnerSessionBeanRemote;
+import entity.Airport;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
@@ -20,6 +22,9 @@ import util.exception.InvalidLoginCredentialException;
 @WebService(serviceName = "PartnerWebService")
 @Stateless()
 public class PartnerWebService {
+
+    @EJB(name = "AirportSessionBeanLocal")
+    private AirportSessionBeanLocal airportSessionBeanLocal;
 
     @EJB(name = "PartnerSessionBeanLocal")
     private PartnerSessionBeanLocal partnerSessionBeanLocal;
@@ -39,6 +44,17 @@ public class PartnerWebService {
             throw new InvalidLoginCredentialException("Missing login credential!");
         }
     }
-
+    
+    @WebMethod(operationName = "getPartnerId")
+    public Long getPartnerId(@WebParam(name = "email") String email) throws InvalidLoginCredentialException {
+        return partnerSessionBeanLocal.getPartnerId(email);
+    }
+    
+    
+    @WebMethod(operationName = "retrieveAllAirports")
+    public List<Airport> retrieveAllAirports() {
+        return airportSessionBeanLocal.retrieveAllAirports();
+    }
+    
     
 }

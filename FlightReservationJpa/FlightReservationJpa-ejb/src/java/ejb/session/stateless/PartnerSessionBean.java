@@ -58,6 +58,7 @@ public class PartnerSessionBean implements PartnerSessionBeanRemote, PartnerSess
     }
     
     @Override
+<<<<<<< Updated upstream
     public long linkCreditCard(long partnerId, String ccd) {
         Partner partner = em.find(Partner.class, partnerId);
         partner.setCreditCardNumber(ccd);
@@ -87,5 +88,13 @@ public class PartnerSessionBean implements PartnerSessionBeanRemote, PartnerSess
         List<FlightSchedule> listOFlightSchedules = partner.getListOfFlightSchedules();
         listOFlightSchedules.size();
         return listOFlightSchedules;
+=======
+    public Long getPartnerId(String email) {
+        Query query = em.createQuery("SELECT p FROM Partner p WHERE p.email = :email");
+        query.setParameter("email", email);
+        Partner partner = (Partner)query.getSingleResult();
+        
+        return partner.getAccountId();
+>>>>>>> Stashed changes
     }
 }

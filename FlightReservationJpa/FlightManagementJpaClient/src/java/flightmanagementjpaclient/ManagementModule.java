@@ -163,7 +163,7 @@ public class ManagementModule {
             sc.nextLine();
             if (response == 1) {
                 System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
-                List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAiports();
+                List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAirports();
                 for (int i = 0; i < listOfAirports.size(); i++) {
                     System.out.println(String.format("%s: Airport Name: ", i + 1) + listOfAirports.get(i).getName());
                     System.out.println("ID: " + listOfAirports.get(i).getAirportId());
@@ -184,7 +184,7 @@ public class ManagementModule {
                 }
             } else if (response == 2) {
                 System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
-                List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAiports();
+                List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAirports();
                 for (int i = 0; i < listOfAirports.size(); i++) {
                     System.out.println(String.format("%s: Airport Name: ", i + 1) + listOfAirports.get(i).getName());
                     System.out.println("ID: " + listOfAirports.get(i).getAirportId());
