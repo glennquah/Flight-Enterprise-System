@@ -194,15 +194,25 @@ public class ReservationModule {
     }
     
     public BigDecimal searchConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, boolean connectedFlight) throws Exception {
-        long hubId = 1;
-        List<Flight> listOfFlightsToHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
-        List<Flight> listOfFlightsFromHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(hubId, destAirport);
+        List<Long> listOfHubsId = airportSessionBeanRemote.getListOfHubsId();
+        List<Flight> listOfFlightsToHub = new ArrayList<>();
+        List<Flight> listOfFlightsFromHub = new ArrayList<>();
+        for (Long hubId : listOfHubsId) {
+            List<Flight> listToHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
+            List<Flight> listFromHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(hubId, destAirport);
+            for (Flight f : listToHub) {
+                listOfFlightsToHub.add(f);
+            }
+            for (Flight f : listFromHub) {
+                listOfFlightsToHub.add(f);
+            }
+        }
         List<FlightSchedulePlan> listOfFlightSchedulePlanToHub = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
         List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsFromHub);
         int flightnum = 1;
         List<FlightSchedule> listOfFlightScheduleToHubSameDay = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlanToHub, departureDate);
         
-        System.out.print("\n*** FIRST, PICK FLIGHT GOING TO TAOYUAN AIRPORT (HUB) ***");
+        System.out.print("\n*** FIRST, PICK FLIGHT GOING TO HUB ***");
         System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***\n", listOfFlightScheduleToHubSameDay.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleToHubSameDay, flightnum);
         
@@ -243,7 +253,7 @@ public class ReservationModule {
         Date dateOfFlightPicked = flightScheduleSessionBeanRemote.retrieveDateOfFlightPicked(flightSchedId);
         
         flightnum = 1;
-        System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF TAOYUAN AIRPORT (HUB) ***");
+        System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF HUB ***");
         List<FlightSchedule> listOfFlightSchedulesFromHubSameDay = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlanFromHub, dateOfFlightPicked);
         System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***", listOfFlightSchedulesFromHubSameDay.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightSchedulesFromHubSameDay, flightnum);

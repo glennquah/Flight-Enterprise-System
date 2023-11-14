@@ -34,17 +34,30 @@ public class Airport implements Serializable {
     private String state;
     @Column(length = 32, nullable = false)
     private String country;
+    @Column(nullable = false)
+    private Boolean hub;
 
     public Airport() {
     }
 
-    public Airport(String name, String airportCode, String city, String state, String country) {
+    public Airport(String name, String airportCode, String city, String state, String country, Boolean hub) {
         this.name = name;
         this.airportCode = airportCode;
         this.city = city;
         this.state = state;
         this.country = country;
+        this.hub = hub;
     }
+
+    public Boolean getHub() {
+        return hub;
+    }
+
+    public void setHub(Boolean hub) {
+        this.hub = hub;
+    }
+    
+    
 
     public String getCountry() {
         return country;

@@ -9,6 +9,8 @@ package util.enumeration;
  * @author admin
  */
 public enum EmployeeAccessRightEnum {
-    STAFF,
-    MANAGER
+    FLEETMANAGER,
+    ROUTEPLANNER,
+    SCHEDULEMANAGER,
+    SALESMANAGER,
 }

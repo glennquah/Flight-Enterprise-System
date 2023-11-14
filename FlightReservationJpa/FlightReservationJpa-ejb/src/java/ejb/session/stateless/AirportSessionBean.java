@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.Airport;
 import entity.Customer;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -40,6 +41,19 @@ public class AirportSessionBean implements AirportSessionBeanRemote, AirportSess
 
     public void persist(Object object) {
         em.persist(object);
+    }
+    
+    @Override
+    public List<Long> getListOfHubsId() {
+        Query query = em.createQuery("Select a From Airport a WHERE a.hub =: boolean");
+        query.setParameter("boolean", true);
+        List<Airport> airports = (List<Airport>)query.getResultList();
+        airports.size();
+        List<Long> listOfHubIds = new ArrayList<>();
+        for(Airport a : airports) {
+            listOfHubIds.add(a.getAirportId());
+        }
+        return listOfHubIds;
     }
 
     
