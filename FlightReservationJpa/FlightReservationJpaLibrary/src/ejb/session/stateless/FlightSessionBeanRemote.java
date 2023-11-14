@@ -32,4 +32,5 @@ public interface FlightSessionBeanRemote {
     public List<Cabin> getCabin(Integer flightNumber) throws FlightScheduleDoesNotExistException;
     public List<Flight> retrieveFlightsThatHasDepAndDest(Long originAirport, Long destAirport);
     public List<Flight> retrieveFlightsThatHasDepAndDestConnectingFlight(Long originAirport, Long destAirport);
+    public Boolean haveComplementaryFlight(Integer flightNumber);
 }
