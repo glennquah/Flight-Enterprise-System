@@ -75,11 +75,11 @@ public class DataInitSessionBean {
         }
         
         if(em.find(Airport.class, 1l) == null) {     
-            Airport a1 = new Airport("Changi", "SIN", "Singapore", "Singapore", "Singapore", false);
-            Airport a2 = new Airport("Hong Kong", "HKG", "Chek Lap Kok", "Hong Kong", "China", false);
-            Airport a3 = new Airport("Taoyuan", "TPE", "Taoyuan", "Taipei", "Taiwan R.O.C.", true);
-            Airport a4 = new Airport("Narita", "NRT", "Narita", "Chiba", "Japan", false);
-            Airport a5 = new Airport("Sydney", "SYD", "Sydney", "New South Wales", "Australia", false);
+            Airport a1 = new Airport("Changi", "SIN", "Singapore", "Singapore", "Singapore");
+            Airport a2 = new Airport("Hong Kong", "HKG", "Chek Lap Kok", "Hong Kong", "China");
+            Airport a3 = new Airport("Taoyuan", "TPE", "Taoyuan", "Taipei", "Taiwan R.O.C.");
+            Airport a4 = new Airport("Narita", "NRT", "Narita", "Chiba", "Japan");
+            Airport a5 = new Airport("Sydney", "SYD", "Sydney", "New South Wales", "Australia");
      
             airportSessionBeanLocal.createNewAirport(a1);
             airportSessionBeanLocal.createNewAirport(a2);

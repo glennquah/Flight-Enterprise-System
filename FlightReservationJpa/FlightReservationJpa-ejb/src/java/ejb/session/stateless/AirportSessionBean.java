@@ -45,8 +45,7 @@ public class AirportSessionBean implements AirportSessionBeanRemote, AirportSess
     
     @Override
     public List<Long> getListOfHubsId() {
-        Query query = em.createQuery("Select a From Airport a WHERE a.hub = :isHub");
-        query.setParameter("isHub", true);
+        Query query = em.createQuery("Select a From Airport a");
         List<Airport> airports = (List<Airport>)query.getResultList();
         airports.size();
         List<Long> listOfHubIds = new ArrayList<>();
