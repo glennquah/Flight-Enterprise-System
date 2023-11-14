@@ -436,7 +436,7 @@
 
 <xs:complexType name="createReservationDetails">
 <xs:sequence>
-<xs:element name="reservationDetails" type="tns:reservationDetails" minOccurs="0"/>
+<xs:element name="reservationDetails" type="xs:long" minOccurs="0"/>
 <xs:element name="partnerId" type="xs:long"/>
 <xs:element name="flightScheduleId" type="xs:long"/>
 <xs:element name="highestFareId" type="xs:long"/>

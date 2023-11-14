@@ -395,7 +395,7 @@ public class HolidayReservationModule {
             System.out.print("Enter Passport Number Of Customer> ");
             String passport = sc.nextLine().trim();
             ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);   
-            Long reservId = createReservationDetails(reservationDetails, this.partnerId, flightScheduleId, highestFareId);
+            Long reservId = createReservationDetails(reservationDetails.getId(), this.partnerId, flightScheduleId, highestFareId);
             System.out.println("Reservation Created!");
             System.out.println("Reservation ID = " + reservId);
             System.out.println("*** SEAT BOOKED ***");
@@ -607,14 +607,13 @@ public class HolidayReservationModule {
         return port.getFareUsingId(fareId);
     }
     
-    private static Long createReservationDetails(ReservationDetails reservationDetails,
+    private static Long createReservationDetails(java.lang.Long reservationDetailsId,
                                                            java.lang.Long partnerId,
                                                            java.lang.Long flightScheduleId,
                                                            java.lang.Long highestFareId) {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-//        return port.createReservationDetails(reservationDetails, partnerId, flightScheduleId, highestFareId);
-        return 0l;
+        return port.createReservationDetails(reservationDetailsId, partnerId, flightScheduleId, highestFareId);
     }
     
     private static Long linkCreditCard(java.lang.Long partnerId, java.lang.String ccd) {

@@ -147,7 +147,7 @@ public interface PartnerWebService {
     @Action(input = "http://ws.session.ejb/PartnerWebService/createReservationDetailsRequest", output = "http://ws.session.ejb/PartnerWebService/createReservationDetailsResponse")
     public Long createReservationDetails(
         @WebParam(name = "reservationDetails", targetNamespace = "")
-        ReservationDetails reservationDetails,
+        Long reservationDetails,
         @WebParam(name = "partnerId", targetNamespace = "")
         long partnerId,
         @WebParam(name = "flightScheduleId", targetNamespace = "")

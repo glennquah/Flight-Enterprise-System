@@ -51,6 +51,35 @@ public class ReservationDetailsSessionBean implements ReservationDetailsSessionB
         
         return reservationDetails.getId();
     }
+    
+    @Override
+    public Long createReservationDetails(long reservationDetailsId, long customerId, long flightScheduleId, long lowestFareId) {
+        Customer cust = em.find(Customer.class, customerId);
+        FlightSchedule fs = em.find(FlightSchedule.class, flightScheduleId);
+        ReservationDetails reservationDetails = em.find(ReservationDetails.class, reservationDetailsId);
+        reservationDetails.setCustomer(cust);
+        reservationDetails.setFlightSchedule(fs);
+        
+        //synch customer to new res details
+        List<ReservationDetails> listOfResCust = cust.getListOfReservationDetails();
+        listOfResCust.size();
+        listOfResCust.add(reservationDetails);
+        cust.setListOfReservationDetails(listOfResCust);
+        
+        //synch flightshcedule to res details
+        List<ReservationDetails> listOfResFs = fs.getListOfReservationDetails();
+        listOfResFs.size();
+        listOfResFs.add(reservationDetails);
+        fs.setListOfReservationDetails(listOfResFs);
+        
+        Fare f = em.find(Fare.class, lowestFareId);
+        reservationDetails.setFare(f);
+        
+        em.persist(reservationDetails);
+        em.flush();
+        
+        return reservationDetails.getId();
+    }
 
     @Override
     public Long createReservationDetailsForPartner(ReservationDetails reservationDetails, long partnerId, long flightScheduleId, long lowestFareId) {
