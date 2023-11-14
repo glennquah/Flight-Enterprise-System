@@ -23,65 +23,43 @@ public class MainApp {
     Scanner scanner = new Scanner(System.in);
     Long customerId;
     Integer response;
-
-    System.out.println("*** Welcome to Holiday Reservation System ***");
-    System.out.println("1: Login");
-    System.out.println("2: Exit\n");
-    System.out.print("> ");
-    response = scanner.nextInt();
-    scanner.nextLine();
-    if (response == 1)
-    {   
-        try {
-            System.out.println("\n*** Holiday Reservation System :: Login ***\n");
-            System.out.print("Enter email> ");
-            String email = scanner.nextLine().trim();
-            System.out.print("Enter password> ");
-            String password = scanner.nextLine().trim();
-            Long partnerId = login(email, password);
-
-//            HolidayReservationModule holidayReservationModule = new HolidayReservationModule(partnerId);            
-//            holidayReservationModule.partnerLoginPage();
-        } catch (InvalidLoginCredentialException_Exception ex) {
-            System.out.println("The login credentials are wrong!");
-        } 
         
-        while (true) {
-            System.out.println("*** Welcome to the Flight Reservation Client ***\n");
-            System.out.println("1: Login");
-            System.out.println("2: Exit\n");
-            response = 0;
+    while (true) {
+        System.out.println("*** Welcome to the Flight Reservation Client ***\n");
+        System.out.println("1: Login");
+        System.out.println("2: Exit\n");
+        response = 0;
 
-            while (response < 1 || response > 2) {
-                System.out.print("> ");
+        while (response < 1 || response > 2) {
+            System.out.print("> ");
 
-                response = scanner.nextInt();
-                scanner.nextLine();
-                if (response == 1) {
-                    try {
-                        System.out.println("\n*** Holiday Reservation System :: Login ***\n");
-                        System.out.print("Enter email> ");
-                        String email = scanner.nextLine().trim();
-                        System.out.print("Enter password> ");
-                        String password = scanner.nextLine().trim();
-                        Long partnerId = login(email, password);
+            response = scanner.nextInt();
+            scanner.nextLine();
+            if (response == 1) {
+                try {
+                    System.out.println("\n*** Holiday Reservation System :: Login ***\n");
+                    System.out.print("Enter email> ");
+                    String email = scanner.nextLine().trim();
+                    System.out.print("Enter password> ");
+                    String password = scanner.nextLine().trim();
+                    Long partnerId = login(email, password);
+                    System.out.println("");
 
-                         HolidayReservationModule holidayReservationModule = new HolidayReservationModule(partnerId);            
-                         holidayReservationModule.partnerLoginPage();
-                    } catch (InvalidLoginCredentialException_Exception ex) {
-                        System.out.println("The login credentials are wrong!");
-                    }
-                }
-                if (response == 2) {
-                    break;
+                     HolidayReservationModule holidayReservationModule = new HolidayReservationModule(partnerId);            
+                     holidayReservationModule.partnerLoginPage();
+                } catch (InvalidLoginCredentialException_Exception ex) {
+                    System.out.println("The login credentials are wrong!");
                 }
             }
+            
             if (response == 2) {
                 break;
             }
         }
-    }
-
+        if (response == 2) {
+            break;
+        }
+        }
     }
     
     private static Long login(java.lang.String email, java.lang.String password) throws InvalidLoginCredentialException_Exception {

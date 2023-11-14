@@ -308,6 +308,7 @@ public class HolidayReservationModule {
         System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
         System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
         ws.partner.Duration duration = fs.getEstimatedTime();
+        
 //        long hours = duration.toHours();
 //        long minutes = duration.toMinutes() % 60;
 //        String formattedTime = String.format("%02d:%02d", hours, minutes);

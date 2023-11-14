@@ -69,8 +69,6 @@ public class PartnerWebService {
     @EJB(name = "PartnerSessionBeanLocal")
     private PartnerSessionBeanLocal partnerSessionBeanLocal;
     
-    
-    
     /**
      * This is a sample web service operation
      */
@@ -102,11 +100,11 @@ public class PartnerWebService {
     public List<FlightSchedule> retrieveFlightScheduleInPlan(@WebParam(name = "listOfFlightSchedulePlan") List<FlightSchedulePlan> listOfFlightSchedulePlan) {
         return flightScheduleSessionBeanLocal.retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
     }
+    
     @WebMethod(operationName = "retrieveFlightSchedulePlanWithSameFlight")
     public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(@WebParam(name = "listOfFlightsToHub") List<Flight> listOfFlightsToHub) {
         return flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
     }
-    
     
     @WebMethod(operationName = "retrieveFlightsThatHasDepAndDest")
     public List<Flight> retrieveFlightsThatHasDepAndDest(@WebParam(name = "depAirport") long depAirport, @WebParam(name = "hubId") long hubId) {
