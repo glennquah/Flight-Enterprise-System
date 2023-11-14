@@ -22,14 +22,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Future;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Lenovo
  */
 @Entity
-@XmlTransient
 public class FlightSchedule implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -5,6 +5,7 @@
 package flightreservationjpaseclient;
 
 import entity.Flight;
+import entity.FlightRoute;
 import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -18,7 +19,6 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import util.exception.FlightScheduleDoesNotExistException;
 import ws.partner.FlightDoesNotExistException_Exception;
-import ws.partner.FlightSchedule;
 import ws.partner.FlightScheduleDoesNotExistException_Exception;
 import ws.partner.FlightSchedulePlan;
 import ws.partner.InvalidLoginCredentialException_Exception;
@@ -193,7 +193,8 @@ public class HolidayReservationModule {
         }
         
         long flightSchedId = confirmId;
-        Date dateOfFlightPicked = retrieveDateOfFlightPicked(flightSchedId);
+        
+        Date dateOfFlightPicked = toDate(retrieveDateOfFlightPicked(flightSchedId));
         
         flightnum = 1;
         System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF TAOYUAN AIRPORT (HUB) ***");
@@ -463,6 +464,28 @@ public class HolidayReservationModule {
         System.out.println();
     }
     
+    public static XMLGregorianCalendar toXMLGregorianCalendar(Date date) 
+    { 
+        GregorianCalendar gCalendar = new GregorianCalendar(); 
+        gCalendar.setTime(date); 
+        XMLGregorianCalendar xmlCalendar = null; 
+        try { 
+            xmlCalendar = DatatypeFactory.newInstance() .newXMLGregorianCalendar(gCalendar); 
+        } 
+        catch (DatatypeConfigurationException ex) { 
+            System.out.println(ex); 
+        } 
+        return xmlCalendar; 
+    } 
+  
+    public static Date toDate(XMLGregorianCalendar calendar) 
+    { 
+        if (calendar == null) { 
+            return null; 
+        } 
+        return calendar.toGregorianCalendar().getTime(); 
+    } 
+    
     private static Long getPartnerId(java.lang.String email) throws InvalidLoginCredentialException_Exception {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
@@ -611,18 +634,14 @@ public class HolidayReservationModule {
         return port.getFlightSchedules(partnerId);
     }
     
-    private static List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDateTime) {
+    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDateTime) throws DatatypeConfigurationException {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlan, departureDateTime);
+        
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(departureDateTime);
+        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+        return port.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlan, xmlDate);
     }
-//
-//    private List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub, XMLGregorianCalendar dateOfFlightPicked) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    private List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfter(List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub, XMLGregorianCalendar dateOfFlightPicked) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
 }
 
