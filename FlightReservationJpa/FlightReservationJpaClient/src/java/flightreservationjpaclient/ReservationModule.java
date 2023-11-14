@@ -263,9 +263,9 @@ public class ReservationModule {
         flightnum = printStatementForFlightSchedule(listOfFlightSchedulesFromHubSameDay, flightnum);
         
         //5. get list of flight schedule that is 3 days After
-        List<FlightSchedule> listOfFlightScheduleFromHub3daysAfter = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith3DaysAfter(listOfFlightSchedulePlanFromHub, dateOfFlightPicked);
-        System.out.println(String.format("\n*** %s FLIGHT 3 DAYS AFTER ***", listOfFlightScheduleFromHub3daysAfter.size()));
-        flightnum = printStatementForFlightSchedule(listOfFlightScheduleFromHub3daysAfter, flightnum);
+        List<FlightSchedule> listOfFlightScheduleFromHub1dayAfter = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith1DayAfter(listOfFlightSchedulePlanFromHub, dateOfFlightPicked);
+        System.out.println(String.format("\n*** %s FLIGHT 1 DAY AFTER ***", listOfFlightScheduleFromHub1dayAfter.size()));
+        flightnum = printStatementForFlightSchedule(listOfFlightScheduleFromHub1dayAfter, flightnum);
         
         schedId = -1;
         while(schedId != 0) {

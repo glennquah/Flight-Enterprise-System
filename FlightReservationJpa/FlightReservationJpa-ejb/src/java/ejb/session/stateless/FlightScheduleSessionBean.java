@@ -231,12 +231,33 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfter(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
+        List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
+
+        List<FlightSchedule> newList = new ArrayList<>();
+
+        // Calculate the date that is 1 day after departureDate
+        LocalDate threeDaysAfterDate = departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(2);
+
+        for (FlightSchedule flightSchedule : listOfFlightSchedules) {
+            Date departureDateTime = flightSchedule.getDepartureDateTime();
+            LocalDate localDate = departureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (localDate.isBefore(threeDaysAfterDate) && localDate.isAfter(threeDaysAfterDate.minusDays(2))) {
+                newList.add(flightSchedule);
+            }
+        }
+
+        return newList;
+    }
+    
+    @Override
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfter(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
         List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
 
         List<FlightSchedule> newList = new ArrayList<>();
 
-        // Calculate the date that is 3 days before departureDate
+        // Calculate the date that is 1 day after departureDate
         LocalDate threeDaysAfterDate = departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(4);
 
         for (FlightSchedule flightSchedule : listOfFlightSchedules) {
