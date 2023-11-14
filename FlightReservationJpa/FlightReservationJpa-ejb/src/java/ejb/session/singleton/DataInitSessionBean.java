@@ -248,5 +248,6 @@ public class DataInitSessionBean {
             flightSessionBeanLocal.createNewFlight(new Flight(711), 13l, 4l);
             flightSessionBeanLocal.createNewFlight(new Flight(712), 14l, 4l);
         }
-    }   
+    } 
+    
 }
