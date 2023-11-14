@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 import util.enumeration.FlightRouteStatusEnum;
 
 /**
@@ -23,6 +24,7 @@ import util.enumeration.FlightRouteStatusEnum;
  * @author Lenovo
  */
 @Entity
+@XmlRootElement
 public class FlightRoute implements Serializable {
 
     private static final long serialVersionUID = 1L;

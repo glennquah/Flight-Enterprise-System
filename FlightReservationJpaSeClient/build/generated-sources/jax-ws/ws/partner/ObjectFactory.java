@@ -27,14 +27,22 @@ public class ObjectFactory {
     private final static QName _FlightDoesNotExistException_QNAME = new QName("http://ws.session.ejb/", "FlightDoesNotExistException");
     private final static QName _FlightScheduleDoesNotExistException_QNAME = new QName("http://ws.session.ejb/", "FlightScheduleDoesNotExistException");
     private final static QName _InvalidLoginCredentialException_QNAME = new QName("http://ws.session.ejb/", "InvalidLoginCredentialException");
+    private final static QName _Aircraft_QNAME = new QName("http://ws.session.ejb/", "aircraft");
+    private final static QName _AircraftConfiguration_QNAME = new QName("http://ws.session.ejb/", "aircraftConfiguration");
+    private final static QName _Airport_QNAME = new QName("http://ws.session.ejb/", "airport");
     private final static QName _BookSeat_QNAME = new QName("http://ws.session.ejb/", "bookSeat");
     private final static QName _BookSeatResponse_QNAME = new QName("http://ws.session.ejb/", "bookSeatResponse");
+    private final static QName _Cabin_QNAME = new QName("http://ws.session.ejb/", "cabin");
     private final static QName _CheckSeatIfAvailable_QNAME = new QName("http://ws.session.ejb/", "checkSeatIfAvailable");
     private final static QName _CheckSeatIfAvailableResponse_QNAME = new QName("http://ws.session.ejb/", "checkSeatIfAvailableResponse");
     private final static QName _CreateReservationDetails_QNAME = new QName("http://ws.session.ejb/", "createReservationDetails");
     private final static QName _CreateReservationDetailsResponse_QNAME = new QName("http://ws.session.ejb/", "createReservationDetailsResponse");
-    private final static QName _GetCabinSeats_QNAME = new QName("http://ws.session.ejb/", "getCabinSeats");
-    private final static QName _GetCabinSeatsResponse_QNAME = new QName("http://ws.session.ejb/", "getCabinSeatsResponse");
+    private final static QName _Flight_QNAME = new QName("http://ws.session.ejb/", "flight");
+    private final static QName _FlightRoute_QNAME = new QName("http://ws.session.ejb/", "flightRoute");
+    private final static QName _FlightSchedule_QNAME = new QName("http://ws.session.ejb/", "flightSchedule");
+    private final static QName _FlightSchedulePlan_QNAME = new QName("http://ws.session.ejb/", "flightSchedulePlan");
+    private final static QName _GetCabinSeatsList_QNAME = new QName("http://ws.session.ejb/", "getCabinSeatsList");
+    private final static QName _GetCabinSeatsListResponse_QNAME = new QName("http://ws.session.ejb/", "getCabinSeatsListResponse");
     private final static QName _GetCabins_QNAME = new QName("http://ws.session.ejb/", "getCabins");
     private final static QName _GetCabinsResponse_QNAME = new QName("http://ws.session.ejb/", "getCabinsResponse");
     private final static QName _GetFareUsingId_QNAME = new QName("http://ws.session.ejb/", "getFareUsingId");
@@ -59,6 +67,8 @@ public class ObjectFactory {
     private final static QName _LinkFlightScheduleResponse_QNAME = new QName("http://ws.session.ejb/", "linkFlightScheduleResponse");
     private final static QName _Login_QNAME = new QName("http://ws.session.ejb/", "login");
     private final static QName _LoginResponse_QNAME = new QName("http://ws.session.ejb/", "loginResponse");
+    private final static QName _Partner_QNAME = new QName("http://ws.session.ejb/", "partner");
+    private final static QName _ReservationDetails_QNAME = new QName("http://ws.session.ejb/", "reservationDetails");
     private final static QName _RetrieveAllAirports_QNAME = new QName("http://ws.session.ejb/", "retrieveAllAirports");
     private final static QName _RetrieveAllAirportsResponse_QNAME = new QName("http://ws.session.ejb/", "retrieveAllAirportsResponse");
     private final static QName _RetrieveDateOfFlightPicked_QNAME = new QName("http://ws.session.ejb/", "retrieveDateOfFlightPicked");
@@ -110,6 +120,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Aircraft }
+     * 
+     */
+    public Aircraft createAircraft() {
+        return new Aircraft();
+    }
+
+    /**
+     * Create an instance of {@link AircraftConfiguration }
+     * 
+     */
+    public AircraftConfiguration createAircraftConfiguration() {
+        return new AircraftConfiguration();
+    }
+
+    /**
+     * Create an instance of {@link Airport }
+     * 
+     */
+    public Airport createAirport() {
+        return new Airport();
+    }
+
+    /**
      * Create an instance of {@link BookSeat }
      * 
      */
@@ -123,6 +157,14 @@ public class ObjectFactory {
      */
     public BookSeatResponse createBookSeatResponse() {
         return new BookSeatResponse();
+    }
+
+    /**
+     * Create an instance of {@link Cabin }
+     * 
+     */
+    public Cabin createCabin() {
+        return new Cabin();
     }
 
     /**
@@ -158,19 +200,51 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetCabinSeats }
+     * Create an instance of {@link Flight }
      * 
      */
-    public GetCabinSeats createGetCabinSeats() {
-        return new GetCabinSeats();
+    public Flight createFlight() {
+        return new Flight();
     }
 
     /**
-     * Create an instance of {@link GetCabinSeatsResponse }
+     * Create an instance of {@link FlightRoute }
      * 
      */
-    public GetCabinSeatsResponse createGetCabinSeatsResponse() {
-        return new GetCabinSeatsResponse();
+    public FlightRoute createFlightRoute() {
+        return new FlightRoute();
+    }
+
+    /**
+     * Create an instance of {@link FlightSchedule }
+     * 
+     */
+    public FlightSchedule createFlightSchedule() {
+        return new FlightSchedule();
+    }
+
+    /**
+     * Create an instance of {@link FlightSchedulePlan }
+     * 
+     */
+    public FlightSchedulePlan createFlightSchedulePlan() {
+        return new FlightSchedulePlan();
+    }
+
+    /**
+     * Create an instance of {@link GetCabinSeatsList }
+     * 
+     */
+    public GetCabinSeatsList createGetCabinSeatsList() {
+        return new GetCabinSeatsList();
+    }
+
+    /**
+     * Create an instance of {@link GetCabinSeatsListResponse }
+     * 
+     */
+    public GetCabinSeatsListResponse createGetCabinSeatsListResponse() {
+        return new GetCabinSeatsListResponse();
     }
 
     /**
@@ -366,6 +440,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Partner }
+     * 
+     */
+    public Partner createPartner() {
+        return new Partner();
+    }
+
+    /**
+     * Create an instance of {@link ReservationDetails }
+     * 
+     */
+    public ReservationDetails createReservationDetails() {
+        return new ReservationDetails();
+    }
+
+    /**
      * Create an instance of {@link RetrieveAllAirports }
      * 
      */
@@ -510,75 +600,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link FlightSchedulePlan }
-     * 
-     */
-    public FlightSchedulePlan createFlightSchedulePlan() {
-        return new FlightSchedulePlan();
-    }
-
-    /**
-     * Create an instance of {@link Flight }
-     * 
-     */
-    public Flight createFlight() {
-        return new Flight();
-    }
-
-    /**
-     * Create an instance of {@link AircraftConfiguration }
-     * 
-     */
-    public AircraftConfiguration createAircraftConfiguration() {
-        return new AircraftConfiguration();
-    }
-
-    /**
-     * Create an instance of {@link Aircraft }
-     * 
-     */
-    public Aircraft createAircraft() {
-        return new Aircraft();
-    }
-
-    /**
-     * Create an instance of {@link Cabin }
-     * 
-     */
-    public Cabin createCabin() {
-        return new Cabin();
-    }
-
-    /**
      * Create an instance of {@link Fare }
      * 
      */
     public Fare createFare() {
         return new Fare();
-    }
-
-    /**
-     * Create an instance of {@link FlightRoute }
-     * 
-     */
-    public FlightRoute createFlightRoute() {
-        return new FlightRoute();
-    }
-
-    /**
-     * Create an instance of {@link Airport }
-     * 
-     */
-    public Airport createAirport() {
-        return new Airport();
-    }
-
-    /**
-     * Create an instance of {@link FlightSchedule }
-     * 
-     */
-    public FlightSchedule createFlightSchedule() {
-        return new FlightSchedule();
     }
 
     /**
@@ -595,22 +621,6 @@ public class ObjectFactory {
      */
     public Account createAccount() {
         return new Account();
-    }
-
-    /**
-     * Create an instance of {@link ReservationDetails }
-     * 
-     */
-    public ReservationDetails createReservationDetails() {
-        return new ReservationDetails();
-    }
-
-    /**
-     * Create an instance of {@link Partner }
-     * 
-     */
-    public Partner createPartner() {
-        return new Partner();
     }
 
     /**
@@ -669,6 +679,45 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Aircraft }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link Aircraft }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "aircraft")
+    public JAXBElement<Aircraft> createAircraft(Aircraft value) {
+        return new JAXBElement<Aircraft>(_Aircraft_QNAME, Aircraft.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AircraftConfiguration }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link AircraftConfiguration }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "aircraftConfiguration")
+    public JAXBElement<AircraftConfiguration> createAircraftConfiguration(AircraftConfiguration value) {
+        return new JAXBElement<AircraftConfiguration>(_AircraftConfiguration_QNAME, AircraftConfiguration.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Airport }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link Airport }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "airport")
+    public JAXBElement<Airport> createAirport(Airport value) {
+        return new JAXBElement<Airport>(_Airport_QNAME, Airport.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link BookSeat }{@code >}
      * 
      * @param value
@@ -692,6 +741,19 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "bookSeatResponse")
     public JAXBElement<BookSeatResponse> createBookSeatResponse(BookSeatResponse value) {
         return new JAXBElement<BookSeatResponse>(_BookSeatResponse_QNAME, BookSeatResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Cabin }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link Cabin }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "cabin")
+    public JAXBElement<Cabin> createCabin(Cabin value) {
+        return new JAXBElement<Cabin>(_Cabin_QNAME, Cabin.class, null, value);
     }
 
     /**
@@ -747,29 +809,81 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetCabinSeats }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link Flight }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link GetCabinSeats }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link Flight }{@code >}
      */
-    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getCabinSeats")
-    public JAXBElement<GetCabinSeats> createGetCabinSeats(GetCabinSeats value) {
-        return new JAXBElement<GetCabinSeats>(_GetCabinSeats_QNAME, GetCabinSeats.class, null, value);
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "flight")
+    public JAXBElement<Flight> createFlight(Flight value) {
+        return new JAXBElement<Flight>(_Flight_QNAME, Flight.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetCabinSeatsResponse }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link FlightRoute }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link GetCabinSeatsResponse }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link FlightRoute }{@code >}
      */
-    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getCabinSeatsResponse")
-    public JAXBElement<GetCabinSeatsResponse> createGetCabinSeatsResponse(GetCabinSeatsResponse value) {
-        return new JAXBElement<GetCabinSeatsResponse>(_GetCabinSeatsResponse_QNAME, GetCabinSeatsResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "flightRoute")
+    public JAXBElement<FlightRoute> createFlightRoute(FlightRoute value) {
+        return new JAXBElement<FlightRoute>(_FlightRoute_QNAME, FlightRoute.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FlightSchedule }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link FlightSchedule }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "flightSchedule")
+    public JAXBElement<FlightSchedule> createFlightSchedule(FlightSchedule value) {
+        return new JAXBElement<FlightSchedule>(_FlightSchedule_QNAME, FlightSchedule.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FlightSchedulePlan }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link FlightSchedulePlan }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "flightSchedulePlan")
+    public JAXBElement<FlightSchedulePlan> createFlightSchedulePlan(FlightSchedulePlan value) {
+        return new JAXBElement<FlightSchedulePlan>(_FlightSchedulePlan_QNAME, FlightSchedulePlan.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetCabinSeatsList }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetCabinSeatsList }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getCabinSeatsList")
+    public JAXBElement<GetCabinSeatsList> createGetCabinSeatsList(GetCabinSeatsList value) {
+        return new JAXBElement<GetCabinSeatsList>(_GetCabinSeatsList_QNAME, GetCabinSeatsList.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetCabinSeatsListResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetCabinSeatsListResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getCabinSeatsListResponse")
+    public JAXBElement<GetCabinSeatsListResponse> createGetCabinSeatsListResponse(GetCabinSeatsListResponse value) {
+        return new JAXBElement<GetCabinSeatsListResponse>(_GetCabinSeatsListResponse_QNAME, GetCabinSeatsListResponse.class, null, value);
     }
 
     /**
@@ -1082,6 +1196,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "loginResponse")
     public JAXBElement<LoginResponse> createLoginResponse(LoginResponse value) {
         return new JAXBElement<LoginResponse>(_LoginResponse_QNAME, LoginResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Partner }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link Partner }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "partner")
+    public JAXBElement<Partner> createPartner(Partner value) {
+        return new JAXBElement<Partner>(_Partner_QNAME, Partner.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ReservationDetails }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link ReservationDetails }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "reservationDetails")
+    public JAXBElement<ReservationDetails> createReservationDetails(ReservationDetails value) {
+        return new JAXBElement<ReservationDetails>(_ReservationDetails_QNAME, ReservationDetails.class, null, value);
     }
 
     /**

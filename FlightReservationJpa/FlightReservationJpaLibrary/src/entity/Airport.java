@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author admin
  */
 @Entity
-//@XmlRootElement
+@XmlRootElement
 public class Airport implements Serializable {
 
     private static final long serialVersionUID = 1L;

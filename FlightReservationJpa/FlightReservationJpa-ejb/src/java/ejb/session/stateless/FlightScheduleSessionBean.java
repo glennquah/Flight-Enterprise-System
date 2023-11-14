@@ -11,15 +11,13 @@ import java.time.Duration;
 import java.time.Instant;
 import entity.Cabin;
 import entity.Customer;
-import entity.Fare;
-import entity.FlightRoute;
 import entity.Partner;
 import entity.ReservationDetails;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -32,10 +30,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.ConflictingFlightScheduleException;
 import util.exception.FlightScheduleDoesNotExistException;
-import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import util.exception.AircraftConfigurationDoesNotExistException;
-import util.exception.AirportDoesNotExistException;
 import util.exception.FlightDoesNotExistException;
 import util.exception.FlightScheduleBookedException;
 
@@ -320,6 +316,38 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
        }
     }
     
+    @Override
+    public List<List<Character>> getCabinSeatsList(long id, String cabName) throws FlightScheduleDoesNotExistException {
+        try {
+            List<Cabin> cabins = getCabins(id);
+
+            for (Cabin c : cabins) {
+                if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+                    return convertCharArrayToList(c.getSeatingPlan());
+                }
+            }
+
+            return null;
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+        }
+    }
+
+    private List<List<Character>> convertCharArrayToList(char[][] charArray) {
+        List<List<Character>> result = new ArrayList<>();
+
+        for (char[] row : charArray) {
+            List<Character> charList = new ArrayList<>();
+            for (char c : row) {
+                charList.add(c);
+            }
+            result.add(charList);
+        }
+
+        return result;
+    }
+
+
     @Override
     public Integer[] getIslesPlan(long id, String cabName) throws FlightScheduleDoesNotExistException {
        try {

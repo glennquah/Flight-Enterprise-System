@@ -333,7 +333,7 @@ public class HolidayReservationModule {
         checkFlightDetails(sc, flightScheduleId, numOfSeats);
         System.out.print("Enter Cabin you want to Reserve> ");
         String cabin = sc.nextLine().trim();
-        List<UnsignedShortArray> cabinSeatingPlan = getCabinSeats(flightScheduleId, cabin);
+        List<List<Character>> cabinSeatingPlan = getCabinSeatsList(flightScheduleId, cabin);
         List<Integer> islesPlan = getIslesPlan(flightScheduleId, cabin);
         System.out.println("*** SEATING CONFIGURATION *** ");
         System.out.print("LETTER ");
@@ -547,10 +547,10 @@ public class HolidayReservationModule {
         return port.getCabins(id);
     }
     
-    private static List<UnsignedShortArray> getCabinSeats(java.lang.Long id, java.lang.String cabName) throws FlightScheduleDoesNotExistException_Exception {
+    private static List<List<Character>> getCabinSeatsList(java.lang.Long id, java.lang.String cabName) throws FlightScheduleDoesNotExistException_Exception {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.getCabinSeats(id, cabName);
+        return (List<List<Character>>) port.getCabinSeatsList(id, cabName);
     }
 
     private static List<Integer> getIslesPlan(java.lang.Long id, java.lang.String cabName) throws FlightScheduleDoesNotExistException_Exception {

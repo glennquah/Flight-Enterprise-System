@@ -14,25 +14,18 @@ import ejb.session.stateless.PartnerSessionBeanLocal;
 import ejb.session.stateless.ReservationDetailsSessionBeanLocal;
 import entity.Airport;
 import entity.Cabin;
-import entity.Customer;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import entity.ReservationDetails;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import entity.Flight;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 import javax.ejb.EJB;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 import util.exception.FlightDoesNotExistException;
 import util.exception.FlightScheduleDoesNotExistException;
 import util.exception.InvalidLoginCredentialException;
@@ -175,9 +168,9 @@ public class PartnerWebService {
         return flightScheduleSessionBeanLocal.getCabins(id);
     }
     
-    @WebMethod(operationName = "getCabinSeats")
-    public char[][] getCabinSeats(@WebParam(name = "id") long id, @WebParam(name = "cabName") String cabName) throws FlightScheduleDoesNotExistException {
-       return flightScheduleSessionBeanLocal.getCabinSeats(id, cabName);
+    @WebMethod(operationName = "getCabinSeatsList")
+    public Object getCabinSeatsList(@WebParam(name = "id") long id, @WebParam(name = "cabName") String cabName) throws FlightScheduleDoesNotExistException {
+       return flightScheduleSessionBeanLocal.getCabinSeatsList(id, cabName);
     }
     
     @WebMethod(operationName = "getIslesPlan")
