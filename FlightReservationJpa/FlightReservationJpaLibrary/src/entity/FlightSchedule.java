@@ -43,6 +43,8 @@ public class FlightSchedule implements Serializable {
     private Date departureDateTime;
     @Column(nullable = false)
     private Duration estimatedTime;
+    @Column(nullable = false)
+    private Duration layover;
     @Future
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
@@ -63,11 +65,12 @@ public class FlightSchedule implements Serializable {
     public FlightSchedule() {
     }
 
-    public FlightSchedule(Date departureDateTime, Duration estimatedTime) {
+    public FlightSchedule(Date departureDateTime, Duration estimatedTime, Duration layover) {
         this.departureDateTime = departureDateTime;
         this.estimatedTime = estimatedTime;
         Instant instant = departureDateTime.toInstant();
         this.arrivalDateTime = Date.from(instant.plus(estimatedTime));
+        this.layover = layover;
         this.customer = new ArrayList<>();
         this.listOfReservationDetails = new ArrayList<>();
         this.listOfCabins = new ArrayList<>();
@@ -87,6 +90,14 @@ public class FlightSchedule implements Serializable {
 
     public void setDepartureDateTime(Date departureDateTime) {
         this.departureDateTime = departureDateTime;
+    }
+
+    public Duration getLayover() {
+        return layover;
+    }
+
+    public void setLayover(Duration layover) {
+        this.layover = layover;
     }
 
     public Date getArrivalDateTime() {

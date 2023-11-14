@@ -9,6 +9,7 @@ import entity.Airport;
 import entity.Cabin;
 import entity.Flight;
 import entity.FlightRoute;
+import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.util.ArrayList;
 import java.util.List;
@@ -267,4 +268,26 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
         
         return combinedList;
     }   
+    
+    @Override
+    public Boolean haveComplementaryFlight(Integer flightNumber) {
+        Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
+        query.setParameter("flightNumber", flightNumber);
+        Flight flight = (Flight) query.getSingleResult();
+        
+        return flight.getFlightRoute().getComplementaryRoute();
+    }
+    
+    @Override
+    public Integer returnFlightNumber(Integer flightNumber) {
+        Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
+        query.setParameter("flightNumber", flightNumber);
+        Flight flight = (Flight) query.getSingleResult();
+        
+        Query secondQuery = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute.origin = :origin AND f.flightRoute.destination = :destination");
+        secondQuery.setParameter("origin", flight.getFlightRoute().getDestination());
+        secondQuery.setParameter("destination", flight.getFlightRoute().getOrigin());
+        Flight returnFlight = (Flight) secondQuery.getSingleResult();
+        return returnFlight.getFlightNumber();
+    }
 }
