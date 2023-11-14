@@ -180,7 +180,11 @@ public class ReservationModule {
                 fare = fare.add(searchDirectFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, true));
             }
         } else {
-            fare = fare.add(searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false));
+            if (tripType == 2) {
+                fare = fare.add(searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false));
+            } else {
+                fare = fare.add(searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, true));
+            }  
         }
         
         if (tripType == 2) {
@@ -204,7 +208,7 @@ public class ReservationModule {
                 listOfFlightsToHub.add(f);
             }
             for (Flight f : listFromHub) {
-                listOfFlightsToHub.add(f);
+                listOfFlightsFromHub.add(f);
             }
         }
         List<FlightSchedulePlan> listOfFlightSchedulePlanToHub = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
@@ -383,7 +387,7 @@ public class ReservationModule {
         }
     }
     
-    public BigDecimal reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats, Boolean payment, BigDecimal existingFare) throws FlightScheduleDoesNotExistException {
+    public BigDecimal reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats, Boolean payment, BigDecimal existingFare) throws FlightScheduleDoesNotExistException, Exception {
         //System.out.println("EXISTING FARE = " + existingFare);
         checkFlightDetails(sc, flightScheduleId, numOfSeats);
         System.out.print("Enter Cabin you want to Reserve> ");
@@ -441,7 +445,7 @@ public class ReservationModule {
                 flightScheduleSessionBeanRemote.bookSeat(flightScheduleId, cabin, rowNum, letter);
             } else {
                 System.out.println("SEAT IS UNAVAILABLE, PLEASE TRY AGAIN");
-                reserveFlight(flightScheduleId, sc, numOfSeats, payment, existingFare);
+                searchFlight(sc);
             }
             System.out.print("Enter First Name Of Customer> ");
             String firstName = sc.nextLine().trim();

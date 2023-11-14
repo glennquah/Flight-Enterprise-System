@@ -12,6 +12,7 @@ import entity.FlightSchedulePlan;
 import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -208,16 +209,18 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
     
     @Override
     public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(List<Flight> listOfFlights) {
+        if (listOfFlights.isEmpty()) {
+            return Collections.emptyList(); // Return an empty list if no flights are provided
+        }
+
         Query query = em.createQuery("SELECT f FROM FlightSchedulePlan f WHERE f.flightNumber IN :flightNumbers");
         List<Integer> flightNumbers = new ArrayList<>();
         for (Flight flight : listOfFlights) {
             flightNumbers.add(flight.getFlightNumber());
         }
+
         query.setParameter("flightNumbers", flightNumbers);
         return query.getResultList();
     }
 
-    public void persist(Object object) {
-        em.persist(object);
-    }
 }
