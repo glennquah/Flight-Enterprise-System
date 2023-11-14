@@ -728,6 +728,10 @@ public class ManagementModule {
                 Integer flightNumber = sc.nextInt();
                 
                 Boolean complementaryReturn = flightSessionBeanRemote.haveComplementaryFlight(flightNumber);
+                Integer returnFlightNumber = 0;
+                if (complementaryReturn) {
+                    returnFlightNumber = flightSessionBeanRemote.returnFlightNumber(flightNumber);
+                }
                 
                 try {
                     System.out.print("Enter DEPARTURE DATE AND TIME (yyyy-MM-dd HH:mm)> ");
@@ -766,8 +770,8 @@ public class ManagementModule {
                     if (haveReturn.equals("Y")) {
                         Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                         Date returnDepartureDateTime =  Date.from(instant.plus(layover));
-                        flightScheduleSessionBeanRemote.checkForConflictingFlights(flightNumber, returnDepartureDateTime, duration, layover);
-                        FlightSchedule flightScheduleReturn = flightScheduleSessionBeanRemote.createNewFlightSchedule(flightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
+                        flightScheduleSessionBeanRemote.checkForConflictingFlights(returnFlightNumber, returnDepartureDateTime, duration, layover);
+                        FlightSchedule flightScheduleReturn = flightScheduleSessionBeanRemote.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                         flightSchedulePlanReturnId = flightSchedulePlanSessionBeanRemote.createSingleFlightSchedulePlan(flightSchedulePlan, flightScheduleReturn.getFlightScheduleId());
                     } 
                     
@@ -819,6 +823,11 @@ public class ManagementModule {
                 Integer flightNumber = sc.nextInt();
                 Boolean complementaryReturn = flightSessionBeanRemote.haveComplementaryFlight(flightNumber);
                 
+                Integer returnFlightNumber = 0;
+                if (complementaryReturn) {
+                    returnFlightNumber = flightSessionBeanRemote.returnFlightNumber(flightNumber);
+                }
+                
                 try {
                     sc.nextLine(); 
                     
@@ -865,7 +874,7 @@ public class ManagementModule {
                         if (returnFlight.equals("Y")) {
                             Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                             Date returnDepartureDateTime =  Date.from(instant.plus(layover));
-                            flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(flightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
+                            flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                             flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                         }
                     }
@@ -917,6 +926,11 @@ public class ManagementModule {
                 System.out.print("Enter Flight Number> ");
                 Integer flightNumber = sc.nextInt();
                 Boolean complementaryReturn = flightSessionBeanRemote.haveComplementaryFlight(flightNumber);
+                
+                Integer returnFlightNumber = 0;
+                if (complementaryReturn) {
+                    returnFlightNumber = flightSessionBeanRemote.returnFlightNumber(flightNumber);
+                }
                 
                 try {     
                     System.out.println("ENTER DETAILS FOR THE FLIGHT SCHEDULE ");
@@ -975,7 +989,7 @@ public class ManagementModule {
                         if (haveReturn.equals("Y")) {
                             Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                             Date returnDepartureDateTime =  Date.from(instant.plus(layover));
-                            flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(flightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
+                            flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                             flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                         }
                     }
@@ -1027,6 +1041,11 @@ public class ManagementModule {
                 Integer flightNumber = sc.nextInt();
                 Boolean complementaryReturn = flightSessionBeanRemote.haveComplementaryFlight(flightNumber);
                 
+                Integer returnFlightNumber = 0;
+                if (complementaryReturn) {
+                    returnFlightNumber = flightSessionBeanRemote.returnFlightNumber(flightNumber);
+                }
+                
                 try {     
                     System.out.println("ENTER DETAILS FOR THE FLIGHT SCHEDULE ");
                     System.out.print("Enter DEPARTURE DATE AND TIME (yyyy-MM-dd HH:mm)> ");
@@ -1077,7 +1096,7 @@ public class ManagementModule {
                         if (haveReturn.equals("Y")) {
                             Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                             Date returnDepartureDateTime =  Date.from(instant.plus(layover));
-                            flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(flightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
+                            flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                             flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                         }
                     }

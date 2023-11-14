@@ -277,4 +277,17 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
         
         return flight.getFlightRoute().getComplementaryRoute();
     }
+    
+    @Override
+    public Integer returnFlightNumber(Integer flightNumber) {
+        Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
+        query.setParameter("flightNumber", flightNumber);
+        Flight flight = (Flight) query.getSingleResult();
+        
+        Query secondQuery = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute.origin = :origin AND f.flightRoute.destination = :destination");
+        secondQuery.setParameter("origin", flight.getFlightRoute().getDestination());
+        secondQuery.setParameter("destination", flight.getFlightRoute().getOrigin());
+        Flight returnFlight = (Flight) secondQuery.getSingleResult();
+        return returnFlight.getFlightNumber();
+    }
 }
