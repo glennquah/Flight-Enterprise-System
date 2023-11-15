@@ -52,7 +52,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
-    public void checkForConflictingFlights(Integer flightNumber, Date departureDate, Duration duration) throws ConflictingFlightScheduleException {
+    public void checkForConflictingFlights(Integer flightNumber, Date departureDate, Duration duration, Duration layover) throws ConflictingFlightScheduleException {
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
@@ -62,18 +62,24 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         
         Instant instant = departureDate.toInstant();
         Date arrivalDateTime = Date.from(instant.plus(duration));
+        instant = arrivalDateTime.toInstant();
+        Date arrivalWithLayover = Date.from(instant.plus(layover));
             
         for (int j = 1; j < bookedDates.size() - 1; j += 2) {
             if (bookedDates.get(j).after(departureDate)) {
                 throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
             } else if(departureDate.after(bookedDates.get(j)) && bookedDates.get(j + 1).before(departureDate)) {
-                break;
+                if (arrivalWithLayover.after(bookedDates.get(j + 1))) {
+                        throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
+                } else {
+                    break;
+                }
             }
         }
     }
     
     @Override
-    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Duration> durations) throws ConflictingFlightScheduleException {
+    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Duration> durations, List<Duration> layovers, Boolean haveReturn) throws ConflictingFlightScheduleException {
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
@@ -85,16 +91,108 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         for (int i = 0; i < departureDates.size(); i++) { 
             Date departureDateTime = departureDates.get(i);
             Duration duration = durations.get(i);
+            Duration layover = layovers.get(i);
             
             Instant instant = departureDateTime.toInstant();
             Date arrivalDateTime = Date.from(instant.plus(duration));
+            instant = arrivalDateTime.toInstant();
+            Date arrivalWithLayover = Date.from(instant.plus(layover));
             
             for (int j = 1; j < bookedDates.size() - 1; j += 2) {
                 if (bookedDates.get(j).after(departureDateTime)) {
                     throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
                 } else if(bookedDates.get(j).after(departureDateTime) && departureDateTime.before(bookedDates.get(j + 1))) {
-                    if (arrivalDateTime.after(bookedDates.get(j + 1))) {
+                    if (arrivalWithLayover.after(bookedDates.get(j + 1))) {
                         throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
+                    } else {
+                        break;
+                    }
+                }
+            }
+            
+            if (haveReturn) {
+                Query secondQuery = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute.origin = :origin AND f.flightRoute.destination = :destination");
+                secondQuery.setParameter("origin", flight.getFlightRoute().getDestination());
+                secondQuery.setParameter("destination", flight.getFlightRoute().getOrigin());
+                Flight returnFlight = (Flight) secondQuery.getSingleResult();
+                List<Date> bookedDatesReturn  = returnFlight.getBookedDates();
+                bookedDatesReturn.size();
+                
+                instant = arrivalWithLayover.toInstant();
+                Date arrivalDateTimeReturn = Date.from(instant.plus(duration));
+                instant = arrivalDateTimeReturn.toInstant();
+                Date arrivalReturnWithLayover = Date.from(instant.plus(layover));
+                
+                for (int j = 1; j < bookedDatesReturn.size() - 1; j += 2) {
+                    if (bookedDatesReturn.get(j).after(departureDateTime)) {
+                        throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
+                    } else if(bookedDatesReturn.get(j).after(arrivalWithLayover) && arrivalWithLayover.before(bookedDatesReturn.get(j + 1))) {
+                        if (arrivalReturnWithLayover.after(bookedDatesReturn.get(j + 1))) {
+                            throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+        } 
+    }
+    
+    @Override
+    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Duration> durations, List<Duration> layovers, List<String> haveReturns) throws ConflictingFlightScheduleException {
+        Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
+        query.setParameter("flightNumber", flightNumber);
+        Flight flight = (Flight)query.getSingleResult();
+
+        List<Date> bookedDates = flight.getBookedDates();
+        bookedDates.size();
+        
+       
+        for (int i = 0; i < departureDates.size(); i++) { 
+            Date departureDateTime = departureDates.get(i);
+            Duration duration = durations.get(i);
+            Duration layover = layovers.get(i);
+            String haveReturn = haveReturns.get(i);
+            
+            Instant instant = departureDateTime.toInstant();
+            Date arrivalDateTime = Date.from(instant.plus(duration));
+            instant = arrivalDateTime.toInstant();
+            Date arrivalWithLayover = Date.from(instant.plus(layover));
+            
+            for (int j = 1; j < bookedDates.size() - 1; j += 2) {
+                if (bookedDates.get(j).after(departureDateTime)) {
+                    throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
+                } else if(bookedDates.get(j).after(departureDateTime) && departureDateTime.before(bookedDates.get(j + 1))) {
+                    if (arrivalWithLayover.after(bookedDates.get(j + 1))) {
+                        throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
+                    } else {
+                        break;
+                    }
+                }
+            }
+            
+            if (haveReturn.equals("Y")) {
+                Query secondQuery = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute.origin = :origin AND f.flightRoute.destination = :destination");
+                secondQuery.setParameter("origin", flight.getFlightRoute().getDestination());
+                secondQuery.setParameter("destination", flight.getFlightRoute().getOrigin());
+                Flight returnFlight = (Flight) secondQuery.getSingleResult();
+                List<Date> bookedDatesReturn = returnFlight.getBookedDates();
+                bookedDatesReturn.size();
+                
+                instant = arrivalWithLayover.toInstant();
+                Date arrivalDateTimeReturn = Date.from(instant.plus(duration));
+                instant = arrivalDateTimeReturn.toInstant();
+                Date arrivalReturnWithLayover = Date.from(instant.plus(layover));
+                
+                for (int j = 1; j < bookedDatesReturn.size() - 1; j += 2) {
+                    if (bookedDatesReturn.get(j).after(arrivalWithLayover)) {
+                        throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
+                    } else if(bookedDatesReturn.get(j).after(arrivalWithLayover) && arrivalWithLayover.before(bookedDatesReturn.get(j + 1))) {
+                        if (arrivalReturnWithLayover.after(bookedDatesReturn.get(j + 1))) {
+                            throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
+                        } else {
+                            break;
+                        }
                     }
                 }
             }
@@ -228,12 +326,33 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfter(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
+        List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
+
+        List<FlightSchedule> newList = new ArrayList<>();
+
+        // Calculate the date that is 1 day after departureDate
+        LocalDate threeDaysAfterDate = departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(2);
+
+        for (FlightSchedule flightSchedule : listOfFlightSchedules) {
+            Date departureDateTime = flightSchedule.getDepartureDateTime();
+            LocalDate localDate = departureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (localDate.isBefore(threeDaysAfterDate) && localDate.isAfter(threeDaysAfterDate.minusDays(2))) {
+                newList.add(flightSchedule);
+            }
+        }
+
+        return newList;
+    }
+    
+    @Override
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfter(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
         List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
 
         List<FlightSchedule> newList = new ArrayList<>();
 
-        // Calculate the date that is 3 days before departureDate
+        // Calculate the date that is 1 day after departureDate
         LocalDate threeDaysAfterDate = departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(4);
 
         for (FlightSchedule flightSchedule : listOfFlightSchedules) {

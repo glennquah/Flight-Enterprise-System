@@ -15,5 +15,6 @@ import javax.ejb.Remote;
 @Remote
 public interface AirportSessionBeanRemote {
     public Long createNewAirport(Airport airport);
-    public List<Airport> retrieveAllAirports();
+    public List<Airport> retrieveAllAiports();
+    public List<Long> getListOfHubsId() ;
 }
