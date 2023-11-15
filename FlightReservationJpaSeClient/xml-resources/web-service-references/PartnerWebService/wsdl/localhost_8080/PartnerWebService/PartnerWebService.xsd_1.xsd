@@ -64,13 +64,17 @@
 
 <xs:element name="getIslesPlanResponse" type="tns:getIslesPlanResponse"/>
 
+<xs:element name="getListOfHubsId" type="tns:getListOfHubsId"/>
+
+<xs:element name="getListOfHubsIdResponse" type="tns:getListOfHubsIdResponse"/>
+
 <xs:element name="getPartnerId" type="tns:getPartnerId"/>
 
 <xs:element name="getPartnerIdResponse" type="tns:getPartnerIdResponse"/>
 
-<xs:element name="getReservationDetails" type="tns:getReservationDetails"/>
+<xs:element name="getReservationDetailsPartner" type="tns:getReservationDetailsPartner"/>
 
-<xs:element name="getReservationDetailsResponse" type="tns:getReservationDetailsResponse"/>
+<xs:element name="getReservationDetailsPartnerResponse" type="tns:getReservationDetailsPartnerResponse"/>
 
 <xs:element name="linkCreditCard" type="tns:linkCreditCard"/>
 
@@ -107,6 +111,10 @@
 <xs:element name="retrieveFlightSchedulePlanAfterTiming" type="tns:retrieveFlightSchedulePlanAfterTiming"/>
 
 <xs:element name="retrieveFlightSchedulePlanAfterTimingResponse" type="tns:retrieveFlightSchedulePlanAfterTimingResponse"/>
+
+<xs:element name="retrieveFlightSchedulePlanWith1DayAfter" type="tns:retrieveFlightSchedulePlanWith1DayAfter"/>
+
+<xs:element name="retrieveFlightSchedulePlanWith1DayAfterResponse" type="tns:retrieveFlightSchedulePlanWith1DayAfterResponse"/>
 
 <xs:element name="retrieveFlightSchedulePlanWith3DaysAfter" type="tns:retrieveFlightSchedulePlanWith3DaysAfter"/>
 
@@ -296,6 +304,70 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="getReservationDetailsPartner">
+<xs:sequence>
+<xs:element name="flightScheduleId" type="xs:long"/>
+<xs:element name="partnerId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getReservationDetailsPartnerResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:reservationDetails" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reservationDetails">
+<xs:sequence>
+<xs:element name="customer" type="tns:customer" minOccurs="0"/>
+<xs:element name="fare" type="tns:fare" minOccurs="0"/>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="flightSchedule" type="tns:flightSchedule" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="partner" type="tns:partner" minOccurs="0"/>
+<xs:element name="passportNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="rowNum" type="xs:int"/>
+<xs:element name="seatLetter" type="xs:unsignedShort"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="customer">
+<xs:complexContent>
+<xs:extension base="tns:account">
+<xs:sequence>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="creditCardNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="listOfFlightSchedules" type="tns:flightSchedule" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="listOfReservationDetails" type="tns:reservationDetails" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="phoneNumber" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="account">
+<xs:sequence>
+<xs:element name="accountId" type="xs:long" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="partner">
+<xs:complexContent>
+<xs:extension base="tns:account">
+<xs:sequence>
+<xs:element name="creditCardNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="listOfFlightSchedules" type="tns:flightSchedule" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="listOfReservationDetails" type="tns:reservationDetails" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
 <xs:complexType name="getFlightScheduleWithId">
 <xs:sequence>
 <xs:element name="arg0" type="xs:long"/>
@@ -379,6 +451,19 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="retrieveFlightSchedulePlanWith1DayAfter">
+<xs:sequence>
+<xs:element name="listOfFlightSchedulePlanFromHub" type="tns:flightSchedulePlan" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="dateOfFlightPicked" type="xs:dateTime" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveFlightSchedulePlanWith1DayAfterResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="bookSeat">
 <xs:sequence>
 <xs:element name="id" type="xs:long"/>
@@ -449,6 +534,16 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="getListOfHubsId">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getListOfHubsIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="linkCreditCard">
 <xs:sequence>
 <xs:element name="partnerId" type="xs:long"/>
@@ -488,73 +583,9 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="reservationDetails">
-<xs:sequence>
-<xs:element name="customer" type="tns:customer" minOccurs="0"/>
-<xs:element name="fare" type="tns:fare" minOccurs="0"/>
-<xs:element name="firstName" type="xs:string" minOccurs="0"/>
-<xs:element name="flightSchedule" type="tns:flightSchedule" minOccurs="0"/>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="lastName" type="xs:string" minOccurs="0"/>
-<xs:element name="partner" type="tns:partner" minOccurs="0"/>
-<xs:element name="passportNumber" type="xs:string" minOccurs="0"/>
-<xs:element name="rowNum" type="xs:int"/>
-<xs:element name="seatLetter" type="xs:unsignedShort"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="customer">
-<xs:complexContent>
-<xs:extension base="tns:account">
-<xs:sequence>
-<xs:element name="address" type="xs:string" minOccurs="0"/>
-<xs:element name="creditCardNumber" type="xs:string" minOccurs="0"/>
-<xs:element name="listOfFlightSchedules" type="tns:flightSchedule" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="listOfReservationDetails" type="tns:reservationDetails" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="phoneNumber" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="account">
-<xs:sequence>
-<xs:element name="accountId" type="xs:long" minOccurs="0"/>
-<xs:element name="email" type="xs:string" minOccurs="0"/>
-<xs:element name="firstName" type="xs:string" minOccurs="0"/>
-<xs:element name="lastName" type="xs:string" minOccurs="0"/>
-<xs:element name="password" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="partner">
-<xs:complexContent>
-<xs:extension base="tns:account">
-<xs:sequence>
-<xs:element name="creditCardNumber" type="xs:string" minOccurs="0"/>
-<xs:element name="listOfFlightSchedules" type="tns:flightSchedule" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="listOfReservationDetails" type="tns:reservationDetails" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
 <xs:complexType name="createReservationDetailsForPartnerResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:long" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getReservationDetails">
-<xs:sequence>
-<xs:element name="flightScheduleId" type="xs:long"/>
-<xs:element name="customerId" type="xs:long"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getReservationDetailsResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:reservationDetails" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 

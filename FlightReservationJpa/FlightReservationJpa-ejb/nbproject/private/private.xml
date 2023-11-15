@@ -6,7 +6,9 @@
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightScheduleSessionBeanLocal.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightSessionBean.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightRoutesSessionBean.java</file>
+            <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/PartnerSessionBean.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/ReservationDetailsSessionBean.java</file>
+            <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/PartnerSessionBeanLocal.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightSessionBeanLocal.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/ws/PartnerWebService.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/AirportSessionBean.java</file>

@@ -7,59 +7,11 @@
 <xsd:import namespace="http://jaxb.dev.java.net/array" schemaLocation="http://localhost:8080/PartnerWebService/PartnerWebService?xsd=2"/>
 </xsd:schema>
 </types>
-<message name="login">
-<part name="parameters" element="tns:login"/>
+<message name="retrieveFlightsThatHasDepAndDest">
+<part name="parameters" element="tns:retrieveFlightsThatHasDepAndDest"/>
 </message>
-<message name="loginResponse">
-<part name="parameters" element="tns:loginResponse"/>
-</message>
-<message name="InvalidLoginCredentialException">
-<part name="fault" element="tns:InvalidLoginCredentialException"/>
-</message>
-<message name="retrieveAllAirports">
-<part name="parameters" element="tns:retrieveAllAirports"/>
-</message>
-<message name="retrieveAllAirportsResponse">
-<part name="parameters" element="tns:retrieveAllAirportsResponse"/>
-</message>
-<message name="getFlightSchedules">
-<part name="parameters" element="tns:getFlightSchedules"/>
-</message>
-<message name="getFlightSchedulesResponse">
-<part name="parameters" element="tns:getFlightSchedulesResponse"/>
-</message>
-<message name="getHighestFareUsingCabinName">
-<part name="parameters" element="tns:getHighestFareUsingCabinName"/>
-</message>
-<message name="getHighestFareUsingCabinNameResponse">
-<part name="parameters" element="tns:getHighestFareUsingCabinNameResponse"/>
-</message>
-<message name="FlightScheduleDoesNotExistException">
-<part name="fault" element="tns:FlightScheduleDoesNotExistException"/>
-</message>
-<message name="retrieveFlightScheduleInPlan">
-<part name="parameters" element="tns:retrieveFlightScheduleInPlan"/>
-</message>
-<message name="retrieveFlightScheduleInPlanResponse">
-<part name="parameters" element="tns:retrieveFlightScheduleInPlanResponse"/>
-</message>
-<message name="getReservationDetails">
-<part name="parameters" element="tns:getReservationDetails"/>
-</message>
-<message name="getReservationDetailsResponse">
-<part name="parameters" element="tns:getReservationDetailsResponse"/>
-</message>
-<message name="checkSeatIfAvailable">
-<part name="parameters" element="tns:checkSeatIfAvailable"/>
-</message>
-<message name="checkSeatIfAvailableResponse">
-<part name="parameters" element="tns:checkSeatIfAvailableResponse"/>
-</message>
-<message name="getFlightScheduleWithId">
-<part name="parameters" element="tns:getFlightScheduleWithId"/>
-</message>
-<message name="getFlightScheduleWithIdResponse">
-<part name="parameters" element="tns:getFlightScheduleWithIdResponse"/>
+<message name="retrieveFlightsThatHasDepAndDestResponse">
+<part name="parameters" element="tns:retrieveFlightsThatHasDepAndDestResponse"/>
 </message>
 <message name="retrieveDateOfFlightPicked">
 <part name="parameters" element="tns:retrieveDateOfFlightPicked"/>
@@ -69,6 +21,15 @@
 </message>
 <message name="FlightDoesNotExistException">
 <part name="fault" element="tns:FlightDoesNotExistException"/>
+</message>
+<message name="getFlightScheduleWithId">
+<part name="parameters" element="tns:getFlightScheduleWithId"/>
+</message>
+<message name="getFlightScheduleWithIdResponse">
+<part name="parameters" element="tns:getFlightScheduleWithIdResponse"/>
+</message>
+<message name="FlightScheduleDoesNotExistException">
+<part name="fault" element="tns:FlightScheduleDoesNotExistException"/>
 </message>
 <message name="getHighestFareIdInCabin">
 <part name="parameters" element="tns:getHighestFareIdInCabin"/>
@@ -82,71 +43,41 @@
 <message name="getCabinSeatsListResponse">
 <part name="parameters" element="tns:getCabinSeatsListResponse"/>
 </message>
+<message name="getHighestFareUsingCabinName">
+<part name="parameters" element="tns:getHighestFareUsingCabinName"/>
+</message>
+<message name="getHighestFareUsingCabinNameResponse">
+<part name="parameters" element="tns:getHighestFareUsingCabinNameResponse"/>
+</message>
+<message name="checkSeatIfAvailable">
+<part name="parameters" element="tns:checkSeatIfAvailable"/>
+</message>
+<message name="checkSeatIfAvailableResponse">
+<part name="parameters" element="tns:checkSeatIfAvailableResponse"/>
+</message>
+<message name="retrieveFlightScheduleInPlan">
+<part name="parameters" element="tns:retrieveFlightScheduleInPlan"/>
+</message>
+<message name="retrieveFlightScheduleInPlanResponse">
+<part name="parameters" element="tns:retrieveFlightScheduleInPlanResponse"/>
+</message>
+<message name="getReservationDetailsPartner">
+<part name="parameters" element="tns:getReservationDetailsPartner"/>
+</message>
+<message name="getReservationDetailsPartnerResponse">
+<part name="parameters" element="tns:getReservationDetailsPartnerResponse"/>
+</message>
+<message name="retrieveAllAirports">
+<part name="parameters" element="tns:retrieveAllAirports"/>
+</message>
+<message name="retrieveAllAirportsResponse">
+<part name="parameters" element="tns:retrieveAllAirportsResponse"/>
+</message>
 <message name="linkFlightSchedule">
 <part name="parameters" element="tns:linkFlightSchedule"/>
 </message>
 <message name="linkFlightScheduleResponse">
 <part name="parameters" element="tns:linkFlightScheduleResponse"/>
-</message>
-<message name="retrieveFlightsThatHasDepAndDest">
-<part name="parameters" element="tns:retrieveFlightsThatHasDepAndDest"/>
-</message>
-<message name="retrieveFlightsThatHasDepAndDestResponse">
-<part name="parameters" element="tns:retrieveFlightsThatHasDepAndDestResponse"/>
-</message>
-<message name="getCabins">
-<part name="parameters" element="tns:getCabins"/>
-</message>
-<message name="getCabinsResponse">
-<part name="parameters" element="tns:getCabinsResponse"/>
-</message>
-<message name="persist">
-<part name="parameters" element="tns:persist"/>
-</message>
-<message name="persistResponse">
-<part name="parameters" element="tns:persistResponse"/>
-</message>
-<message name="bookSeat">
-<part name="parameters" element="tns:bookSeat"/>
-</message>
-<message name="bookSeatResponse">
-<part name="parameters" element="tns:bookSeatResponse"/>
-</message>
-<message name="getFareUsingId">
-<part name="parameters" element="tns:getFareUsingId"/>
-</message>
-<message name="getFareUsingIdResponse">
-<part name="parameters" element="tns:getFareUsingIdResponse"/>
-</message>
-<message name="retrieveFlightSchedulePlanWith3DaysBefore">
-<part name="parameters" element="tns:retrieveFlightSchedulePlanWith3DaysBefore"/>
-</message>
-<message name="retrieveFlightSchedulePlanWith3DaysBeforeResponse">
-<part name="parameters" element="tns:retrieveFlightSchedulePlanWith3DaysBeforeResponse"/>
-</message>
-<message name="createReservationDetailsForPartner">
-<part name="parameters" element="tns:createReservationDetailsForPartner"/>
-</message>
-<message name="createReservationDetailsForPartnerResponse">
-<part name="parameters" element="tns:createReservationDetailsForPartnerResponse"/>
-</message>
-<message name="retrieveFlightSchedulePlanAfterTiming">
-<part name="parameters" element="tns:retrieveFlightSchedulePlanAfterTiming"/>
-</message>
-<message name="retrieveFlightSchedulePlanAfterTimingResponse">
-<part name="parameters" element="tns:retrieveFlightSchedulePlanAfterTimingResponse"/>
-</message>
-<message name="retrieveFlightSchedulePlanWith3DaysAfter">
-<part name="parameters" element="tns:retrieveFlightSchedulePlanWith3DaysAfter"/>
-</message>
-<message name="retrieveFlightSchedulePlanWith3DaysAfterResponse">
-<part name="parameters" element="tns:retrieveFlightSchedulePlanWith3DaysAfterResponse"/>
-</message>
-<message name="retrieveFlightSchedulePlanWithSameTiming">
-<part name="parameters" element="tns:retrieveFlightSchedulePlanWithSameTiming"/>
-</message>
-<message name="retrieveFlightSchedulePlanWithSameTimingResponse">
-<part name="parameters" element="tns:retrieveFlightSchedulePlanWithSameTimingResponse"/>
 </message>
 <message name="retrieveFlightSchedulePlanWithSameFlight">
 <part name="parameters" element="tns:retrieveFlightSchedulePlanWithSameFlight"/>
@@ -154,17 +85,56 @@
 <message name="retrieveFlightSchedulePlanWithSameFlightResponse">
 <part name="parameters" element="tns:retrieveFlightSchedulePlanWithSameFlightResponse"/>
 </message>
+<message name="createReservationDetailsForPartner">
+<part name="parameters" element="tns:createReservationDetailsForPartner"/>
+</message>
+<message name="createReservationDetailsForPartnerResponse">
+<part name="parameters" element="tns:createReservationDetailsForPartnerResponse"/>
+</message>
+<message name="getFareUsingId">
+<part name="parameters" element="tns:getFareUsingId"/>
+</message>
+<message name="getFareUsingIdResponse">
+<part name="parameters" element="tns:getFareUsingIdResponse"/>
+</message>
+<message name="bookSeat">
+<part name="parameters" element="tns:bookSeat"/>
+</message>
+<message name="bookSeatResponse">
+<part name="parameters" element="tns:bookSeatResponse"/>
+</message>
+<message name="getCabins">
+<part name="parameters" element="tns:getCabins"/>
+</message>
+<message name="getCabinsResponse">
+<part name="parameters" element="tns:getCabinsResponse"/>
+</message>
+<message name="getListOfHubsId">
+<part name="parameters" element="tns:getListOfHubsId"/>
+</message>
+<message name="getListOfHubsIdResponse">
+<part name="parameters" element="tns:getListOfHubsIdResponse"/>
+</message>
 <message name="getIslesPlan">
 <part name="parameters" element="tns:getIslesPlan"/>
 </message>
 <message name="getIslesPlanResponse">
 <part name="parameters" element="tns:getIslesPlanResponse"/>
 </message>
-<message name="getPartnerId">
-<part name="parameters" element="tns:getPartnerId"/>
+<message name="login">
+<part name="parameters" element="tns:login"/>
 </message>
-<message name="getPartnerIdResponse">
-<part name="parameters" element="tns:getPartnerIdResponse"/>
+<message name="loginResponse">
+<part name="parameters" element="tns:loginResponse"/>
+</message>
+<message name="InvalidLoginCredentialException">
+<part name="fault" element="tns:InvalidLoginCredentialException"/>
+</message>
+<message name="persist">
+<part name="parameters" element="tns:persist"/>
+</message>
+<message name="persistResponse">
+<part name="parameters" element="tns:persistResponse"/>
 </message>
 <message name="linkCreditCard">
 <part name="parameters" element="tns:linkCreditCard"/>
@@ -172,47 +142,62 @@
 <message name="linkCreditCardResponse">
 <part name="parameters" element="tns:linkCreditCardResponse"/>
 </message>
+<message name="getPartnerId">
+<part name="parameters" element="tns:getPartnerId"/>
+</message>
+<message name="getPartnerIdResponse">
+<part name="parameters" element="tns:getPartnerIdResponse"/>
+</message>
+<message name="getFlightSchedules">
+<part name="parameters" element="tns:getFlightSchedules"/>
+</message>
+<message name="getFlightSchedulesResponse">
+<part name="parameters" element="tns:getFlightSchedulesResponse"/>
+</message>
+<message name="retrieveFlightSchedulePlanWithSameTiming">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanWithSameTiming"/>
+</message>
+<message name="retrieveFlightSchedulePlanWithSameTimingResponse">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanWithSameTimingResponse"/>
+</message>
+<message name="retrieveFlightSchedulePlanWith3DaysAfter">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanWith3DaysAfter"/>
+</message>
+<message name="retrieveFlightSchedulePlanWith3DaysAfterResponse">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanWith3DaysAfterResponse"/>
+</message>
+<message name="retrieveFlightSchedulePlanAfterTiming">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanAfterTiming"/>
+</message>
+<message name="retrieveFlightSchedulePlanAfterTimingResponse">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanAfterTimingResponse"/>
+</message>
+<message name="retrieveFlightSchedulePlanWith3DaysBefore">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanWith3DaysBefore"/>
+</message>
+<message name="retrieveFlightSchedulePlanWith3DaysBeforeResponse">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanWith3DaysBeforeResponse"/>
+</message>
+<message name="retrieveFlightSchedulePlanWith1DayAfter">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanWith1DayAfter"/>
+</message>
+<message name="retrieveFlightSchedulePlanWith1DayAfterResponse">
+<part name="parameters" element="tns:retrieveFlightSchedulePlanWith1DayAfterResponse"/>
+</message>
 <portType name="PartnerWebService">
-<operation name="login">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/loginRequest" message="tns:login"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/loginResponse" message="tns:loginResponse"/>
-<fault message="tns:InvalidLoginCredentialException" name="InvalidLoginCredentialException" wsam:Action="http://ws.session.ejb/PartnerWebService/login/Fault/InvalidLoginCredentialException"/>
-</operation>
-<operation name="retrieveAllAirports">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveAllAirportsRequest" message="tns:retrieveAllAirports"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveAllAirportsResponse" message="tns:retrieveAllAirportsResponse"/>
-</operation>
-<operation name="getFlightSchedules">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightSchedulesRequest" message="tns:getFlightSchedules"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightSchedulesResponse" message="tns:getFlightSchedulesResponse"/>
-</operation>
-<operation name="getHighestFareUsingCabinName">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/getHighestFareUsingCabinNameRequest" message="tns:getHighestFareUsingCabinName"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/getHighestFareUsingCabinNameResponse" message="tns:getHighestFareUsingCabinNameResponse"/>
-<fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/getHighestFareUsingCabinName/Fault/FlightScheduleDoesNotExistException"/>
-</operation>
-<operation name="retrieveFlightScheduleInPlan">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightScheduleInPlanRequest" message="tns:retrieveFlightScheduleInPlan"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightScheduleInPlanResponse" message="tns:retrieveFlightScheduleInPlanResponse"/>
-</operation>
-<operation name="getReservationDetails">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/getReservationDetailsRequest" message="tns:getReservationDetails"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/getReservationDetailsResponse" message="tns:getReservationDetailsResponse"/>
-<fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/getReservationDetails/Fault/FlightScheduleDoesNotExistException"/>
-</operation>
-<operation name="checkSeatIfAvailable">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/checkSeatIfAvailableRequest" message="tns:checkSeatIfAvailable"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/checkSeatIfAvailableResponse" message="tns:checkSeatIfAvailableResponse"/>
-</operation>
-<operation name="getFlightScheduleWithId">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightScheduleWithIdRequest" message="tns:getFlightScheduleWithId"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightScheduleWithIdResponse" message="tns:getFlightScheduleWithIdResponse"/>
-<fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightScheduleWithId/Fault/FlightScheduleDoesNotExistException"/>
+<operation name="retrieveFlightsThatHasDepAndDest">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightsThatHasDepAndDestRequest" message="tns:retrieveFlightsThatHasDepAndDest"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightsThatHasDepAndDestResponse" message="tns:retrieveFlightsThatHasDepAndDestResponse"/>
 </operation>
 <operation name="retrieveDateOfFlightPicked">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveDateOfFlightPickedRequest" message="tns:retrieveDateOfFlightPicked"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveDateOfFlightPickedResponse" message="tns:retrieveDateOfFlightPickedResponse"/>
 <fault message="tns:FlightDoesNotExistException" name="FlightDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveDateOfFlightPicked/Fault/FlightDoesNotExistException"/>
+</operation>
+<operation name="getFlightScheduleWithId">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightScheduleWithIdRequest" message="tns:getFlightScheduleWithId"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightScheduleWithIdResponse" message="tns:getFlightScheduleWithIdResponse"/>
+<fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightScheduleWithId/Fault/FlightScheduleDoesNotExistException"/>
 </operation>
 <operation name="getHighestFareIdInCabin">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/getHighestFareIdInCabinRequest" message="tns:getHighestFareIdInCabin"/>
@@ -223,74 +208,109 @@
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/getCabinSeatsListResponse" message="tns:getCabinSeatsListResponse"/>
 <fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/getCabinSeatsList/Fault/FlightScheduleDoesNotExistException"/>
 </operation>
+<operation name="getHighestFareUsingCabinName">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getHighestFareUsingCabinNameRequest" message="tns:getHighestFareUsingCabinName"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getHighestFareUsingCabinNameResponse" message="tns:getHighestFareUsingCabinNameResponse"/>
+<fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/getHighestFareUsingCabinName/Fault/FlightScheduleDoesNotExistException"/>
+</operation>
+<operation name="checkSeatIfAvailable">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/checkSeatIfAvailableRequest" message="tns:checkSeatIfAvailable"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/checkSeatIfAvailableResponse" message="tns:checkSeatIfAvailableResponse"/>
+</operation>
+<operation name="retrieveFlightScheduleInPlan">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightScheduleInPlanRequest" message="tns:retrieveFlightScheduleInPlan"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightScheduleInPlanResponse" message="tns:retrieveFlightScheduleInPlanResponse"/>
+</operation>
+<operation name="getReservationDetailsPartner">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getReservationDetailsPartnerRequest" message="tns:getReservationDetailsPartner"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getReservationDetailsPartnerResponse" message="tns:getReservationDetailsPartnerResponse"/>
+<fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/getReservationDetailsPartner/Fault/FlightScheduleDoesNotExistException"/>
+</operation>
+<operation name="retrieveAllAirports">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveAllAirportsRequest" message="tns:retrieveAllAirports"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveAllAirportsResponse" message="tns:retrieveAllAirportsResponse"/>
+</operation>
 <operation name="linkFlightSchedule">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/linkFlightScheduleRequest" message="tns:linkFlightSchedule"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/linkFlightScheduleResponse" message="tns:linkFlightScheduleResponse"/>
 </operation>
-<operation name="retrieveFlightsThatHasDepAndDest">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightsThatHasDepAndDestRequest" message="tns:retrieveFlightsThatHasDepAndDest"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightsThatHasDepAndDestResponse" message="tns:retrieveFlightsThatHasDepAndDestResponse"/>
+<operation name="retrieveFlightSchedulePlanWithSameFlight">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameFlightRequest" message="tns:retrieveFlightSchedulePlanWithSameFlight"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameFlightResponse" message="tns:retrieveFlightSchedulePlanWithSameFlightResponse"/>
 </operation>
-<operation name="getCabins">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/getCabinsRequest" message="tns:getCabins"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/getCabinsResponse" message="tns:getCabinsResponse"/>
-<fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/getCabins/Fault/FlightScheduleDoesNotExistException"/>
+<operation name="createReservationDetailsForPartner">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/createReservationDetailsForPartnerRequest" message="tns:createReservationDetailsForPartner"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/createReservationDetailsForPartnerResponse" message="tns:createReservationDetailsForPartnerResponse"/>
 </operation>
-<operation name="persist">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/persistRequest" message="tns:persist"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/persistResponse" message="tns:persistResponse"/>
+<operation name="getFareUsingId">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getFareUsingIdRequest" message="tns:getFareUsingId"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getFareUsingIdResponse" message="tns:getFareUsingIdResponse"/>
 </operation>
 <operation name="bookSeat">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/bookSeatRequest" message="tns:bookSeat"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/bookSeatResponse" message="tns:bookSeatResponse"/>
 <fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/bookSeat/Fault/FlightScheduleDoesNotExistException"/>
 </operation>
-<operation name="getFareUsingId">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/getFareUsingIdRequest" message="tns:getFareUsingId"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/getFareUsingIdResponse" message="tns:getFareUsingIdResponse"/>
+<operation name="getCabins">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getCabinsRequest" message="tns:getCabins"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getCabinsResponse" message="tns:getCabinsResponse"/>
+<fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/getCabins/Fault/FlightScheduleDoesNotExistException"/>
 </operation>
-<operation name="retrieveFlightSchedulePlanWith3DaysBefore">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysBeforeRequest" message="tns:retrieveFlightSchedulePlanWith3DaysBefore"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysBeforeResponse" message="tns:retrieveFlightSchedulePlanWith3DaysBeforeResponse"/>
-</operation>
-<operation name="createReservationDetailsForPartner">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/createReservationDetailsForPartnerRequest" message="tns:createReservationDetailsForPartner"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/createReservationDetailsForPartnerResponse" message="tns:createReservationDetailsForPartnerResponse"/>
-</operation>
-<operation name="retrieveFlightSchedulePlanAfterTiming">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanAfterTimingRequest" message="tns:retrieveFlightSchedulePlanAfterTiming"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanAfterTimingResponse" message="tns:retrieveFlightSchedulePlanAfterTimingResponse"/>
-</operation>
-<operation name="retrieveFlightSchedulePlanWith3DaysAfter">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysAfterRequest" message="tns:retrieveFlightSchedulePlanWith3DaysAfter"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysAfterResponse" message="tns:retrieveFlightSchedulePlanWith3DaysAfterResponse"/>
-</operation>
-<operation name="retrieveFlightSchedulePlanWithSameTiming">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameTimingRequest" message="tns:retrieveFlightSchedulePlanWithSameTiming"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameTimingResponse" message="tns:retrieveFlightSchedulePlanWithSameTimingResponse"/>
-</operation>
-<operation name="retrieveFlightSchedulePlanWithSameFlight">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameFlightRequest" message="tns:retrieveFlightSchedulePlanWithSameFlight"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameFlightResponse" message="tns:retrieveFlightSchedulePlanWithSameFlightResponse"/>
+<operation name="getListOfHubsId">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getListOfHubsIdRequest" message="tns:getListOfHubsId"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getListOfHubsIdResponse" message="tns:getListOfHubsIdResponse"/>
 </operation>
 <operation name="getIslesPlan">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/getIslesPlanRequest" message="tns:getIslesPlan"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/getIslesPlanResponse" message="tns:getIslesPlanResponse"/>
 <fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/getIslesPlan/Fault/FlightScheduleDoesNotExistException"/>
 </operation>
-<operation name="getPartnerId">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerIdRequest" message="tns:getPartnerId"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerIdResponse" message="tns:getPartnerIdResponse"/>
-<fault message="tns:InvalidLoginCredentialException" name="InvalidLoginCredentialException" wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerId/Fault/InvalidLoginCredentialException"/>
+<operation name="login">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/loginRequest" message="tns:login"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/loginResponse" message="tns:loginResponse"/>
+<fault message="tns:InvalidLoginCredentialException" name="InvalidLoginCredentialException" wsam:Action="http://ws.session.ejb/PartnerWebService/login/Fault/InvalidLoginCredentialException"/>
+</operation>
+<operation name="persist">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/persistRequest" message="tns:persist"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/persistResponse" message="tns:persistResponse"/>
 </operation>
 <operation name="linkCreditCard">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/linkCreditCardRequest" message="tns:linkCreditCard"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/linkCreditCardResponse" message="tns:linkCreditCardResponse"/>
 </operation>
+<operation name="getPartnerId">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerIdRequest" message="tns:getPartnerId"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerIdResponse" message="tns:getPartnerIdResponse"/>
+<fault message="tns:InvalidLoginCredentialException" name="InvalidLoginCredentialException" wsam:Action="http://ws.session.ejb/PartnerWebService/getPartnerId/Fault/InvalidLoginCredentialException"/>
+</operation>
+<operation name="getFlightSchedules">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightSchedulesRequest" message="tns:getFlightSchedules"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getFlightSchedulesResponse" message="tns:getFlightSchedulesResponse"/>
+</operation>
+<operation name="retrieveFlightSchedulePlanWithSameTiming">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameTimingRequest" message="tns:retrieveFlightSchedulePlanWithSameTiming"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameTimingResponse" message="tns:retrieveFlightSchedulePlanWithSameTimingResponse"/>
+</operation>
+<operation name="retrieveFlightSchedulePlanWith3DaysAfter">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysAfterRequest" message="tns:retrieveFlightSchedulePlanWith3DaysAfter"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysAfterResponse" message="tns:retrieveFlightSchedulePlanWith3DaysAfterResponse"/>
+</operation>
+<operation name="retrieveFlightSchedulePlanAfterTiming">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanAfterTimingRequest" message="tns:retrieveFlightSchedulePlanAfterTiming"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanAfterTimingResponse" message="tns:retrieveFlightSchedulePlanAfterTimingResponse"/>
+</operation>
+<operation name="retrieveFlightSchedulePlanWith3DaysBefore">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysBeforeRequest" message="tns:retrieveFlightSchedulePlanWith3DaysBefore"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysBeforeResponse" message="tns:retrieveFlightSchedulePlanWith3DaysBeforeResponse"/>
+</operation>
+<operation name="retrieveFlightSchedulePlanWith1DayAfter">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith1DayAfterRequest" message="tns:retrieveFlightSchedulePlanWith1DayAfter"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith1DayAfterResponse" message="tns:retrieveFlightSchedulePlanWith1DayAfterResponse"/>
+</operation>
 </portType>
 <binding name="PartnerWebServicePortBinding" type="tns:PartnerWebService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="login">
+<operation name="retrieveFlightsThatHasDepAndDest">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -298,81 +318,6 @@
 <output>
 <soap:body use="literal"/>
 </output>
-<fault name="InvalidLoginCredentialException">
-<soap:fault name="InvalidLoginCredentialException" use="literal"/>
-</fault>
-</operation>
-<operation name="retrieveAllAirports">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getFlightSchedules">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getHighestFareUsingCabinName">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-<fault name="FlightScheduleDoesNotExistException">
-<soap:fault name="FlightScheduleDoesNotExistException" use="literal"/>
-</fault>
-</operation>
-<operation name="retrieveFlightScheduleInPlan">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getReservationDetails">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-<fault name="FlightScheduleDoesNotExistException">
-<soap:fault name="FlightScheduleDoesNotExistException" use="literal"/>
-</fault>
-</operation>
-<operation name="checkSeatIfAvailable">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getFlightScheduleWithId">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-<fault name="FlightScheduleDoesNotExistException">
-<soap:fault name="FlightScheduleDoesNotExistException" use="literal"/>
-</fault>
 </operation>
 <operation name="retrieveDateOfFlightPicked">
 <soap:operation soapAction=""/>
@@ -386,6 +331,18 @@
 <soap:fault name="FlightDoesNotExistException" use="literal"/>
 </fault>
 </operation>
+<operation name="getFlightScheduleWithId">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FlightScheduleDoesNotExistException">
+<soap:fault name="FlightScheduleDoesNotExistException" use="literal"/>
+</fault>
+</operation>
 <operation name="getHighestFareIdInCabin">
 <soap:operation soapAction=""/>
 <input>
@@ -407,25 +364,7 @@
 <soap:fault name="FlightScheduleDoesNotExistException" use="literal"/>
 </fault>
 </operation>
-<operation name="linkFlightSchedule">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="retrieveFlightsThatHasDepAndDest">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getCabins">
+<operation name="getHighestFareUsingCabinName">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -437,7 +376,73 @@
 <soap:fault name="FlightScheduleDoesNotExistException" use="literal"/>
 </fault>
 </operation>
-<operation name="persist">
+<operation name="checkSeatIfAvailable">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="retrieveFlightScheduleInPlan">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getReservationDetailsPartner">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FlightScheduleDoesNotExistException">
+<soap:fault name="FlightScheduleDoesNotExistException" use="literal"/>
+</fault>
+</operation>
+<operation name="retrieveAllAirports">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="linkFlightSchedule">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="retrieveFlightSchedulePlanWithSameFlight">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="createReservationDetailsForPartner">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getFareUsingId">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -458,7 +463,7 @@
 <soap:fault name="FlightScheduleDoesNotExistException" use="literal"/>
 </fault>
 </operation>
-<operation name="getFareUsingId">
+<operation name="getCabins">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -466,53 +471,11 @@
 <output>
 <soap:body use="literal"/>
 </output>
+<fault name="FlightScheduleDoesNotExistException">
+<soap:fault name="FlightScheduleDoesNotExistException" use="literal"/>
+</fault>
 </operation>
-<operation name="retrieveFlightSchedulePlanWith3DaysBefore">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="createReservationDetailsForPartner">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="retrieveFlightSchedulePlanAfterTiming">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="retrieveFlightSchedulePlanWith3DaysAfter">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="retrieveFlightSchedulePlanWithSameTiming">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="retrieveFlightSchedulePlanWithSameFlight">
+<operation name="getListOfHubsId">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -533,6 +496,36 @@
 <soap:fault name="FlightScheduleDoesNotExistException" use="literal"/>
 </fault>
 </operation>
+<operation name="login">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="InvalidLoginCredentialException">
+<soap:fault name="InvalidLoginCredentialException" use="literal"/>
+</fault>
+</operation>
+<operation name="persist">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="linkCreditCard">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="getPartnerId">
 <soap:operation soapAction=""/>
 <input>
@@ -545,7 +538,52 @@
 <soap:fault name="InvalidLoginCredentialException" use="literal"/>
 </fault>
 </operation>
-<operation name="linkCreditCard">
+<operation name="getFlightSchedules">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="retrieveFlightSchedulePlanWithSameTiming">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="retrieveFlightSchedulePlanWith3DaysAfter">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="retrieveFlightSchedulePlanAfterTiming">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="retrieveFlightSchedulePlanWith3DaysBefore">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="retrieveFlightSchedulePlanWith1DayAfter">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

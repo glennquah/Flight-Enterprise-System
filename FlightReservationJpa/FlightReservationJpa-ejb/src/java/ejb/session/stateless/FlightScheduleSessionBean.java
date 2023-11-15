@@ -632,6 +632,19 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
                     newDetails.add(rd);
                 }
             }
+            
+            for (ReservationDetails rd : newDetails) {
+                em.detach(rd);
+                if (rd.getCustomer() != null) {
+                    em.detach(rd.getCustomer());
+                }
+                if (rd.getPartner() != null) {
+                    em.detach(rd.getPartner());
+                }
+                em.detach(rd.getFlightSchedule());
+                em.detach(rd.getFare().getCabin());
+                em.detach(rd.getFare());
+            }
 
             return newDetails;
         }   catch (NoResultException e) {

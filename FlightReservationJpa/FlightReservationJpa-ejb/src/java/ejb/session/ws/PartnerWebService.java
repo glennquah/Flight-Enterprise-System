@@ -252,14 +252,31 @@ public class PartnerWebService {
         return flightScheduleSessionBeanLocal.checkSeatIfAvailable(flightSchedId, cabinName, rowNum, seat);
     }
     
-    @WebMethod(operationName = "getReservationDetails")
-    public List<ReservationDetails> getReservationDetails(@WebParam(name = "flightScheduleId") long flightScheduleId, @WebParam(name = "customerId") long customerId) throws  FlightScheduleDoesNotExistException {
-        return flightScheduleSessionBeanLocal.getReservationDetails(flightScheduleId, customerId);
+    @WebMethod(operationName = "getReservationDetailsPartner")
+    public List<ReservationDetails> getReservationDetailsPartner(@WebParam(name = "flightScheduleId") long flightScheduleId, @WebParam(name = "partnerId") long partnerId) throws  FlightScheduleDoesNotExistException {
+        List<ReservationDetails> listOfRd = flightScheduleSessionBeanLocal.getReservationDetailsPartner(flightScheduleId, partnerId);
+        for (ReservationDetails rd : listOfRd) {
+            rd.setCustomer(null);
+            rd.setFlightSchedule(null);
+            rd.setFare(null);
+            rd.setPartner(null);
+        }
+        return listOfRd;
     }
     
     @WebMethod(operationName = "retrieveFlightSchedulePlanAfterTiming")
     public List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(@WebParam(name = "listOfFlightSchedulePlan") List<FlightSchedulePlan> listOfFlightSchedulePlan, @WebParam(name = "departureDateTime") Date departureDateTime) {
         return flightScheduleSessionBeanLocal.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlan, departureDateTime);
+    }
+    
+    @WebMethod(operationName = "getListOfHubsId")
+    public List<Long> getListOfHubsId() {
+        return airportSessionBeanLocal.getListOfHubsId();
+    }
+    
+    @WebMethod(operationName = "retrieveFlightSchedulePlanWith1DayAfter")
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfter(@WebParam(name = "listOfFlightSchedulePlanFromHub") List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub, @WebParam(name = "dateOfFlightPicked") Date dateOfFlightPicked) {
+        return flightScheduleSessionBeanLocal.retrieveFlightSchedulePlanWith1DayAfter(listOfFlightSchedulePlanFromHub, dateOfFlightPicked);
     }
 
     public void persist(Object object) {
