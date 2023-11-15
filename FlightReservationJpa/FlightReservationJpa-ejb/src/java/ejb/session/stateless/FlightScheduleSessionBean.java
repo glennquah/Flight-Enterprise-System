@@ -114,16 +114,23 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
             }
             
             if (haveReturn) {
+                Query secondQuery = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute.origin = :origin AND f.flightRoute.destination = :destination");
+                secondQuery.setParameter("origin", flight.getFlightRoute().getDestination());
+                secondQuery.setParameter("destination", flight.getFlightRoute().getOrigin());
+                Flight returnFlight = (Flight) secondQuery.getSingleResult();
+                List<Date> bookedDatesReturn  = returnFlight.getBookedDates();
+                bookedDatesReturn.size();
+                
                 instant = arrivalWithLayover.toInstant();
                 Date arrivalDateTimeReturn = Date.from(instant.plus(duration));
                 instant = arrivalDateTimeReturn.toInstant();
                 Date arrivalReturnWithLayover = Date.from(instant.plus(layover));
                 
-                for (int j = 1; j < bookedDates.size() - 1; j += 2) {
-                    if (bookedDates.get(j).after(departureDateTime)) {
+                for (int j = 1; j < bookedDatesReturn.size() - 1; j += 2) {
+                    if (bookedDatesReturn.get(j).after(departureDateTime)) {
                         throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
-                    } else if(bookedDates.get(j).after(arrivalWithLayover) && arrivalWithLayover.before(bookedDates.get(j + 1))) {
-                        if (arrivalReturnWithLayover.after(bookedDates.get(j + 1))) {
+                    } else if(bookedDatesReturn.get(j).after(arrivalWithLayover) && arrivalWithLayover.before(bookedDatesReturn.get(j + 1))) {
+                        if (arrivalReturnWithLayover.after(bookedDatesReturn.get(j + 1))) {
                             throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
                         } else {
                             break;
@@ -168,16 +175,23 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
             }
             
             if (haveReturn.equals("Y")) {
+                Query secondQuery = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute.origin = :origin AND f.flightRoute.destination = :destination");
+                secondQuery.setParameter("origin", flight.getFlightRoute().getDestination());
+                secondQuery.setParameter("destination", flight.getFlightRoute().getOrigin());
+                Flight returnFlight = (Flight) secondQuery.getSingleResult();
+                List<Date> bookedDatesReturn = returnFlight.getBookedDates();
+                bookedDatesReturn.size();
+                
                 instant = arrivalWithLayover.toInstant();
                 Date arrivalDateTimeReturn = Date.from(instant.plus(duration));
                 instant = arrivalDateTimeReturn.toInstant();
                 Date arrivalReturnWithLayover = Date.from(instant.plus(layover));
                 
-                for (int j = 1; j < bookedDates.size() - 1; j += 2) {
-                    if (bookedDates.get(j).after(arrivalWithLayover)) {
+                for (int j = 1; j < bookedDatesReturn.size() - 1; j += 2) {
+                    if (bookedDatesReturn.get(j).after(arrivalWithLayover)) {
                         throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
-                    } else if(bookedDates.get(j).after(arrivalWithLayover) && arrivalWithLayover.before(bookedDates.get(j + 1))) {
-                        if (arrivalReturnWithLayover.after(bookedDates.get(j + 1))) {
+                    } else if(bookedDatesReturn.get(j).after(arrivalWithLayover) && arrivalWithLayover.before(bookedDatesReturn.get(j + 1))) {
+                        if (arrivalReturnWithLayover.after(bookedDatesReturn.get(j + 1))) {
                             throw new ConflictingFlightScheduleException("There are conflicting flight schedules!");
                         } else {
                             break;
