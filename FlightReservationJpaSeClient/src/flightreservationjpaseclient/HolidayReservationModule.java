@@ -334,7 +334,8 @@ public class HolidayReservationModule {
         checkFlightDetails(sc, flightScheduleId, numOfSeats);
         System.out.print("Enter Cabin you want to Reserve> ");
         String cabin = sc.nextLine().trim();
-        List<List<Character>> cabinSeatingPlanList = getCabinSeatsList(flightScheduleId, cabin);
+        // IF TOO COMPLICATED, JUZ MAKE 1 LIST OF CHARACTER
+        //List<List<Character>> cabinSeatingPlanList = getCabinSeatsList(flightScheduleId, cabin);
         List<Integer> islesPlan = getIslesPlan(flightScheduleId, cabin);
         System.out.println("*** SEATING CONFIGURATION *** ");
         System.out.print("LETTER ");
@@ -342,39 +343,39 @@ public class HolidayReservationModule {
         int count = 0;
         int c = 0;
         
-        char[][] cabinSeatingPlan = convertListToCharArray(cabinSeatingPlanList);
-        for (int i = 0; i < cabinSeatingPlan[0].length; i++) {
-            System.out.print(seatNum);
-            seatNum++;
-            count++;
-            if (count == islesPlan.get(c) && c != islesPlan.size() - 1) {
-                System.out.print("|");
-                c++;
-                count = 0;
-            }
-        }
-        
-        System.out.println("");
-        
-        for (int i = 0; i < cabinSeatingPlan.length; i++) {
-            if (i < 9) {
-                System.out.print("ROW  " + (i + 1) + " ");
-            } else {
-                System.out.print("ROW " + (i + 1) + " ");
-            }
-            count = 0;
-            c = 0;
-            for (int j = 0; j < cabinSeatingPlan[0].length; j++) {
-                System.out.print(cabinSeatingPlan[i][j]);
-                count++;
-                if (count == islesPlan.get(c) && c != islesPlan.size() - 1) {
-                    System.out.print("|");
-                    c++;
-                    count = 0;
-                }
-            }
-            System.out.println("");
-        }
+//        char[][] cabinSeatingPlan = convertListToCharArray(cabinSeatingPlanList);
+//        for (int i = 0; i < cabinSeatingPlan[0].length; i++) {
+//            System.out.print(seatNum);
+//            seatNum++;
+//            count++;
+//            if (count == islesPlan.get(c) && c != islesPlan.size() - 1) {
+//                System.out.print("|");
+//                c++;
+//                count = 0;
+//            }
+//        }
+//        
+//        System.out.println("");
+//        
+//        for (int i = 0; i < cabinSeatingPlan.length; i++) {
+//            if (i < 9) {
+//                System.out.print("ROW  " + (i + 1) + " ");
+//            } else {
+//                System.out.print("ROW " + (i + 1) + " ");
+//            }
+//            count = 0;
+//            c = 0;
+//            for (int j = 0; j < cabinSeatingPlan[0].length; j++) {
+//                System.out.print(cabinSeatingPlan[i][j]);
+//                count++;
+//                if (count == islesPlan.get(c) && c != islesPlan.size() - 1) {
+//                    System.out.print("|");
+//                    c++;
+//                    count = 0;
+//                }
+//            }
+//            System.out.println("");
+//        }
         
         long highestFareId = getHighestFareUsingCabinName(cabin, flightScheduleId);
         System.out.println("HIGHEST FARE ID= " + highestFareId);
@@ -400,9 +401,10 @@ public class HolidayReservationModule {
             System.out.print("Enter Passport Number Of Customer> ");
             String passport = sc.nextLine().trim();
             ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);   
-            Long reservId = createReservationDetails(reservationDetails.getId(), this.partnerId, flightScheduleId, highestFareId);
+            //might have an issue here
+            createReservationDetails(reservationDetails.getId(), this.partnerId, flightScheduleId, highestFareId);
             System.out.println("Reservation Created!");
-            System.out.println("Reservation ID = " + reservId);
+            //System.out.println("Reservation ID = " + reservId);
             System.out.println("*** SEAT BOOKED ***");
             System.out.println("");
             

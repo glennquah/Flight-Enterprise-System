@@ -52,6 +52,7 @@ public class ReservationDetailsSessionBean implements ReservationDetailsSessionB
         return reservationDetails.getId();
     }
     
+    
     @Override
     public Long createReservationDetails(long reservationDetailsId, long customerId, long flightScheduleId, long lowestFareId) {
         Customer cust = em.find(Customer.class, customerId);
@@ -77,7 +78,7 @@ public class ReservationDetailsSessionBean implements ReservationDetailsSessionB
         
         em.persist(reservationDetails);
         em.flush();
-        
+       
         return reservationDetails.getId();
     }
 
