@@ -400,7 +400,7 @@ public class HolidayReservationModule {
             String lastName = sc.nextLine().trim();
             System.out.print("Enter Passport Number Of Customer> ");
             String passport = sc.nextLine().trim();
-            ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);   
+             
             ws.partner.ReservationDetails rd = new ws.partner.ReservationDetails();
             rd.setFirstName(firstName);
             rd.setLastName(lastName);
@@ -412,7 +412,6 @@ public class HolidayReservationModule {
             System.out.println("Reservation ID = " + reservId);
             System.out.println("*** SEAT BOOKED ***");
             System.out.println("");
-            
         }
         
         

@@ -164,7 +164,15 @@ public class PartnerWebService {
     
     @WebMethod(operationName = "getFlightSchedules")
     public List<FlightSchedule> getFlightSchedules(@WebParam(name = "partnerId") long partnerId) {
-        return partnerSessionBeanLocal.getFlightSchedules(partnerId);
+        List<FlightSchedule> listOfFs = partnerSessionBeanLocal.getFlightSchedules(partnerId);
+        for (FlightSchedule fs : listOfFs) {
+            fs.setListOfCabins(null);
+            fs.setFlightSchedulePlan(null);
+            fs.setCustomers(null);
+            fs.setListOfReservationDetails(null);
+            fs.setPartners(null);
+        }
+        return listOfFs;
     }
     
     

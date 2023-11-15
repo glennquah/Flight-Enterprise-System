@@ -4,10 +4,12 @@
  */
 package ejb.session.stateless;
 
+import entity.Cabin;
 import entity.Customer;
 import entity.Employee;
 import entity.FlightSchedule;
 import entity.Partner;
+import entity.ReservationDetails;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -86,6 +88,23 @@ public class PartnerSessionBean implements PartnerSessionBeanRemote, PartnerSess
         Partner partner = em.find(Partner.class, partnerId);
         List<FlightSchedule> listOFlightSchedules = partner.getListOfFlightSchedules();
         listOFlightSchedules.size();
+        for (FlightSchedule fs : listOFlightSchedules) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Customer c : fs.getCustomers()) {
+                em.detach(c);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+        }
+        
         return listOFlightSchedules;
     }
 
