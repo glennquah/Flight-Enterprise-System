@@ -242,11 +242,11 @@ public class HolidayReservationModule {
             System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
             System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
-            Duration duration = fs.getEstimatedTime();
-            long hours = duration.getHours();
-            long minutes = duration.getMinutes() % 60;
-            String formattedTime = String.format("%02d:%02d", hours, minutes);
-            System.out.println("Filght Estimated Time: " + formattedTime);
+//            Duration duration = fs.getEstimatedTime();
+//            long hours = duration.getHours();
+//            long minutes = duration.getMinutes() % 60;
+//            String formattedTime = String.format("%02d:%02d", hours, minutes);
+//            System.out.println("Filght Estimated Time: " + formattedTime);
         }
         return Number;
     }
@@ -307,12 +307,12 @@ public class HolidayReservationModule {
         System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
         System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
         System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
-        Duration duration = fs.getEstimatedTime();       
-        long hours = duration.getHours();
-        long minutes = duration.getMinutes() % 60;
-        String formattedTime = String.format("%02d:%02d", hours, minutes);
-        
-        System.out.println("Filght Estimated Time: " + formattedTime);
+//        Duration duration = fs.getEstimatedTime();       
+//        long hours = duration.getHours();
+//        long minutes = duration.getMinutes() % 60;
+//        String formattedTime = String.format("%02d:%02d", hours, minutes);
+//        
+//        System.out.println("Filght Estimated Time: " + formattedTime);
         System.out.println("\n*** CABIN DETAILS ***");
         List<ws.partner.Cabin> cabins = getCabins(scheduleId);
         for (ws.partner.Cabin c : cabins) {
@@ -435,11 +435,11 @@ public class HolidayReservationModule {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
             ws.partner.FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
-            Duration duration = fs.getEstimatedTime();
-            long hours = duration.getHours();
-            long minutes = duration.getMinutes() % 60;
-            String formattedTime = String.format("%02d:%02d", hours, minutes);
-            System.out.println("Flight Estimate Duration: " + formattedTime + "H");
+//            Duration duration = fs.getEstimatedTime();
+//            long hours = duration.getHours();
+//            long minutes = duration.getMinutes() % 60;
+//            String formattedTime = String.format("%02d:%02d", hours, minutes);
+//            System.out.println("Flight Estimate Duration: " + formattedTime + "H");
             System.out.println("Flight Origin: " + fr.getOrigin().getName());
             System.out.println("Flight Destination: " + fr.getDestination().getName());
             System.out.println("");

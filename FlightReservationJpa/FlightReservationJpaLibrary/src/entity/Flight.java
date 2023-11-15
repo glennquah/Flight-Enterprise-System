@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import util.enumeration.FlightStatusEnum;
 
 /**
@@ -62,6 +63,7 @@ public class Flight implements Serializable {
         this.listOfFlightSchedulePlans = new ArrayList<>();
     }
 
+    @XmlTransient
     public List<Date> getBookedDates() {
         return bookedDates;
     }
@@ -71,6 +73,7 @@ public class Flight implements Serializable {
         this.bookedDates = bookedDates;
     }
 
+    @XmlTransient
     public FlightRoute getFlightRoute() {
         return flightRoute;
     }
@@ -79,6 +82,7 @@ public class Flight implements Serializable {
         this.flightRoute = flightRoute;
     }
     
+    @XmlTransient
     public Long getFlightId() {
         return flightId;
     }
@@ -87,6 +91,7 @@ public class Flight implements Serializable {
         this.flightId = flightId;
     }
 
+    @XmlTransient
     public FlightStatusEnum getFlightStatus() {
         return flightStatus;
     }
@@ -120,6 +125,7 @@ public class Flight implements Serializable {
         return "entity.Flight[ id=" + flightId + " ]";
     }
 
+    @XmlTransient
     public List<FlightSchedulePlan> getListOfFlightSchedulePlans() {
         return listOfFlightSchedulePlans;
     }
@@ -145,6 +151,7 @@ public class Flight implements Serializable {
     /**
      * @return the flightNumber
      */
+    @XmlTransient
     public Integer getFlightNumber() {
         return flightNumber;
     }
@@ -159,6 +166,7 @@ public class Flight implements Serializable {
     /**
      * @return the prefix
      */
+    @XmlTransient
     public String getPrefix() {
         return prefix;
     }

@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -46,7 +47,7 @@ public class Airport implements Serializable {
         this.country = country;
     }
  
-
+    @XmlTransient
     public String getCountry() {
         return country;
     }
@@ -55,7 +56,7 @@ public class Airport implements Serializable {
         this.country = country;
     }
 
-
+    @XmlTransient
     public String getState() {
         return state;
     }
@@ -64,7 +65,7 @@ public class Airport implements Serializable {
         this.state = state;
     }
 
-
+    @XmlTransient
     public String getCity() {
         return city;
     }
@@ -73,7 +74,7 @@ public class Airport implements Serializable {
         this.city = city;
     }
 
-
+    @XmlTransient
     public String getAirportCode() {
         return airportCode;
     }
@@ -82,7 +83,6 @@ public class Airport implements Serializable {
         this.airportCode = airportCode;
     }
 
-
     public String getName() {
         return name;
     }
@@ -90,7 +90,6 @@ public class Airport implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public Long getAirportId() {
         return airportId;

@@ -232,6 +232,7 @@
 <xs:element name="estimatedTime" type="tns:duration" minOccurs="0"/>
 <xs:element name="flightScheduleId" type="xs:long" minOccurs="0"/>
 <xs:element name="flightSchedulePlan" type="tns:flightSchedulePlan" minOccurs="0"/>
+<xs:element name="layover" type="tns:duration" minOccurs="0"/>
 <xs:element name="listOfCabins" type="tns:cabin" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="listOfReservationDetails" type="tns:reservationDetails" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="partners" type="tns:partner" nillable="true" minOccurs="0" maxOccurs="unbounded"/>

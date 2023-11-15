@@ -23,6 +23,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Future;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -79,6 +80,7 @@ public class FlightSchedule implements Serializable {
         this.listOfCabins = new ArrayList<>();
     }
 
+    @XmlTransient
     public Long getFlightScheduleId() {
         return flightScheduleId;
     }
@@ -86,7 +88,8 @@ public class FlightSchedule implements Serializable {
     public void setFlightScheduleId(Long flightScheduleId) {
         this.flightScheduleId = flightScheduleId;
     }
-
+    
+    @XmlTransient
     public Date getDepartureDateTime() {
         return departureDateTime;
     }
@@ -94,7 +97,8 @@ public class FlightSchedule implements Serializable {
     public void setDepartureDateTime(Date departureDateTime) {
         this.departureDateTime = departureDateTime;
     }
-
+    
+    @XmlTransient
     public Duration getLayover() {
         return layover;
     }
@@ -102,7 +106,8 @@ public class FlightSchedule implements Serializable {
     public void setLayover(Duration layover) {
         this.layover = layover;
     }
-
+    
+    @XmlTransient
     public Date getArrivalDateTime() {
         return arrivalDateTime;
     }
@@ -110,7 +115,8 @@ public class FlightSchedule implements Serializable {
     public void setArrivalDateTime(Date arrivalDateTime) {
         this.arrivalDateTime = arrivalDateTime;
     }
-
+    
+    @XmlTransient
     public Duration getEstimatedTime() {
         return estimatedTime;
     }
@@ -118,7 +124,8 @@ public class FlightSchedule implements Serializable {
     public void setEstimatedTime(Duration estimatedTime) {
         this.estimatedTime = estimatedTime;
     }
-
+    
+    @XmlTransient
     public FlightSchedulePlan getFlightSchedulePlan() {
         return flightSchedulePlan;
     }
@@ -130,6 +137,7 @@ public class FlightSchedule implements Serializable {
         /**
      * @return the customers
      */
+    @XmlTransient
     public List<Customer> getCustomers() {
         return customers;
     }
@@ -148,6 +156,7 @@ public class FlightSchedule implements Serializable {
         return hash;
     }
 
+    @XmlTransient
     public List<ReservationDetails> getListOfReservationDetails() {
         return listOfReservationDetails;
     }
@@ -179,6 +188,7 @@ public class FlightSchedule implements Serializable {
         /**
      * @return the listOfCabins
      */
+    @XmlTransient
     public List<Cabin> getListOfCabins() {
         return listOfCabins;
     }
@@ -193,6 +203,7 @@ public class FlightSchedule implements Serializable {
     /**
      * @return the partners
      */
+    @XmlTransient
     public List<Partner> getPartners() {
         return partners;
     }
@@ -203,9 +214,6 @@ public class FlightSchedule implements Serializable {
     public void setPartners(List<Partner> partners) {
         this.partners = partners;
     }
-    
-    
-
 }
 
     class FlightScheduleComparator implements Comparator<FlightSchedule> {
