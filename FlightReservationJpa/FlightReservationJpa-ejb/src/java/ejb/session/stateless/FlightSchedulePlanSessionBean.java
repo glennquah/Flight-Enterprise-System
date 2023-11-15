@@ -13,6 +13,7 @@ import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -190,6 +191,8 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
             fares.size();
             flightSchedulePlan.setFlightSchedules(new ArrayList<>());
             flightSchedulePlan.setListOfFares(new ArrayList<>());
+            Flight flight = flightSchedulePlan.getFlight();
+            List<Date> bookedDates = flight.getBookedDates();
             Cabin cabin;
             
             for (Fare f: fares) {
@@ -199,9 +202,12 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
             }
             
             for (FlightSchedule f: flightSchedules) {
+                bookedDates.remove(f.getDepartureDateTime());
+                bookedDates.remove(f.getArrivalDateTime());
                 em.remove(f);
             }
             
+            flight.setBookedDates(bookedDates);
             em.remove(flightSchedulePlan);
             em.flush();
         }
