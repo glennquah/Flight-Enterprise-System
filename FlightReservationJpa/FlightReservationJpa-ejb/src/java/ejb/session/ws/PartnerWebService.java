@@ -8,12 +8,14 @@ import ejb.session.stateless.AirportSessionBeanLocal;
 import ejb.session.stateless.FlightScheduleSessionBeanLocal;
 import ejb.session.stateless.CabinCustomerSessionBeanLocal;
 import ejb.session.stateless.FareSessionBeanLocal;
+import ejb.session.stateless.FlightRoutesSessionBeanLocal;
 import ejb.session.stateless.FlightSchedulePlanSessionBeanLocal;
 import ejb.session.stateless.FlightSessionBeanLocal;
 import ejb.session.stateless.PartnerSessionBeanLocal;
 import ejb.session.stateless.ReservationDetailsSessionBeanLocal;
 import entity.Airport;
 import entity.Cabin;
+import entity.Customer;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import entity.ReservationDetails;
@@ -26,6 +28,8 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import util.exception.FlightDoesNotExistException;
 import util.exception.FlightScheduleDoesNotExistException;
 import util.exception.InvalidLoginCredentialException;
@@ -37,6 +41,9 @@ import util.exception.InvalidLoginCredentialException;
 @WebService(serviceName = "PartnerWebService")
 @Stateless()
 public class PartnerWebService {
+
+    @EJB(name = "FlightRoutesSessionBeanLocal")
+    private FlightRoutesSessionBeanLocal flightRoutesSessionBeanLocal;
 
     @EJB(name = "FlightScheduleSessionBeanLocal")
     private FlightScheduleSessionBeanLocal flightScheduleSessionBeanLocal;
@@ -58,9 +65,13 @@ public class PartnerWebService {
 
     @EJB(name = "AirportSessionBeanLocal")
     private AirportSessionBeanLocal airportSessionBeanLocal;
+    
+    @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
+    private EntityManager em;
 
     @EJB(name = "PartnerSessionBeanLocal")
     private PartnerSessionBeanLocal partnerSessionBeanLocal;
+    
     
     /**
      * This is a sample web service operation
@@ -96,12 +107,31 @@ public class PartnerWebService {
     
     @WebMethod(operationName = "retrieveFlightSchedulePlanWithSameFlight")
     public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(@WebParam(name = "listOfFlightsToHub") List<Flight> listOfFlightsToHub) {
-        return flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
+        List<FlightSchedulePlan> listOfFsp = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub, true);
+        for (FlightSchedulePlan fsp : listOfFsp) {
+            fsp.setFlight(null);
+//            for (FlightSchedule fs : fsp.getFlightSchedules()) {
+//                fs.setListOfCabins(null);
+//                fs.setCustomers(null);
+//                fs.setListOfReservationDetails(null);
+//            }
+            fsp.setFlightSchedules(null);
+        }
+        return listOfFsp;
     }
     
     @WebMethod(operationName = "retrieveFlightsThatHasDepAndDest")
     public List<Flight> retrieveFlightsThatHasDepAndDest(@WebParam(name = "depAirport") long depAirport, @WebParam(name = "hubId") long hubId) {
-        return flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
+        List<Flight> listOfFlights = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId, true);
+        for (Flight f : listOfFlights) {
+            f.setAircraftConfig(null);
+            f.setFlightRoute(null);
+//            for (FlightSchedulePlan fsp : f.getListOfFlightSchedulePlans()) {
+//                fsp.setFlightSchedules(null);
+//            }
+            f.setListOfFlightSchedulePlans(null);
+        }
+        return listOfFlights;
     }
     
     @WebMethod(operationName = "getHighestFareIdInCabin")
@@ -140,7 +170,24 @@ public class PartnerWebService {
     
     @WebMethod(operationName = "retrieveFlightSchedulePlanWithSameTiming")
     public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(@WebParam(name = "listOfFlightSchedulePlan") List<FlightSchedulePlan> listOfFlightSchedulePlan, @WebParam(name = "departureDate") Date departureDate) {
-        return flightScheduleSessionBeanLocal.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlan, departureDate);
+        List<FlightSchedule> listOfFs = flightScheduleSessionBeanLocal.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlan, departureDate, true);
+        for (FlightSchedule fs : listOfFs) {
+//            for (Cabin c : fs.getListOfCabins()) {
+//                c.setListOfFare(null);
+//            }
+//            for (Customer c : fs.getCustomers()) {
+//                c.setListOfReservationDetails(null);
+//            }
+//            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+//                rd.setCustomer(null);
+//                rd.setFare(null);
+//            }
+            fs.setFlightSchedulePlan(null);
+            fs.setListOfReservationDetails(null);
+            fs.setCustomers(null);
+            fs.setListOfCabins(null);
+        }
+        return listOfFs;
     }
     
     @WebMethod(operationName = "retrieveFlightSchedulePlanWith3DaysBefore")
@@ -165,7 +212,11 @@ public class PartnerWebService {
     
     @WebMethod(operationName = "getCabins")
     public List<Cabin> getCabins(@WebParam(name = "id") long id) throws FlightScheduleDoesNotExistException {
-        return flightScheduleSessionBeanLocal.getCabins(id);
+        List<Cabin> cabins = flightScheduleSessionBeanLocal.getCabins(id, true);
+        for (Cabin c : cabins) {
+            c.setListOfFare(null);
+        }
+        return cabins;
     }
     
     @WebMethod(operationName = "getCabinSeatsList")
@@ -202,4 +253,9 @@ public class PartnerWebService {
     public List<FlightSchedule> retrieveFlightSchedulePlanAfterTiming(@WebParam(name = "listOfFlightSchedulePlan") List<FlightSchedulePlan> listOfFlightSchedulePlan, @WebParam(name = "departureDateTime") Date departureDateTime) {
         return flightScheduleSessionBeanLocal.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlan, departureDateTime);
     }
+
+    public void persist(Object object) {
+        em.persist(object);
+    }
+    
 }

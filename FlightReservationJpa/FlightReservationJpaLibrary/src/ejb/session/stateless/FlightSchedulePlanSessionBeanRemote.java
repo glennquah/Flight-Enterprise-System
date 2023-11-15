@@ -10,6 +10,7 @@ import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.math.BigDecimal;
 import entity.Flight;
+import entity.FlightRoute;
 import java.util.List;
 import javax.ejb.Remote;
 import util.exception.AirportDoesNotExistException;
@@ -40,4 +41,8 @@ public interface FlightSchedulePlanSessionBeanRemote {
     public List<FlightSchedule> retrieveFlightSchedule(Long flightSchedulePlanId);
     
     public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(List<Flight> listOfFlights);
+    
+    public FlightRoute retrieveFlightRouteFromFlightSchedule(Long fsId);
+    
+    public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(List<Flight> listOfFlights, Boolean detach);
 }

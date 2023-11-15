@@ -7,6 +7,7 @@ package ejb.session.stateless;
 import entity.Cabin;
 import entity.Fare;
 import entity.Flight;
+import entity.FlightRoute;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import entity.ReservationDetails;
@@ -228,5 +229,34 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
         query.setParameter("flightNumbers", flightNumbers);
         return query.getResultList();
     }
+    
+    @Override
+    public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(List<Flight> listOfFlights, Boolean detach) {
+        if (listOfFlights.isEmpty()) {
+            return Collections.emptyList(); // Return an empty list if no flights are provided
+        }
 
+        Query query = em.createQuery("SELECT f FROM FlightSchedulePlan f WHERE f.flightNumber IN :flightNumbers");
+        List<Integer> flightNumbers = new ArrayList<>();
+        for (Flight flight : listOfFlights) {
+            flightNumbers.add(flight.getFlightNumber());
+        }
+
+        query.setParameter("flightNumbers", flightNumbers);
+        List<FlightSchedulePlan> fsps = query.getResultList();
+        for (FlightSchedulePlan fsp : fsps) {
+            em.detach(fsp);
+            for (FlightSchedule fs : fsp.getFlightSchedules()) {
+                em.detach(fs);
+            }
+            em.detach(fsp.getFlight());
+        }
+        return fsps;
+    }
+
+    @Override
+    public FlightRoute retrieveFlightRouteFromFlightSchedule(Long fsId) {
+        FlightSchedule fs = em.find(FlightSchedule.class, fsId);
+        return fs.getFlightSchedulePlan().getFlight().getFlightRoute();
+    }
 }

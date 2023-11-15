@@ -37,8 +37,6 @@ public class ObjectFactory {
     private final static QName _CheckSeatIfAvailableResponse_QNAME = new QName("http://ws.session.ejb/", "checkSeatIfAvailableResponse");
     private final static QName _CreateReservationDetails_QNAME = new QName("http://ws.session.ejb/", "createReservationDetails");
     private final static QName _CreateReservationDetailsResponse_QNAME = new QName("http://ws.session.ejb/", "createReservationDetailsResponse");
-    private final static QName _Flight_QNAME = new QName("http://ws.session.ejb/", "flight");
-    private final static QName _FlightRoute_QNAME = new QName("http://ws.session.ejb/", "flightRoute");
     private final static QName _FlightSchedule_QNAME = new QName("http://ws.session.ejb/", "flightSchedule");
     private final static QName _FlightSchedulePlan_QNAME = new QName("http://ws.session.ejb/", "flightSchedulePlan");
     private final static QName _GetCabinSeatsList_QNAME = new QName("http://ws.session.ejb/", "getCabinSeatsList");
@@ -68,6 +66,8 @@ public class ObjectFactory {
     private final static QName _Login_QNAME = new QName("http://ws.session.ejb/", "login");
     private final static QName _LoginResponse_QNAME = new QName("http://ws.session.ejb/", "loginResponse");
     private final static QName _Partner_QNAME = new QName("http://ws.session.ejb/", "partner");
+    private final static QName _Persist_QNAME = new QName("http://ws.session.ejb/", "persist");
+    private final static QName _PersistResponse_QNAME = new QName("http://ws.session.ejb/", "persistResponse");
     private final static QName _ReservationDetails_QNAME = new QName("http://ws.session.ejb/", "reservationDetails");
     private final static QName _RetrieveAllAirports_QNAME = new QName("http://ws.session.ejb/", "retrieveAllAirports");
     private final static QName _RetrieveAllAirportsResponse_QNAME = new QName("http://ws.session.ejb/", "retrieveAllAirportsResponse");
@@ -197,22 +197,6 @@ public class ObjectFactory {
      */
     public CreateReservationDetailsResponse createCreateReservationDetailsResponse() {
         return new CreateReservationDetailsResponse();
-    }
-
-    /**
-     * Create an instance of {@link Flight }
-     * 
-     */
-    public Flight createFlight() {
-        return new Flight();
-    }
-
-    /**
-     * Create an instance of {@link FlightRoute }
-     * 
-     */
-    public FlightRoute createFlightRoute() {
-        return new FlightRoute();
     }
 
     /**
@@ -448,6 +432,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Persist }
+     * 
+     */
+    public Persist createPersist() {
+        return new Persist();
+    }
+
+    /**
+     * Create an instance of {@link PersistResponse }
+     * 
+     */
+    public PersistResponse createPersistResponse() {
+        return new PersistResponse();
+    }
+
+    /**
      * Create an instance of {@link ReservationDetails }
      * 
      */
@@ -600,6 +600,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Flight }
+     * 
+     */
+    public Flight createFlight() {
+        return new Flight();
+    }
+
+    /**
      * Create an instance of {@link Fare }
      * 
      */
@@ -621,14 +629,6 @@ public class ObjectFactory {
      */
     public Account createAccount() {
         return new Account();
-    }
-
-    /**
-     * Create an instance of {@link Duration }
-     * 
-     */
-    public Duration createDuration() {
-        return new Duration();
     }
 
     /**
@@ -806,32 +806,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "createReservationDetailsResponse")
     public JAXBElement<CreateReservationDetailsResponse> createCreateReservationDetailsResponse(CreateReservationDetailsResponse value) {
         return new JAXBElement<CreateReservationDetailsResponse>(_CreateReservationDetailsResponse_QNAME, CreateReservationDetailsResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Flight }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link Flight }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "flight")
-    public JAXBElement<Flight> createFlight(Flight value) {
-        return new JAXBElement<Flight>(_Flight_QNAME, Flight.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link FlightRoute }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link FlightRoute }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "flightRoute")
-    public JAXBElement<FlightRoute> createFlightRoute(FlightRoute value) {
-        return new JAXBElement<FlightRoute>(_FlightRoute_QNAME, FlightRoute.class, null, value);
     }
 
     /**
@@ -1209,6 +1183,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "partner")
     public JAXBElement<Partner> createPartner(Partner value) {
         return new JAXBElement<Partner>(_Partner_QNAME, Partner.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Persist }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link Persist }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "persist")
+    public JAXBElement<Persist> createPersist(Persist value) {
+        return new JAXBElement<Persist>(_Persist_QNAME, Persist.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link PersistResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link PersistResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "persistResponse")
+    public JAXBElement<PersistResponse> createPersistResponse(PersistResponse value) {
+        return new JAXBElement<PersistResponse>(_PersistResponse_QNAME, PersistResponse.class, null, value);
     }
 
     /**

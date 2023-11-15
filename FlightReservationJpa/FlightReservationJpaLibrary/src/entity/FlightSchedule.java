@@ -80,7 +80,6 @@ public class FlightSchedule implements Serializable {
         this.listOfCabins = new ArrayList<>();
     }
 
-    @XmlTransient
     public Long getFlightScheduleId() {
         return flightScheduleId;
     }
@@ -89,7 +88,6 @@ public class FlightSchedule implements Serializable {
         this.flightScheduleId = flightScheduleId;
     }
     
-    @XmlTransient
     public Date getDepartureDateTime() {
         return departureDateTime;
     }

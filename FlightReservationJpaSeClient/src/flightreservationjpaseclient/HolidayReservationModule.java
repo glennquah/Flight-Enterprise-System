@@ -19,6 +19,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.datatype.Duration;
 import util.exception.FlightScheduleDoesNotExistException;
 import ws.partner.FlightDoesNotExistException_Exception;
+import ws.partner.FlightSchedule;
 import ws.partner.FlightScheduleDoesNotExistException_Exception;
 import ws.partner.FlightSchedulePlan;
 import ws.partner.InvalidLoginCredentialException_Exception;
@@ -241,7 +242,7 @@ public class HolidayReservationModule {
             ws.partner.FlightSchedule fs = flightSchedules.get(i);
             System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
-            System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
+            //System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
 //            Duration duration = fs.getEstimatedTime();
 //            long hours = duration.getHours();
 //            long minutes = duration.getMinutes() % 60;
@@ -252,7 +253,7 @@ public class HolidayReservationModule {
     }
     
     public BigDecimal searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, Boolean lastFlight) throws Exception {
-        List<ws.partner.Flight> listOfFlights = retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
+        List<ws.partner.Flight> listOfFlights = retrieveFlightsThatHasDepAndDest(depAirport, destAirport); //DONE
         //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
         List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlan = retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
         
@@ -306,7 +307,7 @@ public class HolidayReservationModule {
         ws.partner.FlightSchedule fs = getFlightScheduleWithId(scheduleId);
         System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
         System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
-        System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
+        //System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
 //        Duration duration = fs.getEstimatedTime();       
 //        long hours = duration.getHours();
 //        long minutes = duration.getMinutes() % 60;
@@ -434,14 +435,14 @@ public class HolidayReservationModule {
         for (ws.partner.FlightSchedule fs : listOfFlightSchedules) {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
-            ws.partner.FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
+//            ws.partner.FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
 //            Duration duration = fs.getEstimatedTime();
 //            long hours = duration.getHours();
 //            long minutes = duration.getMinutes() % 60;
 //            String formattedTime = String.format("%02d:%02d", hours, minutes);
 //            System.out.println("Flight Estimate Duration: " + formattedTime + "H");
-            System.out.println("Flight Origin: " + fr.getOrigin().getName());
-            System.out.println("Flight Destination: " + fr.getDestination().getName());
+//            System.out.println("Flight Origin: " + fr.getOrigin().getName());
+//            System.out.println("Flight Destination: " + fr.getDestination().getName());
             System.out.println("");
         }
         
@@ -668,5 +669,11 @@ public class HolidayReservationModule {
         XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
         return port.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlan, xmlDate);
     }
+    
+//    private static ws.partner.FlightRoute retrieveFlightRouteFromFlightSchedule(java.lang.Long fsId) {
+//        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+//        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+//        return port.retrieveFlightRouteFromFlightSchedule(fsId);
+//    }
 }
 

@@ -6,6 +6,7 @@ package ejb.session.stateless;
 
 import entity.Fare;
 import entity.Flight;
+import entity.FlightRoute;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.math.BigDecimal;
@@ -37,4 +38,8 @@ public interface FlightSchedulePlanSessionBeanLocal {
     public List<FlightSchedule> retrieveFlightSchedule(Long flightSchedulePlanId);
     
     public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(List<Flight> listOfFlights);
+    
+    public FlightRoute retrieveFlightRouteFromFlightSchedule(Long fsId);
+    
+    public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(List<Flight> listOfFlights, Boolean detach);
 }

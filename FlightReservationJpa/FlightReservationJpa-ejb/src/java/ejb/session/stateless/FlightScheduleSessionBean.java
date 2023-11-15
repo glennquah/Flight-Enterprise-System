@@ -11,6 +11,7 @@ import java.time.Duration;
 import java.time.Instant;
 import entity.Cabin;
 import entity.Customer;
+import entity.Fare;
 import entity.Partner;
 import entity.ReservationDetails;
 import java.time.LocalDate;
@@ -305,6 +306,38 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate, Boolean detach) {
+        List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
+
+        List<FlightSchedule> newList = new ArrayList<>();
+
+        for (FlightSchedule flightSchedule : listOfFlightSchedules) {
+            Date departureDateTime = flightSchedule.getDepartureDateTime();
+            LocalDate localDate = departureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (localDate.isEqual(departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
+                newList.add(flightSchedule);
+            }
+        }
+        
+        for (FlightSchedule fs : newList) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Customer cust : fs.getCustomers()) {
+                em.detach(cust);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+        }
+
+        return newList;
+    }
+    
+    @Override
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBefore(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
         List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
 
@@ -419,6 +452,24 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
+    public List<Cabin> getCabins(long id, Boolean detach) throws FlightScheduleDoesNotExistException {
+        try {
+            FlightSchedule fs = getFlightScheduleWithId(id);
+            List<Cabin> listOfCabins = fs.getListOfCabins();
+            listOfCabins.size();
+            for (Cabin c : listOfCabins) {
+                for (Fare f : c.getListOfFare()) {
+                    em.detach(f);
+                }
+                em.detach(c);
+            }
+            return listOfCabins;
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+        }
+    }
+    
+    @Override
     public char[][] getCabinSeats(long id, String cabName) throws FlightScheduleDoesNotExistException {
        try { 
        List<Cabin> cabins = getCabins(id);
@@ -434,6 +485,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
             throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
        }
     }
+    
     
     @Override
     public List<List<Character>> getCabinSeatsList(long id, String cabName) throws FlightScheduleDoesNotExistException {
