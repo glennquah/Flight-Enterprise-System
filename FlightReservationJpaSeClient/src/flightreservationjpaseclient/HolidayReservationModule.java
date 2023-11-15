@@ -401,10 +401,9 @@ public class HolidayReservationModule {
             System.out.print("Enter Passport Number Of Customer> ");
             String passport = sc.nextLine().trim();
             ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);   
-            //might have an issue here
-            createReservationDetails(reservationDetails.getId(), this.partnerId, flightScheduleId, highestFareId);
+            Long reservId = createReservationDetails(reservationDetails.getId(), this.partnerId, flightScheduleId, highestFareId);
             System.out.println("Reservation Created!");
-            //System.out.println("Reservation ID = " + reservId);
+            System.out.println("Reservation ID = " + reservId);
             System.out.println("*** SEAT BOOKED ***");
             System.out.println("");
             
