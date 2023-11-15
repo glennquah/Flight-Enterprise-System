@@ -379,7 +379,7 @@ public class ReservationModule {
             System.out.println("Total Seats: " + c.getTotalSeats());
             System.out.println("Remaining Seats: " + (c.getTotalSeats() - c.getReservedSeats()));
             long lowestFareid = cabinCustomerSessionBeanRemote.getLowestFareIdInCabin(c.getCabinId());
-            System.out.println(lowestFareid);
+            //System.out.println(lowestFareid);
             BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareid);
             System.out.println("Fare per Ticket: $" + lowestFare);
             System.out.println("Total Fare: $" + (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
@@ -431,7 +431,7 @@ public class ReservationModule {
         }
         
         long lowestFareId = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
-        System.out.println("LOWEST FARE ID= " + lowestFareId);
+        //System.out.println("LOWEST FARE ID= " + lowestFareId);
         for (int i = 0; i < numOfSeats; i ++) {
             System.out.println(String.format("Enter No. %s Seat you wan to reserve: ", (i + 1)));
             System.out.print("Enter Row Number> ");
