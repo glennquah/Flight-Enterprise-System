@@ -75,7 +75,6 @@ public class FlightSchedule implements Serializable {
         this.customers = new ArrayList<>();
         this.partners = new ArrayList<>();
         this.layover = layover;
-        this.customer = new ArrayList<>();
         this.listOfReservationDetails = new ArrayList<>();
         this.listOfCabins = new ArrayList<>();
     }
