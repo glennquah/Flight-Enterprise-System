@@ -333,43 +333,47 @@ public class HolidayReservationModule {
         checkFlightDetails(sc, flightScheduleId, numOfSeats);
         System.out.print("Enter Cabin you want to Reserve> ");
         String cabin = sc.nextLine().trim();
-        List<List<Character>> cabinSeatingPlan = getCabinSeatsList(flightScheduleId, cabin);
+        List<List<Character>> cabinSeatingPlanList = getCabinSeatsList(flightScheduleId, cabin);
         List<Integer> islesPlan = getIslesPlan(flightScheduleId, cabin);
         System.out.println("*** SEATING CONFIGURATION *** ");
         System.out.print("LETTER ");
         char seatNum = 'A';
         int count = 0;
         int c = 0;
-//        for (int i = 0; i < cabinSeatingPlan[0].length; i++) {
-//            System.out.print(seatNum);
-//            seatNum++;
-//            count++;
-//            if (count == islesPlan[c] && c != islesPlan.length - 1) {
-//                System.out.print("|");
-//                c++;
-//                count = 0;
-//            }
-//        }
+        
+        char[][] cabinSeatingPlan = convertListToCharArray(cabinSeatingPlanList);
+        for (int i = 0; i < cabinSeatingPlan[0].length; i++) {
+            System.out.print(seatNum);
+            seatNum++;
+            count++;
+            if (count == islesPlan.get(c) && c != islesPlan.size() - 1) {
+                System.out.print("|");
+                c++;
+                count = 0;
+            }
+        }
+        
         System.out.println("");
-//        for (int i = 0; i < cabinSeatingPlan.length; i++) {
-//            if (i < 9) {
-//                System.out.print("ROW  " + (i + 1) + " ");
-//            } else {
-//                System.out.print("ROW " + (i + 1) + " ");
-//            }
-//            count = 0;
-//            c = 0;
-//            for (int j = 0; j < cabinSeatingPlan[0].length; j++) {
-//                System.out.print(cabinSeatingPlan[i][j]);
-//                count++;
-//                if (count == islesPlan[c] && c != islesPlan.length - 1) {
-//                    System.out.print("|");
-//                    c++;
-//                    count = 0;
-//                }
-//            }
-//            System.out.println("");
-//        }
+        
+        for (int i = 0; i < cabinSeatingPlan.length; i++) {
+            if (i < 9) {
+                System.out.print("ROW  " + (i + 1) + " ");
+            } else {
+                System.out.print("ROW " + (i + 1) + " ");
+            }
+            count = 0;
+            c = 0;
+            for (int j = 0; j < cabinSeatingPlan[0].length; j++) {
+                System.out.print(cabinSeatingPlan[i][j]);
+                count++;
+                if (count == islesPlan.get(c) && c != islesPlan.size() - 1) {
+                    System.out.print("|");
+                    c++;
+                    count = 0;
+                }
+            }
+            System.out.println("");
+        }
         
         long highestFareId = getHighestFareUsingCabinName(cabin, flightScheduleId);
         System.out.println("HIGHEST FARE ID= " + highestFareId);
@@ -486,6 +490,27 @@ public class HolidayReservationModule {
         } 
         return calendar.toGregorianCalendar().getTime(); 
     } 
+    
+    public static char[][] convertListToCharArray(List<List<Character>> charList) {
+        if (charList == null || charList.isEmpty() || charList.get(0).isEmpty()) {
+            return new char[0][0]; 
+        }
+
+        int numRows = charList.size();
+        int numCols = charList.get(0).size();
+        char[][] charArray = new char[numRows][numCols];
+
+        for (int i = 0; i < numRows; i++) {
+            List<Character> row = charList.get(i);
+
+            for (int j = 0; j < numCols; j++) {
+                charArray[i][j] = row.get(j);
+            }
+        }
+
+        return charArray;
+    }
+
     
     private static Long getPartnerId(java.lang.String email) throws InvalidLoginCredentialException_Exception {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
