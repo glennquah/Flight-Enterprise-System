@@ -35,8 +35,8 @@ public class ObjectFactory {
     private final static QName _Cabin_QNAME = new QName("http://ws.session.ejb/", "cabin");
     private final static QName _CheckSeatIfAvailable_QNAME = new QName("http://ws.session.ejb/", "checkSeatIfAvailable");
     private final static QName _CheckSeatIfAvailableResponse_QNAME = new QName("http://ws.session.ejb/", "checkSeatIfAvailableResponse");
-    private final static QName _CreateReservationDetails_QNAME = new QName("http://ws.session.ejb/", "createReservationDetails");
-    private final static QName _CreateReservationDetailsResponse_QNAME = new QName("http://ws.session.ejb/", "createReservationDetailsResponse");
+    private final static QName _CreateReservationDetailsForPartner_QNAME = new QName("http://ws.session.ejb/", "createReservationDetailsForPartner");
+    private final static QName _CreateReservationDetailsForPartnerResponse_QNAME = new QName("http://ws.session.ejb/", "createReservationDetailsForPartnerResponse");
     private final static QName _FlightSchedule_QNAME = new QName("http://ws.session.ejb/", "flightSchedule");
     private final static QName _FlightSchedulePlan_QNAME = new QName("http://ws.session.ejb/", "flightSchedulePlan");
     private final static QName _GetCabinSeatsList_QNAME = new QName("http://ws.session.ejb/", "getCabinSeatsList");
@@ -184,19 +184,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CreateReservationDetails }
+     * Create an instance of {@link CreateReservationDetailsForPartner }
      * 
      */
-    public CreateReservationDetails createCreateReservationDetails() {
-        return new CreateReservationDetails();
+    public CreateReservationDetailsForPartner createCreateReservationDetailsForPartner() {
+        return new CreateReservationDetailsForPartner();
     }
 
     /**
-     * Create an instance of {@link CreateReservationDetailsResponse }
+     * Create an instance of {@link CreateReservationDetailsForPartnerResponse }
      * 
      */
-    public CreateReservationDetailsResponse createCreateReservationDetailsResponse() {
-        return new CreateReservationDetailsResponse();
+    public CreateReservationDetailsForPartnerResponse createCreateReservationDetailsForPartnerResponse() {
+        return new CreateReservationDetailsForPartnerResponse();
     }
 
     /**
@@ -783,29 +783,29 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link CreateReservationDetails }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link CreateReservationDetailsForPartner }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link CreateReservationDetails }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link CreateReservationDetailsForPartner }{@code >}
      */
-    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "createReservationDetails")
-    public JAXBElement<CreateReservationDetails> createCreateReservationDetails(CreateReservationDetails value) {
-        return new JAXBElement<CreateReservationDetails>(_CreateReservationDetails_QNAME, CreateReservationDetails.class, null, value);
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "createReservationDetailsForPartner")
+    public JAXBElement<CreateReservationDetailsForPartner> createCreateReservationDetailsForPartner(CreateReservationDetailsForPartner value) {
+        return new JAXBElement<CreateReservationDetailsForPartner>(_CreateReservationDetailsForPartner_QNAME, CreateReservationDetailsForPartner.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link CreateReservationDetailsResponse }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link CreateReservationDetailsForPartnerResponse }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link CreateReservationDetailsResponse }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link CreateReservationDetailsForPartnerResponse }{@code >}
      */
-    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "createReservationDetailsResponse")
-    public JAXBElement<CreateReservationDetailsResponse> createCreateReservationDetailsResponse(CreateReservationDetailsResponse value) {
-        return new JAXBElement<CreateReservationDetailsResponse>(_CreateReservationDetailsResponse_QNAME, CreateReservationDetailsResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "createReservationDetailsForPartnerResponse")
+    public JAXBElement<CreateReservationDetailsForPartnerResponse> createCreateReservationDetailsForPartnerResponse(CreateReservationDetailsForPartnerResponse value) {
+        return new JAXBElement<CreateReservationDetailsForPartnerResponse>(_CreateReservationDetailsForPartnerResponse_QNAME, CreateReservationDetailsForPartnerResponse.class, null, value);
     }
 
     /**

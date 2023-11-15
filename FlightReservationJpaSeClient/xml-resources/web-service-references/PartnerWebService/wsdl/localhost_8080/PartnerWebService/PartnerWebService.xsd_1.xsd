@@ -24,9 +24,9 @@
 
 <xs:element name="checkSeatIfAvailableResponse" type="tns:checkSeatIfAvailableResponse"/>
 
-<xs:element name="createReservationDetails" type="tns:createReservationDetails"/>
+<xs:element name="createReservationDetailsForPartner" type="tns:createReservationDetailsForPartner"/>
 
-<xs:element name="createReservationDetailsResponse" type="tns:createReservationDetailsResponse"/>
+<xs:element name="createReservationDetailsForPartnerResponse" type="tns:createReservationDetailsForPartnerResponse"/>
 
 <xs:element name="flightSchedule" type="tns:flightSchedule"/>
 
@@ -379,21 +379,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="createReservationDetails">
-<xs:sequence>
-<xs:element name="reservationDetails" type="xs:long" minOccurs="0"/>
-<xs:element name="partnerId" type="xs:long"/>
-<xs:element name="flightScheduleId" type="xs:long"/>
-<xs:element name="highestFareId" type="xs:long"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="createReservationDetailsResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:long" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="bookSeat">
 <xs:sequence>
 <xs:element name="id" type="xs:long"/>
@@ -494,28 +479,12 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getCabins">
+<xs:complexType name="createReservationDetailsForPartner">
 <xs:sequence>
-<xs:element name="id" type="xs:long"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getCabinsResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:cabin" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getReservationDetails">
-<xs:sequence>
-<xs:element name="flightScheduleId" type="xs:long"/>
-<xs:element name="customerId" type="xs:long"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getReservationDetailsResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:reservationDetails" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="reservationDetails" type="tns:reservationDetails" minOccurs="0"/>
+<xs:element name="partnerId" type="xs:long" minOccurs="0"/>
+<xs:element name="flightScheduleId" type="xs:long" minOccurs="0"/>
+<xs:element name="highestFareId" type="xs:long" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -568,6 +537,37 @@
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="createReservationDetailsForPartnerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getReservationDetails">
+<xs:sequence>
+<xs:element name="flightScheduleId" type="xs:long"/>
+<xs:element name="customerId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getReservationDetailsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:reservationDetails" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCabins">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCabinsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:cabin" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="getPartnerId">

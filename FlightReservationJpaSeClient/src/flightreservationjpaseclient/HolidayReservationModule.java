@@ -401,7 +401,13 @@ public class HolidayReservationModule {
             System.out.print("Enter Passport Number Of Customer> ");
             String passport = sc.nextLine().trim();
             ReservationDetails reservationDetails = new ReservationDetails(firstName, lastName, passport, rowNum, letter);   
-            Long reservId = createReservationDetails(reservationDetails.getId(), this.partnerId, flightScheduleId, highestFareId);
+            ws.partner.ReservationDetails rd = new ws.partner.ReservationDetails();
+            rd.setFirstName(firstName);
+            rd.setLastName(lastName);
+            rd.setPassportNumber(passport);
+            rd.setRowNum(rowNum);
+            rd.setSeatLetter(letter);
+            Long reservId = createReservationDetailsForPartner(rd, this.partnerId, flightScheduleId, highestFareId);
             System.out.println("Reservation Created!");
             System.out.println("Reservation ID = " + reservId);
             System.out.println("*** SEAT BOOKED ***");
@@ -634,13 +640,13 @@ public class HolidayReservationModule {
         return port.getFareUsingId(fareId);
     }
     
-    private static Long createReservationDetails(java.lang.Long reservationDetailsId,
+    private static Long createReservationDetailsForPartner(ws.partner.ReservationDetails reservationDetails,
                                                            java.lang.Long partnerId,
                                                            java.lang.Long flightScheduleId,
                                                            java.lang.Long highestFareId) {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.createReservationDetails(reservationDetailsId, partnerId, flightScheduleId, highestFareId);
+        return port.createReservationDetailsForPartner(reservationDetails, partnerId, flightScheduleId, highestFareId);
     }
     
     private static Long linkCreditCard(java.lang.Long partnerId, java.lang.String ccd) {

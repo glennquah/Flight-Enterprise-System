@@ -42,12 +42,10 @@ public class ReservationDetails implements Serializable {
     @JoinColumn(nullable = false)
     private Fare fare;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
+    @ManyToOne
     private Customer customer;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
+    @ManyToOne
     private Partner partner;
     
     @ManyToOne(optional = false)
@@ -63,8 +61,8 @@ public class ReservationDetails implements Serializable {
         this.passportNumber = passportNumber;
         this.rowNum = rowNum;
         this.seatLetter = seatLetter;
-        this.customer = new Customer();
-        this.partner = new Partner();
+        this.customer = null;
+        this.partner = null;
         this.flightSchedule = new FlightSchedule();
         this.fare = new Fare();
     }

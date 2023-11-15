@@ -144,12 +144,12 @@ public class PartnerWebService {
         return fareSessionBeanLocal.getFareUsingId(fareId);
     }
     
-    @WebMethod(operationName = "createReservationDetails")
-    public Long createReservationDetails(@WebParam(name = "reservationDetails") Long reservationDetailsId,
+    @WebMethod(operationName = "createReservationDetailsForPartner")
+    public Long createReservationDetailsForPartner(@WebParam(name = "reservationDetails") ReservationDetails reservationDetails,
                                          @WebParam(name = "partnerId") Long partnerId,
                                          @WebParam(name = "flightScheduleId") Long flightScheduleId,
                                          @WebParam(name = "highestFareId") Long highestFareId) {
-        return reservationDetailsSessionBeanLocal.createReservationDetails(reservationDetailsId, partnerId, flightScheduleId, highestFareId);
+        return reservationDetailsSessionBeanLocal.createReservationDetailsForPartner(reservationDetails, partnerId, flightScheduleId, highestFareId);
     }
     
     @WebMethod(operationName = "linkCreditCard")
