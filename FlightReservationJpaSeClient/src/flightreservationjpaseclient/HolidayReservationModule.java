@@ -16,7 +16,6 @@ import java.util.Scanner;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.datatype.Duration;
 import util.exception.FlightScheduleDoesNotExistException;
 import ws.partner.FlightDoesNotExistException_Exception;
 import ws.partner.FlightSchedule;
@@ -258,12 +257,13 @@ public class HolidayReservationModule {
             ws.partner.FlightSchedule fs = flightSchedules.get(i);
             System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
-            //System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
-//            Duration duration = fs.getEstimatedTime();
-//            long hours = duration.getHours();
-//            long minutes = duration.getMinutes() % 60;
-//            String formattedTime = String.format("%02d:%02d", hours, minutes);
-//            System.out.println("Filght Estimated Time: " + formattedTime);
+            System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
+            double duration = fs.getEstimatedTime();
+            int hours = (int) duration;
+            double fractionalHours = duration - hours;
+            int minutes = (int) (fractionalHours * 60);
+            String formattedTime = String.format("%02d:%02d", hours, minutes);
+            System.out.println("Filght Estimated Time: " + formattedTime);
         }
         return Number;
     }
@@ -323,11 +323,12 @@ public class HolidayReservationModule {
         ws.partner.FlightSchedule fs = getFlightScheduleWithId(scheduleId);
         System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
         System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
-        //System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
-//        Duration duration = fs.getEstimatedTime();       
-//        long hours = duration.getHours();
-//        long minutes = duration.getMinutes() % 60;
-//        String formattedTime = String.format("%02d:%02d", hours, minutes);
+        System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
+        double duration = fs.getEstimatedTime();       
+        int hours = (int) duration;
+        double fractionalHours = duration - hours;
+        int minutes = (int) (fractionalHours * 60);
+        String formattedTime = String.format("%02d:%02d", hours, minutes);
 //        
 //        System.out.println("Filght Estimated Time: " + formattedTime);
         System.out.println("\n*** CABIN DETAILS ***");
@@ -456,14 +457,17 @@ public class HolidayReservationModule {
         for (ws.partner.FlightSchedule fs : listOfFlightSchedules) {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
-//            ws.partner.FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
-//            Duration duration = fs.getEstimatedTime();
-//            long hours = duration.getHours();
-//            long minutes = duration.getMinutes() % 60;
-//            String formattedTime = String.format("%02d:%02d", hours, minutes);
-//            System.out.println("Flight Estimate Duration: " + formattedTime + "H");
-//            System.out.println("Flight Origin: " + fr.getOrigin().getName());
-//            System.out.println("Flight Destination: " + fr.getDestination().getName());
+            ws.partner.FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
+            
+            double duration = fs.getEstimatedTime();
+            int hours = (int) duration;
+            double fractionalHours = duration - hours;
+            int minutes = (int) (fractionalHours * 60);
+            
+            String formattedTime = String.format("%02d:%02d", hours, minutes);
+            System.out.println("Flight Estimate Duration: " + formattedTime + "H");
+            System.out.println("Flight Origin: " + fr.getOrigin().getName());
+            System.out.println("Flight Destination: " + fr.getDestination().getName());
             System.out.println("");
         }
         

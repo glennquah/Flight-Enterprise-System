@@ -26,11 +26,11 @@ import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Scanner;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import util.enumeration.FlightRouteStatusEnum;
@@ -738,17 +738,11 @@ public class ManagementModule {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     sc.nextLine();
                     Date departureDateTime = dateFormat.parse(sc.nextLine());
-                    System.out.print("Enter DURATION (HH:mm)> ");
-                    String[] durationDetails = sc.nextLine().split(":");
-
-                    int hours = Integer.parseInt(durationDetails[0]);
-                    int minutes = Integer.parseInt(durationDetails[1]);
-
-                    Duration duration = Duration.ofHours(hours).plusMinutes(minutes);
+                    System.out.print("Enter DURATION in Hours> ");
+                    double duration = sc.nextDouble();
                     
                     System.out.print("Enter the LAYOVER DURATION in Hours> ");
-                    Long layoverLong = sc.nextLong();
-                    Duration layover = Duration.ofHours(layoverLong);
+                    double layover = sc.nextDouble();
                     
                     String haveReturn = "";
                     if (complementaryReturn) {
@@ -769,7 +763,7 @@ public class ManagementModule {
                     
                     if (haveReturn.equals("Y")) {
                         Instant instant = flightSchedule.getArrivalDateTime().toInstant();
-                        Date returnDepartureDateTime =  Date.from(instant.plus(layover));
+                        Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                         flightScheduleSessionBeanRemote.checkForConflictingFlights(returnFlightNumber, returnDepartureDateTime, duration, layover);
                         FlightSchedule flightScheduleReturn = flightScheduleSessionBeanRemote.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                         flightSchedulePlanReturnId = flightSchedulePlanSessionBeanRemote.createSingleFlightSchedulePlan(flightSchedulePlan, flightScheduleReturn.getFlightScheduleId());
@@ -813,8 +807,8 @@ public class ManagementModule {
                 int numSchedules = sc.nextInt();
                 List<Long> flightScheduleIds = new ArrayList<>();
                 List<Date> departureDates = new ArrayList<>();
-                List<Duration> durations = new ArrayList<>();
-                List<Duration> layovers = new ArrayList<>();
+                List<Double> durations = new ArrayList<>();
+                List<Double> layovers = new ArrayList<>();
                 List<String> returnFlights = new ArrayList<>();
                 
                 System.out.println("");
@@ -838,17 +832,12 @@ public class ManagementModule {
                         Date departureDateTime = dateFormat.parse(sc.nextLine());
                         departureDates.add(departureDateTime);
                         
-                        System.out.print("Enter DURATION (HH:mm)> ");
-                        String[] durationDetails = sc.nextLine().split(":");
-
-                        int hours = Integer.parseInt(durationDetails[0]);
-                        int minutes = Integer.parseInt(durationDetails[1]);
-                        Duration duration = Duration.ofHours(hours).plusMinutes(minutes);
+                        System.out.print("Enter DURATION in Hours> ");
+                        double duration = sc.nextDouble();
                         durations.add(duration);
                         
                         System.out.print("Enter the LAYOVER DURATION in Hours> ");
-                        Long layoverLong = sc.nextLong();
-                        Duration layover = Duration.ofHours(layoverLong);
+                        double layover = sc.nextDouble();
                         layovers.add(layover);
                         
                         if (complementaryReturn) {
@@ -865,15 +854,15 @@ public class ManagementModule {
                     FlightSchedule flightSchedule = new FlightSchedule();
                     for (int i = 0; i < departureDates.size(); i++) { 
                         Date departureDateTime = departureDates.get(i);
-                        Duration duration = durations.get(i);
-                        Duration layover = layovers.get(i);
+                        double duration = durations.get(i);
+                        double layover = layovers.get(i);
                         String returnFlight = returnFlights.get(i);
                         flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDateTime, duration, layover));
                         flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                         
                         if (returnFlight.equals("Y")) {
                             Instant instant = flightSchedule.getArrivalDateTime().toInstant();
-                            Date returnDepartureDateTime =  Date.from(instant.plus(layover));
+                            Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                             flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                             flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                         }
@@ -918,8 +907,8 @@ public class ManagementModule {
             } else if (response == 3) {
                 List<Long> flightScheduleIds = new ArrayList<>();
                 List<Date> departureDates = new ArrayList<>();
-                List<Duration> durations = new ArrayList<>();
-                List<Duration> layovers = new ArrayList<>();
+                List<Double> durations = new ArrayList<>();
+                List<Double> layovers = new ArrayList<>();
                 
                 System.out.println("");
                 System.out.println("*** PLEASE ENTER THE FLIGHT NUMBER, DEPARTURE DETAILS AND FLIGHT DURATION ***\n");
@@ -939,12 +928,8 @@ public class ManagementModule {
                     sc.nextLine();
                     Date departureDateTime = dateFormat.parse(sc.nextLine());
 
-                    System.out.print("Enter DURATION (HH:mm)> ");
-                    String[] durationDetails = sc.nextLine().split(":");
-
-                    int hours = Integer.parseInt(durationDetails[0]);
-                    int minutes = Integer.parseInt(durationDetails[1]);
-                    Duration duration = Duration.ofHours(hours).plusMinutes(minutes);
+                    System.out.print("Enter DURATION in Hours> ");
+                    double duration = sc.nextDouble();
 
                     System.out.print("Enter the number of days which the flight schedule will recur> ");
                     int days = sc.nextInt();
@@ -954,8 +939,7 @@ public class ManagementModule {
                     Date endDate = dateFormat.parse(sc.nextLine());
                     
                     System.out.print("Enter the LAYOVER DURATION in Hours> ");
-                    Long layoverLong = sc.nextLong();
-                    Duration layover = Duration.ofHours(layoverLong);
+                    double layover = sc.nextDouble();
                     layovers.add(layover);
                     
                     String haveReturn = "";
@@ -988,7 +972,7 @@ public class ManagementModule {
                         
                         if (haveReturn.equals("Y")) {
                             Instant instant = flightSchedule.getArrivalDateTime().toInstant();
-                            Date returnDepartureDateTime =  Date.from(instant.plus(layover));
+                            Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                             flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                             flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                         }
@@ -1032,8 +1016,8 @@ public class ManagementModule {
             } else if (response == 4) {
                 List<Long> flightScheduleIds = new ArrayList<>();
                 List<Date> departureDates = new ArrayList<>();
-                List<Duration> durations = new ArrayList<>();
-                List<Duration> layovers = new ArrayList<>();
+                List<Double> durations = new ArrayList<>();
+                List<Double> layovers = new ArrayList<>();
                 
                 System.out.println("");
                 System.out.println("*** PLEASE ENTER THE FLIGHT NUMBER, DEPARTURE DETAILS AND FLIGHT DURATION ***\n");
@@ -1053,25 +1037,20 @@ public class ManagementModule {
                     sc.nextLine();
                     Date departureDateTime = dateFormat.parse(sc.nextLine());
 
-                    System.out.print("Enter DURATION (HH:mm)> ");
-                    String[] durationDetails = sc.nextLine().split(":");
-
-                    int hours = Integer.parseInt(durationDetails[0]);
-                    int minutes = Integer.parseInt(durationDetails[1]);
-                    Duration duration = Duration.ofHours(hours).plusMinutes(minutes);
+                    System.out.print("Enter DURATION in Hours> ");
+                    double duration = sc.nextDouble();
                     
                     System.out.print("Enter END DATE (yyyy-MM-dd HH:mm)> ");
                     Date endDate = dateFormat.parse(sc.nextLine());
                     
                     System.out.print("Enter the LAYOVER DURATION in Hours> ");
-                    Long layoverLong = sc.nextLong();
-                    Duration layover = Duration.ofHours(layoverLong);
+                    double layover = sc.nextDouble();
                     
                     String haveReturn = "";
                     if (complementaryReturn) {
                         System.out.print("Is there a return flight> (Y/N)> ");
                         sc.nextLine();
-                         haveReturn = sc.nextLine().trim().toUpperCase();
+                        haveReturn = sc.nextLine().trim().toUpperCase();
                     }
                     
                     while(!departureDateTime.equals(endDate)) {
@@ -1095,7 +1074,7 @@ public class ManagementModule {
                         
                         if (haveReturn.equals("Y")) {
                             Instant instant = flightSchedule.getArrivalDateTime().toInstant();
-                            Date returnDepartureDateTime =  Date.from(instant.plus(layover));
+                            Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                             flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                             flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                         }
@@ -1250,12 +1229,8 @@ public class ManagementModule {
             sc.nextLine();
             Date departureDateTime = dateFormat.parse(sc.nextLine());
 
-            System.out.print("Enter DURATION (HH:mm)> ");
-            String[] durationDetails = sc.nextLine().split(":");
-
-            int hours = Integer.parseInt(durationDetails[0]);
-            int minutes = Integer.parseInt(durationDetails[1]);
-            Duration duration = Duration.ofHours(hours).plusMinutes(minutes);
+            System.out.print("Enter DURATION in Hours> ");
+            double duration = sc.nextDouble();
             
             Long fScheduleId = flightScheduleSessionBeanRemote.changeFlightScheduleDateTime((long) flightScheduleId, departureDateTime, duration);
             System.out.println("*** FLIGHT SCHEDULE CHANGED! ***\n");

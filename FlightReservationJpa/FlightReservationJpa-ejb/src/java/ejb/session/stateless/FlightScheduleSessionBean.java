@@ -7,7 +7,6 @@ package ejb.session.stateless;
 import entity.Flight;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
-import java.time.Duration;
 import java.time.Instant;
 import entity.Cabin;
 import entity.Customer;
@@ -17,8 +16,8 @@ import entity.ReservationDetails;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +52,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
-    public void checkForConflictingFlights(Integer flightNumber, Date departureDate, Duration duration, Duration layover) throws ConflictingFlightScheduleException {
+    public void checkForConflictingFlights(Integer flightNumber, Date departureDate, double duration, double layover) throws ConflictingFlightScheduleException {
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
@@ -61,10 +60,14 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         List<Date> bookedDates = flight.getBookedDates();
         bookedDates.size();
         
+        long hours = (long) (int) duration;
+        long minutes = (long) ((duration - hours) * 60);
         Instant instant = departureDate.toInstant();
-        Date arrivalDateTime = Date.from(instant.plus(duration));
+        Instant instantHours = instant.plus(hours, ChronoUnit.HOURS);
+
+        Date arrivalDateTime = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
         instant = arrivalDateTime.toInstant();
-        Date arrivalWithLayover = Date.from(instant.plus(layover));
+        Date arrivalWithLayover = Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
             
         for (int j = 1; j < bookedDates.size() - 1; j += 2) {
             if (bookedDates.get(j).after(departureDate)) {
@@ -80,7 +83,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Duration> durations, List<Duration> layovers, Boolean haveReturn) throws ConflictingFlightScheduleException {
+    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Double> durations, List<Double> layovers, Boolean haveReturn) throws ConflictingFlightScheduleException {
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
@@ -91,13 +94,17 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
        
         for (int i = 0; i < departureDates.size(); i++) { 
             Date departureDateTime = departureDates.get(i);
-            Duration duration = durations.get(i);
-            Duration layover = layovers.get(i);
-            
+            double duration = durations.get(i);
+            double layover = layovers.get(i);
+
+            long hours = (long) (int) duration;
+            long minutes = (long) ((duration - hours) * 60);
             Instant instant = departureDateTime.toInstant();
-            Date arrivalDateTime = Date.from(instant.plus(duration));
+            Instant instantHours = instant.plus(hours, ChronoUnit.HOURS);
+            
+            Date arrivalDateTime = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
             instant = arrivalDateTime.toInstant();
-            Date arrivalWithLayover = Date.from(instant.plus(layover));
+            Date arrivalWithLayover = Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
             
             for (int j = 1; j < bookedDates.size() - 1; j += 2) {
                 if (bookedDates.get(j).after(departureDateTime)) {
@@ -120,9 +127,11 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
                 bookedDatesReturn.size();
                 
                 instant = arrivalWithLayover.toInstant();
-                Date arrivalDateTimeReturn = Date.from(instant.plus(duration));
+                instantHours = instant.plus(hours, ChronoUnit.HOURS);
+
+                Date arrivalDateTimeReturn = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
                 instant = arrivalDateTimeReturn.toInstant();
-                Date arrivalReturnWithLayover = Date.from(instant.plus(layover));
+                Date arrivalReturnWithLayover = Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 
                 for (int j = 1; j < bookedDatesReturn.size() - 1; j += 2) {
                     if (bookedDatesReturn.get(j).after(departureDateTime)) {
@@ -140,7 +149,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Duration> durations, List<Duration> layovers, List<String> haveReturns) throws ConflictingFlightScheduleException {
+    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Double> durations, List<Double> layovers, List<String> haveReturns) throws ConflictingFlightScheduleException {
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
@@ -151,14 +160,18 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
        
         for (int i = 0; i < departureDates.size(); i++) { 
             Date departureDateTime = departureDates.get(i);
-            Duration duration = durations.get(i);
-            Duration layover = layovers.get(i);
+            double duration = durations.get(i);
+            double layover = layovers.get(i);
             String haveReturn = haveReturns.get(i);
             
+            long hours = (long) (int) duration;
+            long minutes = (long) ((duration - hours) * 60);
             Instant instant = departureDateTime.toInstant();
-            Date arrivalDateTime = Date.from(instant.plus(duration));
+            Instant instantHours = instant.plus(hours, ChronoUnit.HOURS);
+            
+            Date arrivalDateTime = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
             instant = arrivalDateTime.toInstant();
-            Date arrivalWithLayover = Date.from(instant.plus(layover));
+            Date arrivalWithLayover = Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
             
             for (int j = 1; j < bookedDates.size() - 1; j += 2) {
                 if (bookedDates.get(j).after(departureDateTime)) {
@@ -181,9 +194,11 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
                 bookedDatesReturn.size();
                 
                 instant = arrivalWithLayover.toInstant();
-                Date arrivalDateTimeReturn = Date.from(instant.plus(duration));
+                instantHours = instant.plus(hours, ChronoUnit.HOURS);
+
+                Date arrivalDateTimeReturn = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
                 instant = arrivalDateTimeReturn.toInstant();
-                Date arrivalReturnWithLayover = Date.from(instant.plus(layover));
+                Date arrivalReturnWithLayover = Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 
                 for (int j = 1; j < bookedDatesReturn.size() - 1; j += 2) {
                     if (bookedDatesReturn.get(j).after(arrivalWithLayover)) {
@@ -253,14 +268,18 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public Long changeFlightScheduleDateTime(Long flightScheduleId, Date departureDateTime, Duration duration) throws FlightScheduleDoesNotExistException {
+    public Long changeFlightScheduleDateTime(Long flightScheduleId, Date departureDateTime, double duration) throws FlightScheduleDoesNotExistException {
         try {
             FlightSchedule flightSchedule = em.find(FlightSchedule.class, flightScheduleId);
             flightSchedule.setDepartureDateTime(departureDateTime);
             flightSchedule.setEstimatedTime(duration);
-            
+
+            long hours = (long) (int) duration;
+            long minutes = (long) ((duration - hours) * 60);
+
             Instant instant = departureDateTime.toInstant();
-            Date arrivalDateTime = Date.from(instant.plus(duration));
+            Instant instantHours = instant.plus(hours, ChronoUnit.HOURS);            
+            Date arrivalDateTime = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
             flightSchedule.setArrivalDateTime(arrivalDateTime);
             
             return flightSchedule.getFlightScheduleId();

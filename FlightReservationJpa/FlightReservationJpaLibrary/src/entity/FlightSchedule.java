@@ -7,6 +7,7 @@ package entity;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,9 +43,9 @@ public class FlightSchedule implements Serializable {
     @Column(nullable = false)
     private Date departureDateTime;
     @Column(nullable = false)
-    private Duration estimatedTime;
+    private double estimatedTime;
     @Column(nullable = false)
-    private Duration layover;
+    private double layover;
     @Future
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
@@ -68,11 +69,16 @@ public class FlightSchedule implements Serializable {
     public FlightSchedule() {
     }
 
-    public FlightSchedule(Date departureDateTime, Duration estimatedTime, Duration layover) {
+    public FlightSchedule(Date departureDateTime, double estimatedTime, double layover) {
         this.departureDateTime = departureDateTime;
         this.estimatedTime = estimatedTime;
+        
+        long hours = (long) (int) estimatedTime;
+        long minutes = (long) ((estimatedTime - hours) * 60);
         Instant instant = departureDateTime.toInstant();
-        this.arrivalDateTime = Date.from(instant.plus(estimatedTime));
+        Instant instantHours = instant.plus(hours, ChronoUnit.HOURS);
+        this.arrivalDateTime = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
+                
         this.customers = new ArrayList<>();
         this.partners = new ArrayList<>();
         this.layover = layover;
@@ -96,16 +102,6 @@ public class FlightSchedule implements Serializable {
         this.departureDateTime = departureDateTime;
     }
     
-    @XmlTransient
-    public Duration getLayover() {
-        return layover;
-    }
-
-    public void setLayover(Duration layover) {
-        this.layover = layover;
-    }
-    
-    @XmlTransient
     public Date getArrivalDateTime() {
         return arrivalDateTime;
     }
@@ -113,17 +109,23 @@ public class FlightSchedule implements Serializable {
     public void setArrivalDateTime(Date arrivalDateTime) {
         this.arrivalDateTime = arrivalDateTime;
     }
-    
-    @XmlTransient
-    public Duration getEstimatedTime() {
+
+    public double getEstimatedTime() {
         return estimatedTime;
     }
 
-    public void setEstimatedTime(Duration estimatedTime) {
+    public void setEstimatedTime(double estimatedTime) {
         this.estimatedTime = estimatedTime;
     }
+
+    public double getLayover() {
+        return layover;
+    }
+
+    public void setLayover(double layover) {
+        this.layover = layover;
+    }
     
-    @XmlTransient
     public FlightSchedulePlan getFlightSchedulePlan() {
         return flightSchedulePlan;
     }
@@ -135,7 +137,6 @@ public class FlightSchedule implements Serializable {
         /**
      * @return the customers
      */
-    @XmlTransient
     public List<Customer> getCustomers() {
         return customers;
     }
@@ -154,7 +155,6 @@ public class FlightSchedule implements Serializable {
         return hash;
     }
 
-    @XmlTransient
     public List<ReservationDetails> getListOfReservationDetails() {
         return listOfReservationDetails;
     }
@@ -163,8 +163,6 @@ public class FlightSchedule implements Serializable {
         this.listOfReservationDetails = listOfReservationDetails;
     }
     
-    
-
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the flightScheduleId fields are not set
@@ -186,7 +184,6 @@ public class FlightSchedule implements Serializable {
         /**
      * @return the listOfCabins
      */
-    @XmlTransient
     public List<Cabin> getListOfCabins() {
         return listOfCabins;
     }
@@ -201,7 +198,6 @@ public class FlightSchedule implements Serializable {
     /**
      * @return the partners
      */
-    @XmlTransient
     public List<Partner> getPartners() {
         return partners;
     }

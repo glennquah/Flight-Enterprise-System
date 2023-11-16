@@ -20,7 +20,6 @@ import entity.Aircraft;
 import entity.AircraftConfiguration;
 import entity.Airport;
 import entity.Cabin;
-import entity.Customer;
 import entity.Employee;
 import entity.Flight;
 import entity.FlightRoute;
@@ -32,6 +31,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -283,13 +283,13 @@ public class DataInitSessionBean {
             //ML711, Recurrent Weekly
             List<Long> flightScheduleIds = new ArrayList<>();
             List<Date> departureDates = new ArrayList<>();
-            List<Duration> durations = new ArrayList<>();
-            List<Duration> layovers = new ArrayList<>();
-            Duration duration = Duration.ofHours(14).plusMinutes(0);
+            List<Double> durations = new ArrayList<>();
+            List<Double> layovers = new ArrayList<>();
+            double duration = 14;
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             Date departureDateTime = dateFormat.parse(("2023-12-01 09:00"));
             Date endDate = dateFormat.parse("2023-12-31 09:00");
-            Duration layover = Duration.ofHours(2);
+            double layover = 2;
             while(!departureDateTime.equals(endDate)) {
                 departureDates.add(departureDateTime);
                 durations.add(duration);
@@ -309,7 +309,7 @@ public class DataInitSessionBean {
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDate, duration, layover));
                 flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                 Instant instant = flightSchedule.getArrivalDateTime().toInstant();
-                Date returnDepartureDateTime =  Date.from(instant.plus(layover));
+                Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                 flightScheduleIds.add(flightSchedule.getFlightScheduleId());   
             }
@@ -348,11 +348,11 @@ public class DataInitSessionBean {
             departureDates = new ArrayList<>();
             durations = new ArrayList<>();
             layovers = new ArrayList<>();
-            duration = Duration.ofHours(8).plusMinutes(0);
+            duration = 8;
             dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             departureDateTime = dateFormat.parse(("2023-12-01 12:00"));
             endDate = dateFormat.parse("2023-12-31 12:00");
-            layover = Duration.ofHours(2);
+            layover = 2;
             while(!departureDateTime.equals(endDate)) {
                 departureDates.add(departureDateTime);
                 durations.add(duration);
@@ -372,7 +372,7 @@ public class DataInitSessionBean {
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDate, duration, layover));
                 flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                 Instant instant = flightSchedule.getArrivalDateTime().toInstant();
-                Date returnDepartureDateTime =  Date.from(instant.plus(layover));
+                Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                 flightScheduleIds.add(flightSchedule.getFlightScheduleId());   
             }
@@ -412,11 +412,11 @@ public class DataInitSessionBean {
             departureDates = new ArrayList<>();
             durations = new ArrayList<>();
             layovers = new ArrayList<>();
-            duration = Duration.ofHours(8).plusMinutes(0);
+            duration = 8;
             dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             departureDateTime = dateFormat.parse(("2023-12-01 10:00"));
             endDate = dateFormat.parse("2023-12-31 10:00");
-            layover = Duration.ofHours(2);
+            layover = 2;
             while(!departureDateTime.equals(endDate)) {
                 departureDates.add(departureDateTime);
                 durations.add(duration);
@@ -436,7 +436,7 @@ public class DataInitSessionBean {
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDate, duration, layover));
                 flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                 Instant instant = flightSchedule.getArrivalDateTime().toInstant();
-                Date returnDepartureDateTime =  Date.from(instant.plus(layover));
+                Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                 flightScheduleIds.add(flightSchedule.getFlightScheduleId());   
             }
@@ -460,11 +460,11 @@ public class DataInitSessionBean {
             departureDates = new ArrayList<>();
             durations = new ArrayList<>();
             layovers = new ArrayList<>();
-            duration = Duration.ofHours(6).plusMinutes(30);
+            duration = 6.5;
             dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             departureDateTime = dateFormat.parse(("2023-12-01 10:00"));
             endDate = dateFormat.parse("2023-12-31 10:00");
-            layover = Duration.ofHours(3);
+            layover = 3;
             while(!departureDateTime.equals(endDate)) {
                 departureDates.add(departureDateTime);
                 durations.add(duration);
@@ -484,7 +484,7 @@ public class DataInitSessionBean {
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDate, duration, layover));
                 flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                 Instant instant = flightSchedule.getArrivalDateTime().toInstant();
-                Date returnDepartureDateTime =  Date.from(instant.plus(layover));
+                Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                 flightScheduleIds.add(flightSchedule.getFlightScheduleId());   
             }
@@ -523,11 +523,11 @@ public class DataInitSessionBean {
             departureDates = new ArrayList<>();
             durations = new ArrayList<>();
             layovers = new ArrayList<>();
-            duration = Duration.ofHours(4).plusMinutes(0);
+            duration = 4;
             dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             departureDateTime = dateFormat.parse(("2023-12-01 13:00"));
             endDate = dateFormat.parse("2023-12-31 13:00");
-            layover = Duration.ofHours(4);
+            layover = 4;
             int days = 2;
             while(!departureDateTime.equals(endDate) || endDate.after(departureDateTime)) {
                 departureDates.add(departureDateTime);
@@ -548,7 +548,7 @@ public class DataInitSessionBean {
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDate, duration, layover));
                 flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                 Instant instant = flightSchedule.getArrivalDateTime().toInstant();
-                Date returnDepartureDateTime =  Date.from(instant.plus(layover));
+                Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                 flightScheduleIds.add(flightSchedule.getFlightScheduleId());   
             }
@@ -587,7 +587,7 @@ public class DataInitSessionBean {
             departureDates = new ArrayList<>();
             durations = new ArrayList<>();
             layovers = new ArrayList<>();
-            duration = Duration.ofHours(3).plusMinutes(0);
+            duration = 3;
             dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             departureDateTime = dateFormat.parse(("2023-12-07 17:00"));
             departureDates.add(departureDateTime);
@@ -595,7 +595,7 @@ public class DataInitSessionBean {
             departureDates.add(departureDateTime);
             departureDateTime = dateFormat.parse(("2023-12-09 17:00"));
             departureDates.add(departureDateTime);
-            layover = Duration.ofHours(2);
+            layover = 2;
             durations.add(duration);
             durations.add(duration);
             durations.add(duration);
@@ -611,7 +611,7 @@ public class DataInitSessionBean {
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(flightNumber, new FlightSchedule(departureDate, duration, layover));
                 flightScheduleIds.add(flightSchedule.getFlightScheduleId());
                 Instant instant = flightSchedule.getArrivalDateTime().toInstant();
-                Date returnDepartureDateTime =  Date.from(instant.plus(layover));
+                Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
                 flightScheduleIds.add(flightSchedule.getFlightScheduleId());   
             }

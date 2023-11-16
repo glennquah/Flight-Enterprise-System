@@ -302,9 +302,11 @@ public class ReservationModule {
             System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
             System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
-            Duration duration = fs.getEstimatedTime();
-            long hours = duration.toHours();
-            long minutes = duration.toMinutes() % 60;
+            double duration = fs.getEstimatedTime();
+            int hours = (int) duration;
+            double fractionalHours = duration - hours;
+            int minutes = (int) (fractionalHours * 60);
+            
             String formattedTime = String.format("%02d:%02d", hours, minutes);
             System.out.println("Filght Estimated Time: " + formattedTime);
         }
@@ -367,9 +369,11 @@ public class ReservationModule {
         System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
         System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
         System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
-        Duration duration = fs.getEstimatedTime();
-        long hours = duration.toHours();
-        long minutes = duration.toMinutes() % 60;
+        double duration = fs.getEstimatedTime();
+        int hours = (int) duration;
+        double fractionalHours = duration - hours;
+        int minutes = (int) (fractionalHours * 60);
+        
         String formattedTime = String.format("%02d:%02d", hours, minutes);
         System.out.println("Filght Estimated Time: " + formattedTime);
         System.out.println("\n*** CABIN DETAILS ***");
@@ -490,9 +494,11 @@ public class ReservationModule {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
             FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
-            Duration duration = fs.getEstimatedTime();
-            long hours = duration.toHours();
-            long minutes = duration.toMinutes() % 60;
+            double duration = fs.getEstimatedTime();
+            int hours = (int) duration;
+            double fractionalHours = duration - hours;
+            int minutes = (int) (fractionalHours * 60);
+            
             String formattedTime = String.format("%02d:%02d", hours, minutes);
             System.out.println("Flight Estimate Duration: " + formattedTime + "H");
             System.out.println("Flight Origin: " + fr.getOrigin().getName());

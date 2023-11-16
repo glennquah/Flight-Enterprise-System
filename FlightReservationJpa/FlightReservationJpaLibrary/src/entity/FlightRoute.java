@@ -68,7 +68,6 @@ public class FlightRoute implements Serializable {
         this.listOfFlights = new ArrayList<>();
     }
     
-    @XmlTransient
     public Long getFlightRouteId() {
         return flightRouteId;
     }
@@ -77,12 +76,10 @@ public class FlightRoute implements Serializable {
         this.flightRouteId = flightRouteId;
     }
     
-    @XmlTransient
     public Airport getOrigin() {
         return origin;
     }
     
-    @XmlTransient
     public Boolean getComplementaryRoute() {
         return complementaryRoute;
     }
@@ -91,7 +88,6 @@ public class FlightRoute implements Serializable {
         this.complementaryRoute = complementaryRoute;
     }
     
-    @XmlTransient
     public FlightRouteStatusEnum getFlightRouteStatus() {
         return flightRouteStatus;
     }
@@ -104,7 +100,6 @@ public class FlightRoute implements Serializable {
         this.origin = origin;
     }
 
-    @XmlTransient
     public Airport getDestination() {
         return destination;
     }
@@ -141,12 +136,10 @@ public class FlightRoute implements Serializable {
     /**
      * @return the listOfFlights
      */
-    @XmlTransient
     public List<Flight> getListOfFlights() {
         return listOfFlights;
     }
     
-    @XmlTransient
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
