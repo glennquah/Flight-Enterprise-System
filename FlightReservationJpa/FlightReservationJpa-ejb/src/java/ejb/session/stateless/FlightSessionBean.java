@@ -245,7 +245,7 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
         query.setParameter("origin", ogAirport);
         query.setParameter("destination", desAirport);
         return (List<Flight>)query.getResultList();
-    }     
+    }  
     
     @Override
     public List<Flight> retrieveFlightsThatHasDepAndDestConnectingFlight(Long originAirport, Long destAirport) {

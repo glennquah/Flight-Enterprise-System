@@ -55,4 +55,10 @@ public interface FlightScheduleSessionBeanLocal {
     public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingPartner(Date departureDate, long depAirport, long destAirport);
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterPartner(Date departureDate, long depAirport, long destAirport);
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforePartner(Date departureDate, long depAirport, long destAirport);
+    public long getAirportIdWithFlightScheduleId(long flightSchedId);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate);
+    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTimingReturnConnecting(long pickedAirport, long destAirport, Date departureDate);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(long pickedAirport, long destAirport, Date departureDate);
 }
