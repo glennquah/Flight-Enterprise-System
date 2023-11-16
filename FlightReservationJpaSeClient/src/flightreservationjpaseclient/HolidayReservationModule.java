@@ -152,36 +152,32 @@ public class HolidayReservationModule {
     public BigDecimal searchConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, boolean connectedFlight) throws Exception {
         
         List<Long> listOfHubsId = getListOfHubsId();
-        List<ws.partner.Flight> listOfFlightsToHub = new ArrayList<>();
-        List<ws.partner.Flight> listOfFlightsFromHub = new ArrayList<>();
-        for (Long hubId : listOfHubsId) {
-            listOfFlightsToHub = retrieveFlightsThatHasDepAndDest(depAirport, hubId);
-            listOfFlightsFromHub = retrieveFlightsThatHasDepAndDest(hubId, destAirport);
-            for (ws.partner.Flight f : listOfFlightsToHub) {
-                listOfFlightsToHub.add(f);
-            }
-            for (ws.partner.Flight f : listOfFlightsFromHub) {
-                listOfFlightsFromHub.add(f);
-            }
-        }
-  
-        List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlanToHub = retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
-        List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlanFromHub = retrieveFlightSchedulePlanWithSameFlight(listOfFlightsFromHub);
+//        List<ws.partner.Flight> listOfFlightsToHub = new ArrayList<>();
+//        List<ws.partner.Flight> listOfFlightsFromHub = new ArrayList<>();
+//        for (Long hubId : listOfHubsId) {
+//            List<ws.partner.Flight> flightsToHub = retrieveFlightsThatHasDepAndDest(depAirport, hubId);
+//            List<ws.partner.Flight> flightsFromHub = retrieveFlightsThatHasDepAndDest(hubId, destAirport);
+//            listOfFlightsToHub.addAll(flightsToHub); // Combine flights to the hub
+//            listOfFlightsFromHub.addAll(flightsFromHub); // Combine flights from the hub
+//        }
+//  
+//        List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlanToHub = retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
+//        List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlanFromHub = retrieveFlightSchedulePlanWithSameFlight(listOfFlightsFromHub);
         int flightnum = 1;
-        List<ws.partner.FlightSchedule> listOfFlightScheduleToHubSameDay = retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlanToHub, departureDate);
+        List<ws.partner.FlightSchedule> listOfFlightScheduleToHubSameDay = retrieveFlightSchedulePlanWithSameTimingConnecting(depAirport, listOfHubsId, departureDate);
         
         System.out.print("\n*** FIRST, PICK FLIGHT GOING TO TAOYUAN AIRPORT (HUB) ***");
         System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***\n", listOfFlightScheduleToHubSameDay.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleToHubSameDay, flightnum);
         
         //4. get list of flight schedule that is 3 days before
-        List<ws.partner.FlightSchedule> listOfFlightScheduleHub3daysBefore = retrieveFlightSchedulePlanWith3DaysBefore(listOfFlightSchedulePlanToHub, departureDate);
+        List<ws.partner.FlightSchedule> listOfFlightScheduleHub3daysBefore = retrieveFlightSchedulePlanWith3DaysBeforeConnecting(depAirport, listOfHubsId, departureDate);
         System.out.println(String.format("\n*** %s FLIGHT 3 DAYS BEFORE ***\n", listOfFlightScheduleHub3daysBefore.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleHub3daysBefore, flightnum);
         
         
         //5. get list of flight schedule that is 3 days After
-        List<ws.partner.FlightSchedule> listOfFlightScheduleHub3daysAfter = retrieveFlightSchedulePlanWith3DaysAfter(listOfFlightSchedulePlanToHub, departureDate);
+        List<ws.partner.FlightSchedule> listOfFlightScheduleHub3daysAfter = retrieveFlightSchedulePlanWith3DaysAfterConnecting(depAirport, listOfHubsId, departureDate);
         System.out.println(String.format("\n*** %s FLIGHT 3 DAYS AFTER ***\n", listOfFlightScheduleHub3daysAfter.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleHub3daysAfter, flightnum);
         
@@ -208,17 +204,18 @@ public class HolidayReservationModule {
         }
         
         long flightSchedId = confirmId;
-        
         Date dateOfFlightPicked = toDate(retrieveDateOfFlightPicked(flightSchedId));
+        
+        long pickedAirportId = getAirportIdWithFlightScheduleId(flightSchedId);
         
         flightnum = 1;
         System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF HUB ***");
-        List<FlightSchedule> listOfFlightSchedulesFromHubSameDay = retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlanFromHub, dateOfFlightPicked);
+        List<FlightSchedule> listOfFlightSchedulesFromHubSameDay = retrieveFlightSchedulePlanAfterTimingReturnConnecting(pickedAirportId, destAirport, dateOfFlightPicked);
         System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***", listOfFlightSchedulesFromHubSameDay.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightSchedulesFromHubSameDay, flightnum);
         
         //5. get list of flight schedule that is 3 days After
-        List<FlightSchedule> listOfFlightScheduleFromHub1dayAfter = retrieveFlightSchedulePlanWith1DayAfter(listOfFlightSchedulePlanFromHub, dateOfFlightPicked);
+        List<FlightSchedule> listOfFlightScheduleFromHub1dayAfter = retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(pickedAirportId, destAirport, dateOfFlightPicked);
         System.out.println(String.format("\n*** %s FLIGHT 1 DAY AFTER ***", listOfFlightScheduleFromHub1dayAfter.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleFromHub1dayAfter, flightnum);
         
@@ -269,23 +266,18 @@ public class HolidayReservationModule {
     }
     
     public BigDecimal searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, Boolean lastFlight) throws Exception {
-        List<ws.partner.Flight> listOfFlights = retrieveFlightsThatHasDepAndDest(depAirport, destAirport); //DONE
-        //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
-        List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlan = retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
-        
-        //3. get list of flight schedule that is on the same day
         int flightnum = 1;
-        List<ws.partner.FlightSchedule> listOfFlightSchedule = retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlan, departureDate);
+        List<ws.partner.FlightSchedule> listOfFlightSchedule = retrieveFlightSchedulePlanWithSameTimingPartner(departureDate, depAirport, destAirport);
         System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***", listOfFlightSchedule.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightSchedule, flightnum);
         
         //4. get list of flight schedule that is 3 days before
-        List<ws.partner.FlightSchedule> listOfFlightSchedule3daysBefore = retrieveFlightSchedulePlanWith3DaysBefore(listOfFlightSchedulePlan, departureDate);
+        List<ws.partner.FlightSchedule> listOfFlightSchedule3daysBefore = retrieveFlightSchedulePlanWith3DaysBeforePartner(departureDate, depAirport, destAirport);
         System.out.println(String.format("\n*** %s FLIGHT 3 DAYS BEFORE ***", listOfFlightSchedule3daysBefore.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightSchedule3daysBefore, flightnum);
         
         //5. get list of flight schedule that is 3 days After
-        List<ws.partner.FlightSchedule> listOfFlightSchedule3daysAfter = retrieveFlightSchedulePlanWith3DaysAfter(listOfFlightSchedulePlan, departureDate);
+        List<ws.partner.FlightSchedule> listOfFlightSchedule3daysAfter = retrieveFlightSchedulePlanWith3DaysAfterPartner(departureDate, depAirport, destAirport);
         System.out.println(String.format("\n*** %s FLIGHT 3 DAYS AFTER ***", listOfFlightSchedule3daysAfter.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightSchedule3daysAfter, flightnum);
         
@@ -559,34 +551,64 @@ public class HolidayReservationModule {
         return port.getFlightScheduleWithId(id);
     }
     
-    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) throws DatatypeConfigurationException {
+    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWithSameTimingPartner(Date departureDate, java.lang.Long depAirport, java.lang.Long destAirport) throws DatatypeConfigurationException {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         
         GregorianCalendar gc = new GregorianCalendar();
         gc.setTime(departureDate);
         XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
-        return port.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlan, xmlDate);
+        return port.retrieveFlightSchedulePlanWithSameTimingPartner(xmlDate, depAirport, destAirport);
     }
     
-    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith3DaysBefore(List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) throws DatatypeConfigurationException {
+    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforePartner(Date departureDate, java.lang.Long depAirport, java.lang.Long destAirport) throws DatatypeConfigurationException {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         
         GregorianCalendar gc = new GregorianCalendar();
         gc.setTime(departureDate);
         XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
-        return port.retrieveFlightSchedulePlanWith3DaysBefore(listOfFlightSchedulePlan, xmlDate);
+        return port.retrieveFlightSchedulePlanWith3DaysBeforePartner(xmlDate, depAirport, destAirport);
     }
     
-    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfter(List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) throws DatatypeConfigurationException {
+    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterPartner(Date departureDate, java.lang.Long depAirport, java.lang.Long destAirport) throws DatatypeConfigurationException {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         
         GregorianCalendar gc = new GregorianCalendar();
         gc.setTime(departureDate);
         XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
-        return port.retrieveFlightSchedulePlanWith3DaysAfter(listOfFlightSchedulePlan, xmlDate);
+        return port.retrieveFlightSchedulePlanWith3DaysAfterPartner(xmlDate, depAirport, destAirport);
+    }
+    
+    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnecting(java.lang.Long depAirport, List<java.lang.Long> listOfHubIds, Date departureDate) throws DatatypeConfigurationException {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(departureDate);
+        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+        return port.retrieveFlightSchedulePlanWithSameTimingConnecting(depAirport, listOfHubIds, xmlDate);
+    }
+    
+    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnecting(java.lang.Long depAirport, List<java.lang.Long> listOfHubIds, Date departureDate) throws DatatypeConfigurationException {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(departureDate);
+        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+        return port.retrieveFlightSchedulePlanWith3DaysBeforeConnecting(depAirport, listOfHubIds, xmlDate);
+    }
+    
+    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(java.lang.Long depAirport, List<java.lang.Long> listOfHubIds, Date departureDate) throws DatatypeConfigurationException {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(departureDate);
+        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+        return port.retrieveFlightSchedulePlanWith3DaysAfterConnecting(depAirport, listOfHubIds, xmlDate);
     }
     
     private static XMLGregorianCalendar retrieveDateOfFlightPicked(java.lang.Long id) throws FlightDoesNotExistException_Exception {
@@ -637,18 +659,6 @@ public class HolidayReservationModule {
         return port.getReservationDetailsPartner(flightScheduleId, partnerId);
     }
     
-    private static List<ws.partner.FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(java.util.List listOfFlightsToHub) {
-        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
-        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
-    }
-    
-    private static List<ws.partner.Flight> retrieveFlightsThatHasDepAndDest(java.lang.Long depAirport, java.lang.Long hubId) {
-        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
-        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
-    }
-    
     private static Long getHighestFareIdInCabin(java.lang.Long cabinId) {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
@@ -688,20 +698,14 @@ public class HolidayReservationModule {
         return port.getFlightSchedules(partnerId);
     }
     
-    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDateTime) throws DatatypeConfigurationException {
-        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
-        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        
-        GregorianCalendar gc = new GregorianCalendar();
-        gc.setTime(departureDateTime);
-        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
-        return port.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlan, xmlDate);
-    }
-    
-//    private static ws.partner.FlightRoute retrieveFlightRouteFromFlightSchedule(java.lang.Long fsId) {
+//    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDateTime) throws DatatypeConfigurationException {
 //        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
 //        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-//        return port.retrieveFlightRouteFromFlightSchedule(fsId);
+//        
+//        GregorianCalendar gc = new GregorianCalendar();
+//        gc.setTime(departureDateTime);
+//        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+//        return port.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlan, xmlDate);
 //    }
     
     private static List<Long> getListOfHubsId() {
@@ -710,16 +714,40 @@ public class HolidayReservationModule {
         return port.getListOfHubsId();
     }
     
-    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith1DayAfter(List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlanFromHub, Date dateOfFlightPicked) throws DatatypeConfigurationException {
+//    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith1DayAfter(List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlanFromHub, Date dateOfFlightPicked) throws DatatypeConfigurationException {
+//        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+//        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+//        
+//        GregorianCalendar gc = new GregorianCalendar();
+//        gc.setTime(dateOfFlightPicked);
+//        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+//        return port.retrieveFlightSchedulePlanWith1DayAfter(listOfFlightSchedulePlanFromHub, xmlDate);
+//    }
+    
+    private static Long getAirportIdWithFlightScheduleId(java.lang.Long flightSchedId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getAirportIdWithFlightScheduleId(flightSchedId);
+    }
+    
+    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanAfterTimingReturnConnecting(java.lang.Long pickedAirport, java.lang.Long destAirport, Date dateOfFlightPicked) throws DatatypeConfigurationException {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         
         GregorianCalendar gc = new GregorianCalendar();
         gc.setTime(dateOfFlightPicked);
         XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
-        return port.retrieveFlightSchedulePlanWith1DayAfter(listOfFlightSchedulePlanFromHub, xmlDate);
+        return port.retrieveFlightSchedulePlanAfterTimingReturnConnecting(pickedAirport, destAirport, xmlDate);
     }
     
-
+    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(java.lang.Long pickedAirport, java.lang.Long  destAirport, Date dateOfFlightPicked) throws DatatypeConfigurationException {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(dateOfFlightPicked);
+        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+        return port.retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(pickedAirport, destAirport, xmlDate);
+    }   
 }
 
