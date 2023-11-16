@@ -144,21 +144,6 @@ public interface PartnerWebService {
 
     /**
      * 
-     * @param listOfFlightsToHub
-     * @return
-     *     returns java.util.List&lt;ws.partner.FlightSchedulePlan&gt;
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "retrieveFlightSchedulePlanWithSameFlight", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWithSameFlight")
-    @ResponseWrapper(localName = "retrieveFlightSchedulePlanWithSameFlightResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWithSameFlightResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameFlightRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameFlightResponse")
-    public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(
-        @WebParam(name = "listOfFlightsToHub", targetNamespace = "")
-        List<Flight> listOfFlightsToHub);
-
-    /**
-     * 
      * @param listOfFlightSchedulePlan
      * @param departureDateTime
      * @return
@@ -314,24 +299,6 @@ public interface PartnerWebService {
     public List<FlightSchedule> retrieveFlightScheduleInPlan(
         @WebParam(name = "listOfFlightSchedulePlan", targetNamespace = "")
         List<FlightSchedulePlan> listOfFlightSchedulePlan);
-
-    /**
-     * 
-     * @param hubId
-     * @param depAirport
-     * @return
-     *     returns java.util.List&lt;ws.partner.Flight&gt;
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "retrieveFlightsThatHasDepAndDest", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightsThatHasDepAndDest")
-    @ResponseWrapper(localName = "retrieveFlightsThatHasDepAndDestResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightsThatHasDepAndDestResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightsThatHasDepAndDestRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightsThatHasDepAndDestResponse")
-    public List<Flight> retrieveFlightsThatHasDepAndDest(
-        @WebParam(name = "depAirport", targetNamespace = "")
-        long depAirport,
-        @WebParam(name = "hubId", targetNamespace = "")
-        long hubId);
 
     /**
      * 

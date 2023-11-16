@@ -43,6 +43,5 @@ public interface FlightSchedulePlanSessionBeanRemote {
     public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(List<Flight> listOfFlights);
     
     public FlightRoute retrieveFlightRouteFromFlightSchedule(Long fsId);
-    
-    public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(List<Flight> listOfFlights, Boolean detach);
+
 }

@@ -315,38 +315,6 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate, Boolean detach) {
-        List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
-
-        List<FlightSchedule> newList = new ArrayList<>();
-
-        for (FlightSchedule flightSchedule : listOfFlightSchedules) {
-            Date departureDateTime = flightSchedule.getDepartureDateTime();
-            LocalDate localDate = departureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-            if (localDate.isEqual(departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
-                newList.add(flightSchedule);
-            }
-        }
-        
-        for (FlightSchedule fs : newList) {
-            em.detach(fs);
-            em.detach(fs.getFlightSchedulePlan());
-            for (Cabin c : fs.getListOfCabins()) {
-                em.detach(c);
-            }
-            for (Customer cust : fs.getCustomers()) {
-                em.detach(cust);
-            }
-            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
-                em.detach(rd);
-            }
-        }
-
-        return newList;
-    }
-    
-    @Override
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBefore(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) {
         List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
 
@@ -700,11 +668,8 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     @Override
     public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingPartner(Date departureDate, long depAirport, long destAirport)  {
         List<Flight> listOfFlights = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
-        System.out.println("List of flights = " + listOfFlights.size());
         List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
-        System.out.println("List of fsPlan = " + listOfFsPlan.size());
         List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWithSameTiming(listOfFsPlan, departureDate);
-        System.out.println("List of fs = " + listOfFs.size());
         for (FlightSchedule fs : listOfFs) {
             em.detach(fs);
             em.detach(fs.getFlightSchedulePlan());
@@ -721,7 +686,6 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
                 em.detach(p);
             }   
         }
-        System.out.println("SIZE OF FS SAME TIME = " + listOfFlights.size());
         return listOfFs;
     }
     
@@ -746,7 +710,6 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
                 em.detach(p);
             }       
         }
-        System.out.println("SIZE OF FS 3DAYS AFTER = " + listOfFlights.size());
         return listOfFs;
     }
     
@@ -771,7 +734,6 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
                 em.detach(p);
             }   
         }
-        System.out.println("SIZE OF FS 3 DAYS BEFORE = " + listOfFlights.size());
         return listOfFs;
     }
 }

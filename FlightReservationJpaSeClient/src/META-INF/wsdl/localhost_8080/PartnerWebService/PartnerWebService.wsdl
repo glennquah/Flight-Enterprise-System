@@ -49,12 +49,6 @@
 <message name="bookSeatResponse">
 <part name="parameters" element="tns:bookSeatResponse"/>
 </message>
-<message name="retrieveFlightSchedulePlanWithSameFlight">
-<part name="parameters" element="tns:retrieveFlightSchedulePlanWithSameFlight"/>
-</message>
-<message name="retrieveFlightSchedulePlanWithSameFlightResponse">
-<part name="parameters" element="tns:retrieveFlightSchedulePlanWithSameFlightResponse"/>
-</message>
 <message name="retrieveFlightSchedulePlanAfterTiming">
 <part name="parameters" element="tns:retrieveFlightSchedulePlanAfterTiming"/>
 </message>
@@ -102,12 +96,6 @@
 </message>
 <message name="retrieveFlightScheduleInPlanResponse">
 <part name="parameters" element="tns:retrieveFlightScheduleInPlanResponse"/>
-</message>
-<message name="retrieveFlightsThatHasDepAndDest">
-<part name="parameters" element="tns:retrieveFlightsThatHasDepAndDest"/>
-</message>
-<message name="retrieveFlightsThatHasDepAndDestResponse">
-<part name="parameters" element="tns:retrieveFlightsThatHasDepAndDestResponse"/>
 </message>
 <message name="getHighestFareIdInCabin">
 <part name="parameters" element="tns:getHighestFareIdInCabin"/>
@@ -212,10 +200,6 @@
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/bookSeatResponse" message="tns:bookSeatResponse"/>
 <fault message="tns:FlightScheduleDoesNotExistException" name="FlightScheduleDoesNotExistException" wsam:Action="http://ws.session.ejb/PartnerWebService/bookSeat/Fault/FlightScheduleDoesNotExistException"/>
 </operation>
-<operation name="retrieveFlightSchedulePlanWithSameFlight">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameFlightRequest" message="tns:retrieveFlightSchedulePlanWithSameFlight"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameFlightResponse" message="tns:retrieveFlightSchedulePlanWithSameFlightResponse"/>
-</operation>
 <operation name="retrieveFlightSchedulePlanAfterTiming">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanAfterTimingRequest" message="tns:retrieveFlightSchedulePlanAfterTiming"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanAfterTimingResponse" message="tns:retrieveFlightSchedulePlanAfterTimingResponse"/>
@@ -248,10 +232,6 @@
 <operation name="retrieveFlightScheduleInPlan">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightScheduleInPlanRequest" message="tns:retrieveFlightScheduleInPlan"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightScheduleInPlanResponse" message="tns:retrieveFlightScheduleInPlanResponse"/>
-</operation>
-<operation name="retrieveFlightsThatHasDepAndDest">
-<input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightsThatHasDepAndDestRequest" message="tns:retrieveFlightsThatHasDepAndDest"/>
-<output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightsThatHasDepAndDestResponse" message="tns:retrieveFlightsThatHasDepAndDestResponse"/>
 </operation>
 <operation name="getHighestFareIdInCabin">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/getHighestFareIdInCabinRequest" message="tns:getHighestFareIdInCabin"/>
@@ -373,15 +353,6 @@
 <soap:fault name="FlightScheduleDoesNotExistException" use="literal"/>
 </fault>
 </operation>
-<operation name="retrieveFlightSchedulePlanWithSameFlight">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="retrieveFlightSchedulePlanAfterTiming">
 <soap:operation soapAction=""/>
 <input>
@@ -449,15 +420,6 @@
 </fault>
 </operation>
 <operation name="retrieveFlightScheduleInPlan">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="retrieveFlightsThatHasDepAndDest">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

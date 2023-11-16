@@ -626,18 +626,6 @@ public class HolidayReservationModule {
         return port.getReservationDetailsPartner(flightScheduleId, partnerId);
     }
     
-    private static List<ws.partner.FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(java.util.List listOfFlightsToHub) {
-        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
-        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
-    }
-    
-    private static List<ws.partner.Flight> retrieveFlightsThatHasDepAndDest(java.lang.Long depAirport, java.lang.Long hubId) {
-        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
-        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return port.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
-    }
-    
     private static Long getHighestFareIdInCabin(java.lang.Long cabinId) {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();

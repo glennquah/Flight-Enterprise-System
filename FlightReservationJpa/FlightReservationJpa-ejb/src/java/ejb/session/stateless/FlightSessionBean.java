@@ -248,21 +248,6 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     }     
     
     @Override
-    public List<Flight> retrieveFlightsThatHasDepAndDest(Long originAirport, Long destAirport, Boolean detach) {
-        Airport ogAirport = em.find(Airport.class, originAirport);
-        Airport desAirport = em.find(Airport.class, destAirport);
-        
-        Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute.origin = :origin AND f.flightRoute.destination = :destination");
-        query.setParameter("origin", ogAirport);
-        query.setParameter("destination", desAirport);
-        List<Flight> listOfFlights = query.getResultList();
-        for (Flight f : listOfFlights) {
-            em.detach(f);
-        }
-        return listOfFlights;
-    }    
-    
-    @Override
     public List<Flight> retrieveFlightsThatHasDepAndDestConnectingFlight(Long originAirport, Long destAirport) {
         Airport ogAirport = em.find(Airport.class, originAirport);
         //Becasuse hub is TPE

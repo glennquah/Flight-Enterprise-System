@@ -105,32 +105,6 @@ public class PartnerWebService {
         return flightScheduleSessionBeanLocal.retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
     }
     
-    @WebMethod(operationName = "retrieveFlightSchedulePlanWithSameFlight")
-    public List<FlightSchedulePlan> retrieveFlightSchedulePlanWithSameFlight(@WebParam(name = "listOfFlightsToHub") List<Flight> listOfFlightsToHub) {
-        List<FlightSchedulePlan> listOfFsp = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub, true);
-        for (FlightSchedulePlan fsp : listOfFsp) {
-            fsp.setFlight(null);
-//            for (FlightSchedule fs : fsp.getFlightSchedules()) {
-//                fs.setListOfCabins(null);
-//                fs.setCustomers(null);
-//                fs.setListOfReservationDetails(null);
-//            }
-//            fsp.setFlightSchedules(null);
-        }
-        return listOfFsp;
-    }
-    
-    @WebMethod(operationName = "retrieveFlightsThatHasDepAndDest")
-    public List<Flight> retrieveFlightsThatHasDepAndDest(@WebParam(name = "depAirport") long depAirport, @WebParam(name = "hubId") long hubId) {
-        List<Flight> listOfFlights = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId, true);
-        for (Flight f : listOfFlights) {
-            f.setAircraftConfig(null);
-            f.setFlightRoute(null);
-            f.setListOfFlightSchedulePlans(null);
-        }
-        return listOfFlights;
-    }
-    
     @WebMethod(operationName = "getHighestFareIdInCabin")
     public Long getHighestFareIdInCabin(@WebParam(name = "cabinId") long cabinId) {
         return cabinCustomerSessionBeanLocal.getHighestFareIdInCabin(cabinId);
