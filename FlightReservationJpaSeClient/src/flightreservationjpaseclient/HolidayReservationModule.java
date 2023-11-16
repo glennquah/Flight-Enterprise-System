@@ -255,8 +255,9 @@ public class HolidayReservationModule {
             //System.out.println("No." + (Number++));
             ws.partner.FlightSchedule fs = flightSchedules.get(i);
             System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
-            System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
-            System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            System.out.println("Filght Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime()));
+            System.out.println("Filght Estimated Arrival Date Time: " + dateFormat.format(fs.getArrivalDateTime()));
             double duration = fs.getEstimatedTime();
             int hours = (int) duration;
             double fractionalHours = duration - hours;
@@ -321,8 +322,9 @@ public class HolidayReservationModule {
         System.out.println(String.format("\n*** DETAILS FOR FLIGHT SCHEDULE %s ***", scheduleId));
         ws.partner.FlightSchedule fs = getFlightScheduleWithId(scheduleId);
         System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
-        System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
-        System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        System.out.println("Filght Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime()));
+        System.out.println("Filght Estimated Arrival Date Time: " + dateFormat.format(fs.getArrivalDateTime()));
         double duration = fs.getEstimatedTime();       
         int hours = (int) duration;
         double fractionalHours = duration - hours;
