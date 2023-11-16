@@ -126,9 +126,6 @@ public class PartnerWebService {
         for (Flight f : listOfFlights) {
             f.setAircraftConfig(null);
             f.setFlightRoute(null);
-//            for (FlightSchedulePlan fsp : f.getListOfFlightSchedulePlans()) {
-//                fsp.setFlightSchedules(null);
-//            }
             f.setListOfFlightSchedulePlans(null);
         }
         return listOfFlights;

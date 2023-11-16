@@ -157,14 +157,10 @@ public class HolidayReservationModule {
         List<ws.partner.Flight> listOfFlightsToHub = new ArrayList<>();
         List<ws.partner.Flight> listOfFlightsFromHub = new ArrayList<>();
         for (Long hubId : listOfHubsId) {
-            listOfFlightsToHub = retrieveFlightsThatHasDepAndDest(depAirport, hubId);
-            listOfFlightsFromHub = retrieveFlightsThatHasDepAndDest(hubId, destAirport);
-            for (ws.partner.Flight f : listOfFlightsToHub) {
-                listOfFlightsToHub.add(f);
-            }
-            for (ws.partner.Flight f : listOfFlightsFromHub) {
-                listOfFlightsFromHub.add(f);
-            }
+            List<ws.partner.Flight> flightsToHub = retrieveFlightsThatHasDepAndDest(depAirport, hubId);
+            List<ws.partner.Flight> flightsFromHub = retrieveFlightsThatHasDepAndDest(hubId, destAirport);
+            listOfFlightsToHub.addAll(flightsToHub); // Combine flights to the hub
+            listOfFlightsFromHub.addAll(flightsFromHub); // Combine flights from the hub
         }
   
         List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlanToHub = retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
