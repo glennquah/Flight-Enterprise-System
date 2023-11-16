@@ -195,7 +195,13 @@ public class PartnerWebService {
     
     @WebMethod(operationName = "getFlightScheduleWithId")
     public FlightSchedule getFlightScheduleWithId(long id) throws FlightScheduleDoesNotExistException {
-        return flightScheduleSessionBeanLocal.getFlightScheduleWithId(id);
+        FlightSchedule fs = flightScheduleSessionBeanLocal.getFlightScheduleWithId(id, true);
+        fs.setListOfCabins(null);
+        fs.setFlightSchedulePlan(null);
+        fs.setListOfReservationDetails(null);
+        fs.setPartners(null);
+        fs.setCustomers(null);
+        return fs;
     }
     
     @WebMethod(operationName = "retrieveDateOfFlightPicked")

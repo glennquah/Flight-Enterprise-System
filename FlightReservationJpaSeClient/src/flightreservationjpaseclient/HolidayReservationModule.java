@@ -253,8 +253,8 @@ public class HolidayReservationModule {
             ws.partner.FlightSchedule fs = flightSchedules.get(i);
             System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            System.out.println("Filght Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime()));
-            System.out.println("Filght Estimated Arrival Date Time: " + dateFormat.format(fs.getArrivalDateTime()));
+            System.out.println("Filght Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime().toGregorianCalendar().getTime()));
+            System.out.println("Filght Estimated Arrival Date Time: " + dateFormat.format(fs.getArrivalDateTime().toGregorianCalendar().getTime()));
             double duration = fs.getEstimatedTime();
             int hours = (int) duration;
             double fractionalHours = duration - hours;
@@ -315,8 +315,8 @@ public class HolidayReservationModule {
         ws.partner.FlightSchedule fs = getFlightScheduleWithId(scheduleId);
         System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        System.out.println("Filght Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime()));
-        System.out.println("Filght Estimated Arrival Date Time: " + dateFormat.format(fs.getArrivalDateTime()));
+        System.out.println("Filght Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime().toGregorianCalendar().getTime()));
+        System.out.println("Filght Estimated Arrival Date Time: " + dateFormat.format(fs.getArrivalDateTime().toGregorianCalendar().getTime()));
         double duration = fs.getEstimatedTime();       
         int hours = (int) duration;
         double fractionalHours = duration - hours;
@@ -450,7 +450,7 @@ public class HolidayReservationModule {
         for (ws.partner.FlightSchedule fs : listOfFlightSchedules) {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            System.out.println("Flight Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime()));
+            System.out.println("Flight Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime().toGregorianCalendar().getTime()));
             ws.partner.FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
             
             double duration = fs.getEstimatedTime();
