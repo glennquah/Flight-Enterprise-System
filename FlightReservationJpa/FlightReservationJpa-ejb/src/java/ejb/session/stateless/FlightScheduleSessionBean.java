@@ -435,6 +435,27 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
+    public FlightSchedule getFlightScheduleWithId(long id, Boolean detach) throws FlightScheduleDoesNotExistException {
+        try {
+            FlightSchedule fs = em.find(FlightSchedule.class, id);
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for(ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Customer cs : fs.getCustomers()) {
+                em.detach(cs);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }
+            return fs;      
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+        }
+    }
+    
+    @Override
     public List<Cabin> getCabins(long id) throws FlightScheduleDoesNotExistException {
         try {
             FlightSchedule fs = getFlightScheduleWithId(id);

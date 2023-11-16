@@ -61,4 +61,5 @@ public interface FlightScheduleSessionBeanLocal {
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate);
     public List<FlightSchedule> retrieveFlightSchedulePlanAfterTimingReturnConnecting(long pickedAirport, long destAirport, Date departureDate);
     public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(long pickedAirport, long destAirport, Date departureDate);
+    public FlightSchedule getFlightScheduleWithId(long id, Boolean detach) throws FlightScheduleDoesNotExistException;
 }
