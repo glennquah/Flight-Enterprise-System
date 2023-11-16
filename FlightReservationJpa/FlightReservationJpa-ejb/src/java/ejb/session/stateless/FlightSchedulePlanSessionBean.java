@@ -246,9 +246,6 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
         List<FlightSchedulePlan> fsps = query.getResultList();
         for (FlightSchedulePlan fsp : fsps) {
             em.detach(fsp);
-            for (FlightSchedule fs : fsp.getFlightSchedules()) {
-                em.detach(fs);
-            }
             em.detach(fsp.getFlight());
         }
         return fsps;

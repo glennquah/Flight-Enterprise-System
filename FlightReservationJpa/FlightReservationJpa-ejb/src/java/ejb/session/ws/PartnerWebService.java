@@ -115,7 +115,7 @@ public class PartnerWebService {
 //                fs.setCustomers(null);
 //                fs.setListOfReservationDetails(null);
 //            }
-            fsp.setFlightSchedules(null);
+//            fsp.setFlightSchedules(null);
         }
         return listOfFsp;
     }
