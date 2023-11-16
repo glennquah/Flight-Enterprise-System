@@ -162,7 +162,6 @@
 
 <xs:complexType name="flightSchedulePlan">
 <xs:sequence>
-<<<<<<< HEAD
 <xs:element name="flight" type="tns:flight" minOccurs="0"/>
 <xs:element name="flightNumber" type="xs:int" minOccurs="0"/>
 <xs:element name="flightSchedulePlanId" type="xs:long" minOccurs="0"/>
@@ -244,15 +243,11 @@
 <xs:sequence>
 <xs:element name="airportId" type="xs:long" minOccurs="0"/>
 <xs:element name="name" type="xs:string" minOccurs="0"/>
-=======
-<xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
->>>>>>> SOAP/Feature/Connecting-Flight
 </xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="flightSchedule">
 <xs:sequence>
-<<<<<<< HEAD
 <xs:element name="arrivalDateTime" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="customers" type="tns:customer" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="departureDateTime" type="xs:dateTime" minOccurs="0"/>
@@ -318,9 +313,8 @@
 </xs:complexType>
 
 <xs:complexType name="retrieveFlightScheduleInPlanResponse">
-=======
-<xs:element name="departureDateTime" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="flightScheduleId" type="xs:long" minOccurs="0"/>
+<xs:sequence>
+<xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -333,7 +327,6 @@
 </xs:complexType>
 
 <xs:complexType name="retrieveFlightSchedulePlanWithSameTimingPartnerResponse">
->>>>>>> SOAP/Feature/Connecting-Flight
 <xs:sequence>
 <xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
@@ -348,11 +341,7 @@
 
 <xs:complexType name="getCabinSeatsListResponse">
 <xs:sequence>
-<<<<<<< HEAD
 <xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-=======
-<xs:element name="return" type="xs:anyType" minOccurs="0"/>
->>>>>>> SOAP/Feature/Connecting-Flight
 </xs:sequence>
 </xs:complexType>
 
@@ -362,8 +351,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<<<<<<< HEAD
-=======
 <xs:complexType name="retrieveFlightSchedulePlanWith3DaysAfterConnecting">
 <xs:sequence>
 <xs:element name="depAirport" type="xs:long"/>
@@ -378,7 +365,6 @@
 </xs:sequence>
 </xs:complexType>
 
->>>>>>> SOAP/Feature/Connecting-Flight
 <xs:complexType name="getFlightSchedules">
 <xs:sequence>
 <xs:element name="partnerId" type="xs:long"/>
@@ -391,35 +377,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<<<<<<< HEAD
-<xs:complexType name="retrieveFlightSchedulePlanWith3DaysAfter">
-<xs:sequence>
-<xs:element name="listOfFlightSchedulePlan" type="tns:flightSchedulePlan" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="departureDate" type="xs:dateTime" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retrieveFlightSchedulePlanWith3DaysAfterResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retrieveFlightsThatHasDepAndDest">
-<xs:sequence>
-<xs:element name="depAirport" type="xs:long"/>
-<xs:element name="hubId" type="xs:long"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retrieveFlightsThatHasDepAndDestResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:flight" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-=======
->>>>>>> SOAP/Feature/Connecting-Flight
 <xs:complexType name="persist">
 <xs:sequence>
 <xs:element name="arg0" type="xs:anyType" minOccurs="0"/>
@@ -485,110 +442,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<<<<<<< HEAD
-=======
-<xs:complexType name="reservationDetails">
-<xs:sequence>
-<xs:element name="customer" type="tns:customer" minOccurs="0"/>
-<xs:element name="fare" type="tns:fare" minOccurs="0"/>
-<xs:element name="firstName" type="xs:string" minOccurs="0"/>
-<xs:element name="flightSchedule" type="tns:flightSchedule" minOccurs="0"/>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="lastName" type="xs:string" minOccurs="0"/>
-<xs:element name="partner" type="tns:partner" minOccurs="0"/>
-<xs:element name="passportNumber" type="xs:string" minOccurs="0"/>
-<xs:element name="rowNum" type="xs:int"/>
-<xs:element name="seatLetter" type="xs:unsignedShort"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="customer">
-<xs:complexContent>
-<xs:extension base="tns:account">
-<xs:sequence>
-<xs:element name="address" type="xs:string" minOccurs="0"/>
-<xs:element name="creditCardNumber" type="xs:string" minOccurs="0"/>
-<xs:element name="listOfFlightSchedules" type="tns:flightSchedule" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="listOfReservationDetails" type="tns:reservationDetails" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="phoneNumber" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="account">
-<xs:sequence>
-<xs:element name="accountId" type="xs:long" minOccurs="0"/>
-<xs:element name="email" type="xs:string" minOccurs="0"/>
-<xs:element name="firstName" type="xs:string" minOccurs="0"/>
-<xs:element name="lastName" type="xs:string" minOccurs="0"/>
-<xs:element name="password" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="fare">
-<xs:sequence>
-<xs:element name="cabin" type="tns:cabin" minOccurs="0"/>
-<xs:element name="fareAmount" type="xs:decimal" minOccurs="0"/>
-<xs:element name="fareBasisCode" type="xs:string" minOccurs="0"/>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="cabin">
-<xs:sequence>
-<xs:element name="aircraftConfiguration" type="tns:aircraftConfiguration" minOccurs="0"/>
-<xs:element name="availableSeats" type="xs:int" minOccurs="0"/>
-<xs:element name="cabinClassName" type="xs:string" minOccurs="0"/>
-<xs:element name="cabinId" type="xs:long" minOccurs="0"/>
-<xs:element name="listOfFare" type="tns:fare" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="numOfIsles" type="xs:int" minOccurs="0"/>
-<xs:element name="numOfRows" type="xs:int" minOccurs="0"/>
-<xs:element name="reservedSeats" type="xs:int" minOccurs="0"/>
-<xs:element name="seatingConfiguration" type="xs:int" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="seatingPlan" type="ns1:unsignedShortArray" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="totalSeats" type="xs:int" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="aircraftConfiguration">
-<xs:sequence>
-<xs:element name="aircraft" type="tns:aircraft" minOccurs="0"/>
-<xs:element name="aircraftConfigName" type="xs:string" minOccurs="0"/>
-<xs:element name="aircraftConfigurationId" type="xs:long" minOccurs="0"/>
-<xs:element name="listOfCabins" type="tns:cabin" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="listOfFlights" type="tns:flight" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="aircraft">
-<xs:sequence>
-<xs:element name="aircraftConfiguration" type="tns:aircraftConfiguration" minOccurs="0"/>
-<xs:element name="aircraftId" type="xs:long" minOccurs="0"/>
-<xs:element name="aircraftName" type="xs:string" minOccurs="0"/>
-<xs:element name="numOfSeats" type="xs:int" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="flight">
-<xs:sequence>
-<xs:element name="aircraftConfig" type="tns:aircraftConfiguration" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="partner">
-<xs:complexContent>
-<xs:extension base="tns:account">
-<xs:sequence>
-<xs:element name="creditCardNumber" type="xs:string" minOccurs="0"/>
-<xs:element name="listOfFlightSchedules" type="tns:flightSchedule" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="listOfReservationDetails" type="tns:reservationDetails" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
->>>>>>> SOAP/Feature/Connecting-Flight
 <xs:complexType name="getFlightScheduleWithId">
 <xs:sequence>
 <xs:element name="arg0" type="xs:long"/>
@@ -626,6 +479,19 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="getHighestFareUsingCabinName">
+<xs:sequence>
+<xs:element name="cabName" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getHighestFareUsingCabinNameResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="retrieveFlightSchedulePlanWith1DayAfterReturnConnecting">
 <xs:sequence>
 <xs:element name="pickedAirport" type="xs:long"/>
@@ -637,19 +503,6 @@
 <xs:complexType name="retrieveFlightSchedulePlanWith1DayAfterReturnConnectingResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getHighestFareUsingCabinName">
-<xs:sequence>
-<xs:element name="cabName" type="xs:string" minOccurs="0"/>
-<xs:element name="id" type="xs:long"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getHighestFareUsingCabinNameResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -771,8 +624,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<<<<<<< HEAD
-=======
 <xs:complexType name="retrieveFlightSchedulePlanWith3DaysBeforePartner">
 <xs:sequence>
 <xs:element name="departureDate" type="xs:dateTime" minOccurs="0"/>
@@ -787,7 +638,6 @@
 </xs:sequence>
 </xs:complexType>
 
->>>>>>> SOAP/Feature/Connecting-Flight
 <xs:complexType name="linkCreditCard">
 <xs:sequence>
 <xs:element name="partnerId" type="xs:long"/>
@@ -836,8 +686,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<<<<<<< HEAD
-=======
 <xs:complexType name="retrieveFlightSchedulePlanWith3DaysBeforeConnecting">
 <xs:sequence>
 <xs:element name="depAirport" type="xs:long"/>
@@ -852,7 +700,6 @@
 </xs:sequence>
 </xs:complexType>
 
->>>>>>> SOAP/Feature/Connecting-Flight
 <xs:complexType name="getPartnerId">
 <xs:sequence>
 <xs:element name="email" type="xs:string" minOccurs="0"/>
