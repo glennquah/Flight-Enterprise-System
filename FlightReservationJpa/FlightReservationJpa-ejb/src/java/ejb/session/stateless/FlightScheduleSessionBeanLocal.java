@@ -51,7 +51,6 @@ public interface FlightScheduleSessionBeanLocal {
     public void checkForConflictingFlights(Integer flightNumber, Date departureDate, double duration, double layover) throws ConflictingFlightScheduleException;
     public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Double> durations, List<Double> layovers, List<String> haveReturns) throws ConflictingFlightScheduleException;
     public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Double> durations, List<Double> layovers, Boolean haveReturn) throws ConflictingFlightScheduleException;
-    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate, Boolean detach);
     public List<Cabin> getCabins(long id, Boolean detach) throws FlightScheduleDoesNotExistException;
     public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingPartner(Date departureDate, long depAirport, long destAirport);
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterPartner(Date departureDate, long depAirport, long destAirport);

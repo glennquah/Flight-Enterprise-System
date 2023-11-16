@@ -51,7 +51,6 @@ public interface FlightScheduleSessionBeanRemote {
     public long getHighestFareUsingCabinName(String cabName, long id) throws FlightScheduleDoesNotExistException;
     public List<String> getCabinSeatsList(long id, String cabName) throws FlightScheduleDoesNotExistException;
     public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Double> durations, List<Double> layovers, List<String> haveReturns) throws ConflictingFlightScheduleException;
-    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate, Boolean detach);
     public List<Cabin> getCabins(long id, Boolean detach) throws FlightScheduleDoesNotExistException;
     public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingPartner(Date departureDate, long depAirport, long destAirport);
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterPartner(Date departureDate, long depAirport, long destAirport);

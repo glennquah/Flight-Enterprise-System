@@ -717,6 +717,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Flight }
+     * 
+     */
+    public Flight createFlight() {
+        return new Flight();
+    }
+
+    /**
+     * Create an instance of {@link Fare }
+     * 
+     */
+    public Fare createFare() {
+        return new Fare();
+    }
+
+    /**
      * Create an instance of {@link Customer }
      * 
      */
@@ -730,22 +746,6 @@ public class ObjectFactory {
      */
     public Account createAccount() {
         return new Account();
-    }
-
-    /**
-     * Create an instance of {@link Fare }
-     * 
-     */
-    public Fare createFare() {
-        return new Fare();
-    }
-
-    /**
-     * Create an instance of {@link Flight }
-     * 
-     */
-    public Flight createFlight() {
-        return new Flight();
     }
 
     /**
