@@ -651,4 +651,19 @@ public interface PartnerWebService {
         @WebParam(name = "dateOfFlightPicked", targetNamespace = "")
         XMLGregorianCalendar dateOfFlightPicked);
 
+    /**
+     * 
+     * @param flightSchedId
+     * @return
+     *     returns ws.partner.FlightRoute
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getFRUsingFSId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFRUsingFSId")
+    @ResponseWrapper(localName = "getFRUsingFSIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFRUsingFSIdResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getFRUsingFSIdRequest", output = "http://ws.session.ejb/PartnerWebService/getFRUsingFSIdResponse")
+    public FlightRoute getFRUsingFSId(
+        @WebParam(name = "flightSchedId", targetNamespace = "")
+        long flightSchedId);
+
 }

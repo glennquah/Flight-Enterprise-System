@@ -21,6 +21,7 @@ import entity.FlightSchedulePlan;
 import entity.ReservationDetails;
 import java.util.Date;
 import entity.Flight;
+import entity.FlightRoute;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
@@ -333,6 +334,13 @@ public class PartnerWebService {
             fs.setListOfCabins(null);
         }
         return listOfFs;
+    }
+    
+    @WebMethod(operationName = "getFRUsingFSId")
+    public FlightRoute getFRUsingFSId(@WebParam(name = "flightSchedId") long flightSchedId) {
+        FlightRoute flightRoute =  flightRoutesSessionBeanLocal.getFRUsingFSId(flightSchedId);
+        flightRoute.setListOfFlights(null);
+        return flightRoute;
     }
     
     public void persist(Object object) {

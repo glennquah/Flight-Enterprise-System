@@ -208,6 +208,12 @@
 <message name="retrieveFlightSchedulePlanWith1DayAfterResponse">
 <part name="parameters" element="tns:retrieveFlightSchedulePlanWith1DayAfterResponse"/>
 </message>
+<message name="getFRUsingFSId">
+<part name="parameters" element="tns:getFRUsingFSId"/>
+</message>
+<message name="getFRUsingFSIdResponse">
+<part name="parameters" element="tns:getFRUsingFSIdResponse"/>
+</message>
 <portType name="PartnerWebService">
 <operation name="retrieveAllAirports">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveAllAirportsRequest" message="tns:retrieveAllAirports"/>
@@ -346,6 +352,10 @@
 <operation name="retrieveFlightSchedulePlanWith1DayAfter">
 <input wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith1DayAfterRequest" message="tns:retrieveFlightSchedulePlanWith1DayAfter"/>
 <output wsam:Action="http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith1DayAfterResponse" message="tns:retrieveFlightSchedulePlanWith1DayAfterResponse"/>
+</operation>
+<operation name="getFRUsingFSId">
+<input wsam:Action="http://ws.session.ejb/PartnerWebService/getFRUsingFSIdRequest" message="tns:getFRUsingFSId"/>
+<output wsam:Action="http://ws.session.ejb/PartnerWebService/getFRUsingFSIdResponse" message="tns:getFRUsingFSIdResponse"/>
 </operation>
 </portType>
 <binding name="PartnerWebServicePortBinding" type="tns:PartnerWebService">
@@ -660,6 +670,15 @@
 </output>
 </operation>
 <operation name="retrieveFlightSchedulePlanWith1DayAfter">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getFRUsingFSId">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

@@ -24,5 +24,5 @@ public interface FlightRoutesSessionBeanRemote {
     public Long deleteFlightRoute(Long flightRouteId) throws FlightRouteDoesNotExistException;
     public FlightRoute getFlightRouteWithId(Long id);
     public FlightRoute getFlightRouteWithFS(Long flightSchedulePlanId) throws FlightScheduleDoesNotExistException;
-    //public FlightRoute retrieveFlightRouteFromFlightSchedule(Long fsId);
+    public FlightRoute getFRUsingFSId(Long flightSchedId);
 }

@@ -5,6 +5,7 @@
 package flightreservationjpaseclient;
 
 import entity.Flight;
+import entity.FlightRoute;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -249,7 +250,7 @@ public class HolidayReservationModule {
     
     public int printStatementForFlightSchedule(List<ws.partner.FlightSchedule> flightSchedules, int Number) {
         for(int i = 0; i < flightSchedules.size(); i ++) {
-            //System.out.println("No." + (Number++));
+            System.out.println("No." + (Number++));
             ws.partner.FlightSchedule fs = flightSchedules.get(i);
             System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -321,9 +322,8 @@ public class HolidayReservationModule {
         int hours = (int) duration;
         double fractionalHours = duration - hours;
         int minutes = (int) (fractionalHours * 60);
-        String formattedTime = String.format("%02d:%02d", hours, minutes);
-//        
-//        System.out.println("Filght Estimated Time: " + formattedTime);
+        String formattedTime = String.format("%02d:%02d", hours, minutes);        
+        System.out.println("Filght Estimated Time: " + formattedTime);
         System.out.println("\n*** CABIN DETAILS ***");
         List<ws.partner.Cabin> cabins = getCabins(scheduleId);
         for (ws.partner.Cabin c : cabins) {
@@ -339,11 +339,9 @@ public class HolidayReservationModule {
     }
     
     public BigDecimal reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats, Boolean payment, BigDecimal existingFare) throws FlightScheduleDoesNotExistException, FlightScheduleDoesNotExistException_Exception {
-        //System.out.println("EXISTING FARE = " + existingFare);
         checkFlightDetails(sc, flightScheduleId, numOfSeats);
         System.out.print("Enter Cabin you want to Reserve> ");
         String cabin = sc.nextLine().trim();
-        // IF TOO COMPLICATED, JUZ MAKE 1 LIST OF CHARACTER
         List<String> cabinSeatingPlanList = getCabinSeatsList(flightScheduleId, cabin);
         List<Integer> islesPlan = getIslesPlan(flightScheduleId, cabin);
         System.out.println("*** SEATING CONFIGURATION *** ");
@@ -426,8 +424,8 @@ public class HolidayReservationModule {
         
 //        BigDecimal lowestFare = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
         //System.out.println("Price per Ticket: " + lowestFare);
-        BigDecimal lowestFare = getFareUsingId(highestFareId);
-        BigDecimal fare = (lowestFare.multiply(BigDecimal.valueOf(numOfSeats)));
+        BigDecimal highestFare = getFareUsingId(highestFareId);
+        BigDecimal fare = (highestFare.multiply(BigDecimal.valueOf(numOfSeats)));
         
         if (payment) {
             BigDecimal totalFare = fare.add(existingFare);
@@ -444,14 +442,13 @@ public class HolidayReservationModule {
     
     // =========================================VIEW MY FLIGHT RESERVATION=====================================================
     public void viewFlightReservation(Scanner sc) throws FlightScheduleDoesNotExistException_Exception {
-        //change this?
         System.out.println("\n*** YOU HAVE SLECTED VIEW ALL FLIGHT RESERVATION ***\n");
         List<ws.partner.FlightSchedule> listOfFlightSchedules = getFlightSchedules(this.partnerId);
         for (ws.partner.FlightSchedule fs : listOfFlightSchedules) {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             System.out.println("Flight Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime().toGregorianCalendar().getTime()));
-            ws.partner.FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
+            ws.partner.FlightRoute fr = getFRUsingFSId(fs.getFlightScheduleId());
             
             double duration = fs.getEstimatedTime();
             int hours = (int) duration;
@@ -481,11 +478,10 @@ public class HolidayReservationModule {
             System.out.println("Last Name: " + rd.getLastName());
             System.out.println("Seat: " + rd.getRowNum() + rd.getSeatLetter());
             //System.out.println("Fare: $" + rd.getFare().getFareAmount());
-            //fare = rd.getFare().getFareAmount();
+            fare = rd.getFare().getFareAmount();
             System.out.println("");
         }
-        //System.out.println("Total Amount Paid: $" + fare.multiply(BigDecimal.valueOf(listOfReservationDetails.size())));
-        //add fare entity into reservation details
+        System.out.println("Total Amount Paid: $" + fare.multiply(BigDecimal.valueOf(listOfReservationDetails.size())));
         System.out.println();
     }
     
@@ -698,31 +694,11 @@ public class HolidayReservationModule {
         return port.getFlightSchedules(partnerId);
     }
     
-//    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanAfterTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDateTime) throws DatatypeConfigurationException {
-//        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
-//        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-//        
-//        GregorianCalendar gc = new GregorianCalendar();
-//        gc.setTime(departureDateTime);
-//        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
-//        return port.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlan, xmlDate);
-//    }
-    
     private static List<Long> getListOfHubsId() {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         return port.getListOfHubsId();
     }
-    
-//    private static List<ws.partner.FlightSchedule> retrieveFlightSchedulePlanWith1DayAfter(List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlanFromHub, Date dateOfFlightPicked) throws DatatypeConfigurationException {
-//        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
-//        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-//        
-//        GregorianCalendar gc = new GregorianCalendar();
-//        gc.setTime(dateOfFlightPicked);
-//        XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
-//        return port.retrieveFlightSchedulePlanWith1DayAfter(listOfFlightSchedulePlanFromHub, xmlDate);
-//    }
     
     private static Long getAirportIdWithFlightScheduleId(java.lang.Long flightSchedId) {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
@@ -749,5 +725,12 @@ public class HolidayReservationModule {
         XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
         return port.retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(pickedAirport, destAirport, xmlDate);
     }   
+    
+    private static ws.partner.FlightRoute getFRUsingFSId(java.lang.Long flightSchedId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getFRUsingFSId(flightSchedId);
+    }
+    
 }
 

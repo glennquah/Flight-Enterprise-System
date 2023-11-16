@@ -46,6 +46,8 @@ public class ObjectFactory {
     private final static QName _GetCabinSeatsListResponse_QNAME = new QName("http://ws.session.ejb/", "getCabinSeatsListResponse");
     private final static QName _GetCabins_QNAME = new QName("http://ws.session.ejb/", "getCabins");
     private final static QName _GetCabinsResponse_QNAME = new QName("http://ws.session.ejb/", "getCabinsResponse");
+    private final static QName _GetFRUsingFSId_QNAME = new QName("http://ws.session.ejb/", "getFRUsingFSId");
+    private final static QName _GetFRUsingFSIdResponse_QNAME = new QName("http://ws.session.ejb/", "getFRUsingFSIdResponse");
     private final static QName _GetFareUsingId_QNAME = new QName("http://ws.session.ejb/", "getFareUsingId");
     private final static QName _GetFareUsingIdResponse_QNAME = new QName("http://ws.session.ejb/", "getFareUsingIdResponse");
     private final static QName _GetFlightScheduleWithId_QNAME = new QName("http://ws.session.ejb/", "getFlightScheduleWithId");
@@ -282,6 +284,22 @@ public class ObjectFactory {
      */
     public GetCabinsResponse createGetCabinsResponse() {
         return new GetCabinsResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetFRUsingFSId }
+     * 
+     */
+    public GetFRUsingFSId createGetFRUsingFSId() {
+        return new GetFRUsingFSId();
+    }
+
+    /**
+     * Create an instance of {@link GetFRUsingFSIdResponse }
+     * 
+     */
+    public GetFRUsingFSIdResponse createGetFRUsingFSIdResponse() {
+        return new GetFRUsingFSIdResponse();
     }
 
     /**
@@ -1040,6 +1058,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getCabinsResponse")
     public JAXBElement<GetCabinsResponse> createGetCabinsResponse(GetCabinsResponse value) {
         return new JAXBElement<GetCabinsResponse>(_GetCabinsResponse_QNAME, GetCabinsResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetFRUsingFSId }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetFRUsingFSId }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getFRUsingFSId")
+    public JAXBElement<GetFRUsingFSId> createGetFRUsingFSId(GetFRUsingFSId value) {
+        return new JAXBElement<GetFRUsingFSId>(_GetFRUsingFSId_QNAME, GetFRUsingFSId.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetFRUsingFSIdResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetFRUsingFSIdResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getFRUsingFSIdResponse")
+    public JAXBElement<GetFRUsingFSIdResponse> createGetFRUsingFSIdResponse(GetFRUsingFSIdResponse value) {
+        return new JAXBElement<GetFRUsingFSIdResponse>(_GetFRUsingFSIdResponse_QNAME, GetFRUsingFSIdResponse.class, null, value);
     }
 
     /**

@@ -137,9 +137,10 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
         }
     }
     
-//    @Override
-//    public FlightRoute retrieveFlightRouteFromFlightSchedule(Long fsId) {
-//        FlightSchedule fs = em.find(FlightSchedule.class, fsId);
-//        return fs.getFlightSchedulePlan().getFlight().getFlightRoute();
-//    }
+    @Override
+    public FlightRoute getFRUsingFSId(Long flightSchedId) {
+        FlightSchedule fs = em.find(FlightSchedule.class, flightSchedId);
+        return fs.getFlightSchedulePlan().getFlight().getFlightRoute();
+    }
+
 }

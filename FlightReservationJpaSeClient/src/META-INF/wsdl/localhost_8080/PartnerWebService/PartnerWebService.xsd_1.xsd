@@ -46,6 +46,10 @@
 
 <xs:element name="getCabinsResponse" type="tns:getCabinsResponse"/>
 
+<xs:element name="getFRUsingFSId" type="tns:getFRUsingFSId"/>
+
+<xs:element name="getFRUsingFSIdResponse" type="tns:getFRUsingFSIdResponse"/>
+
 <xs:element name="getFareUsingId" type="tns:getFareUsingId"/>
 
 <xs:element name="getFareUsingIdResponse" type="tns:getFareUsingIdResponse"/>
@@ -476,6 +480,18 @@
 <xs:complexType name="linkFlightScheduleResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getFRUsingFSId">
+<xs:sequence>
+<xs:element name="flightSchedId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getFRUsingFSIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:flightRoute" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
