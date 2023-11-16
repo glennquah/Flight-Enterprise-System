@@ -198,18 +198,21 @@ public class ReservationModule {
     }
     
     public BigDecimal searchConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, boolean connectedFlight) throws Exception {
-        //change this
         List<Long> listOfHubsId = airportSessionBeanRemote.getListOfHubsId();
         List<Flight> listOfFlightsToHub = new ArrayList<>();
-        
+        List<Flight> listOfFlightsFromHub = new ArrayList<>();
         for (Long hubId : listOfHubsId) {
             List<Flight> listToHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
+            List<Flight> listFromHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(hubId, destAirport);
             for (Flight f : listToHub) {
                 listOfFlightsToHub.add(f);
             }
+            for (Flight f : listFromHub) {
+                listOfFlightsFromHub.add(f);
+            }
         }
         List<FlightSchedulePlan> listOfFlightSchedulePlanToHub = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
-        
+        List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsFromHub);
         int flightnum = 1;
         List<FlightSchedule> listOfFlightScheduleToHubSameDay = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlanToHub, departureDate);
         
@@ -252,12 +255,6 @@ public class ReservationModule {
         
         long flightSchedId = confirmId;
         Date dateOfFlightPicked = flightScheduleSessionBeanRemote.retrieveDateOfFlightPicked(flightSchedId);
-        
-        long pickedAirportId = flightScheduleSessionBeanRemote.getAirportIdWithFlightScheduleId(flightSchedId);
-        
-
-        List<Flight> listFromHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(pickedAirportId, destAirport);
-        List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listFromHub);
         
         flightnum = 1;
         System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF HUB ***");

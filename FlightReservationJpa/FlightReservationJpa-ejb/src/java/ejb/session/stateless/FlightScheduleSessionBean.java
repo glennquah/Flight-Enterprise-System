@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.jws.WebParam;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -43,19 +42,11 @@ import util.exception.FlightScheduleBookedException;
 @Stateless
 public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemote, FlightScheduleSessionBeanLocal {
 
-    @EJB(name = "FlightSchedulePlanSessionBeanLocal")
-    private FlightSchedulePlanSessionBeanLocal flightSchedulePlanSessionBeanLocal;
-
-    @EJB(name = "FlightSessionBeanLocal")
-    private FlightSessionBeanLocal flightSessionBeanLocal;
-
     @EJB(name = "CabinCustomerSessionBeanLocal")
     private CabinCustomerSessionBeanLocal cabinCustomerSessionBeanLocal;    
 
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
-    
-    
   
      
     // Add business logic below. (Right-click in editor and choose
@@ -327,6 +318,38 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
 
             if (localDate.isEqual(departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
                 newList.add(flightSchedule);
+            }
+        }
+
+        return newList;
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate, Boolean detach) {
+        List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlan);
+
+        List<FlightSchedule> newList = new ArrayList<>();
+
+        for (FlightSchedule flightSchedule : listOfFlightSchedules) {
+            Date departureDateTime = flightSchedule.getDepartureDateTime();
+            LocalDate localDate = departureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (localDate.isEqual(departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
+                newList.add(flightSchedule);
+            }
+        }
+        
+        for (FlightSchedule fs : newList) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Customer cust : fs.getCustomers()) {
+                em.detach(cust);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
             }
         }
 
@@ -682,228 +705,4 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         }
         return false;
     }
-    
-    @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingPartner(Date departureDate, long depAirport, long destAirport)  {
-        List<Flight> listOfFlights = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
-        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
-        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWithSameTiming(listOfFsPlan, departureDate);
-        for (FlightSchedule fs : listOfFs) {
-            em.detach(fs);
-            em.detach(fs.getFlightSchedulePlan());
-            for (Customer c : fs.getCustomers()) {
-                em.detach(c);
-            }
-            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
-                em.detach(rd);
-            }
-            for (Cabin c : fs.getListOfCabins()) {
-                em.detach(c);
-            }
-            for (Partner p : fs.getPartners()) {
-                em.detach(p);
-            }   
-        }
-        return listOfFs;
-    }
-    
-    @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterPartner(Date departureDate, long depAirport, long destAirport)  {
-        List<Flight> listOfFlights = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
-        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
-        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysAfter(listOfFsPlan, departureDate);
-        for (FlightSchedule fs : listOfFs) {
-            em.detach(fs);
-            em.detach(fs.getFlightSchedulePlan());
-            for (Customer c : fs.getCustomers()) {
-                em.detach(c);
-            }
-            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
-                em.detach(rd);
-            }
-            for (Cabin c : fs.getListOfCabins()) {
-                em.detach(c);
-            }
-            for (Partner p : fs.getPartners()) {
-                em.detach(p);
-            }       
-        }
-        return listOfFs;
-    }
-    
-    @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforePartner(Date departureDate, long depAirport, long destAirport)  {
-        List<Flight> listOfFlights = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
-        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
-        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysBefore(listOfFsPlan, departureDate);
-        for (FlightSchedule fs : listOfFs) {
-            em.detach(fs);
-            em.detach(fs.getFlightSchedulePlan());
-            for (Customer c : fs.getCustomers()) {
-                em.detach(c);
-            }
-            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
-                em.detach(rd);
-            }
-            for (Cabin c : fs.getListOfCabins()) {
-                em.detach(c);
-            }
-            for (Partner p : fs.getPartners()) {
-                em.detach(p);
-            }   
-        }
-        return listOfFs;
-    }
-    
-    @Override
-    public long getAirportIdWithFlightScheduleId(long flightSchedId) {
-        FlightSchedule fs = em.find(FlightSchedule.class, flightSchedId);
-        return fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination().getAirportId();
-    }
-
-    
-    @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate) {
-        List<Flight> listOfFlightsToHub = new ArrayList<>();
-        for (Long hubId : listOfHubIds) {
-            List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
-            for (Flight f : listToHub) {
-                listOfFlightsToHub.add(f);
-            }
-        }
-        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
-        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWithSameTiming(listOfFsPlan, departureDate);
-        for (FlightSchedule fs : listOfFs) {
-            em.detach(fs);
-            em.detach(fs.getFlightSchedulePlan());
-            for (Customer c : fs.getCustomers()) {
-                em.detach(c);
-            }
-            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
-                em.detach(rd);
-            }
-            for (Cabin c : fs.getListOfCabins()) {
-                em.detach(c);
-            }
-            for (Partner p : fs.getPartners()) {
-                em.detach(p);
-            }   
-        }
-        return listOfFs;
-    }
-    
-    @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate) {
-        List<Flight> listOfFlightsToHub = new ArrayList<>();
-        for (Long hubId : listOfHubIds) {
-            List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
-            for (Flight f : listToHub) {
-                listOfFlightsToHub.add(f);
-            }
-        }
-        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
-        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysBefore(listOfFsPlan, departureDate);
-        for (FlightSchedule fs : listOfFs) {
-            em.detach(fs);
-            em.detach(fs.getFlightSchedulePlan());
-            for (Customer c : fs.getCustomers()) {
-                em.detach(c);
-            }
-            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
-                em.detach(rd);
-            }
-            for (Cabin c : fs.getListOfCabins()) {
-                em.detach(c);
-            }
-            for (Partner p : fs.getPartners()) {
-                em.detach(p);
-            }   
-        }
-        return listOfFs;
-    }
-    
-    @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate) {
-        List<Flight> listOfFlightsToHub = new ArrayList<>();
-        for (Long hubId : listOfHubIds) {
-            List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
-            for (Flight f : listToHub) {
-                listOfFlightsToHub.add(f);
-            }
-        }
-        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
-        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysAfter(listOfFsPlan, departureDate);
-        for (FlightSchedule fs : listOfFs) {
-            em.detach(fs);
-            em.detach(fs.getFlightSchedulePlan());
-            for (Customer c : fs.getCustomers()) {
-                em.detach(c);
-            }
-            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
-                em.detach(rd);
-            }
-            for (Cabin c : fs.getListOfCabins()) {
-                em.detach(c);
-            }
-            for (Partner p : fs.getPartners()) {
-                em.detach(p);
-            }   
-        }
-        return listOfFs;
-    }
-
-    @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTimingReturnConnecting(long pickedAirport, long destAirport, Date departureDate) {
-
-        List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(pickedAirport, destAirport);
-        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listToHub);
-        
-        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanAfterTiming(listOfFsPlan, departureDate);
-        for (FlightSchedule fs : listOfFs) {
-            em.detach(fs);
-            em.detach(fs.getFlightSchedulePlan());
-            for (Customer c : fs.getCustomers()) {
-                em.detach(c);
-            }
-            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
-                em.detach(rd);
-            }
-            for (Cabin c : fs.getListOfCabins()) {
-                em.detach(c);
-            }
-            for (Partner p : fs.getPartners()) {
-                em.detach(p);
-            }   
-        }
-        return listOfFs;
-    }
-    
-    @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(long pickedAirport, long destAirport, Date departureDate) {
-
-        List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(pickedAirport, destAirport);
-        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listToHub);
-        
-        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith1DayAfter(listOfFsPlan, departureDate);
-        for (FlightSchedule fs : listOfFs) {
-            em.detach(fs);
-            em.detach(fs.getFlightSchedulePlan());
-            for (Customer c : fs.getCustomers()) {
-                em.detach(c);
-            }
-            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
-                em.detach(rd);
-            }
-            for (Cabin c : fs.getListOfCabins()) {
-                em.detach(c);
-            }
-            for (Partner p : fs.getPartners()) {
-                em.detach(p);
-            }   
-        }
-        return listOfFs;
-    }
-   
 }
-
-
