@@ -173,9 +173,9 @@ public class PartnerWebService {
     }
     
     
-    @WebMethod(operationName = "retrieveFlightSchedulePlanWithSameTiming")
-    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(@WebParam(name = "listOfFlightSchedulePlan") List<FlightSchedulePlan> listOfFlightSchedulePlan, @WebParam(name = "departureDate") Date departureDate) {
-        List<FlightSchedule> listOfFs = flightScheduleSessionBeanLocal.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlan, departureDate, true);
+    @WebMethod(operationName = "retrieveFlightSchedulePlanWithSameTimingPartner")
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingPartner(@WebParam(name = "departureDate") Date departureDate, @WebParam(name = "depAirport") long depAirport, @WebParam(name = "destAirport") long destAirport) {
+        List<FlightSchedule> listOfFs = flightScheduleSessionBeanLocal.retrieveFlightSchedulePlanWithSameTimingPartner(departureDate, depAirport, destAirport);
         for (FlightSchedule fs : listOfFs) {
 //            for (Cabin c : fs.getListOfCabins()) {
 //                c.setListOfFare(null);
@@ -195,14 +195,28 @@ public class PartnerWebService {
         return listOfFs;
     }
     
-    @WebMethod(operationName = "retrieveFlightSchedulePlanWith3DaysBefore")
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBefore(@WebParam(name = "listOfFlightSchedulePlan") List<FlightSchedulePlan> listOfFlightSchedulePlan, @WebParam(name = "departureDate") Date departureDate) {
-        return flightScheduleSessionBeanLocal.retrieveFlightSchedulePlanWith3DaysBefore(listOfFlightSchedulePlan, departureDate);
+    @WebMethod(operationName = "retrieveFlightSchedulePlanWith3DaysBeforePartner")
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforePartner(@WebParam(name = "departureDate") Date departureDate, @WebParam(name = "depAirport") long depAirport, @WebParam(name = "destAirport") long destAirport) {
+        List<FlightSchedule> listOfFs =  flightScheduleSessionBeanLocal.retrieveFlightSchedulePlanWith3DaysBeforePartner(departureDate, depAirport, destAirport);
+        for (FlightSchedule fs : listOfFs) {
+            fs.setFlightSchedulePlan(null);
+            fs.setListOfReservationDetails(null);
+            fs.setCustomers(null);
+            fs.setListOfCabins(null);
+        }
+        return listOfFs;
     }
     
-    @WebMethod(operationName = "retrieveFlightSchedulePlanWith3DaysAfter")
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfter(@WebParam(name = "listOfFlightSchedulePlan") List<FlightSchedulePlan> listOfFlightSchedulePlan, @WebParam(name = "departureDate") Date departureDate) {
-        return flightScheduleSessionBeanLocal.retrieveFlightSchedulePlanWith3DaysAfter(listOfFlightSchedulePlan, departureDate);
+    @WebMethod(operationName = "retrieveFlightSchedulePlanWith3DaysAfterPartner")
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterPartner(@WebParam(name = "departureDate") Date departureDate, @WebParam(name = "depAirport") long depAirport, @WebParam(name = "destAirport") long destAirport) {
+        List<FlightSchedule> listOfFs =  flightScheduleSessionBeanLocal.retrieveFlightSchedulePlanWith3DaysAfterPartner(departureDate, depAirport, destAirport);
+        for (FlightSchedule fs : listOfFs) {
+            fs.setFlightSchedulePlan(null);
+            fs.setListOfReservationDetails(null);
+            fs.setCustomers(null);
+            fs.setListOfCabins(null);
+        }
+        return listOfFs;
     }
     
     @WebMethod(operationName = "getFlightScheduleWithId")

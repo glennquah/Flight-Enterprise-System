@@ -116,21 +116,21 @@
 
 <xs:element name="retrieveFlightSchedulePlanWith1DayAfterResponse" type="tns:retrieveFlightSchedulePlanWith1DayAfterResponse"/>
 
-<xs:element name="retrieveFlightSchedulePlanWith3DaysAfter" type="tns:retrieveFlightSchedulePlanWith3DaysAfter"/>
+<xs:element name="retrieveFlightSchedulePlanWith3DaysAfterPartner" type="tns:retrieveFlightSchedulePlanWith3DaysAfterPartner"/>
 
-<xs:element name="retrieveFlightSchedulePlanWith3DaysAfterResponse" type="tns:retrieveFlightSchedulePlanWith3DaysAfterResponse"/>
+<xs:element name="retrieveFlightSchedulePlanWith3DaysAfterPartnerResponse" type="tns:retrieveFlightSchedulePlanWith3DaysAfterPartnerResponse"/>
 
-<xs:element name="retrieveFlightSchedulePlanWith3DaysBefore" type="tns:retrieveFlightSchedulePlanWith3DaysBefore"/>
+<xs:element name="retrieveFlightSchedulePlanWith3DaysBeforePartner" type="tns:retrieveFlightSchedulePlanWith3DaysBeforePartner"/>
 
-<xs:element name="retrieveFlightSchedulePlanWith3DaysBeforeResponse" type="tns:retrieveFlightSchedulePlanWith3DaysBeforeResponse"/>
+<xs:element name="retrieveFlightSchedulePlanWith3DaysBeforePartnerResponse" type="tns:retrieveFlightSchedulePlanWith3DaysBeforePartnerResponse"/>
 
 <xs:element name="retrieveFlightSchedulePlanWithSameFlight" type="tns:retrieveFlightSchedulePlanWithSameFlight"/>
 
 <xs:element name="retrieveFlightSchedulePlanWithSameFlightResponse" type="tns:retrieveFlightSchedulePlanWithSameFlightResponse"/>
 
-<xs:element name="retrieveFlightSchedulePlanWithSameTiming" type="tns:retrieveFlightSchedulePlanWithSameTiming"/>
+<xs:element name="retrieveFlightSchedulePlanWithSameTimingPartner" type="tns:retrieveFlightSchedulePlanWithSameTimingPartner"/>
 
-<xs:element name="retrieveFlightSchedulePlanWithSameTimingResponse" type="tns:retrieveFlightSchedulePlanWithSameTimingResponse"/>
+<xs:element name="retrieveFlightSchedulePlanWithSameTimingPartnerResponse" type="tns:retrieveFlightSchedulePlanWithSameTimingPartnerResponse"/>
 
 <xs:element name="retrieveFlightsThatHasDepAndDest" type="tns:retrieveFlightsThatHasDepAndDest"/>
 
@@ -156,6 +156,20 @@
 <xs:sequence>
 <xs:element name="departureDateTime" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="flightScheduleId" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveFlightSchedulePlanWithSameTimingPartner">
+<xs:sequence>
+<xs:element name="departureDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="depAirport" type="xs:long"/>
+<xs:element name="destAirport" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveFlightSchedulePlanWithSameTimingPartnerResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -185,19 +199,6 @@
 </xs:complexType>
 
 <xs:complexType name="getFlightSchedulesResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retrieveFlightSchedulePlanWith3DaysAfter">
-<xs:sequence>
-<xs:element name="listOfFlightSchedulePlan" type="tns:flightSchedulePlan" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="departureDate" type="xs:dateTime" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retrieveFlightSchedulePlanWith3DaysAfterResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
@@ -286,6 +287,20 @@
 <xs:complexType name="getIslesPlanResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:int" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveFlightSchedulePlanWith3DaysAfterPartner">
+<xs:sequence>
+<xs:element name="departureDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="depAirport" type="xs:long"/>
+<xs:element name="destAirport" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveFlightSchedulePlanWith3DaysAfterPartnerResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -425,32 +440,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="retrieveFlightSchedulePlanWith3DaysBefore">
-<xs:sequence>
-<xs:element name="listOfFlightSchedulePlan" type="tns:flightSchedulePlan" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="departureDate" type="xs:dateTime" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retrieveFlightSchedulePlanWith3DaysBeforeResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retrieveFlightSchedulePlanWithSameTiming">
-<xs:sequence>
-<xs:element name="listOfFlightSchedulePlan" type="tns:flightSchedulePlan" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="departureDate" type="xs:dateTime" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retrieveFlightSchedulePlanWithSameTimingResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="retrieveFlightSchedulePlanWith1DayAfter">
 <xs:sequence>
 <xs:element name="listOfFlightSchedulePlanFromHub" type="tns:flightSchedulePlan" minOccurs="0" maxOccurs="unbounded"/>
@@ -531,6 +520,20 @@
 <xs:complexType name="retrieveFlightSchedulePlanWithSameFlightResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:flightSchedulePlan" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveFlightSchedulePlanWith3DaysBeforePartner">
+<xs:sequence>
+<xs:element name="departureDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="depAirport" type="xs:long"/>
+<xs:element name="destAirport" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveFlightSchedulePlanWith3DaysBeforePartnerResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 

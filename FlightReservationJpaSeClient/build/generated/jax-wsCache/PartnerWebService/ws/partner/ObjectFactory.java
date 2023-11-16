@@ -81,14 +81,14 @@ public class ObjectFactory {
     private final static QName _RetrieveFlightSchedulePlanAfterTimingResponse_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanAfterTimingResponse");
     private final static QName _RetrieveFlightSchedulePlanWith1DayAfter_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWith1DayAfter");
     private final static QName _RetrieveFlightSchedulePlanWith1DayAfterResponse_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWith1DayAfterResponse");
-    private final static QName _RetrieveFlightSchedulePlanWith3DaysAfter_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWith3DaysAfter");
-    private final static QName _RetrieveFlightSchedulePlanWith3DaysAfterResponse_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWith3DaysAfterResponse");
-    private final static QName _RetrieveFlightSchedulePlanWith3DaysBefore_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWith3DaysBefore");
-    private final static QName _RetrieveFlightSchedulePlanWith3DaysBeforeResponse_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWith3DaysBeforeResponse");
+    private final static QName _RetrieveFlightSchedulePlanWith3DaysAfterPartner_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWith3DaysAfterPartner");
+    private final static QName _RetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWith3DaysAfterPartnerResponse");
+    private final static QName _RetrieveFlightSchedulePlanWith3DaysBeforePartner_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWith3DaysBeforePartner");
+    private final static QName _RetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWith3DaysBeforePartnerResponse");
     private final static QName _RetrieveFlightSchedulePlanWithSameFlight_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWithSameFlight");
     private final static QName _RetrieveFlightSchedulePlanWithSameFlightResponse_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWithSameFlightResponse");
-    private final static QName _RetrieveFlightSchedulePlanWithSameTiming_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWithSameTiming");
-    private final static QName _RetrieveFlightSchedulePlanWithSameTimingResponse_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWithSameTimingResponse");
+    private final static QName _RetrieveFlightSchedulePlanWithSameTimingPartner_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWithSameTimingPartner");
+    private final static QName _RetrieveFlightSchedulePlanWithSameTimingPartnerResponse_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightSchedulePlanWithSameTimingPartnerResponse");
     private final static QName _RetrieveFlightsThatHasDepAndDest_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightsThatHasDepAndDest");
     private final static QName _RetrieveFlightsThatHasDepAndDestResponse_QNAME = new QName("http://ws.session.ejb/", "retrieveFlightsThatHasDepAndDestResponse");
 
@@ -556,35 +556,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RetrieveFlightSchedulePlanWith3DaysAfter }
+     * Create an instance of {@link RetrieveFlightSchedulePlanWith3DaysAfterPartner }
      * 
      */
-    public RetrieveFlightSchedulePlanWith3DaysAfter createRetrieveFlightSchedulePlanWith3DaysAfter() {
-        return new RetrieveFlightSchedulePlanWith3DaysAfter();
+    public RetrieveFlightSchedulePlanWith3DaysAfterPartner createRetrieveFlightSchedulePlanWith3DaysAfterPartner() {
+        return new RetrieveFlightSchedulePlanWith3DaysAfterPartner();
     }
 
     /**
-     * Create an instance of {@link RetrieveFlightSchedulePlanWith3DaysAfterResponse }
+     * Create an instance of {@link RetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse }
      * 
      */
-    public RetrieveFlightSchedulePlanWith3DaysAfterResponse createRetrieveFlightSchedulePlanWith3DaysAfterResponse() {
-        return new RetrieveFlightSchedulePlanWith3DaysAfterResponse();
+    public RetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse createRetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse() {
+        return new RetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse();
     }
 
     /**
-     * Create an instance of {@link RetrieveFlightSchedulePlanWith3DaysBefore }
+     * Create an instance of {@link RetrieveFlightSchedulePlanWith3DaysBeforePartner }
      * 
      */
-    public RetrieveFlightSchedulePlanWith3DaysBefore createRetrieveFlightSchedulePlanWith3DaysBefore() {
-        return new RetrieveFlightSchedulePlanWith3DaysBefore();
+    public RetrieveFlightSchedulePlanWith3DaysBeforePartner createRetrieveFlightSchedulePlanWith3DaysBeforePartner() {
+        return new RetrieveFlightSchedulePlanWith3DaysBeforePartner();
     }
 
     /**
-     * Create an instance of {@link RetrieveFlightSchedulePlanWith3DaysBeforeResponse }
+     * Create an instance of {@link RetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse }
      * 
      */
-    public RetrieveFlightSchedulePlanWith3DaysBeforeResponse createRetrieveFlightSchedulePlanWith3DaysBeforeResponse() {
-        return new RetrieveFlightSchedulePlanWith3DaysBeforeResponse();
+    public RetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse createRetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse() {
+        return new RetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse();
     }
 
     /**
@@ -604,19 +604,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RetrieveFlightSchedulePlanWithSameTiming }
+     * Create an instance of {@link RetrieveFlightSchedulePlanWithSameTimingPartner }
      * 
      */
-    public RetrieveFlightSchedulePlanWithSameTiming createRetrieveFlightSchedulePlanWithSameTiming() {
-        return new RetrieveFlightSchedulePlanWithSameTiming();
+    public RetrieveFlightSchedulePlanWithSameTimingPartner createRetrieveFlightSchedulePlanWithSameTimingPartner() {
+        return new RetrieveFlightSchedulePlanWithSameTimingPartner();
     }
 
     /**
-     * Create an instance of {@link RetrieveFlightSchedulePlanWithSameTimingResponse }
+     * Create an instance of {@link RetrieveFlightSchedulePlanWithSameTimingPartnerResponse }
      * 
      */
-    public RetrieveFlightSchedulePlanWithSameTimingResponse createRetrieveFlightSchedulePlanWithSameTimingResponse() {
-        return new RetrieveFlightSchedulePlanWithSameTimingResponse();
+    public RetrieveFlightSchedulePlanWithSameTimingPartnerResponse createRetrieveFlightSchedulePlanWithSameTimingPartnerResponse() {
+        return new RetrieveFlightSchedulePlanWithSameTimingPartnerResponse();
     }
 
     /**
@@ -1417,55 +1417,55 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysAfter }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysAfterPartner }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysAfter }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysAfterPartner }{@code >}
      */
-    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "retrieveFlightSchedulePlanWith3DaysAfter")
-    public JAXBElement<RetrieveFlightSchedulePlanWith3DaysAfter> createRetrieveFlightSchedulePlanWith3DaysAfter(RetrieveFlightSchedulePlanWith3DaysAfter value) {
-        return new JAXBElement<RetrieveFlightSchedulePlanWith3DaysAfter>(_RetrieveFlightSchedulePlanWith3DaysAfter_QNAME, RetrieveFlightSchedulePlanWith3DaysAfter.class, null, value);
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "retrieveFlightSchedulePlanWith3DaysAfterPartner")
+    public JAXBElement<RetrieveFlightSchedulePlanWith3DaysAfterPartner> createRetrieveFlightSchedulePlanWith3DaysAfterPartner(RetrieveFlightSchedulePlanWith3DaysAfterPartner value) {
+        return new JAXBElement<RetrieveFlightSchedulePlanWith3DaysAfterPartner>(_RetrieveFlightSchedulePlanWith3DaysAfterPartner_QNAME, RetrieveFlightSchedulePlanWith3DaysAfterPartner.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysAfterResponse }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysAfterResponse }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse }{@code >}
      */
-    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "retrieveFlightSchedulePlanWith3DaysAfterResponse")
-    public JAXBElement<RetrieveFlightSchedulePlanWith3DaysAfterResponse> createRetrieveFlightSchedulePlanWith3DaysAfterResponse(RetrieveFlightSchedulePlanWith3DaysAfterResponse value) {
-        return new JAXBElement<RetrieveFlightSchedulePlanWith3DaysAfterResponse>(_RetrieveFlightSchedulePlanWith3DaysAfterResponse_QNAME, RetrieveFlightSchedulePlanWith3DaysAfterResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "retrieveFlightSchedulePlanWith3DaysAfterPartnerResponse")
+    public JAXBElement<RetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse> createRetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse(RetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse value) {
+        return new JAXBElement<RetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse>(_RetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse_QNAME, RetrieveFlightSchedulePlanWith3DaysAfterPartnerResponse.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysBefore }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysBeforePartner }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysBefore }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysBeforePartner }{@code >}
      */
-    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "retrieveFlightSchedulePlanWith3DaysBefore")
-    public JAXBElement<RetrieveFlightSchedulePlanWith3DaysBefore> createRetrieveFlightSchedulePlanWith3DaysBefore(RetrieveFlightSchedulePlanWith3DaysBefore value) {
-        return new JAXBElement<RetrieveFlightSchedulePlanWith3DaysBefore>(_RetrieveFlightSchedulePlanWith3DaysBefore_QNAME, RetrieveFlightSchedulePlanWith3DaysBefore.class, null, value);
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "retrieveFlightSchedulePlanWith3DaysBeforePartner")
+    public JAXBElement<RetrieveFlightSchedulePlanWith3DaysBeforePartner> createRetrieveFlightSchedulePlanWith3DaysBeforePartner(RetrieveFlightSchedulePlanWith3DaysBeforePartner value) {
+        return new JAXBElement<RetrieveFlightSchedulePlanWith3DaysBeforePartner>(_RetrieveFlightSchedulePlanWith3DaysBeforePartner_QNAME, RetrieveFlightSchedulePlanWith3DaysBeforePartner.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysBeforeResponse }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysBeforeResponse }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse }{@code >}
      */
-    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "retrieveFlightSchedulePlanWith3DaysBeforeResponse")
-    public JAXBElement<RetrieveFlightSchedulePlanWith3DaysBeforeResponse> createRetrieveFlightSchedulePlanWith3DaysBeforeResponse(RetrieveFlightSchedulePlanWith3DaysBeforeResponse value) {
-        return new JAXBElement<RetrieveFlightSchedulePlanWith3DaysBeforeResponse>(_RetrieveFlightSchedulePlanWith3DaysBeforeResponse_QNAME, RetrieveFlightSchedulePlanWith3DaysBeforeResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "retrieveFlightSchedulePlanWith3DaysBeforePartnerResponse")
+    public JAXBElement<RetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse> createRetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse(RetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse value) {
+        return new JAXBElement<RetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse>(_RetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse_QNAME, RetrieveFlightSchedulePlanWith3DaysBeforePartnerResponse.class, null, value);
     }
 
     /**
@@ -1495,29 +1495,29 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWithSameTiming }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWithSameTimingPartner }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWithSameTiming }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWithSameTimingPartner }{@code >}
      */
-    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "retrieveFlightSchedulePlanWithSameTiming")
-    public JAXBElement<RetrieveFlightSchedulePlanWithSameTiming> createRetrieveFlightSchedulePlanWithSameTiming(RetrieveFlightSchedulePlanWithSameTiming value) {
-        return new JAXBElement<RetrieveFlightSchedulePlanWithSameTiming>(_RetrieveFlightSchedulePlanWithSameTiming_QNAME, RetrieveFlightSchedulePlanWithSameTiming.class, null, value);
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "retrieveFlightSchedulePlanWithSameTimingPartner")
+    public JAXBElement<RetrieveFlightSchedulePlanWithSameTimingPartner> createRetrieveFlightSchedulePlanWithSameTimingPartner(RetrieveFlightSchedulePlanWithSameTimingPartner value) {
+        return new JAXBElement<RetrieveFlightSchedulePlanWithSameTimingPartner>(_RetrieveFlightSchedulePlanWithSameTimingPartner_QNAME, RetrieveFlightSchedulePlanWithSameTimingPartner.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWithSameTimingResponse }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWithSameTimingPartnerResponse }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWithSameTimingResponse }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link RetrieveFlightSchedulePlanWithSameTimingPartnerResponse }{@code >}
      */
-    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "retrieveFlightSchedulePlanWithSameTimingResponse")
-    public JAXBElement<RetrieveFlightSchedulePlanWithSameTimingResponse> createRetrieveFlightSchedulePlanWithSameTimingResponse(RetrieveFlightSchedulePlanWithSameTimingResponse value) {
-        return new JAXBElement<RetrieveFlightSchedulePlanWithSameTimingResponse>(_RetrieveFlightSchedulePlanWithSameTimingResponse_QNAME, RetrieveFlightSchedulePlanWithSameTimingResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "retrieveFlightSchedulePlanWithSameTimingPartnerResponse")
+    public JAXBElement<RetrieveFlightSchedulePlanWithSameTimingPartnerResponse> createRetrieveFlightSchedulePlanWithSameTimingPartnerResponse(RetrieveFlightSchedulePlanWithSameTimingPartnerResponse value) {
+        return new JAXBElement<RetrieveFlightSchedulePlanWithSameTimingPartnerResponse>(_RetrieveFlightSchedulePlanWithSameTimingPartnerResponse_QNAME, RetrieveFlightSchedulePlanWithSameTimingPartnerResponse.class, null, value);
     }
 
     /**

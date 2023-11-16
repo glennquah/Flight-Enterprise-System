@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.jws.WebParam;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -43,11 +44,19 @@ import util.exception.FlightScheduleBookedException;
 @Stateless
 public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemote, FlightScheduleSessionBeanLocal {
 
+    @EJB(name = "FlightSchedulePlanSessionBeanLocal")
+    private FlightSchedulePlanSessionBeanLocal flightSchedulePlanSessionBeanLocal;
+
+    @EJB(name = "FlightSessionBeanLocal")
+    private FlightSessionBeanLocal flightSessionBeanLocal;
+
     @EJB(name = "CabinCustomerSessionBeanLocal")
     private CabinCustomerSessionBeanLocal cabinCustomerSessionBeanLocal;    
 
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
+    
+    
   
      
     // Add business logic below. (Right-click in editor and choose
@@ -686,5 +695,83 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
             }
         }
         return false;
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingPartner(Date departureDate, long depAirport, long destAirport)  {
+        List<Flight> listOfFlights = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
+        System.out.println("List of flights = " + listOfFlights.size());
+        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
+        System.out.println("List of fsPlan = " + listOfFsPlan.size());
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWithSameTiming(listOfFsPlan, departureDate);
+        System.out.println("List of fs = " + listOfFs.size());
+        for (FlightSchedule fs : listOfFs) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Customer c : fs.getCustomers()) {
+                em.detach(c);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }   
+        }
+        System.out.println("SIZE OF FS SAME TIME = " + listOfFlights.size());
+        return listOfFs;
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterPartner(Date departureDate, long depAirport, long destAirport)  {
+        List<Flight> listOfFlights = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
+        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysAfter(listOfFsPlan, departureDate);
+        for (FlightSchedule fs : listOfFs) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Customer c : fs.getCustomers()) {
+                em.detach(c);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }       
+        }
+        System.out.println("SIZE OF FS 3DAYS AFTER = " + listOfFlights.size());
+        return listOfFs;
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforePartner(Date departureDate, long depAirport, long destAirport)  {
+        List<Flight> listOfFlights = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
+        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysBefore(listOfFsPlan, departureDate);
+        for (FlightSchedule fs : listOfFs) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Customer c : fs.getCustomers()) {
+                em.detach(c);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }   
+        }
+        System.out.println("SIZE OF FS 3 DAYS BEFORE = " + listOfFlights.size());
+        return listOfFs;
     }
 }
