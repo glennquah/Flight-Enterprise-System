@@ -483,7 +483,7 @@ public class HolidayReservationModule {
             System.out.println("Last Name: " + rd.getLastName());
             System.out.println("Seat: " + rd.getRowNum() + rd.getSeatLetter());
             //System.out.println("Fare: $" + rd.getFare().getFareAmount());
-            fare = rd.getFare().getFareAmount();
+            //fare = rd.getFare().getFareAmount();
             System.out.println("");
         }
         //System.out.println("Total Amount Paid: $" + fare.multiply(BigDecimal.valueOf(listOfReservationDetails.size())));
