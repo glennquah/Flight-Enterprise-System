@@ -5,8 +5,8 @@
 package flightreservationjpaseclient;
 
 import entity.Flight;
-import entity.ReservationDetails;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,7 +22,6 @@ import ws.partner.FlightSchedule;
 import ws.partner.FlightScheduleDoesNotExistException_Exception;
 import ws.partner.FlightSchedulePlan;
 import ws.partner.InvalidLoginCredentialException_Exception;
-import ws.partner.UnsignedShortArray;
 
 /**
  *
@@ -351,7 +350,7 @@ public class HolidayReservationModule {
         System.out.print("Enter Cabin you want to Reserve> ");
         String cabin = sc.nextLine().trim();
         // IF TOO COMPLICATED, JUZ MAKE 1 LIST OF CHARACTER
-        //List<List<Character>> cabinSeatingPlanList = getCabinSeatsList(flightScheduleId, cabin);
+        List<String> cabinSeatingPlanList = getCabinSeatsList(flightScheduleId, cabin);
         List<Integer> islesPlan = getIslesPlan(flightScheduleId, cabin);
         System.out.println("*** SEATING CONFIGURATION *** ");
         System.out.print("LETTER ");
@@ -359,39 +358,39 @@ public class HolidayReservationModule {
         int count = 0;
         int c = 0;
         
-//        char[][] cabinSeatingPlan = convertListToCharArray(cabinSeatingPlanList);
-//        for (int i = 0; i < cabinSeatingPlan[0].length; i++) {
-//            System.out.print(seatNum);
-//            seatNum++;
-//            count++;
-//            if (count == islesPlan.get(c) && c != islesPlan.size() - 1) {
-//                System.out.print("|");
-//                c++;
-//                count = 0;
-//            }
-//        }
-//        
-//        System.out.println("");
-//        
-//        for (int i = 0; i < cabinSeatingPlan.length; i++) {
-//            if (i < 9) {
-//                System.out.print("ROW  " + (i + 1) + " ");
-//            } else {
-//                System.out.print("ROW " + (i + 1) + " ");
-//            }
-//            count = 0;
-//            c = 0;
-//            for (int j = 0; j < cabinSeatingPlan[0].length; j++) {
-//                System.out.print(cabinSeatingPlan[i][j]);
-//                count++;
-//                if (count == islesPlan.get(c) && c != islesPlan.size() - 1) {
-//                    System.out.print("|");
-//                    c++;
-//                    count = 0;
-//                }
-//            }
-//            System.out.println("");
-//        }
+        char[][] cabinSeatingPlan = convertListToCharArray(cabinSeatingPlanList);
+        for (int i = 0; i < cabinSeatingPlan[0].length; i++) {
+            System.out.print(seatNum);
+            seatNum++;
+            count++;
+            if (count == islesPlan.get(c) && c != islesPlan.size() - 1) {
+                System.out.print("|");
+                c++;
+                count = 0;
+            }
+        }
+        
+        System.out.println("");
+        
+        for (int i = 0; i < cabinSeatingPlan.length; i++) {
+            if (i < 9) {
+                System.out.print("ROW  " + (i + 1) + " ");
+            } else {
+                System.out.print("ROW " + (i + 1) + " ");
+            }
+            count = 0;
+            c = 0;
+            for (int j = 0; j < cabinSeatingPlan[0].length; j++) {
+                System.out.print(cabinSeatingPlan[i][j]);
+                count++;
+                if (count == islesPlan.get(c) && c != islesPlan.size() - 1) {
+                    System.out.print("|");
+                    c++;
+                    count = 0;
+                }
+            }
+            System.out.println("");
+        }
         
         long highestFareId = getHighestFareUsingCabinName(cabin, flightScheduleId);
         //System.out.println("HIGHEST FARE ID= " + highestFareId);
@@ -456,7 +455,8 @@ public class HolidayReservationModule {
         List<ws.partner.FlightSchedule> listOfFlightSchedules = getFlightSchedules(this.partnerId);
         for (ws.partner.FlightSchedule fs : listOfFlightSchedules) {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
-            System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            System.out.println("Flight Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime()));
             ws.partner.FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
             
             double duration = fs.getEstimatedTime();
@@ -517,20 +517,21 @@ public class HolidayReservationModule {
         return calendar.toGregorianCalendar().getTime(); 
     } 
     
-    public static char[][] convertListToCharArray(List<List<Character>> charList) {
-        if (charList == null || charList.isEmpty() || charList.get(0).isEmpty()) {
+    public static char[][] convertListToCharArray(List<String> seatList) {
+        if (seatList == null || seatList.isEmpty() || seatList.get(0).isEmpty()) {
             return new char[0][0]; 
         }
 
-        int numRows = charList.size();
-        int numCols = charList.get(0).size();
+        int numCols = Integer.parseInt(seatList.get(0));
+        seatList.remove(0);
+        int numRows = seatList.size() / numCols;
         char[][] charArray = new char[numRows][numCols];
 
+        int count  = 0;
         for (int i = 0; i < numRows; i++) {
-            List<Character> row = charList.get(i);
-
             for (int j = 0; j < numCols; j++) {
-                charArray[i][j] = row.get(j);
+                charArray[i][j] = seatList.get(count).charAt(0);
+                count++;
             }
         }
 
@@ -598,10 +599,10 @@ public class HolidayReservationModule {
         return port.getCabins(id);
     }
     
-    private static List<List<Character>> getCabinSeatsList(java.lang.Long id, java.lang.String cabName) throws FlightScheduleDoesNotExistException_Exception {
+    private static List<String> getCabinSeatsList(java.lang.Long id, java.lang.String cabName) throws FlightScheduleDoesNotExistException_Exception {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
-        return (List<List<Character>>) port.getCabinSeatsList(id, cabName);
+        return port.getCabinSeatsList(id, cabName);
     }
 
     private static List<Integer> getIslesPlan(java.lang.Long id, java.lang.String cabName) throws FlightScheduleDoesNotExistException_Exception {

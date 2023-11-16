@@ -507,7 +507,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     
     
     @Override
-    public List<List<Character>> getCabinSeatsList(long id, String cabName) throws FlightScheduleDoesNotExistException {
+    public List<String> getCabinSeatsList(long id, String cabName) throws FlightScheduleDoesNotExistException {
         try {
             List<Cabin> cabins = getCabins(id);
 
@@ -523,15 +523,14 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         }
     }
 
-    private List<List<Character>> convertCharArrayToList(char[][] charArray) {
-        List<List<Character>> result = new ArrayList<>();
+    private List<String> convertCharArrayToList(char[][] charArray) {
+        List<String> result = new ArrayList<>();
+        result.add("" + charArray[0].length);
 
         for (char[] row : charArray) {
-            List<Character> charList = new ArrayList<>();
             for (char c : row) {
-                charList.add(c);
+                result.add("" + c);
             }
-            result.add(charList);
         }
 
         return result;

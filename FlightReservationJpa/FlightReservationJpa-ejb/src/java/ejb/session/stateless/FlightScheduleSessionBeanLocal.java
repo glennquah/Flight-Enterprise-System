@@ -47,7 +47,7 @@ public interface FlightScheduleSessionBeanLocal {
     public Boolean checkSeatIfAvailable(long flightSchedId, String cabinName, int rowNum, char seat);
     public long getHighestFareUsingCabinName(String cabName, long id) throws FlightScheduleDoesNotExistException;
     public List<ReservationDetails> getReservationDetailsPartner(long flightScheduleId, long partnerId) throws  FlightScheduleDoesNotExistException;
-    public List<List<Character>> getCabinSeatsList(long id, String cabName) throws FlightScheduleDoesNotExistException;
+    public List<String> getCabinSeatsList(long id, String cabName) throws FlightScheduleDoesNotExistException;
     public void checkForConflictingFlights(Integer flightNumber, Date departureDate, double duration, double layover) throws ConflictingFlightScheduleException;
     public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Double> durations, List<Double> layovers, List<String> haveReturns) throws ConflictingFlightScheduleException;
     public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Double> durations, List<Double> layovers, Boolean haveReturn) throws ConflictingFlightScheduleException;

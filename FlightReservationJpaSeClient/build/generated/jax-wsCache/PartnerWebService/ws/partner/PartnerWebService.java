@@ -537,7 +537,7 @@ public interface PartnerWebService {
      * @param cabName
      * @param id
      * @return
-     *     returns java.lang.Object
+     *     returns java.util.List&lt;java.lang.String&gt;
      * @throws FlightScheduleDoesNotExistException_Exception
      */
     @WebMethod
@@ -547,7 +547,7 @@ public interface PartnerWebService {
     @Action(input = "http://ws.session.ejb/PartnerWebService/getCabinSeatsListRequest", output = "http://ws.session.ejb/PartnerWebService/getCabinSeatsListResponse", fault = {
         @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getCabinSeatsList/Fault/FlightScheduleDoesNotExistException")
     })
-    public Object getCabinSeatsList(
+    public List<String> getCabinSeatsList(
         @WebParam(name = "id", targetNamespace = "")
         long id,
         @WebParam(name = "cabName", targetNamespace = "")

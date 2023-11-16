@@ -49,7 +49,7 @@ public interface FlightScheduleSessionBeanRemote {
     public Long deleteFlightSchedule(Long flightScheduleId) throws FlightScheduleBookedException;
     public Boolean checkSeatIfAvailable(long flightSchedId, String cabinName, int rowNum, char seat);
     public long getHighestFareUsingCabinName(String cabName, long id) throws FlightScheduleDoesNotExistException;
-    public List<List<Character>> getCabinSeatsList(long id, String cabName) throws FlightScheduleDoesNotExistException;
+    public List<String> getCabinSeatsList(long id, String cabName) throws FlightScheduleDoesNotExistException;
     public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Double> durations, List<Double> layovers, List<String> haveReturns) throws ConflictingFlightScheduleException;
     public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate, Boolean detach);
     public List<Cabin> getCabins(long id, Boolean detach) throws FlightScheduleDoesNotExistException;

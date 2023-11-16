@@ -311,7 +311,7 @@
 
 <xs:complexType name="getCabinSeatsListResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:anyType" minOccurs="0"/>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
