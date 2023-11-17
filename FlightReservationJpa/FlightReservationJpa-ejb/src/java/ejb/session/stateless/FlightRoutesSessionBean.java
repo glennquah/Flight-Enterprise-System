@@ -7,7 +7,6 @@ package ejb.session.stateless;
 import entity.Airport;
 import entity.Flight;
 import entity.FlightRoute;
-import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -83,16 +82,13 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
             
             FlightRoute newFlightRoute = new FlightRoute(airportOne, airportTwo, true);
             FlightRoute newReturnFlightRoute = new FlightRoute(airportTwo, airportOne, true);
-            newFlightRoute.setReturnFlightRouteId(newReturnFlightRoute.getFlightRouteId());
-            newReturnFlightRoute.setReturnFlightRouteId(newFlightRoute.getFlightRouteId());
             
             em.persist(newFlightRoute);
-            em.flush();
             em.persist(newReturnFlightRoute);
             em.flush();            
             return newFlightRoute.getFlightRouteId();
         } catch (NoResultException ex) {
-            throw new AirportDoesNotExistException("Aiport Does Not Exist!");
+            throw new AirportDoesNotExistException("Airport Does Not Exist!");
         }
     }
     

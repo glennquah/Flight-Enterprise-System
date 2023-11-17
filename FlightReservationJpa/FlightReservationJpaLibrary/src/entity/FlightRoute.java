@@ -46,9 +46,6 @@ public class FlightRoute implements Serializable {
     
     private Boolean complementaryRoute;
     
-    @Column(nullable = false)
-    private Long returnFlightRouteId;
-    
     @OneToMany(mappedBy="FlightRoute")
     private List<Flight> listOfFlights;
 
@@ -60,7 +57,6 @@ public class FlightRoute implements Serializable {
         this.destination = destination;
         this.flightRouteStatus = FlightRouteStatusEnum.ACTIVE;
         this.complementaryRoute = false;
-        this.returnFlightRouteId = 0l;
         this.listOfFlights = new ArrayList<>();
     }
 
@@ -69,18 +65,9 @@ public class FlightRoute implements Serializable {
         this.destination = destinationAirport;
         this.flightRouteStatus = FlightRouteStatusEnum.ACTIVE;
         this.complementaryRoute = true;
-        this.returnFlightRouteId = 0l;
         this.listOfFlights = new ArrayList<>();
     }
 
-    public Long getReturnFlightRouteId() {
-        return returnFlightRouteId;
-    }
-
-    public void setReturnFlightRouteId(Long returnFlightRouteId) {
-        this.returnFlightRouteId = returnFlightRouteId;
-    }
-    
     public Long getFlightRouteId() {
         return flightRouteId;
     }

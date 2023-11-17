@@ -39,6 +39,8 @@ public class Flight implements Serializable {
     private List<Date> bookedDates;
     @Column(nullable = false)
     private FlightStatusEnum flightStatus;
+    @Column(nullable = false)
+    private Integer returnFlightNumber;
     
     @ManyToOne
     private FlightRoute flightRoute;
@@ -57,9 +59,18 @@ public class Flight implements Serializable {
         this.prefix = "IATA";
         this.bookedDates = new ArrayList<>();
         this.flightStatus = FlightStatusEnum.ACTIVE;
+        this.returnFlightNumber = 0;
         this.flightRoute = new FlightRoute();
         this.aircraftConfig = new AircraftConfiguration();
         this.listOfFlightSchedulePlans = new ArrayList<>();
+    }
+
+    public Integer getReturnFlightNumber() {
+        return returnFlightNumber;
+    }
+
+    public void setReturnFlightNumber(Integer returnFlightNumber) {
+        this.returnFlightNumber = returnFlightNumber;
     }
 
     public List<Date> getBookedDates() {

@@ -498,6 +498,22 @@ public class ManagementModule {
         System.out.print("Enter Flight Route ID> ");
         Long flightRouteId = sc.nextLong();
         sc.nextLine();
+        
+        FlightRoute chosenFlightRoute = flightRoutesSessionBeanRemote.getFlightRouteWithId(flightRouteId);
+        
+        if (chosenFlightRoute.getComplementaryRoute()) {
+            System.out.print("Do you want to create a complementary return flight> ");
+        }
+        
+        String haveReturn = sc.nextLine().toUpperCase().trim();
+        Integer returnFlightNumber = 0;
+        if (haveReturn.equals("Y")) {
+            System.out.print("Enter Complementary Flight Number> ");
+            returnFlightNumber = sc.nextInt();
+        }
+        
+//        retrieve flight route and check for complementary then prompt user to input
+//         flight to store complementary flight number now
 
         System.out.println("\n*** SELECT AIRCRAFT CONFIGURATION ***\n");
         List<AircraftConfiguration> aircraftConfigurations = aircraftConfigurationSessionBeanRemote.retrieveAllAircraftConfigurations();
@@ -512,8 +528,16 @@ public class ManagementModule {
         Long aircraftConfigId = sc.nextLong();
 
         sc.nextLine();
+        
         Flight flight = new Flight(flightNum);
-        Long flightId = flightSessionBeanRemote.createNewFlight(flight, flightRouteId, aircraftConfigId);
+        
+        Long flightId;
+        if (haveReturn.equals("Y")) {
+            Flight returnFlight = new Flight(returnFlightNumber);
+            flightId = flightSessionBeanRemote.createNewFlightWithReturn(flight, returnFlight, flightRouteId, aircraftConfigId);
+        } else {
+            flightId = flightSessionBeanRemote.createNewFlight(flight, flightRouteId, aircraftConfigId);
+        }
         System.out.println("");
         System.out.println("Flight Successfully Created!");
         System.out.println("Flight Id= " + flightId);
