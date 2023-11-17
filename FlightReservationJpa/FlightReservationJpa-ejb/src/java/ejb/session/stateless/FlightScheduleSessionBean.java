@@ -128,9 +128,9 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
             }
             
             if (haveReturn) {
-                Query secondQuery = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute.origin = :origin AND f.flightRoute.destination = :destination");
-                secondQuery.setParameter("origin", flight.getFlightRoute().getDestination());
-                secondQuery.setParameter("destination", flight.getFlightRoute().getOrigin());
+                Integer returnFlightNumber = flight.getReturnFlightNumber();
+                Query secondQuery = em.createQuery("SELECT f FROM Flight f WHERE f.returnFlightNumber = :returnFlightNumber");
+                secondQuery.setParameter("returnFlightNumber", returnFlightNumber);
                 Flight returnFlight = (Flight) secondQuery.getSingleResult();
                 List<Date> bookedDatesReturn  = returnFlight.getBookedDates();
                 bookedDatesReturn.size();
@@ -195,9 +195,9 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
             }
             
             if (haveReturn.equals("Y")) {
-                Query secondQuery = em.createQuery("SELECT f FROM Flight f WHERE f.flightRoute.origin = :origin AND f.flightRoute.destination = :destination");
-                secondQuery.setParameter("origin", flight.getFlightRoute().getDestination());
-                secondQuery.setParameter("destination", flight.getFlightRoute().getOrigin());
+                Integer returnFlightNumber = flight.getReturnFlightNumber();
+                Query secondQuery = em.createQuery("SELECT f FROM Flight f WHERE f.returnFlightNumber = :returnFlightNumber");
+                secondQuery.setParameter("returnFlightNumber", returnFlightNumber);
                 Flight returnFlight = (Flight) secondQuery.getSingleResult();
                 List<Date> bookedDatesReturn = returnFlight.getBookedDates();
                 bookedDatesReturn.size();
