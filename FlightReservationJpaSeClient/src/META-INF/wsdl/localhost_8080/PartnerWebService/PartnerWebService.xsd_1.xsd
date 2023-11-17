@@ -468,6 +468,18 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="getAirportIdWithFlightScheduleId">
+<xs:sequence>
+<xs:element name="flightSchedId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAirportIdWithFlightScheduleIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="getFlightScheduleWithId">
 <xs:sequence>
 <xs:element name="arg0" type="xs:long"/>
@@ -480,13 +492,14 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getAirportIdWithFlightScheduleId">
+<xs:complexType name="linkFlightSchedule">
 <xs:sequence>
-<xs:element name="flightSchedId" type="xs:long"/>
+<xs:element name="partnerId" type="xs:long"/>
+<xs:element name="fsId" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getAirportIdWithFlightScheduleIdResponse">
+<xs:complexType name="linkFlightScheduleResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:long" minOccurs="0"/>
 </xs:sequence>
@@ -502,19 +515,6 @@
 <xs:complexType name="checkIfFlightSchedIdIsDirectResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:boolean" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="linkFlightSchedule">
-<xs:sequence>
-<xs:element name="partnerId" type="xs:long"/>
-<xs:element name="fsId" type="xs:long"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="linkFlightScheduleResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:long" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
