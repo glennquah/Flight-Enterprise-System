@@ -696,7 +696,8 @@ public class ManagementModule {
                 if (f.getFlightStatus() == FlightStatusEnum.ACTIVE) {
                     System.out.println("Flight ID: " + f.getFlightId());
                     System.out.println("Aircraft Configuration Name: " + f.getAircraftConfig().getAircraftConfigName());
-                    System.out.println("Aircraft Route ID: " + f.getFlightRoute().getFlightRouteId());
+                    System.out.println("Flight Number: ML" + f.getFlightNumber());
+//                    System.out.println("Flight Route ID: " + f.getFlightRoute().getFlightRouteId());
                     System.out.println("");
                 }
             }
@@ -1088,7 +1089,7 @@ public class ManagementModule {
                     if (complementaryReturn) {
                         System.out.print("Is there a return flight> (Y/N)> ");
                         sc.nextLine();
-                         haveReturn = sc.nextLine().trim().toUpperCase();
+                        haveReturn = sc.nextLine().trim().toUpperCase();
                     }
                     
                     while(!departureDateTime.equals(endDate) || endDate.after(departureDateTime)) {
@@ -1181,6 +1182,7 @@ public class ManagementModule {
 
                     System.out.print("Enter DURATION in Hours> ");
                     double duration = sc.nextDouble();
+                    sc.nextLine();
                     
                     System.out.print("Enter END DATE (yyyy-MM-dd HH:mm)> ");
                     Date endDate = dateFormat.parse(sc.nextLine());
