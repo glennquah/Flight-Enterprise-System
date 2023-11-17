@@ -502,7 +502,7 @@ public class ManagementModule {
         FlightRoute chosenFlightRoute = flightRoutesSessionBeanRemote.getFlightRouteWithId(flightRouteId);
         
         if (chosenFlightRoute.getComplementaryRoute()) {
-            System.out.print("Do you want to create a complementary return flight> ");
+            System.out.print("Do you want to create a complementary return flight (Y/N)> ");
         }
         
         String haveReturn = sc.nextLine().toUpperCase().trim();
