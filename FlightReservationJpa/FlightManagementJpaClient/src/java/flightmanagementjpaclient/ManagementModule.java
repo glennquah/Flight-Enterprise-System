@@ -15,6 +15,7 @@ import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
+import ejb.session.stateless.ReservationDetailsSessionBeanRemote;
 import entity.Aircraft;
 import entity.AircraftConfiguration;
 import entity.Airport;
@@ -24,6 +25,7 @@ import entity.Flight;
 import entity.FlightRoute;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
+import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -40,6 +42,7 @@ import util.exception.FareBasisCodeAlreadyExistException;
 import util.exception.FlightDisabledException;
 import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
+import util.exception.FlightScheduleDoesNotExistException;
 import util.exception.InvalidInputException;
 
 /**
@@ -60,6 +63,7 @@ public class ManagementModule {
     private FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
     private FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote;
     private FareSessionBeanRemote fareSessionBeanRemote;
+    private ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote;
 
     public ManagementModule() {
     }
@@ -75,7 +79,8 @@ public class ManagementModule {
             FlightSessionBeanRemote flightSessionBeanRemote,
             FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote,
             FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote,
-            FareSessionBeanRemote fareSessionBeanRemote) {
+            FareSessionBeanRemote fareSessionBeanRemote,
+            ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote) {
         this.employeeId = employeeId;
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
@@ -88,6 +93,7 @@ public class ManagementModule {
         this.flightScheduleSessionBeanRemote = flightScheduleSessionBeanRemote;
         this.flightSchedulePlanSessionBeanRemote = flightSchedulePlanSessionBeanRemote;
         this.fareSessionBeanRemote = fareSessionBeanRemote;
+        this.reservationDetailsSessionBeanRemote = reservationDetailsSessionBeanRemote;
     }
 
     //=================================================ADMIN PAGE================================================================
@@ -101,7 +107,9 @@ public class ManagementModule {
             System.out.println("2: Flight Route");
             System.out.println("3: Flight");
             System.out.println("4: Flight Schedule Plan");
-            System.out.println("5: Logout\n");
+            System.out.println("5: View Seat Inventory");
+            System.out.println("6: View Flight Reservation");
+            System.out.println("7: Logout\n");
 
             System.out.print("> ");
             response = sc.nextInt();
@@ -115,10 +123,116 @@ public class ManagementModule {
             } else if (response == 4) {
                 flightSchedule(sc);
             } else if (response == 5) {
+                viewSeatInventory(sc);
+            } else if (response == 6) {
+                viewFlightReservation(sc);
+            } else if (response == 7) {
                 break;
             } else {
                 System.out.println("Invalid option, please try again!\n");
             }
+        }
+    }
+    
+    //=================================================VIEW SEATS INVENTORY========================================================
+    public void viewSeatInventory(Scanner sc) throws FlightScheduleDoesNotExistException {
+        System.out.println("*** YOU HAVE PICKED VIEW SEAT INVENTORY ***\n");
+        System.out.print("Enter Flight Number> ");
+        int flightNum = sc.nextInt();
+        sc.nextLine();
+        List<FlightSchedule> listOfFlightSchedules = flightScheduleSessionBeanRemote.getFlightSchedulesUsingFlightNum(flightNum);
+        for (FlightSchedule fs : listOfFlightSchedules) {
+            System.out.println("Flight Schedule Id: " + fs.getFlightScheduleId());
+            System.out.println("Departure Date: " + fs.getDepartureDateTime());
+            System.out.println("Flight From: " + fs.getFlightSchedulePlan().getFlight().getFlightRoute().getOrigin().getCountry());
+            System.out.println("Flight To: " + fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination().getCountry());
+            System.out.println("");
+        }
+        System.out.print("Enter Flight Schedule Id> ");
+        long fsId = sc.nextLong();
+        sc.nextLine();
+        FlightSchedule fs = flightScheduleSessionBeanRemote.getFlightSchedulesWithFsId(fsId);
+        System.out.println("");
+        System.out.println("*** CABIN DETAILS FOR FLIGHT SCHEDULE ***");
+        List<Cabin> cabins = flightScheduleSessionBeanRemote.getCabins(fsId);
+        for (Cabin c : cabins) {
+            System.out.println("Cabin Class : " + c.getCabinClassName());
+            System.out.println("Total Seats: " + c.getTotalSeats());
+            System.out.println("Remaining Seats: " + (c.getTotalSeats() - c.getReservedSeats()));
+            long lowestFareid = cabinCustomerSessionBeanRemote.getLowestFareIdInCabin(c.getCabinId());
+            //System.out.println(lowestFareid);
+            BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareid);
+            System.out.println("Fare per Ticket: $" + lowestFare);
+            System.out.println("");
+        }
+        System.out.print("Enter Cabin to see Seat Inventory> ");
+        String cabin = sc.nextLine().trim();
+        char[][] cabinSeatingPlan = flightScheduleSessionBeanRemote.getCabinSeats(fsId, cabin);
+        Integer[] islesPlan = flightScheduleSessionBeanRemote.getIslesPlan(fsId, cabin);
+        System.out.println("*** SEATING CONFIGURATION *** ");
+        System.out.print("LETTER ");
+        char seatNum = 'A';
+        int count = 0;
+        int c = 0;
+        for (int i = 0; i < cabinSeatingPlan[0].length; i++) {
+            System.out.print(seatNum);
+            seatNum++;
+            count++;
+            if (count == islesPlan[c] && c != islesPlan.length - 1) {
+                System.out.print("|");
+                c++;
+                count = 0;
+            }
+        }
+        System.out.println("");
+        for (int i = 0; i < cabinSeatingPlan.length; i++) {
+            if (i < 9) {
+                System.out.print("ROW  " + (i + 1) + " ");
+            } else {
+                System.out.print("ROW " + (i + 1) + " ");
+            }
+            count = 0;
+            c = 0;
+            for (int j = 0; j < cabinSeatingPlan[0].length; j++) {
+                System.out.print(cabinSeatingPlan[i][j]);
+                count++;
+                if (count == islesPlan[c] && c != islesPlan.length - 1) {
+                    System.out.print("|");
+                    c++;
+                    count = 0;
+                }
+            }
+            System.out.println("");
+        }
+        System.out.println("");
+    }
+    
+    //=================================================VIEW FLIGHT RESERVATION=====================================================
+    public void viewFlightReservation(Scanner sc) throws FlightScheduleDoesNotExistException {
+        System.out.println("*** YOU HAVE PICKED VIEW FLIGHT RESERVATION ***\n");
+        System.out.print("Enter Flight Number> ");
+        int flightNum = sc.nextInt();
+        sc.nextLine();
+        List<FlightSchedule> listOfFlightSchedules = flightScheduleSessionBeanRemote.getFlightSchedulesUsingFlightNum(flightNum);
+        for (FlightSchedule fs : listOfFlightSchedules) {
+            System.out.println("Flight Schedule Id: " + fs.getFlightScheduleId());
+            System.out.println("Departure Date: " + fs.getDepartureDateTime());
+            System.out.println("Flight From: " + fs.getFlightSchedulePlan().getFlight().getFlightRoute().getOrigin().getCountry());
+            System.out.println("Flight To: " + fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination().getCountry());
+            System.out.println("");
+        }
+        System.out.print("Enter Flight Schedule Id> ");
+        long fsId = sc.nextLong();
+        sc.nextLine();
+        FlightSchedule fs = flightScheduleSessionBeanRemote.getFlightSchedulesWithFsId(fsId);
+        List<ReservationDetails> resDetails = reservationDetailsSessionBeanRemote.getReservationsWithFsId(fsId);
+        for (ReservationDetails rd : resDetails) {
+            System.out.println("Cabin: " + rd.getFare().getCabin().getCabinClassName());
+            System.out.println("First Name: " + rd.getFirstName());
+            System.out.println("Last Name: " + rd.getLastName());
+            System.out.println("Seat: " + rd.getRowNum() + rd.getSeatLetter());
+            System.out.println("Fare: $" + rd.getFare().getFareAmount());
+            System.out.println("");
         }
     }
 

@@ -345,4 +345,6 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
         
         return flight.getReturnFlightNumber();
     }
+    
+    
 }

@@ -5,6 +5,7 @@
 package ejb.session.stateless;
 
 import entity.ReservationDetails;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -16,5 +17,5 @@ public interface ReservationDetailsSessionBeanLocal {
     public Long createReservationDetails(ReservationDetails reservationDetails, long customerId, long flightScheduleId, long lowestFareId);
     public Long createReservationDetailsForPartner(ReservationDetails reservationDetails, long partnerId, long flightScheduleId, long lowestFareId);
     public Long createReservationDetails(long reservationDetailsId, long customerId, long flightScheduleId, long lowestFareId);
-
+    public List<ReservationDetails> getReservationsWithFsId(long id) ;
 }
