@@ -7,8 +7,8 @@ package entity;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,20 +17,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Future;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Lenovo
  */
 @Entity
+@XmlRootElement
 public class FlightSchedule implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,9 +43,9 @@ public class FlightSchedule implements Serializable {
     @Column(nullable = false)
     private Date departureDateTime;
     @Column(nullable = false)
-    private Duration estimatedTime;
+    private double estimatedTime;
     @Column(nullable = false)
-    private Duration layover;
+    private double layover;
     @Future
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
@@ -54,7 +55,10 @@ public class FlightSchedule implements Serializable {
     private FlightSchedulePlan flightSchedulePlan;
     
     @ManyToMany
-    private List<Customer> customer;
+    private List<Customer> customers;
+    
+    @ManyToMany
+    private List<Partner> partners;
     
     @OneToMany(mappedBy = "FlightSchedule")
     private List<ReservationDetails> listOfReservationDetails;
@@ -65,13 +69,19 @@ public class FlightSchedule implements Serializable {
     public FlightSchedule() {
     }
 
-    public FlightSchedule(Date departureDateTime, Duration estimatedTime, Duration layover) {
+    public FlightSchedule(Date departureDateTime, double estimatedTime, double layover) {
         this.departureDateTime = departureDateTime;
         this.estimatedTime = estimatedTime;
+        
+        long hours = (long) (int) estimatedTime;
+        long minutes = (long) ((estimatedTime - hours) * 60);
         Instant instant = departureDateTime.toInstant();
-        this.arrivalDateTime = Date.from(instant.plus(estimatedTime));
+        Instant instantHours = instant.plus(hours, ChronoUnit.HOURS);
+        this.arrivalDateTime = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
+                
+        this.customers = new ArrayList<>();
+        this.partners = new ArrayList<>();
         this.layover = layover;
-        this.customer = new ArrayList<>();
         this.listOfReservationDetails = new ArrayList<>();
         this.listOfCabins = new ArrayList<>();
     }
@@ -83,7 +93,7 @@ public class FlightSchedule implements Serializable {
     public void setFlightScheduleId(Long flightScheduleId) {
         this.flightScheduleId = flightScheduleId;
     }
-
+    
     public Date getDepartureDateTime() {
         return departureDateTime;
     }
@@ -91,15 +101,7 @@ public class FlightSchedule implements Serializable {
     public void setDepartureDateTime(Date departureDateTime) {
         this.departureDateTime = departureDateTime;
     }
-
-    public Duration getLayover() {
-        return layover;
-    }
-
-    public void setLayover(Duration layover) {
-        this.layover = layover;
-    }
-
+    
     public Date getArrivalDateTime() {
         return arrivalDateTime;
     }
@@ -108,14 +110,22 @@ public class FlightSchedule implements Serializable {
         this.arrivalDateTime = arrivalDateTime;
     }
 
-    public Duration getEstimatedTime() {
+    public double getEstimatedTime() {
         return estimatedTime;
     }
 
-    public void setEstimatedTime(Duration estimatedTime) {
+    public void setEstimatedTime(double estimatedTime) {
         this.estimatedTime = estimatedTime;
     }
 
+    public double getLayover() {
+        return layover;
+    }
+
+    public void setLayover(double layover) {
+        this.layover = layover;
+    }
+    
     public FlightSchedulePlan getFlightSchedulePlan() {
         return flightSchedulePlan;
     }
@@ -125,17 +135,17 @@ public class FlightSchedule implements Serializable {
     }
 
         /**
-     * @return the customer
+     * @return the customers
      */
-    public List<Customer> getCustomer() {
-        return customer;
+    public List<Customer> getCustomers() {
+        return customers;
     }
 
     /**
-     * @param customer the customer to set
+     * @param customers the customers to set
      */
-    public void setCustomer(List<Customer> customer) {
-        this.customer = customer;
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
     
     @Override
@@ -153,8 +163,6 @@ public class FlightSchedule implements Serializable {
         this.listOfReservationDetails = listOfReservationDetails;
     }
     
-    
-
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the flightScheduleId fields are not set
@@ -187,6 +195,19 @@ public class FlightSchedule implements Serializable {
         this.listOfCabins = listOfCabins;
     }
 
+    /**
+     * @return the partners
+     */
+    public List<Partner> getPartners() {
+        return partners;
+    }
+
+    /**
+     * @param partners the partners to set
+     */
+    public void setPartners(List<Partner> partners) {
+        this.partners = partners;
+    }
 }
 
     class FlightScheduleComparator implements Comparator<FlightSchedule> {

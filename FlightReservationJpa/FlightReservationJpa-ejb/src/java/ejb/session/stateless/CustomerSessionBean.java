@@ -72,10 +72,10 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
     public long linkFlightSchedule(long customerId, long flightScheduleId) {
         Customer cust = em.find(Customer.class, customerId);
         FlightSchedule fs = em.find(FlightSchedule.class, flightScheduleId);
-        List<Customer> custs = fs.getCustomer();
+        List<Customer> custs = fs.getCustomers();
         custs.size();
         custs.add(cust);
-        fs.setCustomer(custs);
+        fs.setCustomers(custs);
         
         List<FlightSchedule> flightSchedules = cust.getListOfFlightSchedules();
         flightSchedules.size();

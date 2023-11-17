@@ -28,7 +28,7 @@ import util.exception.FlightScheduleBookedException;
 public interface FlightScheduleSessionBeanLocal {
     public FlightSchedule createNewFlightSchedule(Integer flightNumber, FlightSchedule flightSchedule) throws AircraftConfigurationDoesNotExistException, ConflictingFlightScheduleException;
     public List<FlightSchedule> getFlightSchedulesWithId(Long id) throws FlightScheduleDoesNotExistException;
-    public Long changeFlightScheduleDateTime(Long flightScheduleId, Date departureDateTime, Duration duration) throws FlightScheduleDoesNotExistException;
+    public Long changeFlightScheduleDateTime(Long flightScheduleId, Date departureDateTime, double duration) throws FlightScheduleDoesNotExistException;
     public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTiming(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate) ;
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBefore(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate);
     public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfter(List<FlightSchedulePlan> listOfFlightSchedulePlan, Date departureDate);
@@ -45,7 +45,21 @@ public interface FlightScheduleSessionBeanLocal {
     public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId) throws  FlightScheduleDoesNotExistException;
     public Long deleteFlightSchedule(Long flightScheduleId) throws FlightScheduleBookedException;
     public Boolean checkSeatIfAvailable(long flightSchedId, String cabinName, int rowNum, char seat);
-    public void checkForConflictingFlights(Integer flightNumber, Date departureDate, Duration duration, Duration layover) throws ConflictingFlightScheduleException;
-    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Duration> durations, List<Duration> layovers, List<String> haveReturns) throws ConflictingFlightScheduleException;
-    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Duration> durations, List<Duration> layovers, Boolean haveReturn) throws ConflictingFlightScheduleException;
+    public long getHighestFareUsingCabinName(String cabName, long id) throws FlightScheduleDoesNotExistException;
+    public List<ReservationDetails> getReservationDetailsPartner(long flightScheduleId, long partnerId) throws  FlightScheduleDoesNotExistException;
+    public List<String> getCabinSeatsList(long id, String cabName) throws FlightScheduleDoesNotExistException;
+    public void checkForConflictingFlights(Integer flightNumber, Date departureDate, double duration, double layover) throws ConflictingFlightScheduleException;
+    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Double> durations, List<Double> layovers, List<String> haveReturns) throws ConflictingFlightScheduleException;
+    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Double> durations, List<Double> layovers, Boolean haveReturn) throws ConflictingFlightScheduleException;
+    public List<Cabin> getCabins(long id, Boolean detach) throws FlightScheduleDoesNotExistException;
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingPartner(Date departureDate, long depAirport, long destAirport);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterPartner(Date departureDate, long depAirport, long destAirport);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforePartner(Date departureDate, long depAirport, long destAirport);
+    public long getAirportIdWithFlightScheduleId(long flightSchedId);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate);
+    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTimingReturnConnecting(long pickedAirport, long destAirport, Date departureDate);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(long pickedAirport, long destAirport, Date departureDate);
+    public FlightSchedule getFlightScheduleWithId(long id, Boolean detach) throws FlightScheduleDoesNotExistException;
 }

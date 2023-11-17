@@ -13,6 +13,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,7 +34,7 @@ public class AirportSessionBean implements AirportSessionBeanRemote, AirportSess
     }
     
     @Override
-    public List<Airport> retrieveAllAiports() {
+    public List<Airport> retrieveAllAirports() {
         //Whatever JPQL Statement u want
         Query query = em.createQuery("SELECT a FROM Airport a");
         return query.getResultList();

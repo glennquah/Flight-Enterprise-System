@@ -29,7 +29,7 @@ public class Customer extends Account implements Serializable {
     @OneToMany(mappedBy="Customer")
     private List<ReservationDetails> listOfReservationDetails;
     
-    @ManyToMany(mappedBy = "Customer")
+    @ManyToMany
     private List<FlightSchedule> listOfFlightSchedules;
 
     public Customer() {

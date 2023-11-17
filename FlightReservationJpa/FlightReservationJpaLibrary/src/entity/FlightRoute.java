@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import util.enumeration.FlightRouteStatusEnum;
 
 /**
@@ -23,6 +25,7 @@ import util.enumeration.FlightRouteStatusEnum;
  * @author Lenovo
  */
 @Entity
+@XmlRootElement
 public class FlightRoute implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,7 +67,7 @@ public class FlightRoute implements Serializable {
         this.complementaryRoute = true;
         this.listOfFlights = new ArrayList<>();
     }
-
+    
     public Long getFlightRouteId() {
         return flightRouteId;
     }
@@ -72,11 +75,11 @@ public class FlightRoute implements Serializable {
     public void setFlightRouteId(Long flightRouteId) {
         this.flightRouteId = flightRouteId;
     }
-
+    
     public Airport getOrigin() {
         return origin;
     }
-
+    
     public Boolean getComplementaryRoute() {
         return complementaryRoute;
     }
@@ -84,7 +87,7 @@ public class FlightRoute implements Serializable {
     public void setComplementaryRoute(Boolean complementaryRoute) {
         this.complementaryRoute = complementaryRoute;
     }
-
+    
     public FlightRouteStatusEnum getFlightRouteStatus() {
         return flightRouteStatus;
     }
@@ -135,6 +138,10 @@ public class FlightRoute implements Serializable {
      */
     public List<Flight> getListOfFlights() {
         return listOfFlights;
+    }
+    
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     /**

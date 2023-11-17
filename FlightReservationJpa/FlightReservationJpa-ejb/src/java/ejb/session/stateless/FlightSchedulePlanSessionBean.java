@@ -7,6 +7,7 @@ package ejb.session.stateless;
 import entity.Cabin;
 import entity.Fare;
 import entity.Flight;
+import entity.FlightRoute;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import entity.ReservationDetails;
@@ -228,5 +229,10 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
         query.setParameter("flightNumbers", flightNumbers);
         return query.getResultList();
     }
-
+    
+    @Override
+    public FlightRoute retrieveFlightRouteFromFlightSchedule(Long fsId) {
+        FlightSchedule fs = em.find(FlightSchedule.class, fsId);
+        return fs.getFlightSchedulePlan().getFlight().getFlightRoute();
+    }
 }

@@ -7,17 +7,16 @@ package ejb.session.stateless;
 import entity.Flight;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
-import java.time.Duration;
 import java.time.Instant;
 import entity.Cabin;
 import entity.Customer;
 import entity.Fare;
-import entity.FlightRoute;
+import entity.Partner;
 import entity.ReservationDetails;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -25,16 +24,15 @@ import java.util.List;
 import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.jws.WebParam;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.ConflictingFlightScheduleException;
 import util.exception.FlightScheduleDoesNotExistException;
-import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import util.exception.AircraftConfigurationDoesNotExistException;
-import util.exception.AirportDoesNotExistException;
 import util.exception.FlightDoesNotExistException;
 import util.exception.FlightScheduleBookedException;
 
@@ -45,17 +43,25 @@ import util.exception.FlightScheduleBookedException;
 @Stateless
 public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemote, FlightScheduleSessionBeanLocal {
 
+    @EJB(name = "FlightSchedulePlanSessionBeanLocal")
+    private FlightSchedulePlanSessionBeanLocal flightSchedulePlanSessionBeanLocal;
+
+    @EJB(name = "FlightSessionBeanLocal")
+    private FlightSessionBeanLocal flightSessionBeanLocal;
+
     @EJB(name = "CabinCustomerSessionBeanLocal")
     private CabinCustomerSessionBeanLocal cabinCustomerSessionBeanLocal;    
 
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
+    
+    
   
      
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
-    public void checkForConflictingFlights(Integer flightNumber, Date departureDate, Duration duration, Duration layover) throws ConflictingFlightScheduleException {
+    public void checkForConflictingFlights(Integer flightNumber, Date departureDate, double duration, double layover) throws ConflictingFlightScheduleException {
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
@@ -63,10 +69,14 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         List<Date> bookedDates = flight.getBookedDates();
         bookedDates.size();
         
+        long hours = (long) (int) duration;
+        long minutes = (long) ((duration - hours) * 60);
         Instant instant = departureDate.toInstant();
-        Date arrivalDateTime = Date.from(instant.plus(duration));
+        Instant instantHours = instant.plus(hours, ChronoUnit.HOURS);
+
+        Date arrivalDateTime = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
         instant = arrivalDateTime.toInstant();
-        Date arrivalWithLayover = Date.from(instant.plus(layover));
+        Date arrivalWithLayover = Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
             
         for (int j = 1; j < bookedDates.size() - 1; j += 2) {
             if (bookedDates.get(j).after(departureDate)) {
@@ -82,7 +92,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Duration> durations, List<Duration> layovers, Boolean haveReturn) throws ConflictingFlightScheduleException {
+    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Double> durations, List<Double> layovers, Boolean haveReturn) throws ConflictingFlightScheduleException {
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
@@ -93,13 +103,17 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
        
         for (int i = 0; i < departureDates.size(); i++) { 
             Date departureDateTime = departureDates.get(i);
-            Duration duration = durations.get(i);
-            Duration layover = layovers.get(i);
-            
+            double duration = durations.get(i);
+            double layover = layovers.get(i);
+
+            long hours = (long) (int) duration;
+            long minutes = (long) ((duration - hours) * 60);
             Instant instant = departureDateTime.toInstant();
-            Date arrivalDateTime = Date.from(instant.plus(duration));
+            Instant instantHours = instant.plus(hours, ChronoUnit.HOURS);
+            
+            Date arrivalDateTime = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
             instant = arrivalDateTime.toInstant();
-            Date arrivalWithLayover = Date.from(instant.plus(layover));
+            Date arrivalWithLayover = Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
             
             for (int j = 1; j < bookedDates.size() - 1; j += 2) {
                 if (bookedDates.get(j).after(departureDateTime)) {
@@ -122,9 +136,11 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
                 bookedDatesReturn.size();
                 
                 instant = arrivalWithLayover.toInstant();
-                Date arrivalDateTimeReturn = Date.from(instant.plus(duration));
+                instantHours = instant.plus(hours, ChronoUnit.HOURS);
+
+                Date arrivalDateTimeReturn = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
                 instant = arrivalDateTimeReturn.toInstant();
-                Date arrivalReturnWithLayover = Date.from(instant.plus(layover));
+                Date arrivalReturnWithLayover = Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 
                 for (int j = 1; j < bookedDatesReturn.size() - 1; j += 2) {
                     if (bookedDatesReturn.get(j).after(departureDateTime)) {
@@ -142,7 +158,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Duration> durations, List<Duration> layovers, List<String> haveReturns) throws ConflictingFlightScheduleException {
+    public void checkForConflictingFlights(Integer flightNumber, List<Date> departureDates, List<Double> durations, List<Double> layovers, List<String> haveReturns) throws ConflictingFlightScheduleException {
         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
         query.setParameter("flightNumber", flightNumber);
         Flight flight = (Flight)query.getSingleResult();
@@ -153,14 +169,18 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
        
         for (int i = 0; i < departureDates.size(); i++) { 
             Date departureDateTime = departureDates.get(i);
-            Duration duration = durations.get(i);
-            Duration layover = layovers.get(i);
+            double duration = durations.get(i);
+            double layover = layovers.get(i);
             String haveReturn = haveReturns.get(i);
             
+            long hours = (long) (int) duration;
+            long minutes = (long) ((duration - hours) * 60);
             Instant instant = departureDateTime.toInstant();
-            Date arrivalDateTime = Date.from(instant.plus(duration));
+            Instant instantHours = instant.plus(hours, ChronoUnit.HOURS);
+            
+            Date arrivalDateTime = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
             instant = arrivalDateTime.toInstant();
-            Date arrivalWithLayover = Date.from(instant.plus(layover));
+            Date arrivalWithLayover = Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
             
             for (int j = 1; j < bookedDates.size() - 1; j += 2) {
                 if (bookedDates.get(j).after(departureDateTime)) {
@@ -183,9 +203,11 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
                 bookedDatesReturn.size();
                 
                 instant = arrivalWithLayover.toInstant();
-                Date arrivalDateTimeReturn = Date.from(instant.plus(duration));
+                instantHours = instant.plus(hours, ChronoUnit.HOURS);
+
+                Date arrivalDateTimeReturn = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
                 instant = arrivalDateTimeReturn.toInstant();
-                Date arrivalReturnWithLayover = Date.from(instant.plus(layover));
+                Date arrivalReturnWithLayover = Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 
                 for (int j = 1; j < bookedDatesReturn.size() - 1; j += 2) {
                     if (bookedDatesReturn.get(j).after(arrivalWithLayover)) {
@@ -255,14 +277,18 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public Long changeFlightScheduleDateTime(Long flightScheduleId, Date departureDateTime, Duration duration) throws FlightScheduleDoesNotExistException {
+    public Long changeFlightScheduleDateTime(Long flightScheduleId, Date departureDateTime, double duration) throws FlightScheduleDoesNotExistException {
         try {
             FlightSchedule flightSchedule = em.find(FlightSchedule.class, flightScheduleId);
             flightSchedule.setDepartureDateTime(departureDateTime);
             flightSchedule.setEstimatedTime(duration);
-            
+
+            long hours = (long) (int) duration;
+            long minutes = (long) ((duration - hours) * 60);
+
             Instant instant = departureDateTime.toInstant();
-            Date arrivalDateTime = Date.from(instant.plus(duration));
+            Instant instantHours = instant.plus(hours, ChronoUnit.HOURS);            
+            Date arrivalDateTime = Date.from(instantHours.plus(minutes, ChronoUnit.MINUTES));
             flightSchedule.setArrivalDateTime(arrivalDateTime);
             
             return flightSchedule.getFlightScheduleId();
@@ -409,12 +435,51 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
+    public FlightSchedule getFlightScheduleWithId(long id, Boolean detach) throws FlightScheduleDoesNotExistException {
+        try {
+            FlightSchedule fs = em.find(FlightSchedule.class, id);
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for(ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Customer cs : fs.getCustomers()) {
+                em.detach(cs);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }
+            return fs;      
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+        }
+    }
+    
+    @Override
     public List<Cabin> getCabins(long id) throws FlightScheduleDoesNotExistException {
         try {
             FlightSchedule fs = getFlightScheduleWithId(id);
             List<Cabin> listOfCabins = fs.getListOfCabins();
             listOfCabins.size();
 
+            return listOfCabins;
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+        }
+    }
+    
+    @Override
+    public List<Cabin> getCabins(long id, Boolean detach) throws FlightScheduleDoesNotExistException {
+        try {
+            FlightSchedule fs = getFlightScheduleWithId(id);
+            List<Cabin> listOfCabins = fs.getListOfCabins();
+            listOfCabins.size();
+            for (Cabin c : listOfCabins) {
+                for (Fare f : c.getListOfFare()) {
+                    em.detach(f);
+                }
+                em.detach(c);
+            }
             return listOfCabins;
         } catch (NoResultException e) {
             throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
@@ -438,6 +503,38 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
        }
     }
     
+    
+    @Override
+    public List<String> getCabinSeatsList(long id, String cabName) throws FlightScheduleDoesNotExistException {
+        try {
+            List<Cabin> cabins = getCabins(id);
+
+            for (Cabin c : cabins) {
+                if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+                    return convertCharArrayToList(c.getSeatingPlan());
+                }
+            }
+
+            return null;
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+        }
+    }
+
+    private List<String> convertCharArrayToList(char[][] charArray) {
+        List<String> result = new ArrayList<>();
+        result.add("" + charArray[0].length);
+
+        for (char[] row : charArray) {
+            for (char c : row) {
+                result.add("" + c);
+            }
+        }
+
+        return result;
+    }
+
+
     @Override
     public Integer[] getIslesPlan(long id, String cabName) throws FlightScheduleDoesNotExistException {
        try {
@@ -491,6 +588,24 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
+    public long getHighestFareUsingCabinName(String cabName, long id) throws FlightScheduleDoesNotExistException {
+        try {
+            List<Cabin> cabins = getCabins(id);
+            long lowestFareId = -1;
+
+            for (Cabin c : cabins) {
+                if (c.getCabinClassName().equalsIgnoreCase(cabName)) {
+                    lowestFareId = cabinCustomerSessionBeanLocal.getHighestFareIdInCabin(c.getCabinId());
+                }
+            }
+
+            return lowestFareId;
+       } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+       }
+    }
+    
+    @Override
     public List<ReservationDetails> getReservationDetails(long flightScheduleId, long customerId) throws  FlightScheduleDoesNotExistException {
         try {
             String jpql = "SELECT fs FROM FlightSchedule fs LEFT JOIN FETCH fs.listOfReservationDetails WHERE fs.flightScheduleId = :flightScheduleId";
@@ -507,6 +622,44 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
                 if (Objects.equals(rd.getCustomer().getAccountId(), cust.getAccountId())) {
                     newDetails.add(rd);
                 }
+            }
+
+            return newDetails;
+        }   catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+       }
+    }
+    
+    @Override
+    public List<ReservationDetails> getReservationDetailsPartner(long flightScheduleId, long partnerId) throws  FlightScheduleDoesNotExistException {
+        try {
+            String jpql = "SELECT fs FROM FlightSchedule fs LEFT JOIN FETCH fs.listOfReservationDetails WHERE fs.flightScheduleId = :flightScheduleId";
+            TypedQuery<FlightSchedule> query = em.createQuery(jpql, FlightSchedule.class);
+            query.setParameter("flightScheduleId", flightScheduleId);
+
+            FlightSchedule fs = query.getSingleResult(); 
+
+            Partner partner = em.find(Partner.class, partnerId);
+
+            List<ReservationDetails> newDetails = new ArrayList<>();
+            List<ReservationDetails> listOfResDetails = fs.getListOfReservationDetails();
+            for (ReservationDetails rd : listOfResDetails) {
+                if (Objects.equals(rd.getPartner().getAccountId(), partner.getAccountId())) {
+                    newDetails.add(rd);
+                }
+            }
+            
+            for (ReservationDetails rd : newDetails) {
+                em.detach(rd);
+                if (rd.getCustomer() != null) {
+                    em.detach(rd.getCustomer());
+                }
+                if (rd.getPartner() != null) {
+                    em.detach(rd.getPartner());
+                }
+                em.detach(rd.getFlightSchedule());
+                em.detach(rd.getFare().getCabin());
+                em.detach(rd.getFare());
             }
 
             return newDetails;
@@ -550,4 +703,228 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         }
         return false;
     }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingPartner(Date departureDate, long depAirport, long destAirport)  {
+        List<Flight> listOfFlights = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
+        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWithSameTiming(listOfFsPlan, departureDate);
+        for (FlightSchedule fs : listOfFs) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Customer c : fs.getCustomers()) {
+                em.detach(c);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }   
+        }
+        return listOfFs;
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterPartner(Date departureDate, long depAirport, long destAirport)  {
+        List<Flight> listOfFlights = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
+        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysAfter(listOfFsPlan, departureDate);
+        for (FlightSchedule fs : listOfFs) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Customer c : fs.getCustomers()) {
+                em.detach(c);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }       
+        }
+        return listOfFs;
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforePartner(Date departureDate, long depAirport, long destAirport)  {
+        List<Flight> listOfFlights = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
+        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysBefore(listOfFsPlan, departureDate);
+        for (FlightSchedule fs : listOfFs) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Customer c : fs.getCustomers()) {
+                em.detach(c);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }   
+        }
+        return listOfFs;
+    }
+    
+    @Override
+    public long getAirportIdWithFlightScheduleId(long flightSchedId) {
+        FlightSchedule fs = em.find(FlightSchedule.class, flightSchedId);
+        return fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination().getAirportId();
+    }
+
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate) {
+        List<Flight> listOfFlightsToHub = new ArrayList<>();
+        for (Long hubId : listOfHubIds) {
+            List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
+            for (Flight f : listToHub) {
+                listOfFlightsToHub.add(f);
+            }
+        }
+        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWithSameTiming(listOfFsPlan, departureDate);
+        for (FlightSchedule fs : listOfFs) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Customer c : fs.getCustomers()) {
+                em.detach(c);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }   
+        }
+        return listOfFs;
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate) {
+        List<Flight> listOfFlightsToHub = new ArrayList<>();
+        for (Long hubId : listOfHubIds) {
+            List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
+            for (Flight f : listToHub) {
+                listOfFlightsToHub.add(f);
+            }
+        }
+        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysBefore(listOfFsPlan, departureDate);
+        for (FlightSchedule fs : listOfFs) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Customer c : fs.getCustomers()) {
+                em.detach(c);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }   
+        }
+        return listOfFs;
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate) {
+        List<Flight> listOfFlightsToHub = new ArrayList<>();
+        for (Long hubId : listOfHubIds) {
+            List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
+            for (Flight f : listToHub) {
+                listOfFlightsToHub.add(f);
+            }
+        }
+        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysAfter(listOfFsPlan, departureDate);
+        for (FlightSchedule fs : listOfFs) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Customer c : fs.getCustomers()) {
+                em.detach(c);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }   
+        }
+        return listOfFs;
+    }
+
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTimingReturnConnecting(long pickedAirport, long destAirport, Date departureDate) {
+
+        List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(pickedAirport, destAirport);
+        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listToHub);
+        
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanAfterTiming(listOfFsPlan, departureDate);
+        for (FlightSchedule fs : listOfFs) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Customer c : fs.getCustomers()) {
+                em.detach(c);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }   
+        }
+        return listOfFs;
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(long pickedAirport, long destAirport, Date departureDate) {
+
+        List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(pickedAirport, destAirport);
+        List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listToHub);
+        
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith1DayAfter(listOfFsPlan, departureDate);
+        for (FlightSchedule fs : listOfFs) {
+            em.detach(fs);
+            em.detach(fs.getFlightSchedulePlan());
+            for (Customer c : fs.getCustomers()) {
+                em.detach(c);
+            }
+            for (ReservationDetails rd : fs.getListOfReservationDetails()) {
+                em.detach(rd);
+            }
+            for (Cabin c : fs.getListOfCabins()) {
+                em.detach(c);
+            }
+            for (Partner p : fs.getPartners()) {
+                em.detach(p);
+            }   
+        }
+        return listOfFs;
+    }
+   
 }
+
+

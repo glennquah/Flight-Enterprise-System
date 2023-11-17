@@ -128,7 +128,7 @@ public class ReservationModule {
         }
         sc.nextLine();
         System.out.print("All Aiport: ");
-        List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAiports();
+        List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAirports();
         for (int i = 0; i < listOfAirports.size(); i++) {
             System.out.println(String.format("%s: Airport Name: ", i + 1) + listOfAirports.get(i).getName());
             System.out.println("ID: " + listOfAirports.get(i).getAirportId());
@@ -198,21 +198,18 @@ public class ReservationModule {
     }
     
     public BigDecimal searchConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, boolean connectedFlight) throws Exception {
+        //change this
         List<Long> listOfHubsId = airportSessionBeanRemote.getListOfHubsId();
         List<Flight> listOfFlightsToHub = new ArrayList<>();
-        List<Flight> listOfFlightsFromHub = new ArrayList<>();
+        
         for (Long hubId : listOfHubsId) {
             List<Flight> listToHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
-            List<Flight> listFromHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(hubId, destAirport);
             for (Flight f : listToHub) {
                 listOfFlightsToHub.add(f);
             }
-            for (Flight f : listFromHub) {
-                listOfFlightsFromHub.add(f);
-            }
         }
         List<FlightSchedulePlan> listOfFlightSchedulePlanToHub = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
-        List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsFromHub);
+        
         int flightnum = 1;
         List<FlightSchedule> listOfFlightScheduleToHubSameDay = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlanToHub, departureDate);
         
@@ -255,6 +252,12 @@ public class ReservationModule {
         
         long flightSchedId = confirmId;
         Date dateOfFlightPicked = flightScheduleSessionBeanRemote.retrieveDateOfFlightPicked(flightSchedId);
+        
+        long pickedAirportId = flightScheduleSessionBeanRemote.getAirportIdWithFlightScheduleId(flightSchedId);
+        
+
+        List<Flight> listFromHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(pickedAirportId, destAirport);
+        List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listFromHub);
         
         flightnum = 1;
         System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF HUB ***");
@@ -302,9 +305,11 @@ public class ReservationModule {
             System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
             System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
-            Duration duration = fs.getEstimatedTime();
-            long hours = duration.toHours();
-            long minutes = duration.toMinutes() % 60;
+            double duration = fs.getEstimatedTime();
+            int hours = (int) duration;
+            double fractionalHours = duration - hours;
+            int minutes = (int) (fractionalHours * 60);
+            
             String formattedTime = String.format("%02d:%02d", hours, minutes);
             System.out.println("Filght Estimated Time: " + formattedTime);
         }
@@ -367,9 +372,11 @@ public class ReservationModule {
         System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
         System.out.println("Filght Departure Date Time: " + fs.getDepartureDateTime());
         System.out.println("Filght Estimated Arrival Date Time: " + fs.getArrivalDateTime());
-        Duration duration = fs.getEstimatedTime();
-        long hours = duration.toHours();
-        long minutes = duration.toMinutes() % 60;
+        double duration = fs.getEstimatedTime();
+        int hours = (int) duration;
+        double fractionalHours = duration - hours;
+        int minutes = (int) (fractionalHours * 60);
+        
         String formattedTime = String.format("%02d:%02d", hours, minutes);
         System.out.println("Filght Estimated Time: " + formattedTime);
         System.out.println("\n*** CABIN DETAILS ***");
@@ -490,9 +497,11 @@ public class ReservationModule {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
             FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
-            Duration duration = fs.getEstimatedTime();
-            long hours = duration.toHours();
-            long minutes = duration.toMinutes() % 60;
+            double duration = fs.getEstimatedTime();
+            int hours = (int) duration;
+            double fractionalHours = duration - hours;
+            int minutes = (int) (fractionalHours * 60);
+            
             String formattedTime = String.format("%02d:%02d", hours, minutes);
             System.out.println("Flight Estimate Duration: " + formattedTime + "H");
             System.out.println("Flight Origin: " + fr.getOrigin().getName());

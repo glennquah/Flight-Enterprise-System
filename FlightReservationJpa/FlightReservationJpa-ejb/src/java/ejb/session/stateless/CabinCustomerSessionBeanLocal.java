@@ -20,4 +20,5 @@ public interface CabinCustomerSessionBeanLocal {
     public List<Cabin> retrieveAllCabins();
     public long getLowestFareIdInCabin(long id);
     public Cabin createCabinOnly(Cabin cabin);
+    public long getHighestFareIdInCabin(long id);
 }

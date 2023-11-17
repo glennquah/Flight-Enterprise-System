@@ -15,12 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Lenovo
  */
 @Entity
+@XmlRootElement
 public class AircraftConfiguration implements Serializable {
 
     private static final long serialVersionUID = 1L;

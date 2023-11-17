@@ -16,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import util.enumeration.FlightStatusEnum;
 
 /**
@@ -167,6 +169,4 @@ public class Flight implements Serializable {
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
-
-    
 }

@@ -5,7 +5,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,12 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author admin
  */
 @Entity
+@XmlRootElement
 public class ReservationDetails implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,9 +42,11 @@ public class ReservationDetails implements Serializable {
     @JoinColumn(nullable = false)
     private Fare fare;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
+    @ManyToOne
     private Customer customer;
+    
+    @ManyToOne
+    private Partner partner;
     
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
@@ -58,7 +61,8 @@ public class ReservationDetails implements Serializable {
         this.passportNumber = passportNumber;
         this.rowNum = rowNum;
         this.seatLetter = seatLetter;
-        this.customer = new Customer();
+        this.customer = null;
+        this.partner = null;
         this.flightSchedule = new FlightSchedule();
         this.fare = new Fare();
     }
@@ -189,6 +193,20 @@ public class ReservationDetails implements Serializable {
      */
     public void setFare(Fare fare) {
         this.fare = fare;
+    }
+
+    /**
+     * @return the partner
+     */
+    public Partner getPartner() {
+        return partner;
+    }
+
+    /**
+     * @param partner the partner to set
+     */
+    public void setPartner(Partner partner) {
+        this.partner = partner;
     }
 
 }

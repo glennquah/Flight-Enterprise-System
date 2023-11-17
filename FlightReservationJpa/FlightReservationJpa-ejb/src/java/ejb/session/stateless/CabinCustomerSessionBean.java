@@ -78,4 +78,23 @@ public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote,
         
         return leastFareid;
     }
+    
+    @Override
+    public long getHighestFareIdInCabin(long id) {
+        Cabin cab = em.find(Cabin.class, id);
+        List<Fare> listOfFare = cab.getListOfFare();
+        System.out.println("SIZE = " + listOfFare.size());
+        
+        BigDecimal highest = BigDecimal.ZERO;
+        long highestFareid = 0;
+        
+        for (Fare f : listOfFare) {
+            if (f.getFareAmount().compareTo(highest) > 0) {
+                highest = f.getFareAmount();
+                highestFareid = f.getId();
+            }
+        }
+        
+        return highestFareid;
+    }
 }
