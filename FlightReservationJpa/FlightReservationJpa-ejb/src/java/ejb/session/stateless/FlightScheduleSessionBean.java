@@ -796,7 +796,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
 
     
     @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate) {
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnectingPartner(long depAirport, long destAirport, List<Long> listOfHubIds, Date departureDate) {
         List<Flight> listOfFlightsToHub = new ArrayList<>();
         for (Long hubId : listOfHubIds) {
             List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
@@ -805,7 +805,9 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
             }
         }
         List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
-        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWithSameTiming(listOfFsPlan, departureDate);
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWithSameTimingConnecting(listOfFsPlan, departureDate, destAirport);
+        
+        
         for (FlightSchedule fs : listOfFs) {
             em.detach(fs);
             em.detach(fs.getFlightSchedulePlan());
@@ -826,7 +828,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate) {
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnectingPartner(long depAirport, long destAirport, List<Long> listOfHubIds, Date departureDate) {
         List<Flight> listOfFlightsToHub = new ArrayList<>();
         for (Long hubId : listOfHubIds) {
             List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
@@ -835,7 +837,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
             }
         }
         List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
-        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysBefore(listOfFsPlan, departureDate);
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysBeforeConnecting(listOfFsPlan, departureDate, destAirport);
         for (FlightSchedule fs : listOfFs) {
             em.detach(fs);
             em.detach(fs.getFlightSchedulePlan());
@@ -856,7 +858,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate) {
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnectingPartner(long depAirport, long destAirport, List<Long> listOfHubIds, Date departureDate) {
         List<Flight> listOfFlightsToHub = new ArrayList<>();
         for (Long hubId : listOfHubIds) {
             List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(depAirport, hubId);
@@ -865,7 +867,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
             }
         }
         List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
-        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysAfter(listOfFsPlan, departureDate);
+        List<FlightSchedule> listOfFs = retrieveFlightSchedulePlanWith3DaysAfterConnecting(listOfFsPlan, departureDate, destAirport);
         for (FlightSchedule fs : listOfFs) {
             em.detach(fs);
             em.detach(fs.getFlightSchedulePlan());
@@ -886,7 +888,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
 
     @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTimingReturnConnecting(long pickedAirport, long destAirport, Date departureDate) {
+    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTimingReturnConnectingPartner(long pickedAirport, long destAirport, Date departureDate) {
 
         List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(pickedAirport, destAirport);
         List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listToHub);
@@ -912,7 +914,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(long pickedAirport, long destAirport, Date departureDate) {
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfterReturnConnectingPartner(long pickedAirport, long destAirport,  Date departureDate) {
 
         List<Flight> listToHub = flightSessionBeanLocal.retrieveFlightsThatHasDepAndDest(pickedAirport, destAirport);
         List<FlightSchedulePlan> listOfFsPlan = flightSchedulePlanSessionBeanLocal.retrieveFlightSchedulePlanWithSameFlight(listToHub);

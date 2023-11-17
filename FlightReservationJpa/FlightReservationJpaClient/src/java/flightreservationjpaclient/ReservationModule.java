@@ -237,7 +237,7 @@ public class ReservationModule {
         
         int schedId = -2;
         while(schedId != 0 && schedId != -1) {
-            System.out.println("Enter 0 to Reserve Flight");
+            System.out.println("Enter 0 to Reserve Flight"); 
             System.out.println("Enter -1 to Go back Flight");
             System.out.print("\nEnter Schedule ID to see more details > ");
             schedId = sc.nextInt();
@@ -289,11 +289,17 @@ public class ReservationModule {
             flightnum = printStatementForFlightSchedule(listOfFlightScheduleFromHub1dayAfter, flightnum);
 
             schedId = -2;
-            while(schedId != 0) {
-                System.out.print("\nEnter Schedule ID to see more details (Enter 0 to Reserve Flight)> ");
+            while(schedId != 0 && schedId != -1) {
+                System.out.println("Enter 0 to Reserve Flight");
+                System.out.println("Enter -1 to Go back Flight");
+                System.out.print("\nEnter Schedule ID to see more details > ");
                 schedId = sc.nextInt();
-                if (schedId != 0) {
+                sc.nextLine();
+                if (schedId != 0 && schedId != -1) {
                     checkFlightDetails(sc, schedId, numOfSeats);
+                }
+                if (schedId == -1) {
+                    customerLoginPage();
                 }
             }
 
@@ -340,10 +346,8 @@ public class ReservationModule {
     
     public BigDecimal searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, Boolean lastFlight) throws Exception {
         List<Flight> listOfFlights = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(depAirport, destAirport);
-        //2. Get list of Flight shedule plan that has the same Flight number as the list of flights that we got
         List<FlightSchedulePlan> listOfFlightSchedulePlan = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlights);
         
-        //3. get list of flight schedule that is on the same day
         int flightnum = 1;
         List<FlightSchedule> listOfFlightSchedule = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlan, departureDate);
         System.out.println("FLIGHT SCHEDULE ID | ORIGIN AIRPORT CODE | DESTINATION AIRPORT CODE | FLIGHT DEPARTURE DATE TIME   | FLIGHT ESTIMATED ARRIVAL DATETIME | FLIGHT DURATION ");
@@ -416,14 +420,11 @@ public class ReservationModule {
             long lowestFareid = cabinCustomerSessionBeanRemote.getLowestFareIdInCabin(c.getCabinId());
             BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareid);
             System.out.printf("%11s | %11s | %15s | %15s |  $9.2f", c.getCabinClassName(), c.getTotalSeats(), (c.getTotalSeats() - c.getReservedSeats()), lowestFare, (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
-//            System.out.println("Fare per Ticket: $" + lowestFare);
-//            System.out.println("Total Fare: $" + (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
             System.out.println("");
         }
     }
     
     public BigDecimal reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats, Boolean payment, BigDecimal existingFare) throws FlightScheduleDoesNotExistException, Exception {
-        //System.out.println("EXISTING FARE = " + existingFare);
         checkFlightDetails(sc, flightScheduleId, numOfSeats);
         System.out.println("1: Pick Cabin");
         System.out.println("2: No Preference for Cabin");
@@ -510,10 +511,6 @@ public class ReservationModule {
             System.out.println("");
             
         }
-        
-        
-//        BigDecimal lowestFare = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
-        //System.out.println("Price per Ticket: " + lowestFare);
         BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareId);
         BigDecimal fare = (lowestFare.multiply(BigDecimal.valueOf(numOfSeats)));
         
@@ -545,12 +542,6 @@ public class ReservationModule {
             int minutes = (int) (fractionalHours * 60);
             String formattedTime = String.format("%02d:%02d", hours, minutes);
             System.out.printf("%18s | %26s | %24sH | %13s | %18s\n", fs.getFlightScheduleId(), fs.getDepartureDateTime(), formattedTime, fr.getOrigin().getName(), fr.getDestination().getName());
-//            System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
-//            System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
-//            
-//            System.out.println("Flight Estimate Duration: " + formattedTime + "H");
-//            System.out.println("Flight Origin: " + fr.getOrigin().getName());
-//            System.out.println("Flight Destination: " + fr.getDestination().getName());
         }
         
         System.out.print("Enter Flight Schedule ID for more Details> ");

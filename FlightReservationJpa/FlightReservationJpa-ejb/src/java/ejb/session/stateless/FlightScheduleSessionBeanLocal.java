@@ -56,11 +56,13 @@ public interface FlightScheduleSessionBeanLocal {
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterPartner(Date departureDate, long depAirport, long destAirport);
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforePartner(Date departureDate, long depAirport, long destAirport);
     public long getAirportIdWithFlightScheduleId(long flightSchedId);
-    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate);
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate);
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(long depAirport, List<Long> listOfHubIds, Date departureDate);
-    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTimingReturnConnecting(long pickedAirport, long destAirport, Date departureDate);
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(long pickedAirport, long destAirport, Date departureDate);
+    
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnectingPartner(long depAirport, long destAirport, List<Long> listOfHubIds, Date departureDate);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnectingPartner(long depAirport, long destAirport, List<Long> listOfHubIds, Date departureDate);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnectingPartner(long depAirport, long destAirport, List<Long> listOfHubIds, Date departureDate);
+    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTimingReturnConnectingPartner(long pickedAirport, long destAirport, Date departureDate);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfterReturnConnectingPartner(long pickedAirport, long destAirport, Date departureDate);
+    
     public FlightSchedule getFlightScheduleWithId(long id, Boolean detach) throws FlightScheduleDoesNotExistException;
     public List<FlightSchedule> getFlightSchedulesUsingFlightNum(int flightNum);
     public FlightSchedule getFlightSchedulesWithFsId(Long id) throws FlightScheduleDoesNotExistException;

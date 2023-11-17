@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.Airport;
 import entity.Customer;
+import entity.FlightSchedule;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -70,4 +71,26 @@ public class AirportSessionBean implements AirportSessionBeanRemote, AirportSess
         return listOfHubIds;
     }
     
+    @Override
+    public Airport getAirportOrigin(long fsId) {
+        FlightSchedule fs = em.find(FlightSchedule.class, fsId);
+        Airport a = fs.getFlightSchedulePlan().getFlight().getFlightRoute().getOrigin();
+        em.detach(a);
+        return a;
+    }
+    
+    @Override
+    public Airport getAirportDest(long fsId) {
+        FlightSchedule fs = em.find(FlightSchedule.class, fsId);
+        Airport a = fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination();
+        em.detach(a);
+        return a;
+    }
+    
+    @Override
+    public String getAirportCodeWithAirportId(long airportId) {
+        Airport a = em.find(Airport.class, airportId);
+        return a.getAirportCode();
+    }
+
 }

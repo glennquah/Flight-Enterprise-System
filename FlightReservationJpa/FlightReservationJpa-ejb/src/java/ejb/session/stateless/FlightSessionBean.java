@@ -76,55 +76,6 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
         }
     }
     
-//    @Override
-//    public Long createNewFlightWithReturn(Flight flight, Flight returnFlight, Long flightRouteId, Long aircraftConfigId) throws FlightRouteDisabledException, FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException {
-//        try {
-//            FlightRoute fr = em.find(FlightRoute.class, flightRouteId);
-////            Long returnFrId = fr.getReturnFlightRouteId();
-////            FlightRoute returnFr = em.find(FlightRoute.class, returnFrId);
-//            
-//            if (fr.getFlightRouteStatus() == FlightRouteStatusEnum.DISABLED) {
-//                throw new FlightRouteDisabledException("This Flight Route is Disabled!");
-//            }
-//            try {
-//                AircraftConfiguration ac = em.find(AircraftConfiguration.class, aircraftConfigId);
-//
-//                //sync flight route to flight
-//                List<Flight> listOfFlights = fr.getListOfFlights();
-//                listOfFlights.add(flight);
-//                fr.setListOfFlights(listOfFlights);
-//                
-////                List<Flight> listOfFlightsReturn = returnFr.getListOfFlights();
-////                listOfFlightsReturn.add(returnFlight);
-////                returnFr.setListOfFlights(listOfFlightsReturn);
-////
-//                flight.setFlightRoute(fr);
-////                returnFlight.setFlightRoute(returnFr);
-//
-//                //sync aircraft config to flight
-//                List<Flight> listOfAcFlights = ac.getListOfFlights();
-//                listOfAcFlights.add(flight);
-//                listOfAcFlights.add(returnFlight);
-//                //might have error here when updating
-//                ac.setListOfFlights(listOfAcFlights);
-//                flight.setAircraftConfig(ac);
-//                returnFlight.setAircraftConfig(ac);
-//
-//                flight.setReturnFlightNumber(returnFlight.getFlightNumber());
-//                returnFlight.setReturnFlightNumber(flight.getFlightNumber());
-//                
-//                em.persist(flight);
-//                em.persist(returnFlight);
-//                em.flush();
-//
-//                return flight.getFlightId();
-//            } catch (NoResultException e) {
-//                throw new AircraftConfigurationDoesNotExistException("Aircraft Configuration Does Not Exist!"); 
-//            }
-//        } catch (NoResultException e) {
-//            throw new FlightRouteDoesNotExistException("Flight Route Does Not Exist!");
-//        }
-//    }
     
     @Override
     public Integer getTotalSeats(Long id) throws FlightDoesNotExistException {

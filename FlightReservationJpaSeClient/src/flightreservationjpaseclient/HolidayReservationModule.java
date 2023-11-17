@@ -4,6 +4,7 @@
  */
 package flightreservationjpaseclient;
 
+import entity.Airport;
 import entity.Flight;
 import entity.FlightRoute;
 import java.math.BigDecimal;
@@ -46,7 +47,7 @@ public class HolidayReservationModule {
         System.out.println("*** YOU HAVE SUCCESSFULLY LOGIN ***\n");
         while(true) {
             System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION *** \n");
-            System.out.println("1: Reserve Flight");
+            System.out.println("1: Search or Reserve Flight");
             System.out.println("2: View My Flight Reservation");
             System.out.println("3: Log Out");
 
@@ -82,11 +83,7 @@ public class HolidayReservationModule {
         sc.nextLine();
         System.out.print("All Aiport: ");
         List<ws.partner.Airport> listOfAirports = retrieveAllAirports();
-        for (int i = 0; i < listOfAirports.size(); i++) {
-            System.out.println(String.format("%s: Airport Name: ", i + 1) + listOfAirports.get(i).getName());
-            System.out.println("ID: " + listOfAirports.get(i).getAirportId());
-            System.out.println("");
-        }
+        printAirport(listOfAirports);
         System.out.print("Enter Departure Airport ID> ");
         Long depAirport = sc.nextLong();
         sc.nextLine();
@@ -94,12 +91,9 @@ public class HolidayReservationModule {
         Long destAirport = sc.nextLong();
         sc.nextLine();
         System.out.print("Enter Departure Date (in the format YYYY-MM-DD)> ");
-        //LocalDateTime departureDateTime = LocalDateTime.parse(sc.nextLine());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date departureDate = dateFormat.parse(sc.nextLine());
-        
-        //check
-        //System.out.println("Departure Date> " + departureDate);
+
         Date returnDate = null;
         if (tripType == 2) {
             System.out.print("Enter Return Date (in the format YYYY-MM-DD)> ");
@@ -113,9 +107,10 @@ public class HolidayReservationModule {
         System.out.println("Pick Flight Type: ");
         System.out.println("1: Direct Flight");
         System.out.println("2: Connecting Flight");
+        System.out.println("3: No Preference");
         System.out.print("Enter Flight Type> ");
         int flightType = sc.nextInt();
-        if (flightType != 1 && flightType != 2) {
+        if (flightType != 1 && flightType != 2 && flightType != 3) {
             System.out.println("Wrong input, try again");
             searchFlight(sc);
         }
@@ -134,9 +129,9 @@ public class HolidayReservationModule {
             }
         } else {
             if (tripType == 2) {
-                fare = fare.add(searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false));
+                fare = fare.add(searchConnectingFlight(flightType, sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false));
             } else {
-                fare = fare.add(searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, true));
+                fare = fare.add(searchConnectingFlight(flightType, sc, depAirport, destAirport, departureDate, numOfPassengers, fare, true));
             }  
         }
         
@@ -145,49 +140,66 @@ public class HolidayReservationModule {
             if (flightType == 1){
                 fare = fare.add(searchDirectFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true));
             } else {
-                fare = fare.add(searchConnectingFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true));
+                fare = fare.add(searchConnectingFlight(flightType, sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true));
             }
         }
     }
     
-    public BigDecimal searchConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, boolean connectedFlight) throws Exception {
+    public void printAirport(List<ws.partner.Airport> listOfAirports) {
+        System.out.println("ID | CODE | AIRPORT NAME");
+        for (ws.partner.Airport a : listOfAirports) {
+            String aCode = getAirportCodeWithAirportId(a.getAirportId());
+            //a.getCode() not working???
+            System.out.printf("%2s | %4s | %s", a.getAirportId(), aCode, a.getName());
+            System.out.println("");
+        }
+    }
+    
+    public BigDecimal searchConnectingFlight(int flightType, Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, boolean connectedFlight) throws Exception {
         
-        List<Long> listOfHubsId = getListOfHubsId();
-//        List<ws.partner.Flight> listOfFlightsToHub = new ArrayList<>();
-//        List<ws.partner.Flight> listOfFlightsFromHub = new ArrayList<>();
-//        for (Long hubId : listOfHubsId) {
-//            List<ws.partner.Flight> flightsToHub = retrieveFlightsThatHasDepAndDest(depAirport, hubId);
-//            List<ws.partner.Flight> flightsFromHub = retrieveFlightsThatHasDepAndDest(hubId, destAirport);
-//            listOfFlightsToHub.addAll(flightsToHub); // Combine flights to the hub
-//            listOfFlightsFromHub.addAll(flightsFromHub); // Combine flights from the hub
-//        }
-//  
-//        List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlanToHub = retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
-//        List<ws.partner.FlightSchedulePlan> listOfFlightSchedulePlanFromHub = retrieveFlightSchedulePlanWithSameFlight(listOfFlightsFromHub);
+        List<Long> listOfHubsId = new ArrayList<>();
+        if (flightType == 2) {
+            listOfHubsId = getListOfHubsIdConnecting(destAirport);
+        } else if (flightType == 3) {
+            listOfHubsId = getListOfHubsId();
+        }
+        
+        
+        if (flightType == 2) {
+            System.out.print("\n*** FIRST, PICK FLIGHT GOING TO HUB ***");
+        } else {
+            System.out.print("\n*** PICK FIRST FLIGHT ***");
+        }
         int flightnum = 1;
         List<ws.partner.FlightSchedule> listOfFlightScheduleToHubSameDay = retrieveFlightSchedulePlanWithSameTimingConnecting(depAirport, listOfHubsId, departureDate);
-        
-        System.out.print("\n*** FIRST, PICK FLIGHT GOING TO TAOYUAN AIRPORT (HUB) ***");
-        System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***\n", listOfFlightScheduleToHubSameDay.size()));
+        System.out.println("");
+        System.out.println("FLIGHT SCHEDULE ID | ORIGIN AIRPORT CODE | DESTINATION AIRPORT CODE | FLIGHT DEPARTURE DATE TIME   | FLIGHT ESTIMATED ARRIVAL DATETIME | FLIGHT DURATION ");
+        System.out.println(String.format("====================================================================%s FLIGHT ON THE SAME DAY======================================================================", listOfFlightScheduleToHubSameDay.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleToHubSameDay, flightnum);
         
         //4. get list of flight schedule that is 3 days before
         List<ws.partner.FlightSchedule> listOfFlightScheduleHub3daysBefore = retrieveFlightSchedulePlanWith3DaysBeforeConnecting(depAirport, listOfHubsId, departureDate);
-        System.out.println(String.format("\n*** %s FLIGHT 3 DAYS BEFORE ***\n", listOfFlightScheduleHub3daysBefore.size()));
+        System.out.println(String.format("=====================================================================%s FLIGHT 3 DAYS BEFORE=======================================================================", listOfFlightScheduleHub3daysBefore.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleHub3daysBefore, flightnum);
         
         
         //5. get list of flight schedule that is 3 days After
         List<ws.partner.FlightSchedule> listOfFlightScheduleHub3daysAfter = retrieveFlightSchedulePlanWith3DaysAfterConnecting(depAirport, listOfHubsId, departureDate);
-        System.out.println(String.format("\n*** %s FLIGHT 3 DAYS AFTER ***\n", listOfFlightScheduleHub3daysAfter.size()));
+        System.out.println(String.format("=====================================================================%s FLIGHT 3 DAYS AFTER=======================================================================", listOfFlightScheduleHub3daysAfter.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleHub3daysAfter, flightnum);
         
-        int schedId = -1;
-        while(schedId != 0) {
-            System.out.print("\nEnter Schedule ID to see more details (Enter 0 to Reserve Flight)> ");
+        int schedId = -2;
+        while(schedId != 0 && schedId != -1) {
+            System.out.println("Enter 0 to Reserve Flight");
+            System.out.println("Enter -1 to Go back Flight");
+            System.out.print("\nEnter Schedule ID to see more details > ");
             schedId = sc.nextInt();
-            if (schedId != 0) {
+            sc.nextLine();
+            if (schedId != 0 && schedId != -1) {
                 checkFlightDetails(sc, schedId, numOfSeats);
+            }
+            if (schedId == -1) {
+                partnerLoginPage();
             }
         }
         
@@ -205,44 +217,54 @@ public class HolidayReservationModule {
         }
         
         long flightSchedId = confirmId;
-        Date dateOfFlightPicked = toDate(retrieveDateOfFlightPicked(flightSchedId));
-        
-        long pickedAirportId = getAirportIdWithFlightScheduleId(flightSchedId);
-        
-        flightnum = 1;
-        System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF HUB ***");
-        List<FlightSchedule> listOfFlightSchedulesFromHubSameDay = retrieveFlightSchedulePlanAfterTimingReturnConnecting(pickedAirportId, destAirport, dateOfFlightPicked);
-        System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***", listOfFlightSchedulesFromHubSameDay.size()));
-        flightnum = printStatementForFlightSchedule(listOfFlightSchedulesFromHubSameDay, flightnum);
-        
-        //5. get list of flight schedule that is 3 days After
-        List<FlightSchedule> listOfFlightScheduleFromHub1dayAfter = retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(pickedAirportId, destAirport, dateOfFlightPicked);
-        System.out.println(String.format("\n*** %s FLIGHT 1 DAY AFTER ***", listOfFlightScheduleFromHub1dayAfter.size()));
-        flightnum = printStatementForFlightSchedule(listOfFlightScheduleFromHub1dayAfter, flightnum);
-        
-        schedId = -1;
-        while(schedId != 0) {
-            System.out.print("\nEnter Schedule ID to see more details (Enter 0 to Reserve Flight)> ");
-            schedId = sc.nextInt();
-            if (schedId != 0) {
-                checkFlightDetails(sc, schedId, numOfSeats);
+        Boolean isDirectFlight = checkIfFlightSchedIdIsDirect(flightSchedId, destAirport);
+        if (!isDirectFlight) {
+            Date dateOfFlightPicked = toDate(retrieveDateOfFlightPicked(flightSchedId));
+
+            long pickedAirportId = getAirportIdWithFlightScheduleId(flightSchedId);
+
+            flightnum = 1;
+            System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF HUB ***");
+            System.out.println("FLIGHT SCHEDULE ID | ORIGIN AIRPORT CODE | DESTINATION AIRPORT CODE | FLIGHT DEPARTURE DATE TIME   | FLIGHT ESTIMATED ARRIVAL DATETIME | FLIGHT DURATION ");
+            List<FlightSchedule> listOfFlightSchedulesFromHubSameDay = retrieveFlightSchedulePlanAfterTimingReturnConnecting(pickedAirportId, destAirport, dateOfFlightPicked);
+            System.out.println(String.format("====================================================================%s FLIGHT ON THE SAME DAY======================================================================", listOfFlightSchedulesFromHubSameDay.size()));
+            flightnum = printStatementForFlightSchedule(listOfFlightSchedulesFromHubSameDay, flightnum);
+
+            //5. get list of flight schedule that is 3 days After
+            List<FlightSchedule> listOfFlightScheduleFromHub1dayAfter = retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(pickedAirportId, destAirport, dateOfFlightPicked);
+            System.out.println(String.format("====================================================================%s FLIGHT ONE DAY AFTER=======================================================================", listOfFlightScheduleFromHub1dayAfter.size()));
+            flightnum = printStatementForFlightSchedule(listOfFlightScheduleFromHub1dayAfter, flightnum);
+
+            schedId = -2;
+            while(schedId != 0 && schedId != -1) {
+                System.out.println("Enter 0 to Reserve Flight");
+                System.out.println("Enter -1 to Go back Flight");
+                System.out.print("\nEnter Schedule ID to see more details > ");
+                schedId = sc.nextInt();
+                sc.nextLine();
+                if (schedId != 0 && schedId != -1) {
+                    checkFlightDetails(sc, schedId, numOfSeats);
+                }
+                if (schedId == -1) {
+                    partnerLoginPage();
+                }
             }
-        }
-        
-        sc.nextLine();
-        System.out.print("Enter Flight Schedule ID to reserve> ");
-        confirmId = sc.nextInt();
-        sc.nextLine();
-        System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
-        System.out.print("Press Y to confirm N to restart> ");
-        next = sc.nextLine().trim();
-        if (next.equalsIgnoreCase("N")) {
-            partnerLoginPage();
-        } else {
-            if (connectedFlight) {
-                fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, true, fare));
+
+            sc.nextLine();
+            System.out.print("Enter Flight Schedule ID to reserve> ");
+            confirmId = sc.nextInt();
+            sc.nextLine();
+            System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
+            System.out.print("Press Y to confirm N to restart> ");
+            next = sc.nextLine().trim();
+            if (next.equalsIgnoreCase("N")) {
+                partnerLoginPage();
             } else {
-                fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
+                if (connectedFlight) {
+                    fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, true, fare));
+                } else {
+                    fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
+                }
             }
         }
         return fare;
@@ -250,18 +272,21 @@ public class HolidayReservationModule {
     
     public int printStatementForFlightSchedule(List<ws.partner.FlightSchedule> flightSchedules, int Number) {
         for(int i = 0; i < flightSchedules.size(); i ++) {
-            System.out.println("No." + (Number++));
             ws.partner.FlightSchedule fs = flightSchedules.get(i);
-            System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
+            Airport og = getAirportOrigin(fs.getFlightScheduleId());
+            Airport dest = getAirportDest(fs.getFlightScheduleId());
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            System.out.println("Filght Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime().toGregorianCalendar().getTime()));
-            System.out.println("Filght Estimated Arrival Date Time: " + dateFormat.format(fs.getArrivalDateTime().toGregorianCalendar().getTime()));
             double duration = fs.getEstimatedTime();
             int hours = (int) duration;
             double fractionalHours = duration - hours;
             int minutes = (int) (fractionalHours * 60);
             String formattedTime = String.format("%02d:%02d", hours, minutes);
-            System.out.println("Filght Estimated Time: " + formattedTime);
+            System.out.println(String.format("%18s | %19s | %24s | %25s | %33s | %15s ", fs.getFlightScheduleId(),
+                                                                                         og.getAirportCode(),
+                                                                                         dest.getAirportCode(),
+                                                                                         dateFormat.format(fs.getDepartureDateTime().toGregorianCalendar().getTime()),
+                                                                                         dateFormat.format(fs.getArrivalDateTime().toGregorianCalendar().getTime()),
+                                                                                         formattedTime));
         }
         return Number;
     }
@@ -312,6 +337,7 @@ public class HolidayReservationModule {
     }
     
     public void checkFlightDetails(Scanner sc, long scheduleId, int numOfSeats) throws FlightScheduleDoesNotExistException_Exception {
+        //STOPPED HERE
         System.out.println(String.format("\n*** DETAILS FOR FLIGHT SCHEDULE %s ***", scheduleId));
         ws.partner.FlightSchedule fs = getFlightScheduleWithId(scheduleId);
         System.out.println("Filght Schedule ID: " + fs.getFlightScheduleId());
@@ -731,6 +757,36 @@ public class HolidayReservationModule {
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         return port.getFRUsingFSId(flightSchedId);
     }
+ 
+    public static Boolean checkIfFlightSchedIdIsDirect(java.lang.Long flightSchedId, java.lang.Long destAirportId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.checkIfFlightSchedIdIsDirect(flightSchedId, destAirportId);
+    }
     
+    private static List<Long> getListOfHubsIdConnecting(java.lang.Long destAirportId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getListOfHubsIdConnecting();
+    }
+    
+    private static Airport getAirportOrigin(java.lang.Long fsId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getAirportOrigin();
+    }
+    
+    private static Airport getAirportDest(java.lang.Long fsId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getAirportDest();
+    }
+    
+    private static String getAirportCodeWithAirportId(java.lang.Long airportId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getAirportCodeWithAirportId();
+    }
+
 }
 

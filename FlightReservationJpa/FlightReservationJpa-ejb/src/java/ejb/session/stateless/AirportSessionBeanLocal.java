@@ -18,4 +18,8 @@ public interface AirportSessionBeanLocal {
     public List<Airport> retrieveAllAirports();
     public List<Long> getListOfHubsId();
     public List<Long> getListOfHubsIdConnecting(long destAirportId);
+    public Airport getAirportOrigin(long fsId);
+    public Airport getAirportDest(long fsId);
+    public String getAirportCodeWithAirportId(long airportId);
+    
 }
