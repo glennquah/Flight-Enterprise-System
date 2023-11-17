@@ -29,7 +29,6 @@ import entity.Partner;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -47,6 +46,7 @@ import util.exception.AircraftConfigurationDoesNotExistException;
 import util.exception.AirportDoesNotExistException;
 import util.exception.ConflictingFlightScheduleException;
 import util.exception.FlightDoesNotExistException;
+import util.exception.FlightNumberAlreadyExistException;
 import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDisabledException;
 import util.exception.FlightRouteDoesNotExistException;
@@ -248,7 +248,7 @@ public class DataInitSessionBean {
         }
     }
 
-    private void loadFlights() throws FlightRouteDisabledException, FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException {
+    private void loadFlights() throws FlightRouteDisabledException, FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException, FlightNumberAlreadyExistException {
         //===================LOAD FLIGHT ROUTE DATA========================
         if(em.find(Flight.class, 1l) == null) {
             Long flightId = flightSessionBeanLocal.createNewFlight(new Flight(111), 1l, 2l);
