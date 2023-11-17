@@ -67,7 +67,7 @@ public class FlightRoute implements Serializable {
         this.complementaryRoute = true;
         this.listOfFlights = new ArrayList<>();
     }
-    
+
     public Long getFlightRouteId() {
         return flightRouteId;
     }
