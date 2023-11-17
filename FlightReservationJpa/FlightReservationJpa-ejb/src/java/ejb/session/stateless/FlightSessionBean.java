@@ -290,4 +290,6 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
         Flight returnFlight = (Flight) secondQuery.getSingleResult();
         return returnFlight.getFlightNumber();
     }
+    
+    
 }

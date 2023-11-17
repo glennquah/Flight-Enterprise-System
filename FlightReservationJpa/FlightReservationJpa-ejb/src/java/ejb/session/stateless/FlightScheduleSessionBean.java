@@ -277,6 +277,16 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
+    public FlightSchedule getFlightSchedulesWithFsId(Long id) throws FlightScheduleDoesNotExistException {
+        try {
+            FlightSchedule flightSchedule = em.find(FlightSchedule.class, id);
+            return flightSchedule;
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+        }
+    }
+    
+    @Override
     public Long changeFlightScheduleDateTime(Long flightScheduleId, Date departureDateTime, double duration) throws FlightScheduleDoesNotExistException {
         try {
             FlightSchedule flightSchedule = em.find(FlightSchedule.class, flightScheduleId);
@@ -924,7 +934,14 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         }
         return listOfFs;
     }
-   
+    
+    @Override
+    public List<FlightSchedule> getFlightSchedulesUsingFlightNum(int flightNum) {
+        Query query = em.createQuery("SELECT f FROM FlightSchedule f WHERE f.flightSchedulePlan.flightNumber = :flightNum");
+        query.setParameter("flightNum", flightNum);
+        return (List<FlightSchedule>) query.getResultList();
+    }
+
 }
 
 

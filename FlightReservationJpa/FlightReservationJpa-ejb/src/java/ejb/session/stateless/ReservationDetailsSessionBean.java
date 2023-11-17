@@ -9,10 +9,13 @@ import entity.Fare;
 import entity.FlightSchedule;
 import entity.Partner;
 import entity.ReservationDetails;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -110,4 +113,24 @@ public class ReservationDetailsSessionBean implements ReservationDetailsSessionB
         return reservationDetails.getId();
     }
     
+    @Override
+    public List<ReservationDetails> getReservationsWithFsId(long id) {
+        FlightSchedule fs = em.find(FlightSchedule.class, id);
+        List<ReservationDetails> listOfRd = fs.getListOfReservationDetails();
+
+        // Sort the list of ReservationDetails
+        Collections.sort(listOfRd, new Comparator<ReservationDetails>() {
+            public int compare(ReservationDetails rd1, ReservationDetails rd2) {
+                // First, sort by rowNum
+                int compareByRowNum = Integer.compare(rd1.getRowNum(), rd2.getRowNum());
+                if (compareByRowNum != 0) {
+                    return compareByRowNum;
+                }
+                // If rowNums are equal, then sort by seatLetter
+                return Character.compare(rd1.getSeatLetter(), rd2.getSeatLetter());
+            }
+        });
+
+        return listOfRd;
+    }
 }

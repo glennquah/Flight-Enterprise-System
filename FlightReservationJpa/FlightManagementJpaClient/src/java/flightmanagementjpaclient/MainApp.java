@@ -15,6 +15,7 @@ import ejb.session.stateless.FlightRoutesSessionBeanRemote;
 import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
+import ejb.session.stateless.ReservationDetailsSessionBeanRemote;
 import java.util.Scanner;
 import util.exception.InvalidLoginCredentialException;
 
@@ -34,6 +35,7 @@ public class MainApp {
     private FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote;
     private FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote;
     private FareSessionBeanRemote fareSessionBeanRemote;
+    private ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote;
             
 
     public MainApp() {
@@ -49,7 +51,8 @@ public class MainApp {
                    FlightSessionBeanRemote flightSessionBeanRemote,
                    FlightScheduleSessionBeanRemote flightScheduleSessionBeanRemote,
                    FlightSchedulePlanSessionBeanRemote flightSchedulePlanSessionBeanRemote,
-                   FareSessionBeanRemote fareSessionBeanRemote) {
+                   FareSessionBeanRemote fareSessionBeanRemote,
+                   ReservationDetailsSessionBeanRemote reservationDetailsSessionBeanRemote) {
         this.employeeSessionBean = employeeSessionBean;
         this.customerSessionBean = customerSessionBean;
         this.aircraftSessionBeanRemote = aircraftSessionBeanRemote;
@@ -61,6 +64,7 @@ public class MainApp {
         this.flightScheduleSessionBeanRemote = flightScheduleSessionBeanRemote;
         this.flightSchedulePlanSessionBeanRemote = flightSchedulePlanSessionBeanRemote;
         this.fareSessionBeanRemote = fareSessionBeanRemote;
+        this.reservationDetailsSessionBeanRemote = reservationDetailsSessionBeanRemote;
     }
     
     public void runApp() throws Exception {
@@ -96,7 +100,8 @@ public class MainApp {
                                                                                  flightSessionBeanRemote,
                                                                                  flightScheduleSessionBeanRemote,
                                                                                  flightSchedulePlanSessionBeanRemote,
-                                                                                 fareSessionBeanRemote);
+                                                                                 fareSessionBeanRemote,
+                                                                                 reservationDetailsSessionBeanRemote);
                         managementModule.adminLoginPage();
                     }
                     catch(InvalidLoginCredentialException ex) 
