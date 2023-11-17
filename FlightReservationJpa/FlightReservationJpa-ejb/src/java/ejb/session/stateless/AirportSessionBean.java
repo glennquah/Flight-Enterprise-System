@@ -56,5 +56,18 @@ public class AirportSessionBean implements AirportSessionBeanRemote, AirportSess
         return listOfHubIds;
     }
 
+    @Override
+    public List<Long> getListOfHubsIdConnecting(long destAirportId) {
+        Query query = em.createQuery("Select a From Airport a");
+        List<Airport> airports = (List<Airport>)query.getResultList();
+        airports.size();
+        List<Long> listOfHubIds = new ArrayList<>();
+        for(Airport a : airports) {
+            if (a.getAirportId() != destAirportId) {
+                listOfHubIds.add(a.getAirportId());
+            }
+        }
+        return listOfHubIds;
+    }
     
 }

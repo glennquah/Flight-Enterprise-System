@@ -4,6 +4,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Airport;
 import entity.Flight;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
@@ -18,6 +19,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -942,6 +944,125 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
         return (List<FlightSchedule>) query.getResultList();
     }
 
+    @Override
+    public Boolean checkIfFlightSchedIdIsDirect(long flightSchedId, long destId) {
+        FlightSchedule fs = em.find(FlightSchedule.class, flightSchedId);
+        if (fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination().getAirportId() == destId) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnecting(List<FlightSchedulePlan> listOfFlightSchedulePlanToHub, Date departureDate, long depAirport) {
+        List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlanToHub);
+
+        List<FlightSchedule> newList = new ArrayList<>();
+
+        for (FlightSchedule flightSchedule : listOfFlightSchedules) {
+            Date departureDateTime = flightSchedule.getDepartureDateTime();
+            LocalDate localDate = departureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (localDate.isEqual(departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
+                newList.add(flightSchedule);
+            }
+        }
+        
+        List<FlightSchedule> listThatAccountsForNextFlight = new ArrayList<>();
+        for (FlightSchedule fs : newList) {
+            Date flightEndDate = fs.getArrivalDateTime();
+            long nextAirportStartId = fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination().getAirportId();
+
+            Query query = em.createQuery("SELECT f FROM FlightSchedule f WHERE f.departureDateTime = :depDateTime AND f.flightSchedulePlan.flight.flightRoute.origin = :origin AND f.flightSchedulePlan.flight.flightRoute.destination = :destination");
+            query.setParameter("depDateTime", flightEndDate);
+            query.setParameter("origin", nextAirportStartId);
+            query.setParameter("destination", depAirport);
+
+            List<FlightSchedule> resultList = query.getResultList();
+            listThatAccountsForNextFlight.addAll(resultList);
+        }
+        return listThatAccountsForNextFlight;
+
+    }
+    
+     @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(List<FlightSchedulePlan> listOfFlightSchedulePlanToHub, Date departureDate, long depAirport) {
+        List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlanToHub);
+
+        List<FlightSchedule> newList = new ArrayList<>();
+
+        for (FlightSchedule flightSchedule : listOfFlightSchedules) {
+            Date departureDateTime = flightSchedule.getDepartureDateTime();
+            LocalDate localDate = departureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (localDate.isEqual(departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
+                newList.add(flightSchedule);
+            }
+        }
+        
+        List<FlightSchedule> listThatAccountsForNextFlight = new ArrayList<>();
+        for (FlightSchedule fs : newList) {
+            Date flightEndDate = fs.getArrivalDateTime();
+            long nextAirportStartId = fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination().getAirportId();
+
+            // Calculate date 3 days after flightEndDate
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(flightEndDate);
+            calendar.add(Calendar.DATE, 3);
+            Date threeDaysAfter = calendar.getTime();
+
+            Query query = em.createQuery("SELECT f FROM FlightSchedule f WHERE f.departureDateTime BETWEEN :startDate AND :endDate AND f.flightSchedulePlan.flight.flightRoute.origin = :origin AND f.flightSchedulePlan.flight.flightRoute.destination = :destination");
+            query.setParameter("startDate", flightEndDate);
+            query.setParameter("endDate", threeDaysAfter);
+            query.setParameter("origin", nextAirportStartId);
+            query.setParameter("destination", depAirport);
+
+            List<FlightSchedule> resultList = query.getResultList();
+            listThatAccountsForNextFlight.addAll(resultList);
+        }
+
+        return listThatAccountsForNextFlight;
+
+    }
+    
+     @Override
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnecting(List<FlightSchedulePlan> listOfFlightSchedulePlanToHub, Date departureDate, long depAirport) {
+        List<FlightSchedule> listOfFlightSchedules = retrieveFlightScheduleInPlan(listOfFlightSchedulePlanToHub);
+
+        List<FlightSchedule> newList = new ArrayList<>();
+
+        for (FlightSchedule flightSchedule : listOfFlightSchedules) {
+            Date departureDateTime = flightSchedule.getDepartureDateTime();
+            LocalDate localDate = departureDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (localDate.isEqual(departureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
+                newList.add(flightSchedule);
+            }
+        }
+        List<FlightSchedule> listThatAccountsForNextFlight = new ArrayList<>();
+        for (FlightSchedule fs : newList) {
+            Date flightEndDate = fs.getArrivalDateTime();
+            long nextAirportStartId = fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination().getAirportId();
+
+            // Calculate date 3 days before flightEndDate
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(flightEndDate);
+            calendar.add(Calendar.DATE, -3); // Subtract 3 days
+            Date threeDaysBefore = calendar.getTime();
+
+            Query query = em.createQuery("SELECT f FROM FlightSchedule f WHERE f.departureDateTime BETWEEN :startDate AND :endDate AND f.flightSchedulePlan.flight.flightRoute.origin = :origin AND f.flightSchedulePlan.flight.flightRoute.destination = :destination");
+            query.setParameter("startDate", threeDaysBefore);
+            query.setParameter("endDate", flightEndDate);
+            query.setParameter("origin", nextAirportStartId);
+            query.setParameter("destination", depAirport);
+
+            List<FlightSchedule> resultList = query.getResultList();
+            listThatAccountsForNextFlight.addAll(resultList);
+        }
+        return listThatAccountsForNextFlight;
+
+    }
 }
 
 

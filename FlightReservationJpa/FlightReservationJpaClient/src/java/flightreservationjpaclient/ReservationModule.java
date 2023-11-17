@@ -177,9 +177,9 @@ public class ReservationModule {
             }
         } else {
             if (tripType == 2) {
-                fare = fare.add(searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false));
+                fare = fare.add(searchConnectingFlight(flightType, sc, depAirport, destAirport, departureDate, numOfPassengers, fare, false));
             } else {
-                fare = fare.add(searchConnectingFlight(sc, depAirport, destAirport, departureDate, numOfPassengers, fare, true));
+                fare = fare.add(searchConnectingFlight(flightType, sc, depAirport, destAirport, departureDate, numOfPassengers, fare, true));
             }  
         }
         
@@ -188,14 +188,20 @@ public class ReservationModule {
             if (flightType == 1){
                 fare = fare.add(searchDirectFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true));
             } else {
-                fare = fare.add(searchConnectingFlight(sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true));
+                fare = fare.add(searchConnectingFlight(flightType, sc, destAirport, depAirport, returnDate, numOfPassengers, fare, true));
             }
         }
     }
     
-    public BigDecimal searchConnectingFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, boolean connectedFlight) throws Exception {
+    public BigDecimal searchConnectingFlight(int flightType, Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, boolean connectedFlight) throws Exception {
         //change this
-        List<Long> listOfHubsId = airportSessionBeanRemote.getListOfHubsId();
+        List<Long> listOfHubsId = new ArrayList<>();
+        if (flightType == 2) {
+            listOfHubsId = airportSessionBeanRemote.getListOfHubsIdConnecting(destAirport);
+        } else if (flightType == 3) {
+            listOfHubsId = airportSessionBeanRemote.getListOfHubsId();
+        }
+  
         List<Flight> listOfFlightsToHub = new ArrayList<>();
         
         for (Long hubId : listOfHubsId) {
@@ -207,31 +213,35 @@ public class ReservationModule {
         List<FlightSchedulePlan> listOfFlightSchedulePlanToHub = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listOfFlightsToHub);
         
         int flightnum = 1;
-        List<FlightSchedule> listOfFlightScheduleToHubSameDay = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlanToHub, departureDate);
+        List<FlightSchedule> listOfFlightScheduleToHubSameDay = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWithSameTimingConnecting(listOfFlightSchedulePlanToHub, departureDate, depAirport);
+        if (flightType == 2) {
+            System.out.print("\n*** FIRST, PICK FLIGHT GOING TO HUB ***");
+        } else {
+            System.out.print("\n*** PICK FIRST FLIGHT ***");
+        }
         
-        System.out.print("\n*** FIRST, PICK FLIGHT GOING TO HUB ***");
         System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***\n", listOfFlightScheduleToHubSameDay.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleToHubSameDay, flightnum);
         
         //4. get list of flight schedule that is 3 days before
-        List<FlightSchedule> listOfFlightScheduleHub3daysBefore = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith3DaysBefore(listOfFlightSchedulePlanToHub, departureDate);
+        List<FlightSchedule> listOfFlightScheduleHub3daysBefore = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith3DaysBeforeConnecting(listOfFlightSchedulePlanToHub, departureDate, depAirport);
         System.out.println(String.format("\n*** %s FLIGHT 3 DAYS BEFORE ***\n", listOfFlightScheduleHub3daysBefore.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleHub3daysBefore, flightnum);
         
         
         //5. get list of flight schedule that is 3 days After
-        List<FlightSchedule> listOfFlightScheduleHub3daysAfter = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith3DaysAfter(listOfFlightSchedulePlanToHub, departureDate);
+        List<FlightSchedule> listOfFlightScheduleHub3daysAfter = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith3DaysAfterConnecting(listOfFlightSchedulePlanToHub, departureDate, depAirport);
         System.out.println(String.format("\n*** %s FLIGHT 3 DAYS AFTER ***\n", listOfFlightScheduleHub3daysAfter.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleHub3daysAfter, flightnum);
         
         int schedId = -1;
-        while(schedId != 0 && schedId != 1) {
+        while(schedId != 0 && schedId != -1) {
             System.out.println("Enter 0 to Reserve Flight");
             System.out.println("Enter -1 to Go back Flight");
             System.out.print("\nEnter Schedule ID to see more details > ");
             schedId = sc.nextInt();
             sc.nextLine();
-            if (schedId != 0 && schedId != 1) {
+            if (schedId != 0 && schedId != -1) {
                 checkFlightDetails(sc, schedId, numOfSeats);
             }
             if (schedId == -1) {
@@ -252,49 +262,54 @@ public class ReservationModule {
             fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
         }
         
+        
         long flightSchedId = confirmId;
-        Date dateOfFlightPicked = flightScheduleSessionBeanRemote.retrieveDateOfFlightPicked(flightSchedId);
+        Boolean isDirectFlight = flightScheduleSessionBeanRemote.checkIfFlightSchedIdIsDirect(flightSchedId, destAirport);
         
-        long pickedAirportId = flightScheduleSessionBeanRemote.getAirportIdWithFlightScheduleId(flightSchedId);
-        
+        if (!isDirectFlight) {
+            Date dateOfFlightPicked = flightScheduleSessionBeanRemote.retrieveDateOfFlightPicked(flightSchedId);
 
-        List<Flight> listFromHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(pickedAirportId, destAirport);
-        List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listFromHub);
-        
-        flightnum = 1;
-        System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF HUB ***");
-        List<FlightSchedule> listOfFlightSchedulesFromHubSameDay = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlanFromHub, dateOfFlightPicked);
-        System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***", listOfFlightSchedulesFromHubSameDay.size()));
-        flightnum = printStatementForFlightSchedule(listOfFlightSchedulesFromHubSameDay, flightnum);
-        
-        //5. get list of flight schedule that is 3 days After
-        List<FlightSchedule> listOfFlightScheduleFromHub1dayAfter = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith1DayAfter(listOfFlightSchedulePlanFromHub, dateOfFlightPicked);
-        System.out.println(String.format("\n*** %s FLIGHT 1 DAY AFTER ***", listOfFlightScheduleFromHub1dayAfter.size()));
-        flightnum = printStatementForFlightSchedule(listOfFlightScheduleFromHub1dayAfter, flightnum);
-        
-        schedId = -1;
-        while(schedId != 0) {
-            System.out.print("\nEnter Schedule ID to see more details (Enter 0 to Reserve Flight)> ");
-            schedId = sc.nextInt();
-            if (schedId != 0) {
-                checkFlightDetails(sc, schedId, numOfSeats);
+            long pickedAirportId = flightScheduleSessionBeanRemote.getAirportIdWithFlightScheduleId(flightSchedId);
+
+
+            List<Flight> listFromHub = flightSessionBeanRemote.retrieveFlightsThatHasDepAndDest(pickedAirportId, destAirport);
+            List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub = flightSchedulePlanSessionBeanRemote.retrieveFlightSchedulePlanWithSameFlight(listFromHub);
+
+            flightnum = 1;
+            System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF HUB ***");
+            List<FlightSchedule> listOfFlightSchedulesFromHubSameDay = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlanFromHub, dateOfFlightPicked);
+            System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***", listOfFlightSchedulesFromHubSameDay.size()));
+            flightnum = printStatementForFlightSchedule(listOfFlightSchedulesFromHubSameDay, flightnum);
+
+            //5. get list of flight schedule that is 3 days After
+            List<FlightSchedule> listOfFlightScheduleFromHub1dayAfter = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith1DayAfter(listOfFlightSchedulePlanFromHub, dateOfFlightPicked);
+            System.out.println(String.format("\n*** %s FLIGHT 1 DAY AFTER ***", listOfFlightScheduleFromHub1dayAfter.size()));
+            flightnum = printStatementForFlightSchedule(listOfFlightScheduleFromHub1dayAfter, flightnum);
+
+            schedId = -1;
+            while(schedId != 0) {
+                System.out.print("\nEnter Schedule ID to see more details (Enter 0 to Reserve Flight)> ");
+                schedId = sc.nextInt();
+                if (schedId != 0) {
+                    checkFlightDetails(sc, schedId, numOfSeats);
+                }
             }
-        }
-        
-        sc.nextLine();
-        System.out.print("Enter Flight Schedule ID to reserve> ");
-        confirmId = sc.nextInt();
-        sc.nextLine();
-        System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
-        System.out.print("Press Y to confirm N to restart> ");
-        next = sc.nextLine().trim();
-        if (next.equalsIgnoreCase("N")) {
-            customerLoginPage();
-        } else {
-            if (connectedFlight) {
-                fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, true, fare));
+
+            sc.nextLine();
+            System.out.print("Enter Flight Schedule ID to reserve> ");
+            confirmId = sc.nextInt();
+            sc.nextLine();
+            System.out.println("*** YOU HAVE SELECTED " + confirmId + " ***");
+            System.out.print("Press Y to confirm N to restart> ");
+            next = sc.nextLine().trim();
+            if (next.equalsIgnoreCase("N")) {
+                customerLoginPage();
             } else {
-                fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
+                if (connectedFlight) {
+                    fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, true, fare));
+                } else {
+                    fare = fare.add(reserveFlight(confirmId, sc, numOfSeats, false, fare));
+                }
             }
         }
         return fare;
@@ -345,11 +360,18 @@ public class ReservationModule {
         flightnum = printStatementForFlightSchedule(listOfFlightSchedule3daysAfter, flightnum);
         
         int schedId = -1;
-        while(schedId != 0) {
-            System.out.print("\nEnter Schedule ID to see more details (Enter 0 to Reserve Flight)> ");
+        
+        while(schedId != 0 && schedId != -1) {
+            System.out.println("Enter 0 to Reserve Flight");
+            System.out.println("Enter -1 to Go back Flight");
+            System.out.print("\nEnter Schedule ID to see more details > ");
             schedId = sc.nextInt();
-            if (schedId != 0) {
+            sc.nextLine();
+            if (schedId != 0 && schedId != -1) {
                 checkFlightDetails(sc, schedId, numOfSeats);
+            }
+            if (schedId == -1) {
+                customerLoginPage();
             }
         }
         

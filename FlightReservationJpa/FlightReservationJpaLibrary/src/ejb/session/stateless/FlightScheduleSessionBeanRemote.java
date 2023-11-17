@@ -62,4 +62,8 @@ public interface FlightScheduleSessionBeanRemote {
     public FlightSchedule getFlightScheduleWithId(long id, Boolean detach) throws FlightScheduleDoesNotExistException;
     public List<FlightSchedule> getFlightSchedulesUsingFlightNum(int flightNum);
     public FlightSchedule getFlightSchedulesWithFsId(Long id) throws FlightScheduleDoesNotExistException;
+    public Boolean checkIfFlightSchedIdIsDirect(long flightSchedId, long destId) ;
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnecting(List<FlightSchedulePlan> listOfFlightSchedulePlanToHub, Date departureDate, long depAirport);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(List<FlightSchedulePlan> listOfFlightSchedulePlanToHub, Date departureDate, long depAirport);
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnecting(List<FlightSchedulePlan> listOfFlightSchedulePlanToHub, Date departureDate, long depAirport);
 }
