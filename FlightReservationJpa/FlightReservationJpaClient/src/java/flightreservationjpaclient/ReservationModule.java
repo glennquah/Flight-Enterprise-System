@@ -333,7 +333,7 @@ public class ReservationModule {
             double fractionalHours = duration - hours;
             int minutes = (int) (fractionalHours * 60);
             String formattedTime = String.format("%02d:%02d", hours, minutes);
-            System.out.println(String.format("%18s | %19s | %24s | %25s | %33s | %23s ", fs.getFlightScheduleId(), fs.getFlightSchedulePlan().getFlight().getFlightRoute().getOrigin().getAirportCode(), fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination().getAirportCode(), fs.getDepartureDateTime(), fs.getArrivalDateTime(), formattedTime));
+            System.out.println(String.format("%18s | %19s | %24s | %25s | %33s | %15s ", fs.getFlightScheduleId(), fs.getFlightSchedulePlan().getFlight().getFlightRoute().getOrigin().getAirportCode(), fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination().getAirportCode(), fs.getDepartureDateTime(), fs.getArrivalDateTime(), formattedTime));
         }
         return Number;
     }
