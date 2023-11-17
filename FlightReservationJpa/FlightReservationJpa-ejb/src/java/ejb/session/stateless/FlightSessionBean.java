@@ -274,12 +274,17 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     }   
     
     @Override
-    public Boolean haveComplementaryFlight(Integer flightNumber) {
-        Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
-        query.setParameter("flightNumber", flightNumber);
-        Flight flight = (Flight) query.getSingleResult();
+    public Boolean haveComplementaryFlight(Integer flightNumber) throws FlightDoesNotExistException {
+        try {
+            Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightNumber = :flightNumber");
+            query.setParameter("flightNumber", flightNumber);
+            Flight flight = (Flight) query.getSingleResult();
+
+            return flight.getReturnFlightNumber() != 0;
+        } catch (NoResultException e) {
+            throw new FlightDoesNotExistException();
+        }
         
-        return flight.getReturnFlightNumber() != 0;
     }
     
     @Override 

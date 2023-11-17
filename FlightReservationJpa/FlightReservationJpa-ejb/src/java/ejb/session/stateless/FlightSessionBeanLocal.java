@@ -34,7 +34,7 @@ public interface FlightSessionBeanLocal {
     public List<Flight> retrieveFlightsThatHasDepAndDest(Long originAirport, Long destAirport);
     public List<Flight> retrieveFlightsThatHasDepAndDestConnectingFlight(Long originAirport, Long destAirport);
 //    public Long createNewFlightWithReturn(Flight flight, Flight returnFlight, Long flightRouteId, Long aircraftConfigId) throws FlightRouteDisabledException, FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException;
-    public Boolean haveComplementaryFlight(Integer flightNumber);
+    public Boolean haveComplementaryFlight(Integer flightNumber) throws FlightDoesNotExistException;
     public Integer returnFlightNumber(Integer flightNumber);
     public void setReturnFlight(Long flightId, Long complementaryFlightId);
 }

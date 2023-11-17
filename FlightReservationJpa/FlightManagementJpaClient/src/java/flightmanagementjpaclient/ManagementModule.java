@@ -41,6 +41,7 @@ import util.enumeration.FlightStatusEnum;
 import util.exception.AirportDoesNotExistException;
 import util.exception.FareBasisCodeAlreadyExistException;
 import util.exception.FlightDisabledException;
+import util.exception.FlightDoesNotExistException;
 import util.exception.FlightNumberAlreadyExistException;
 import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
@@ -866,13 +867,13 @@ public class ManagementModule {
                 System.out.print("Enter Flight Number> ");
                 Integer flightNumber = sc.nextInt();
                 
-                Boolean complementaryReturn = flightSessionBeanRemote.haveComplementaryFlight(flightNumber);
-                Integer returnFlightNumber = 0;
-                if (complementaryReturn) {
-                    returnFlightNumber = flightSessionBeanRemote.returnFlightNumber(flightNumber);
-                }
-                
                 try {
+                    Boolean complementaryReturn = flightSessionBeanRemote.haveComplementaryFlight(flightNumber);
+                    Integer returnFlightNumber = 0;
+                    if (complementaryReturn) {
+                        returnFlightNumber = flightSessionBeanRemote.returnFlightNumber(flightNumber);
+                    }
+                
                     System.out.print("Enter DEPARTURE DATE AND TIME (yyyy-MM-dd HH:mm)> ");
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     sc.nextLine();
@@ -936,9 +937,14 @@ public class ManagementModule {
                         }
                     }  
                 } catch (DateTimeParseException e) {
-                    throw new InvalidInputException("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
+                    System.out.println("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
+                    System.out.println("");
                 } catch (NumberFormatException e) {
-                    throw new InvalidInputException("Invalid number format. Please enter numeric values for hours and minutes.");
+                    System.out.println("Invalid number format. Please enter numeric values for hours and minutes.");
+                    System.out.println("");
+                }  catch (FlightDoesNotExistException e) {
+                    System.out.println("This Flight Number does not exist!");
+                    System.out.println("");
                 }
             } else if (response == 2) {
                 System.out.println("*** PLEASE ENTER THE NUMBER OF SCHEDULES YOU WISH TO CREATE ***\n");
@@ -955,14 +961,14 @@ public class ManagementModule {
                 System.out.println("*** PLEASE ENTER THE FLIGHT NUMBER, DEPARTURE DETAILS AND FLIGHT DURATION ***\n");
                 System.out.print("Enter Flight Number> ");
                 Integer flightNumber = sc.nextInt();
-                Boolean complementaryReturn = flightSessionBeanRemote.haveComplementaryFlight(flightNumber);
-                
-                Integer returnFlightNumber = 0;
-                if (complementaryReturn) {
-                    returnFlightNumber = flightSessionBeanRemote.returnFlightNumber(flightNumber);
-                }
-                
                 try {
+                    Boolean complementaryReturn = flightSessionBeanRemote.haveComplementaryFlight(flightNumber);
+
+                    Integer returnFlightNumber = 0;
+                    if (complementaryReturn) {
+                        returnFlightNumber = flightSessionBeanRemote.returnFlightNumber(flightNumber);
+                    }
+                
                     sc.nextLine(); 
                     
                     for (int i = 0 ; i < numSchedules; i++) {   
@@ -1050,9 +1056,14 @@ public class ManagementModule {
                         }
                     } 
                 } catch (DateTimeParseException e) {
-                    throw new InvalidInputException("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
+                    System.out.println("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
+                    System.out.println("");
                 } catch (NumberFormatException e) {
-                    throw new InvalidInputException("Invalid number format. Please enter numeric values for hours and minutes.");
+                    System.out.println("Invalid number format. Please enter numeric values for hours and minutes.");
+                    System.out.println("");
+                } catch (FlightDoesNotExistException e) {
+                    System.out.println("This Flight Number does not exist!");
+                    System.out.println("");
                 }
             } else if (response == 3) {
                 List<Long> flightScheduleIds = new ArrayList<>();
@@ -1065,14 +1076,15 @@ public class ManagementModule {
                 System.out.println("*** PLEASE ENTER THE FLIGHT NUMBER, DEPARTURE DETAILS AND FLIGHT DURATION ***\n");
                 System.out.print("Enter Flight Number> ");
                 Integer flightNumber = sc.nextInt();
-                Boolean complementaryReturn = flightSessionBeanRemote.haveComplementaryFlight(flightNumber);
+                try {
+                    Boolean complementaryReturn = flightSessionBeanRemote.haveComplementaryFlight(flightNumber);
+
+                    Integer returnFlightNumber = 0;
+                    if (complementaryReturn) {
+                        returnFlightNumber = flightSessionBeanRemote.returnFlightNumber(flightNumber);
+                    }
                 
-                Integer returnFlightNumber = 0;
-                if (complementaryReturn) {
-                    returnFlightNumber = flightSessionBeanRemote.returnFlightNumber(flightNumber);
-                }
-                
-                try {     
+                    
                     System.out.println("ENTER DETAILS FOR THE FLIGHT SCHEDULE ");
                     System.out.print("Enter DEPARTURE DATE AND TIME (yyyy-MM-dd HH:mm)> ");
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -1169,9 +1181,14 @@ public class ManagementModule {
                         }
                     } 
                 } catch (DateTimeParseException e) {
-                    throw new InvalidInputException("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
+                    System.out.println("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
+                    System.out.println("");
                 } catch (NumberFormatException e) {
-                    throw new InvalidInputException("Invalid number format. Please enter numeric values for hours and minutes.");
+                    System.out.println("Invalid number format. Please enter numeric values for hours and minutes.");
+                    System.out.println("");
+                } catch (FlightDoesNotExistException e) {
+                    System.out.println("This Flight Number does not exist!");
+                    System.out.println("");
                 }
             } else if (response == 4) {
                 List<Long> flightScheduleIds = new ArrayList<>();
@@ -1184,14 +1201,14 @@ public class ManagementModule {
                 System.out.println("*** PLEASE ENTER THE FLIGHT NUMBER, DEPARTURE DETAILS AND FLIGHT DURATION ***\n");
                 System.out.print("Enter Flight Number> ");
                 Integer flightNumber = sc.nextInt();
-                Boolean complementaryReturn = flightSessionBeanRemote.haveComplementaryFlight(flightNumber);
                 
-                Integer returnFlightNumber = 0;
-                if (complementaryReturn) {
-                    returnFlightNumber = flightSessionBeanRemote.returnFlightNumber(flightNumber);
-                }
-                
-                try {     
+                try {
+                    Boolean complementaryReturn = flightSessionBeanRemote.haveComplementaryFlight(flightNumber);
+
+                    Integer returnFlightNumber = 0;
+                    if (complementaryReturn) {
+                        returnFlightNumber = flightSessionBeanRemote.returnFlightNumber(flightNumber);
+                    }    
                     System.out.println("ENTER DETAILS FOR THE FLIGHT SCHEDULE ");
                     System.out.print("Enter DEPARTURE DATE AND TIME (yyyy-MM-dd HH:mm)> ");
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -1283,9 +1300,14 @@ public class ManagementModule {
                         }
                     } 
                 } catch (DateTimeParseException e) {
-                    throw new InvalidInputException("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
+                    System.out.println("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
+                    System.out.println("");
                 } catch (NumberFormatException e) {
-                    throw new InvalidInputException("Invalid number format. Please enter numeric values for hours and minutes.");
+                    System.out.println("Invalid number format. Please enter numeric values for hours and minutes.");
+                    System.out.println("");
+                } catch (FlightDoesNotExistException e) {
+                    System.out.println("This Flight Number does not exist!");
+                    System.out.println("");
                 }
             } else if (response == 5) {
                 break;

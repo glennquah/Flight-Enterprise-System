@@ -3,8 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightScheduleSessionBean.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightSchedulePlanSessionBean.java</file>
+=======
+            <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightSessionBean.java</file>
+            <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/singleton/DataInitSessionBean.java</file>
+            <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/EmployeeSessionBean.java</file>
+            <file>file:/Users/admin/Documents/GitHub/Flight-Reservation-System/FlightReservationJpa/FlightReservationJpa-ejb/src/java/ejb/session/stateless/FlightSessionBeanLocal.java</file>
+>>>>>>> 947363157cb32d4ab96425ce742b6a27240588d2
         </group>
     </open-files>
 </project-private>
