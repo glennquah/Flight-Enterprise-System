@@ -343,12 +343,12 @@ public class PartnerWebService {
         return flightRoute;
     }
     
-    @WebMethod(operationName = "getFRUsingFSId")
+    @WebMethod(operationName = "checkIfFlightSchedIdIsDirect")
     public Boolean checkIfFlightSchedIdIsDirect(@WebParam(name = "flightSchedId") long flightSchedId, @WebParam(name = "destAirportId") long destAirportId) {
         return flightScheduleSessionBeanLocal.checkIfFlightSchedIdIsDirect(flightSchedId, destAirportId);
     }
     
-    @WebMethod(operationName = "getListOfHubsId")
+    @WebMethod(operationName = "getListOfHubsIdConnecting")
     public List<Long> getListOfHubsIdConnecting(@WebParam(name = "destAirportId") long destAirportId) {
         return airportSessionBeanLocal.getListOfHubsIdConnecting(destAirportId);
     }

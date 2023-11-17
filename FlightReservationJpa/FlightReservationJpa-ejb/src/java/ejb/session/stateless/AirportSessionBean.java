@@ -90,6 +90,7 @@ public class AirportSessionBean implements AirportSessionBeanRemote, AirportSess
     @Override
     public String getAirportCodeWithAirportId(long airportId) {
         Airport a = em.find(Airport.class, airportId);
+        System.out.println("AIRPORT CODE = " + a.getAirportCode());
         return a.getAirportCode();
     }
 

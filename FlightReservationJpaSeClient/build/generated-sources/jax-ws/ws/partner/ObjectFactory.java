@@ -33,6 +33,8 @@ public class ObjectFactory {
     private final static QName _BookSeat_QNAME = new QName("http://ws.session.ejb/", "bookSeat");
     private final static QName _BookSeatResponse_QNAME = new QName("http://ws.session.ejb/", "bookSeatResponse");
     private final static QName _Cabin_QNAME = new QName("http://ws.session.ejb/", "cabin");
+    private final static QName _CheckIfFlightSchedIdIsDirect_QNAME = new QName("http://ws.session.ejb/", "checkIfFlightSchedIdIsDirect");
+    private final static QName _CheckIfFlightSchedIdIsDirectResponse_QNAME = new QName("http://ws.session.ejb/", "checkIfFlightSchedIdIsDirectResponse");
     private final static QName _CheckSeatIfAvailable_QNAME = new QName("http://ws.session.ejb/", "checkSeatIfAvailable");
     private final static QName _CheckSeatIfAvailableResponse_QNAME = new QName("http://ws.session.ejb/", "checkSeatIfAvailableResponse");
     private final static QName _CreateReservationDetailsForPartner_QNAME = new QName("http://ws.session.ejb/", "createReservationDetailsForPartner");
@@ -40,8 +42,14 @@ public class ObjectFactory {
     private final static QName _FlightRoute_QNAME = new QName("http://ws.session.ejb/", "flightRoute");
     private final static QName _FlightSchedule_QNAME = new QName("http://ws.session.ejb/", "flightSchedule");
     private final static QName _FlightSchedulePlan_QNAME = new QName("http://ws.session.ejb/", "flightSchedulePlan");
+    private final static QName _GetAirportCodeWithAirportId_QNAME = new QName("http://ws.session.ejb/", "getAirportCodeWithAirportId");
+    private final static QName _GetAirportCodeWithAirportIdResponse_QNAME = new QName("http://ws.session.ejb/", "getAirportCodeWithAirportIdResponse");
+    private final static QName _GetAirportDest_QNAME = new QName("http://ws.session.ejb/", "getAirportDest");
+    private final static QName _GetAirportDestResponse_QNAME = new QName("http://ws.session.ejb/", "getAirportDestResponse");
     private final static QName _GetAirportIdWithFlightScheduleId_QNAME = new QName("http://ws.session.ejb/", "getAirportIdWithFlightScheduleId");
     private final static QName _GetAirportIdWithFlightScheduleIdResponse_QNAME = new QName("http://ws.session.ejb/", "getAirportIdWithFlightScheduleIdResponse");
+    private final static QName _GetAirportOrigin_QNAME = new QName("http://ws.session.ejb/", "getAirportOrigin");
+    private final static QName _GetAirportOriginResponse_QNAME = new QName("http://ws.session.ejb/", "getAirportOriginResponse");
     private final static QName _GetCabinSeatsList_QNAME = new QName("http://ws.session.ejb/", "getCabinSeatsList");
     private final static QName _GetCabinSeatsListResponse_QNAME = new QName("http://ws.session.ejb/", "getCabinSeatsListResponse");
     private final static QName _GetCabins_QNAME = new QName("http://ws.session.ejb/", "getCabins");
@@ -61,6 +69,8 @@ public class ObjectFactory {
     private final static QName _GetIslesPlan_QNAME = new QName("http://ws.session.ejb/", "getIslesPlan");
     private final static QName _GetIslesPlanResponse_QNAME = new QName("http://ws.session.ejb/", "getIslesPlanResponse");
     private final static QName _GetListOfHubsId_QNAME = new QName("http://ws.session.ejb/", "getListOfHubsId");
+    private final static QName _GetListOfHubsIdConnecting_QNAME = new QName("http://ws.session.ejb/", "getListOfHubsIdConnecting");
+    private final static QName _GetListOfHubsIdConnectingResponse_QNAME = new QName("http://ws.session.ejb/", "getListOfHubsIdConnectingResponse");
     private final static QName _GetListOfHubsIdResponse_QNAME = new QName("http://ws.session.ejb/", "getListOfHubsIdResponse");
     private final static QName _GetPartnerId_QNAME = new QName("http://ws.session.ejb/", "getPartnerId");
     private final static QName _GetPartnerIdResponse_QNAME = new QName("http://ws.session.ejb/", "getPartnerIdResponse");
@@ -183,6 +193,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link CheckIfFlightSchedIdIsDirect }
+     * 
+     */
+    public CheckIfFlightSchedIdIsDirect createCheckIfFlightSchedIdIsDirect() {
+        return new CheckIfFlightSchedIdIsDirect();
+    }
+
+    /**
+     * Create an instance of {@link CheckIfFlightSchedIdIsDirectResponse }
+     * 
+     */
+    public CheckIfFlightSchedIdIsDirectResponse createCheckIfFlightSchedIdIsDirectResponse() {
+        return new CheckIfFlightSchedIdIsDirectResponse();
+    }
+
+    /**
      * Create an instance of {@link CheckSeatIfAvailable }
      * 
      */
@@ -239,6 +265,38 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetAirportCodeWithAirportId }
+     * 
+     */
+    public GetAirportCodeWithAirportId createGetAirportCodeWithAirportId() {
+        return new GetAirportCodeWithAirportId();
+    }
+
+    /**
+     * Create an instance of {@link GetAirportCodeWithAirportIdResponse }
+     * 
+     */
+    public GetAirportCodeWithAirportIdResponse createGetAirportCodeWithAirportIdResponse() {
+        return new GetAirportCodeWithAirportIdResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetAirportDest }
+     * 
+     */
+    public GetAirportDest createGetAirportDest() {
+        return new GetAirportDest();
+    }
+
+    /**
+     * Create an instance of {@link GetAirportDestResponse }
+     * 
+     */
+    public GetAirportDestResponse createGetAirportDestResponse() {
+        return new GetAirportDestResponse();
+    }
+
+    /**
      * Create an instance of {@link GetAirportIdWithFlightScheduleId }
      * 
      */
@@ -252,6 +310,22 @@ public class ObjectFactory {
      */
     public GetAirportIdWithFlightScheduleIdResponse createGetAirportIdWithFlightScheduleIdResponse() {
         return new GetAirportIdWithFlightScheduleIdResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetAirportOrigin }
+     * 
+     */
+    public GetAirportOrigin createGetAirportOrigin() {
+        return new GetAirportOrigin();
+    }
+
+    /**
+     * Create an instance of {@link GetAirportOriginResponse }
+     * 
+     */
+    public GetAirportOriginResponse createGetAirportOriginResponse() {
+        return new GetAirportOriginResponse();
     }
 
     /**
@@ -404,6 +478,22 @@ public class ObjectFactory {
      */
     public GetListOfHubsId createGetListOfHubsId() {
         return new GetListOfHubsId();
+    }
+
+    /**
+     * Create an instance of {@link GetListOfHubsIdConnecting }
+     * 
+     */
+    public GetListOfHubsIdConnecting createGetListOfHubsIdConnecting() {
+        return new GetListOfHubsIdConnecting();
+    }
+
+    /**
+     * Create an instance of {@link GetListOfHubsIdConnectingResponse }
+     * 
+     */
+    public GetListOfHubsIdConnectingResponse createGetListOfHubsIdConnectingResponse() {
+        return new GetListOfHubsIdConnectingResponse();
     }
 
     /**
@@ -892,6 +982,32 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CheckIfFlightSchedIdIsDirect }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link CheckIfFlightSchedIdIsDirect }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "checkIfFlightSchedIdIsDirect")
+    public JAXBElement<CheckIfFlightSchedIdIsDirect> createCheckIfFlightSchedIdIsDirect(CheckIfFlightSchedIdIsDirect value) {
+        return new JAXBElement<CheckIfFlightSchedIdIsDirect>(_CheckIfFlightSchedIdIsDirect_QNAME, CheckIfFlightSchedIdIsDirect.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CheckIfFlightSchedIdIsDirectResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link CheckIfFlightSchedIdIsDirectResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "checkIfFlightSchedIdIsDirectResponse")
+    public JAXBElement<CheckIfFlightSchedIdIsDirectResponse> createCheckIfFlightSchedIdIsDirectResponse(CheckIfFlightSchedIdIsDirectResponse value) {
+        return new JAXBElement<CheckIfFlightSchedIdIsDirectResponse>(_CheckIfFlightSchedIdIsDirectResponse_QNAME, CheckIfFlightSchedIdIsDirectResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link CheckSeatIfAvailable }{@code >}
      * 
      * @param value
@@ -983,6 +1099,58 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAirportCodeWithAirportId }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetAirportCodeWithAirportId }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getAirportCodeWithAirportId")
+    public JAXBElement<GetAirportCodeWithAirportId> createGetAirportCodeWithAirportId(GetAirportCodeWithAirportId value) {
+        return new JAXBElement<GetAirportCodeWithAirportId>(_GetAirportCodeWithAirportId_QNAME, GetAirportCodeWithAirportId.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAirportCodeWithAirportIdResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetAirportCodeWithAirportIdResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getAirportCodeWithAirportIdResponse")
+    public JAXBElement<GetAirportCodeWithAirportIdResponse> createGetAirportCodeWithAirportIdResponse(GetAirportCodeWithAirportIdResponse value) {
+        return new JAXBElement<GetAirportCodeWithAirportIdResponse>(_GetAirportCodeWithAirportIdResponse_QNAME, GetAirportCodeWithAirportIdResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAirportDest }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetAirportDest }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getAirportDest")
+    public JAXBElement<GetAirportDest> createGetAirportDest(GetAirportDest value) {
+        return new JAXBElement<GetAirportDest>(_GetAirportDest_QNAME, GetAirportDest.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAirportDestResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetAirportDestResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getAirportDestResponse")
+    public JAXBElement<GetAirportDestResponse> createGetAirportDestResponse(GetAirportDestResponse value) {
+        return new JAXBElement<GetAirportDestResponse>(_GetAirportDestResponse_QNAME, GetAirportDestResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetAirportIdWithFlightScheduleId }{@code >}
      * 
      * @param value
@@ -1006,6 +1174,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getAirportIdWithFlightScheduleIdResponse")
     public JAXBElement<GetAirportIdWithFlightScheduleIdResponse> createGetAirportIdWithFlightScheduleIdResponse(GetAirportIdWithFlightScheduleIdResponse value) {
         return new JAXBElement<GetAirportIdWithFlightScheduleIdResponse>(_GetAirportIdWithFlightScheduleIdResponse_QNAME, GetAirportIdWithFlightScheduleIdResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAirportOrigin }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetAirportOrigin }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getAirportOrigin")
+    public JAXBElement<GetAirportOrigin> createGetAirportOrigin(GetAirportOrigin value) {
+        return new JAXBElement<GetAirportOrigin>(_GetAirportOrigin_QNAME, GetAirportOrigin.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAirportOriginResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetAirportOriginResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getAirportOriginResponse")
+    public JAXBElement<GetAirportOriginResponse> createGetAirportOriginResponse(GetAirportOriginResponse value) {
+        return new JAXBElement<GetAirportOriginResponse>(_GetAirportOriginResponse_QNAME, GetAirportOriginResponse.class, null, value);
     }
 
     /**
@@ -1253,6 +1447,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getListOfHubsId")
     public JAXBElement<GetListOfHubsId> createGetListOfHubsId(GetListOfHubsId value) {
         return new JAXBElement<GetListOfHubsId>(_GetListOfHubsId_QNAME, GetListOfHubsId.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetListOfHubsIdConnecting }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetListOfHubsIdConnecting }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getListOfHubsIdConnecting")
+    public JAXBElement<GetListOfHubsIdConnecting> createGetListOfHubsIdConnecting(GetListOfHubsIdConnecting value) {
+        return new JAXBElement<GetListOfHubsIdConnecting>(_GetListOfHubsIdConnecting_QNAME, GetListOfHubsIdConnecting.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetListOfHubsIdConnectingResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetListOfHubsIdConnectingResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getListOfHubsIdConnectingResponse")
+    public JAXBElement<GetListOfHubsIdConnectingResponse> createGetListOfHubsIdConnectingResponse(GetListOfHubsIdConnectingResponse value) {
+        return new JAXBElement<GetListOfHubsIdConnectingResponse>(_GetListOfHubsIdConnectingResponse_QNAME, GetListOfHubsIdConnectingResponse.class, null, value);
     }
 
     /**
