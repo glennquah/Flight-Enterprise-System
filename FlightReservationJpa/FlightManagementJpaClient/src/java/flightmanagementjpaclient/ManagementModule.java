@@ -35,6 +35,7 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
+import util.enumeration.EmployeeAccessRightEnum;
 import util.enumeration.FlightRouteStatusEnum;
 import util.enumeration.FlightStatusEnum;
 import util.exception.AirportDoesNotExistException;
@@ -98,36 +99,40 @@ public class ManagementModule {
     }
 
     //=================================================ADMIN PAGE================================================================
-    public void adminLoginPage() throws Exception {
+    public void adminLoginPage(Long employeeId) throws Exception {
+        EmployeeAccessRightEnum employeeRights = employeeSessionBean.retrieveRole(employeeId);
         Scanner sc = new Scanner(System.in);
-        System.out.println("*** SUCCESSFULLY LOGIN! *** \n");
+        
+        if (employeeRights.equals(EmployeeAccessRightEnum.FLEETMANAGER)) {
+            fleetManagerOptions(sc);
+        } else if (employeeRights.equals(EmployeeAccessRightEnum.ROUTEPLANNER)) {
+            routePlannerOptions(sc);
+        } else if (employeeRights.equals(EmployeeAccessRightEnum.SCHEDULEMANAGER)) {
+            scheduleManagerOptions(sc);
+        } else if (employeeRights.equals(EmployeeAccessRightEnum.SALESMANAGER)) {
+            salesManagerOptions(sc);
+        }
+    }
+    
+    //=================================================SALES MANAGER========================================================
+    public void salesManagerOptions(Scanner sc) throws FlightScheduleDoesNotExistException {
+        System.out.println("*** YOU ARE LOGGED IN AS A SALES MANAGER ***\n");
         Integer response;
         while (true) {
             System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
-            System.out.println("1: Aircraft Configuration ");
-            System.out.println("2: Flight Route");
-            System.out.println("3: Flight");
-            System.out.println("4: Flight Schedule Plan");
-            System.out.println("5: View Seat Inventory");
-            System.out.println("6: View Flight Reservation");
-            System.out.println("7: Logout\n");
+            System.out.println("1: View Seat Inventory ");
+            System.out.println("2: View Flight Reservations");
+            System.out.println("3: Logout\n");
 
             System.out.print("> ");
             response = sc.nextInt();
             sc.nextLine();
+            System.out.println("");
             if (response == 1) {
-                aircraftConfigurationOptions(sc);
-            } else if (response == 2) {
-                flightRoute(sc);
-            } else if (response == 3) {
-                flightOptions(sc);
-            } else if (response == 4) {
-                flightSchedule(sc);
-            } else if (response == 5) {
                 viewSeatInventory(sc);
-            } else if (response == 6) {
+            } else if (response == 2) {
                 viewFlightReservation(sc);
-            } else if (response == 7) {
+            } else if (response == 3) {
                 break;
             } else {
                 System.out.println("Invalid option, please try again!\n");
@@ -135,7 +140,6 @@ public class ManagementModule {
         }
     }
     
-    //=================================================VIEW SEATS INVENTORY========================================================
     public void viewSeatInventory(Scanner sc) throws FlightScheduleDoesNotExistException {
         System.out.println("*** YOU HAVE PICKED VIEW SEAT INVENTORY ***\n");
         System.out.print("Enter Flight Number> ");
@@ -238,19 +242,20 @@ public class ManagementModule {
     }
 
     //=================================================FLIGHT ROUTE================================================================
-    public void flightRoute(Scanner sc) {
-        System.out.println("*** YOU HAVE PICKED FLIGHT ROUTE ***\n");
+    public void routePlannerOptions(Scanner sc) {
+        System.out.println("*** YOU ARE LOGGED IN AS A ROUTE PLANNER ***\n");
         Integer response;
         while (true) {
             System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
             System.out.println("1: Create New Flight Route ");
             System.out.println("2: View All Flight Route");
             System.out.println("3: Delete Flight Route");
-            System.out.println("4: Back\n");
+            System.out.println("4: Logout\n");
 
             System.out.print("> ");
             response = sc.nextInt();
             sc.nextLine();
+            System.out.println("");
             if (response == 1) {
                 createFlightRoute(sc);
             } else if (response == 2) {
@@ -420,18 +425,19 @@ public class ManagementModule {
     }
 
     //=================================================AIRCRAFT CONFIGURATION=================================================
-    public void aircraftConfigurationOptions(Scanner sc) throws Exception {
-        System.out.println("*** YOU HAVE PICKED AIRCRAFT CONFIGURATION ***\n");
+    public void fleetManagerOptions(Scanner sc) throws Exception {
+        System.out.println("*** YOU ARE LOGGED IN AS A FLEET MANAGER ***\n");
         Integer response;
         while (true) {
             System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
             System.out.println("1: Create Aircraft Configuration ");
             System.out.println("2: View All Aircraft Configuration");
-            System.out.println("3: Back\n");
+            System.out.println("3: Logout\n");
 
             System.out.print("> ");
             response = sc.nextInt();
             sc.nextLine();
+            System.out.println("");
             if (response == 1) {
                 createFlightConfiguration(sc);
             } else if (response == 2) {
@@ -533,9 +539,9 @@ public class ManagementModule {
         }
     }
 
-    //=================================================FLIGHT================================================================
-    public void flightOptions(Scanner sc) throws Exception {
-        System.out.println("*** YOU HAVE PICKED FLIGHT ***\n");
+    //=================================================SCHEDULE MANAGER================================================================
+    public void scheduleManagerOptions(Scanner sc) throws Exception {
+        System.out.println("*** YOU ARE LOGGED IN AS A SCHEDULE MANAGER ***\n");
         Integer response;
         while (true) {
             System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
@@ -543,11 +549,16 @@ public class ManagementModule {
             System.out.println("2: View All Flight");
             System.out.println("3: Update Flight");
             System.out.println("4: Delete Flight");
-            System.out.println("5: Back\n");
+            System.out.println("5: Create New Flight Schedule Plan ");
+            System.out.println("6: View Flight Schedule Plans");
+            System.out.println("7: Update Flight Schedule Plan");
+            System.out.println("8: Delete Flight Schedule Plan");
+            System.out.println("9: Logout\n");
 
             System.out.print("> ");
             response = sc.nextInt();
             sc.nextLine();
+            System.out.println("");
             if (response == 1) {
                 createFlight(sc);
             } else if (response == 2) {
@@ -557,6 +568,14 @@ public class ManagementModule {
             } else if (response == 4) {
                 deleteFlights(sc);
             } else if (response == 5) {
+                createFlightSchedulePlan(sc, 1);
+            } else if (response == 6) {
+                viewFlightSchedulePlans(sc);
+            } else if (response == 7) {
+                updateFlightSchedulePlan(sc);
+            } else if (response == 8) {
+                deleteFlightSchedulePlan(sc);
+            } else if (response == 9) {
                 break;
             } else {
                 System.out.println("Invalid option, please try again!\n");
@@ -818,38 +837,6 @@ public class ManagementModule {
         }
         
         
-    }
-    
-    //=================================================FLIGHT SCHEDULE PLAN================================================================
-    
-     public void flightSchedule(Scanner sc) throws Exception {
-        System.out.println("*** YOU HAVE PICKED FLIGHT SCHEDULE PLAN ***\n");
-        Integer response;
-        while(true) {
-            System.out.println("*** PLEASE SELECT THE FOLLOWING OPTION ***\n");
-            System.out.println("1: Create New Flight Schedule Plan ");
-            System.out.println("2: View Flight Schedule Plans");
-            System.out.println("3: Update Flight Schedule Plan");
-            System.out.println("4: Delete Flight Schedule Plan");
-            System.out.println("5: Back\n");
-
-            System.out.print("> ");
-            response = sc.nextInt();
-            sc.nextLine();
-            if(response == 1) {
-                createFlightSchedulePlan(sc, 1);
-            } else if (response == 2) {
-                 viewFlightSchedulePlans(sc);
-            } else if (response == 3) {
-                updateFlightSchedulePlan(sc);
-            } else if (response == 4) {
-                deleteFlightSchedulePlan(sc);
-            } else if (response == 5) {
-                break;
-            } else {
-                System.out.println("Invalid option, please try again!\n");
-            }
-        }
     }
      
     public void createFlightSchedulePlan(Scanner sc, int option) throws Exception {

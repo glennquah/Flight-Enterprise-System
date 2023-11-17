@@ -102,7 +102,8 @@ public class MainApp {
                                                                                  flightSchedulePlanSessionBeanRemote,
                                                                                  fareSessionBeanRemote,
                                                                                  reservationDetailsSessionBeanRemote);
-                        managementModule.adminLoginPage();
+                        System.out.println("");
+                        managementModule.adminLoginPage(employeeId);
                     }
                     catch(InvalidLoginCredentialException ex) 
                     {

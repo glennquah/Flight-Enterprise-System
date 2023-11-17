@@ -7,6 +7,7 @@ package ejb.session.stateless;
 import entity.Employee;
 import java.util.List;
 import javax.ejb.Remote;
+import util.enumeration.EmployeeAccessRightEnum;
 import util.exception.InvalidLoginCredentialException;
 
 /**
@@ -18,4 +19,5 @@ public interface EmployeeSessionBeanRemote {
     public Long createNewAccount(Employee newEmpAccount);
     public List<Employee> retrieveAllAccounts();
     public Long login(String email, String password) throws InvalidLoginCredentialException;
+    public EmployeeAccessRightEnum retrieveRole(Long employeeId);
 }

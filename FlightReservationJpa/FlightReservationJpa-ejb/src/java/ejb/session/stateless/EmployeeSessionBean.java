@@ -4,7 +4,6 @@
  */
 package ejb.session.stateless;
 
-import entity.Customer;
 import entity.Employee;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -12,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.enumeration.EmployeeAccessRightEnum;
 import util.exception.InvalidLoginCredentialException;
 
 /**
@@ -63,6 +63,10 @@ public class EmployeeSessionBean implements EmployeeSessionBeanRemote, EmployeeS
         return query.getResultList();
     }
     
-
- 
+    @Override
+    public EmployeeAccessRightEnum retrieveRole(Long employeeId) {
+        Employee employee = em.find(Employee.class, employeeId);
+        
+        return employee.getUserRole();
+    }
 }
