@@ -251,29 +251,46 @@ public class DataInitSessionBean {
     private void loadFlights() throws FlightRouteDisabledException, FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException {
         //===================LOAD FLIGHT ROUTE DATA========================
         if(em.find(Flight.class, 1l) == null) {
-            flightSessionBeanLocal.createNewFlight(new Flight(111), 1l, 2l);
-            flightSessionBeanLocal.createNewFlight(new Flight(112), 2l, 2l);
+            Long flightId = flightSessionBeanLocal.createNewFlight(new Flight(111), 1l, 2l);
+            Long returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(112), 2l, 2l);
+            flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
+            flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
+            
 
-            flightSessionBeanLocal.createNewFlight(new Flight(211), 3l, 2l);
-            flightSessionBeanLocal.createNewFlight(new Flight(212), 4l, 2l);
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(211), 3l, 2l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(212), 4l, 2l);
+            flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
+            flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
 
-            flightSessionBeanLocal.createNewFlight(new Flight(311), 5l, 4l);
-            flightSessionBeanLocal.createNewFlight(new Flight(312), 6l, 4l);
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(311), 5l, 4l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(312), 6l, 4l);
+            flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
+            flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
 
-            flightSessionBeanLocal.createNewFlight(new Flight(411), 7l, 2l);
-            flightSessionBeanLocal.createNewFlight(new Flight(412), 8l, 2l);
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(411), 7l, 2l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(412), 8l, 2l);
+            flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
+            flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
 
-            flightSessionBeanLocal.createNewFlight(new Flight(511), 9l, 2l);
-            flightSessionBeanLocal.createNewFlight(new Flight(512), 10l, 2l);
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(511), 9l, 2l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(512), 10l, 2l);
+            flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
+            flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
 
-            flightSessionBeanLocal.createNewFlight(new Flight(611), 11l, 2l);
-            flightSessionBeanLocal.createNewFlight(new Flight(612), 12l, 2l);
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(611), 11l, 2l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(612), 12l, 2l);
+            flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
+            flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
 
-            flightSessionBeanLocal.createNewFlight(new Flight(621), 11l, 1l);
-            flightSessionBeanLocal.createNewFlight(new Flight(622), 12l, 1l);
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(621), 11l, 1l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(622), 12l, 1l);
+            flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
+            flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
 
-            flightSessionBeanLocal.createNewFlight(new Flight(711), 13l, 4l);
-            flightSessionBeanLocal.createNewFlight(new Flight(712), 14l, 4l);
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(711), 13l, 4l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(712), 14l, 4l);
+            flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
+            flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
         }
     }
     
