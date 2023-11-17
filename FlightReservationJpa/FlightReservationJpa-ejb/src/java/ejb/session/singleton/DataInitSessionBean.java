@@ -299,6 +299,7 @@ public class DataInitSessionBean {
         if(em.find(FlightSchedulePlan.class, 1l) == null) {
             //ML711, Recurrent Weekly
             List<Long> flightScheduleIds = new ArrayList<>();
+            List<Long> returnFlightScheduleIds = new ArrayList<>();
             List<Date> departureDates = new ArrayList<>();
             List<Double> durations = new ArrayList<>();
             List<Double> layovers = new ArrayList<>();
@@ -328,40 +329,46 @@ public class DataInitSessionBean {
                 Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                 Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
-                flightScheduleIds.add(flightSchedule.getFlightScheduleId());   
+                returnFlightScheduleIds.add(flightSchedule.getFlightScheduleId());   
             }
             
             FlightSchedulePlan flightSchedulePlan = new FlightSchedulePlan(flightNumber);
+            FlightSchedulePlan returnFlightSchedulePlan = new FlightSchedulePlan(returnFlightNumber);
             List<Cabin> cabins = flightSchedule.getListOfCabins();
             cabins.size();
             Long flightSchedulePlanId = flightSchedulePlanSessionBeanLocal.createMultipleFlightSchedulePlan(flightSchedulePlan, flightScheduleIds);
+            Long returnFlightSchedulePlanId = flightSchedulePlanSessionBeanLocal.createMultipleFlightSchedulePlan(returnFlightSchedulePlan, returnFlightScheduleIds);
             for (int i = 0; i < cabins.size(); i++) {
                 if (i == 0) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("F");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(6000));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
                 if (i == 1) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("J");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(300));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
                 
                 if (i == 2) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("Y");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(1000));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
             }
             
             //ML611, Recurrent Weekly
             flightScheduleIds = new ArrayList<>();
+            returnFlightScheduleIds = new ArrayList<>();
             departureDates = new ArrayList<>();
             durations = new ArrayList<>();
             layovers = new ArrayList<>();
@@ -391,41 +398,47 @@ public class DataInitSessionBean {
                 Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                 Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
-                flightScheduleIds.add(flightSchedule.getFlightScheduleId());   
+                returnFlightScheduleIds.add(flightSchedule.getFlightScheduleId());   
             }
             
             flightSchedulePlan = new FlightSchedulePlan(flightNumber);
+            returnFlightSchedulePlan = new FlightSchedulePlan(returnFlightNumber);
             cabins = flightSchedule.getListOfCabins();
             cabins.size();
             flightSchedulePlanId = flightSchedulePlanSessionBeanLocal.createMultipleFlightSchedulePlan(flightSchedulePlan, flightScheduleIds);
+            returnFlightSchedulePlanId = flightSchedulePlanSessionBeanLocal.createMultipleFlightSchedulePlan(returnFlightSchedulePlan, returnFlightScheduleIds);
             for (int i = 0; i < cabins.size(); i++) {
                 if (i == 0) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("F");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(3000));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
                 if (i == 1) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("J");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(1500));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
                 
                 if (i == 2) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("Y");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(500));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
             }
             
             
             //ML621, Recurrent Weekly
             flightScheduleIds = new ArrayList<>();
+            returnFlightScheduleIds = new ArrayList<>();
             departureDates = new ArrayList<>();
             durations = new ArrayList<>();
             layovers = new ArrayList<>();
@@ -455,25 +468,29 @@ public class DataInitSessionBean {
                 Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                 Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
-                flightScheduleIds.add(flightSchedule.getFlightScheduleId());   
+                returnFlightScheduleIds.add(flightSchedule.getFlightScheduleId());   
             }
             
             flightSchedulePlan = new FlightSchedulePlan(flightNumber);
+            returnFlightSchedulePlan = new FlightSchedulePlan(returnFlightNumber);
             cabins = flightSchedule.getListOfCabins();
             cabins.size();
             flightSchedulePlanId = flightSchedulePlanSessionBeanLocal.createMultipleFlightSchedulePlan(flightSchedulePlan, flightScheduleIds);
+            returnFlightSchedulePlanId = flightSchedulePlanSessionBeanLocal.createMultipleFlightSchedulePlan(returnFlightSchedulePlan, returnFlightScheduleIds);
             for (int i = 0; i < cabins.size(); i++) {
                 if (i == 0) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("Y");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(700));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
             }
             
             //ML311, Recurrent Weekly
             flightScheduleIds = new ArrayList<>();
+            returnFlightScheduleIds = new ArrayList<>();
             departureDates = new ArrayList<>();
             durations = new ArrayList<>();
             layovers = new ArrayList<>();
@@ -503,40 +520,46 @@ public class DataInitSessionBean {
                 Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                 Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
-                flightScheduleIds.add(flightSchedule.getFlightScheduleId());   
+                returnFlightScheduleIds.add(flightSchedule.getFlightScheduleId());   
             }
             
             flightSchedulePlan = new FlightSchedulePlan(flightNumber);
+            returnFlightSchedulePlan = new FlightSchedulePlan(returnFlightNumber);
             cabins = flightSchedule.getListOfCabins();
             cabins.size();
             flightSchedulePlanId = flightSchedulePlanSessionBeanLocal.createMultipleFlightSchedulePlan(flightSchedulePlan, flightScheduleIds);
+            returnFlightSchedulePlanId = flightSchedulePlanSessionBeanLocal.createMultipleFlightSchedulePlan(returnFlightSchedulePlan, returnFlightScheduleIds);
             for (int i = 0; i < cabins.size(); i++) {
                 if (i == 0) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("F");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(3100));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
                 if (i == 1) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("J");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(1600));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
                 
                 if (i == 2) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("Y");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(600));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
             }
             
             //ML411, Recurrent Every 2 days
             flightScheduleIds = new ArrayList<>();
+            returnFlightScheduleIds = new ArrayList<>();
             departureDates = new ArrayList<>();
             durations = new ArrayList<>();
             layovers = new ArrayList<>();
@@ -567,40 +590,45 @@ public class DataInitSessionBean {
                 Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                 Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
-                flightScheduleIds.add(flightSchedule.getFlightScheduleId());   
+                returnFlightScheduleIds.add(flightSchedule.getFlightScheduleId());    
             }
             
             flightSchedulePlan = new FlightSchedulePlan(flightNumber);
             cabins = flightSchedule.getListOfCabins();
             cabins.size();
             flightSchedulePlanId = flightSchedulePlanSessionBeanLocal.createMultipleFlightSchedulePlan(flightSchedulePlan, flightScheduleIds);
+            returnFlightSchedulePlanId = flightSchedulePlanSessionBeanLocal.createMultipleFlightSchedulePlan(returnFlightSchedulePlan, returnFlightScheduleIds);
             for (int i = 0; i < cabins.size(); i++) {
                 if (i == 0) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("F");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(2900));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
                 if (i == 1) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("J");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(1400));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
                 
                 if (i == 2) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("Y");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(400));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
             }
             
             //ML511, Manual Multiple
             flightScheduleIds = new ArrayList<>();
+            returnFlightScheduleIds = new ArrayList<>();
             departureDates = new ArrayList<>();
             durations = new ArrayList<>();
             layovers = new ArrayList<>();
@@ -630,35 +658,39 @@ public class DataInitSessionBean {
                 Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                 Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                 flightSchedule = flightScheduleSessionBeanLocal.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
-                flightScheduleIds.add(flightSchedule.getFlightScheduleId());   
+                returnFlightScheduleIds.add(flightSchedule.getFlightScheduleId());   
             }
             
             flightSchedulePlan = new FlightSchedulePlan(flightNumber);
             cabins = flightSchedule.getListOfCabins();
             cabins.size();
             flightSchedulePlanId = flightSchedulePlanSessionBeanLocal.createMultipleFlightSchedulePlan(flightSchedulePlan, flightScheduleIds);
+            returnFlightSchedulePlanId = flightSchedulePlanSessionBeanLocal.createMultipleFlightSchedulePlan(returnFlightSchedulePlan, returnFlightScheduleIds);
             for (int i = 0; i < cabins.size(); i++) {
                 if (i == 0) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("F");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(3100));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
                 if (i == 1) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("J");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(1600));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
                 
                 if (i == 2) {
                     ArrayList<String> fareBasisCodes = new ArrayList<>();
-                    fareBasisCodes.add("BLANK");
+                    fareBasisCodes.add("Y");
                     ArrayList<BigDecimal> fareAmounts = new ArrayList<>();
                     fareAmounts.add(BigDecimal.valueOf(600));
                     flightSchedulePlanSessionBeanLocal.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                    flightSchedulePlanSessionBeanLocal.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
                 }
             }
         }
