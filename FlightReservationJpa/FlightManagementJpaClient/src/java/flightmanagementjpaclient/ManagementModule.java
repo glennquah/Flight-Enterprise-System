@@ -889,7 +889,7 @@ public class ManagementModule {
                     
                     String haveReturn = "";
                     if (complementaryReturn) {
-                        System.out.print("Is there a return flight> (Y/N)> ");
+                        System.out.print("Is there a return flight(Y/N)> ");
                         sc.nextLine();
                         haveReturn = sc.nextLine().trim().toUpperCase();
                     }
@@ -949,6 +949,7 @@ public class ManagementModule {
                 System.out.print("Enter the Number Of Schedules> ");
                 int numSchedules = sc.nextInt();
                 List<Long> flightScheduleIds = new ArrayList<>();
+                List<Long> returnFlightScheduleIds = new ArrayList<>();
                 List<Date> departureDates = new ArrayList<>();
                 List<Double> durations = new ArrayList<>();
                 List<Double> layovers = new ArrayList<>();
@@ -984,7 +985,7 @@ public class ManagementModule {
                         layovers.add(layover);
                         
                         if (complementaryReturn) {
-                            System.out.print("Is there a return flight> (Y/N)> ");
+                            System.out.print("Is there a return flight(Y/N)> ");
                             sc.nextLine();
                             String haveReturn = sc.nextLine().trim().toUpperCase();
                             returnFlights.add(haveReturn);
@@ -1007,7 +1008,7 @@ public class ManagementModule {
                             Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                             Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                             flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
-                            flightScheduleIds.add(flightSchedule.getFlightScheduleId());
+                            returnFlightScheduleIds.add(flightSchedule.getFlightScheduleId());
                         }
                     }
                     
@@ -1016,6 +1017,12 @@ public class ManagementModule {
                     List<Cabin> cabins = flightSchedule.getListOfCabins();
                     cabins.size();
                     Long flightSchedulePlanId = flightSchedulePlanSessionBeanRemote.createMultipleFlightSchedulePlan(flightSchedulePlan, flightScheduleIds);
+                    Long returnFlightSchedulePlanId = 0l;
+                    
+                    if (returnFlightScheduleIds.size() > 0) {
+                        FlightSchedulePlan returnFlightSchedulePlan = new FlightSchedulePlan(returnFlightNumber);
+                        returnFlightSchedulePlanId = flightSchedulePlanSessionBeanRemote.createMultipleFlightSchedulePlan(returnFlightSchedulePlan, returnFlightScheduleIds);
+                    }
                     
                     for (int i = 0; i < cabins.size(); i++) {
                         System.out.print(String.format("Enter the Number of Fares for Cabin Class %s >", cabins.get(i).getCabinClassName()));
@@ -1041,6 +1048,10 @@ public class ManagementModule {
                         System.out.println("");
                         
                         flightSchedulePlanSessionBeanRemote.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                        
+                        if (returnFlightScheduleIds.size() > 0) {
+                            flightSchedulePlanSessionBeanRemote.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                        }
                     } 
                 } catch (DateTimeParseException e) {
                     throw new InvalidInputException("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
@@ -1049,6 +1060,7 @@ public class ManagementModule {
                 }
             } else if (response == 3) {
                 List<Long> flightScheduleIds = new ArrayList<>();
+                List<Long> returnFlightScheduleIds = new ArrayList<>();
                 List<Date> departureDates = new ArrayList<>();
                 List<Double> durations = new ArrayList<>();
                 List<Double> layovers = new ArrayList<>();
@@ -1087,7 +1099,7 @@ public class ManagementModule {
                     
                     String haveReturn = "";
                     if (complementaryReturn) {
-                        System.out.print("Is there a return flight> (Y/N)> ");
+                        System.out.print("Is there a return flight(Y/N)> ");
                         sc.nextLine();
                         haveReturn = sc.nextLine().trim().toUpperCase();
                     }
@@ -1117,15 +1129,21 @@ public class ManagementModule {
                             Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                             Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                             flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
-                            flightScheduleIds.add(flightSchedule.getFlightScheduleId());
+                            returnFlightScheduleIds.add(flightSchedule.getFlightScheduleId());
                         }
                     }
                     
-                    FlightSchedulePlan flightSchedulePlan = new FlightSchedulePlan(flightNumber);
+                    FlightSchedulePlan flightSchedulePlan = new FlightSchedulePlan(flightNumber);          
 //                    List<Cabin> cabins = flightSessionBeanRemote.getCabin(flightNumber);
                     List<Cabin> cabins = flightSchedule.getListOfCabins();
                     cabins.size();
                     Long flightSchedulePlanId = flightSchedulePlanSessionBeanRemote.createMultipleFlightSchedulePlan(flightSchedulePlan, flightScheduleIds);
+                    
+                    Long returnFlightSchedulePlanId = 0l;
+                    if (haveReturn.equals("Y")) {
+                        FlightSchedulePlan returnFlightSchedulePlan = new FlightSchedulePlan(returnFlightNumber);
+                        returnFlightSchedulePlanId = flightSchedulePlanSessionBeanRemote.createMultipleFlightSchedulePlan(returnFlightSchedulePlan, returnFlightScheduleIds);
+                    }
                     
                     for (int i = 0; i < cabins.size(); i++) {
                         System.out.print(String.format("Enter the Number of Fares for Cabin Class %s > ", cabins.get(i).getCabinClassName()));
@@ -1150,6 +1168,9 @@ public class ManagementModule {
                         }
                         
                         flightSchedulePlanSessionBeanRemote.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                        if (haveReturn.equals("Y")) {
+                            flightSchedulePlanSessionBeanRemote.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                        }
                     } 
                 } catch (DateTimeParseException e) {
                     throw new InvalidInputException("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
@@ -1158,6 +1179,7 @@ public class ManagementModule {
                 }
             } else if (response == 4) {
                 List<Long> flightScheduleIds = new ArrayList<>();
+                List<Long> returnFlightScheduleIds = new ArrayList<>();
                 List<Date> departureDates = new ArrayList<>();
                 List<Double> durations = new ArrayList<>();
                 List<Double> layovers = new ArrayList<>();
@@ -1192,7 +1214,7 @@ public class ManagementModule {
                     
                     String haveReturn = "";
                     if (complementaryReturn) {
-                        System.out.print("Is there a return flight> (Y/N)> ");
+                        System.out.print("Is there a return flight(Y/N)> ");
                         sc.nextLine();
                         haveReturn = sc.nextLine().trim().toUpperCase();
                     }
@@ -1220,7 +1242,7 @@ public class ManagementModule {
                             Instant instant = flightSchedule.getArrivalDateTime().toInstant();
                             Date returnDepartureDateTime =  Date.from(instant.plus((long) layover, ChronoUnit.HOURS));
                             flightSchedule = flightScheduleSessionBeanRemote.createNewFlightSchedule(returnFlightNumber, new FlightSchedule(returnDepartureDateTime, duration, layover));
-                            flightScheduleIds.add(flightSchedule.getFlightScheduleId());
+                            returnFlightScheduleIds.add(flightSchedule.getFlightScheduleId());
                         }
                     }
                     
@@ -1229,6 +1251,12 @@ public class ManagementModule {
                     List<Cabin> cabins = flightSchedule.getListOfCabins();
                     cabins.size();
                     Long flightSchedulePlanId = flightSchedulePlanSessionBeanRemote.createMultipleFlightSchedulePlan(flightSchedulePlan, flightScheduleIds);
+                    
+                    Long returnFlightSchedulePlanId = 0l;
+                    if (haveReturn.equals("Y")) {
+                        FlightSchedulePlan returnFlightSchedulePlan = new FlightSchedulePlan(returnFlightNumber);
+                        returnFlightSchedulePlanId = flightSchedulePlanSessionBeanRemote.createMultipleFlightSchedulePlan(returnFlightSchedulePlan, returnFlightScheduleIds);
+                    }
                     
                     for (int i = 0; i < cabins.size(); i++) {
                         System.out.print(String.format("Enter the Number of Fares for Cabin Class %s > ", cabins.get(i).getCabinClassName()));
@@ -1253,6 +1281,10 @@ public class ManagementModule {
                         }
                         
                         flightSchedulePlanSessionBeanRemote.createFare(flightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                        
+                        if (haveReturn.equals("Y")) {
+                            flightSchedulePlanSessionBeanRemote.createFare(returnFlightSchedulePlanId, cabins.get(i).getCabinId(), fareBasisCodes, fareAmounts);
+                        }
                     } 
                 } catch (DateTimeParseException e) {
                     throw new InvalidInputException("Invalid date and time format. Please use yyyy-MM-dd HH:mm.");
