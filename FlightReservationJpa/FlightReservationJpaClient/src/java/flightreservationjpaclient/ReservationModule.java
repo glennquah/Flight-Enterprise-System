@@ -219,19 +219,20 @@ public class ReservationModule {
         } else {
             System.out.print("\n*** PICK FIRST FLIGHT ***");
         }
-        
-        System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***\n", listOfFlightScheduleToHubSameDay.size()));
+        System.out.println("");
+        System.out.println("FLIGHT SCHEDULE ID | ORIGIN AIRPORT CODE | DESTINATION AIRPORT CODE | FLIGHT DEPARTURE DATE TIME   | FLIGHT ESTIMATED ARRIVAL DATETIME | FLIGHT DURATION ");
+        System.out.println(String.format("====================================================================%s FLIGHT ON THE SAME DAY======================================================================", listOfFlightScheduleToHubSameDay.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleToHubSameDay, flightnum);
         
         //4. get list of flight schedule that is 3 days before
         List<FlightSchedule> listOfFlightScheduleHub3daysBefore = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith3DaysBeforeConnecting(listOfFlightSchedulePlanToHub, departureDate, destAirport);
-        System.out.println(String.format("\n*** %s FLIGHT 3 DAYS BEFORE ***\n", listOfFlightScheduleHub3daysBefore.size()));
+        System.out.println(String.format("=====================================================================%s FLIGHT 3 DAYS BEFORE=======================================================================", listOfFlightScheduleHub3daysBefore.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleHub3daysBefore, flightnum);
         
         
         //5. get list of flight schedule that is 3 days After
         List<FlightSchedule> listOfFlightScheduleHub3daysAfter = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith3DaysAfterConnecting(listOfFlightSchedulePlanToHub, departureDate, destAirport);
-        System.out.println(String.format("\n*** %s FLIGHT 3 DAYS AFTER ***\n", listOfFlightScheduleHub3daysAfter.size()));
+        System.out.println(String.format("=====================================================================%s FLIGHT 3 DAYS AFTER=======================================================================", listOfFlightScheduleHub3daysAfter.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleHub3daysAfter, flightnum);
         
         int schedId = -2;
@@ -277,13 +278,14 @@ public class ReservationModule {
 
             flightnum = 1;
             System.out.println("\n*** NEXT, PICK FLIGHT GOING OUT OF HUB ***");
+            System.out.println("FLIGHT SCHEDULE ID | ORIGIN AIRPORT CODE | DESTINATION AIRPORT CODE | FLIGHT DEPARTURE DATE TIME   | FLIGHT ESTIMATED ARRIVAL DATETIME | FLIGHT DURATION ");
             List<FlightSchedule> listOfFlightSchedulesFromHubSameDay = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanAfterTiming(listOfFlightSchedulePlanFromHub, dateOfFlightPicked);
-            System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***", listOfFlightSchedulesFromHubSameDay.size()));
+            System.out.println(String.format("====================================================================%s FLIGHT ON THE SAME DAY======================================================================", listOfFlightSchedulesFromHubSameDay.size()));
             flightnum = printStatementForFlightSchedule(listOfFlightSchedulesFromHubSameDay, flightnum);
-
+            
             //5. get list of flight schedule that is 3 days After
             List<FlightSchedule> listOfFlightScheduleFromHub1dayAfter = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith1DayAfter(listOfFlightSchedulePlanFromHub, dateOfFlightPicked);
-            System.out.println(String.format("\n*** %s FLIGHT 1 DAY AFTER ***", listOfFlightScheduleFromHub1dayAfter.size()));
+             System.out.println(String.format("====================================================================%s FLIGHT ONE DAY AFTER=======================================================================", listOfFlightScheduleFromHub1dayAfter.size()));
             flightnum = printStatementForFlightSchedule(listOfFlightScheduleFromHub1dayAfter, flightnum);
 
             schedId = -2;
@@ -324,9 +326,7 @@ public class ReservationModule {
     }
     
     public int printStatementForFlightSchedule(List<FlightSchedule> flightSchedules, int Number) {
-        System.out.println("FLIGHT SCHEDULE ID | ORIGIN AIRPORT CODE | DESTINATION AIRPORT CODE | FLIGHT DEPARTURE DATE TIME   | FLIGHT ESTIMATED ARRIVAL DATETIME | FLIGHT DURATION ");
         for(int i = 0; i < flightSchedules.size(); i ++) {
-            //System.out.println("No." + (Number++));
             FlightSchedule fs = flightSchedules.get(i);
             double duration = fs.getEstimatedTime();
             int hours = (int) duration;
@@ -346,17 +346,18 @@ public class ReservationModule {
         //3. get list of flight schedule that is on the same day
         int flightnum = 1;
         List<FlightSchedule> listOfFlightSchedule = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWithSameTiming(listOfFlightSchedulePlan, departureDate);
-        System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***", listOfFlightSchedule.size()));
+        System.out.println("FLIGHT SCHEDULE ID | ORIGIN AIRPORT CODE | DESTINATION AIRPORT CODE | FLIGHT DEPARTURE DATE TIME   | FLIGHT ESTIMATED ARRIVAL DATETIME | FLIGHT DURATION ");
+        System.out.println(String.format("====================================================================%s FLIGHT ON THE SAME DAY======================================================================", listOfFlightSchedule.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightSchedule, flightnum);
         
         //4. get list of flight schedule that is 3 days before
         List<FlightSchedule> listOfFlightSchedule3daysBefore = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith3DaysBefore(listOfFlightSchedulePlan, departureDate);
-        System.out.println(String.format("\n*** %s FLIGHT 3 DAYS BEFORE ***", listOfFlightSchedule3daysBefore.size()));
+        System.out.println(String.format("=====================================================================%s FLIGHT 3 DAYS BEFORE=======================================================================", listOfFlightSchedule3daysBefore.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightSchedule3daysBefore, flightnum);
         
         //5. get list of flight schedule that is 3 days After
         List<FlightSchedule> listOfFlightSchedule3daysAfter = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith3DaysAfter(listOfFlightSchedulePlan, departureDate);
-        System.out.println(String.format("\n*** %s FLIGHT 3 DAYS AFTER ***", listOfFlightSchedule3daysAfter.size()));
+        System.out.println(String.format("=====================================================================%s FLIGHT 3 DAYS AFTER=======================================================================", listOfFlightSchedule3daysAfter.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightSchedule3daysAfter, flightnum);
         
         int schedId = -2;
@@ -410,15 +411,13 @@ public class ReservationModule {
         System.out.println("Filght Estimated Time: " + formattedTime);
         System.out.println("\n*** CABIN DETAILS ***");
         List<Cabin> cabins = flightScheduleSessionBeanRemote.getCabins(scheduleId);
+        System.out.printf("Cabin Class | Total Seats | Remaining Seats | Fare Per Ticket | Total Fare \n");
         for (Cabin c : cabins) {
-            System.out.println("Cabin Class : " + c.getCabinClassName());
-            System.out.println("Total Seats: " + c.getTotalSeats());
-            System.out.println("Remaining Seats: " + (c.getTotalSeats() - c.getReservedSeats()));
             long lowestFareid = cabinCustomerSessionBeanRemote.getLowestFareIdInCabin(c.getCabinId());
-            //System.out.println(lowestFareid);
             BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareid);
-            System.out.println("Fare per Ticket: $" + lowestFare);
-            System.out.println("Total Fare: $" + (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
+            System.out.printf("%11s | %11s | %15s | %15s |  $9.2f", c.getCabinClassName(), c.getTotalSeats(), (c.getTotalSeats() - c.getReservedSeats()), lowestFare, (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
+//            System.out.println("Fare per Ticket: $" + lowestFare);
+//            System.out.println("Total Fare: $" + (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
             System.out.println("");
         }
     }
@@ -444,7 +443,7 @@ public class ReservationModule {
         }
         char[][] cabinSeatingPlan = flightScheduleSessionBeanRemote.getCabinSeats(flightScheduleId, cabin);
         Integer[] islesPlan = flightScheduleSessionBeanRemote.getIslesPlan(flightScheduleId, cabin);
-        System.out.println("*** SEATING CONFIGURATION *** ");
+        System.out.println("======================SEATING CONFIGURATION======================");
         System.out.print("LETTER ");
         char seatNum = 'A';
         int count = 0;
@@ -479,7 +478,7 @@ public class ReservationModule {
             }
             System.out.println("");
         }
-        
+        System.out.println("======================SEATING CONFIGURATION======================");
         long lowestFareId = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
         //System.out.println("LOWEST FARE ID= " + lowestFareId);
         for (int i = 0; i < numOfSeats; i ++) {
@@ -536,20 +535,22 @@ public class ReservationModule {
         //change this?
         System.out.println("\n*** YOU HAVE SLECTED VIEW ALL FLIGHT RESERVATION ***\n");
         List<FlightSchedule> listOfFlightSchedules = customerSessionBean.getFlightSchedules(this.customerId);
+        System.out.println("Flight Schedule ID |   Flight Departure Date Time | Flight Estimated Duration | Flight Origin | Flight Destination");
+        
         for (FlightSchedule fs : listOfFlightSchedules) {
-            System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
-            System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
             FlightRoute fr = fs.getFlightSchedulePlan().getFlight().getFlightRoute();
             double duration = fs.getEstimatedTime();
             int hours = (int) duration;
             double fractionalHours = duration - hours;
             int minutes = (int) (fractionalHours * 60);
-            
             String formattedTime = String.format("%02d:%02d", hours, minutes);
-            System.out.println("Flight Estimate Duration: " + formattedTime + "H");
-            System.out.println("Flight Origin: " + fr.getOrigin().getName());
-            System.out.println("Flight Destination: " + fr.getDestination().getName());
-            System.out.println("");
+            System.out.printf("%18s | %26s | %24sH | %13s | %18s\n", fs.getFlightScheduleId(), fs.getDepartureDateTime(), formattedTime, fr.getOrigin().getName(), fr.getDestination().getName());
+//            System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
+//            System.out.println("Flight Departure Date Time: " + fs.getDepartureDateTime());
+//            
+//            System.out.println("Flight Estimate Duration: " + formattedTime + "H");
+//            System.out.println("Flight Origin: " + fr.getOrigin().getName());
+//            System.out.println("Flight Destination: " + fr.getDestination().getName());
         }
         
         System.out.print("Enter Flight Schedule ID for more Details> ");
@@ -562,14 +563,10 @@ public class ReservationModule {
         List<ReservationDetails> listOfReservationDetails = flightScheduleSessionBeanRemote.getReservationDetails(flightScheduleId, this.customerId);
         listOfReservationDetails.size();
         BigDecimal fare = BigDecimal.ZERO;
+        System.out.println(" Cabin |           First Name |            Last Name | Seat |    Fare ");
         for (ReservationDetails rd : listOfReservationDetails) {
-            System.out.println("Cabin: " + rd.getFare().getCabin().getCabinClassName());
-            System.out.println("First Name: " + rd.getFirstName());
-            System.out.println("Last Name: " + rd.getLastName());
-            System.out.println("Seat: " + rd.getRowNum() + rd.getSeatLetter());
-            System.out.println("Fare: $" + rd.getFare().getFareAmount());
+            System.out.printf(" %5s | %20s | %20s | %4s | $%5.2f \n", rd.getFare().getCabin().getCabinClassName(), rd.getFirstName(), rd.getLastName(), rd.getRowNum() + rd.getSeatLetter(), rd.getFare().getFareAmount());
             fare = rd.getFare().getFareAmount();
-            System.out.println("");
         }
         System.out.println("Total Amount Paid: $" + fare.multiply(BigDecimal.valueOf(listOfReservationDetails.size())));
         //add fare entity into reservation details
