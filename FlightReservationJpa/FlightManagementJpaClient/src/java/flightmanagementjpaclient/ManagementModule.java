@@ -40,6 +40,7 @@ import util.enumeration.FlightStatusEnum;
 import util.exception.AirportDoesNotExistException;
 import util.exception.FareBasisCodeAlreadyExistException;
 import util.exception.FlightDisabledException;
+import util.exception.FlightNumberAlreadyExistException;
 import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
 import util.exception.FlightScheduleDoesNotExistException;
@@ -646,20 +647,28 @@ public class ManagementModule {
         Flight flight = new Flight(flightNum);
         
         Long flightId;
-        if (haveReturn.equals("Y")) {
-            Flight returnFlight = new Flight(returnFlightNumber);
-            flightId = flightSessionBeanRemote.createNewFlight(flight, flightRouteId, aircraftConfigId);
-            Long returnFlightId = flightSessionBeanRemote.createNewFlight(returnFlight, flightRouteId, aircraftConfigId);
-            
-            flightSessionBeanRemote.setReturnFlight(flightId, returnFlightId);
-            flightSessionBeanRemote.setReturnFlight(returnFlightId, flightId);  
-        } else {
-            flightId = flightSessionBeanRemote.createNewFlight(flight, flightRouteId, aircraftConfigId);
+        try {
+           if (haveReturn.equals("Y")) {
+                Flight returnFlight = new Flight(returnFlightNumber);
+                flightId = flightSessionBeanRemote.createNewFlight(flight, flightRouteId, aircraftConfigId);
+                Long returnFlightId = flightSessionBeanRemote.createNewFlight(returnFlight, flightRouteId, aircraftConfigId);
+
+                flightSessionBeanRemote.setReturnFlight(flightId, returnFlightId);
+                flightSessionBeanRemote.setReturnFlight(returnFlightId, flightId);  
+            } else {
+                flightId = flightSessionBeanRemote.createNewFlight(flight, flightRouteId, aircraftConfigId);
+            }
+           
+            System.out.println("");
+            System.out.println("Flight Successfully Created!");
+            System.out.println("Flight Id = " + flightId);
+            System.out.println("");
+        } catch (FlightNumberAlreadyExistException e) {
+            System.out.println("This Flight Number already exist!");
+            System.out.println("");
         }
-        System.out.println("");
-        System.out.println("Flight Successfully Created!");
-        System.out.println("Flight Id= " + flightId);
-        System.out.println("");
+        
+        
     }
 
     public void deleteFlights(Scanner sc) throws Exception {

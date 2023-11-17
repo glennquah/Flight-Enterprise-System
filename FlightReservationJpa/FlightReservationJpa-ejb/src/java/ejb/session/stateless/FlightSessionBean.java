@@ -9,7 +9,6 @@ import entity.Airport;
 import entity.Cabin;
 import entity.Flight;
 import entity.FlightRoute;
-import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +21,8 @@ import util.enumeration.FlightRouteStatusEnum;
 import util.enumeration.FlightStatusEnum;
 import util.exception.AircraftConfigurationDoesNotExistException;
 import util.exception.FlightDoesNotExistException;
+import util.exception.FlightNumberAlreadyExistException;
+import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDisabledException;
 import util.exception.FlightRouteDoesNotExistException;
 import util.exception.FlightScheduleDoesNotExistException;
@@ -37,7 +38,7 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
     private EntityManager em;
 
     @Override
-    public Long createNewFlight(Flight flight, Long flightRouteId, Long aircraftConfigId) throws FlightRouteDisabledException, FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException {
+    public Long createNewFlight(Flight flight, Long flightRouteId, Long aircraftConfigId) throws FlightRouteDisabledException, FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException, FlightNumberAlreadyExistException {
         try {
             FlightRoute fr = em.find(FlightRoute.class, flightRouteId);
             
@@ -67,6 +68,8 @@ public class FlightSessionBean implements FlightSessionBeanRemote, FlightSession
                 return flight.getFlightId();
             } catch (NoResultException e) {
                 throw new AircraftConfigurationDoesNotExistException("Aircraft Configuration Does Not Exist!"); 
+            } catch (javax.persistence.PersistenceException e) {
+                throw new FlightNumberAlreadyExistException("This Flight Route Already Exist!"); 
             }
         } catch (NoResultException e) {
             throw new FlightRouteDoesNotExistException("Flight Route Does Not Exist!");
