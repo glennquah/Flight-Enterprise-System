@@ -913,7 +913,7 @@ public class ManagementModule {
                     } 
                     
                     for (int i = 0; i < cabins.size(); i++) {
-                        System.out.print(String.format("Enter the Number of Fares for Cabin Class %s >", cabins.get(i).getCabinClassName()));
+                        System.out.print(String.format("Enter the Number of Fares for Cabin Class %s> ", cabins.get(i).getCabinClassName()));
                         
                         int numFares = sc.nextInt();
                         ArrayList<String> fareBasisCodes = new ArrayList<>();
@@ -1025,7 +1025,7 @@ public class ManagementModule {
                     }
                     
                     for (int i = 0; i < cabins.size(); i++) {
-                        System.out.print(String.format("Enter the Number of Fares for Cabin Class %s >", cabins.get(i).getCabinClassName()));
+                        System.out.print(String.format("Enter the Number of Fares for Cabin Class %s>", cabins.get(i).getCabinClassName()));
                         
                         int numFares = sc.nextInt();
                         ArrayList<String> fareBasisCodes = new ArrayList<>();
@@ -1146,7 +1146,7 @@ public class ManagementModule {
                     }
                     
                     for (int i = 0; i < cabins.size(); i++) {
-                        System.out.print(String.format("Enter the Number of Fares for Cabin Class %s > ", cabins.get(i).getCabinClassName()));
+                        System.out.print(String.format("Enter the Number of Fares for Cabin Class %s> ", cabins.get(i).getCabinClassName()));
                         
                         int numFares = sc.nextInt();
                         ArrayList<String> fareBasisCodes = new ArrayList<>();
@@ -1259,7 +1259,7 @@ public class ManagementModule {
                     }
                     
                     for (int i = 0; i < cabins.size(); i++) {
-                        System.out.print(String.format("Enter the Number of Fares for Cabin Class %s > ", cabins.get(i).getCabinClassName()));
+                        System.out.print(String.format("Enter the Number of Fares for Cabin Class %s> ", cabins.get(i).getCabinClassName()));
                         
                         int numFares = sc.nextInt();
                         ArrayList<String> fareBasisCodes = new ArrayList<>();
