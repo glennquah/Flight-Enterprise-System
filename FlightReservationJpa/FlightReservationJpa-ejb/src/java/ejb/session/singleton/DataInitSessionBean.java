@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -326,6 +327,17 @@ public class DataInitSessionBean {
             Date departureDateTime = dateFormat.parse(("2023-12-01 09:00"));
             Date endDate = dateFormat.parse("2023-12-31 09:00");
             double layover = 2;
+            
+            int dayOfWeek = 2;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(departureDateTime);
+            int dayOfWeekNow = calendar.get(Calendar.DAY_OF_WEEK);
+            
+            while(calendar.get(Calendar.DAY_OF_WEEK) != dayOfWeek) {
+                departureDateTime = new Date(departureDateTime.getTime() + 1000 * 60 * 60 * 24);
+                calendar.setTime(departureDateTime);
+            }
+            
             while(!departureDateTime.equals(endDate)) {
                 departureDates.add(departureDateTime);
                 durations.add(duration);
@@ -395,6 +407,17 @@ public class DataInitSessionBean {
             departureDateTime = dateFormat.parse(("2023-12-01 12:00"));
             endDate = dateFormat.parse("2023-12-31 12:00");
             layover = 2;
+            
+            dayOfWeek = 1;
+            calendar = Calendar.getInstance();
+            calendar.setTime(departureDateTime);
+            dayOfWeekNow = calendar.get(Calendar.DAY_OF_WEEK);
+            
+            while(calendar.get(Calendar.DAY_OF_WEEK) != dayOfWeek) {
+                departureDateTime = new Date(departureDateTime.getTime() + 1000 * 60 * 60 * 24);
+                calendar.setTime(departureDateTime);
+            }
+            
             while(!departureDateTime.equals(endDate)) {
                 departureDates.add(departureDateTime);
                 durations.add(duration);
@@ -465,6 +488,17 @@ public class DataInitSessionBean {
             departureDateTime = dateFormat.parse(("2023-12-01 10:00"));
             endDate = dateFormat.parse("2023-12-31 10:00");
             layover = 2;
+            
+            dayOfWeek = 3;
+            calendar = Calendar.getInstance();
+            calendar.setTime(departureDateTime);
+            dayOfWeekNow = calendar.get(Calendar.DAY_OF_WEEK);
+            
+            while(calendar.get(Calendar.DAY_OF_WEEK) != dayOfWeek) {
+                departureDateTime = new Date(departureDateTime.getTime() + 1000 * 60 * 60 * 24);
+                calendar.setTime(departureDateTime);
+            }
+            
             while(!departureDateTime.equals(endDate)) {
                 departureDates.add(departureDateTime);
                 durations.add(duration);
@@ -517,6 +551,17 @@ public class DataInitSessionBean {
             departureDateTime = dateFormat.parse(("2023-12-01 10:00"));
             endDate = dateFormat.parse("2023-12-31 10:00");
             layover = 3;
+            
+            dayOfWeek = 2;
+            calendar = Calendar.getInstance();
+            calendar.setTime(departureDateTime);
+            dayOfWeekNow = calendar.get(Calendar.DAY_OF_WEEK);
+            
+            while(calendar.get(Calendar.DAY_OF_WEEK) != dayOfWeek) {
+                departureDateTime = new Date(departureDateTime.getTime() + 1000 * 60 * 60 * 24);
+                calendar.setTime(departureDateTime);
+            }
+            
             while(!departureDateTime.equals(endDate)) {
                 departureDates.add(departureDateTime);
                 durations.add(duration);
