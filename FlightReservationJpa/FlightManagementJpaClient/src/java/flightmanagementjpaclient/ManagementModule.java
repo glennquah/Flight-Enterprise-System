@@ -1099,7 +1099,7 @@ public class ManagementModule {
                     
                     while(calendar.get(Calendar.DAY_OF_WEEK) != dayOfWeek) {
                         departureDateTime = new Date(departureDateTime.getTime() + 1000 * 60 * 60 * 24);
-                        calendar.add(Calendar.DATE, 1);
+                        calendar.setTime(departureDateTime);
                     }
                     
                     while(!departureDateTime.equals(endDate)) {
