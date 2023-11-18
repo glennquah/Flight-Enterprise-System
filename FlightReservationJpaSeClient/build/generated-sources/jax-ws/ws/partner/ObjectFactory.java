@@ -62,6 +62,8 @@ public class ObjectFactory {
     private final static QName _GetFareFromRdResponse_QNAME = new QName("http://ws.session.ejb/", "getFareFromRdResponse");
     private final static QName _GetFareUsingId_QNAME = new QName("http://ws.session.ejb/", "getFareUsingId");
     private final static QName _GetFareUsingIdResponse_QNAME = new QName("http://ws.session.ejb/", "getFareUsingIdResponse");
+    private final static QName _GetFirstAvailableCabin_QNAME = new QName("http://ws.session.ejb/", "getFirstAvailableCabin");
+    private final static QName _GetFirstAvailableCabinResponse_QNAME = new QName("http://ws.session.ejb/", "getFirstAvailableCabinResponse");
     private final static QName _GetFlightScheduleWithId_QNAME = new QName("http://ws.session.ejb/", "getFlightScheduleWithId");
     private final static QName _GetFlightScheduleWithIdResponse_QNAME = new QName("http://ws.session.ejb/", "getFlightScheduleWithIdResponse");
     private final static QName _GetFlightSchedules_QNAME = new QName("http://ws.session.ejb/", "getFlightSchedules");
@@ -426,6 +428,22 @@ public class ObjectFactory {
      */
     public GetFareUsingIdResponse createGetFareUsingIdResponse() {
         return new GetFareUsingIdResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetFirstAvailableCabin }
+     * 
+     */
+    public GetFirstAvailableCabin createGetFirstAvailableCabin() {
+        return new GetFirstAvailableCabin();
+    }
+
+    /**
+     * Create an instance of {@link GetFirstAvailableCabinResponse }
+     * 
+     */
+    public GetFirstAvailableCabinResponse createGetFirstAvailableCabinResponse() {
+        return new GetFirstAvailableCabinResponse();
     }
 
     /**
@@ -1392,6 +1410,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getFareUsingIdResponse")
     public JAXBElement<GetFareUsingIdResponse> createGetFareUsingIdResponse(GetFareUsingIdResponse value) {
         return new JAXBElement<GetFareUsingIdResponse>(_GetFareUsingIdResponse_QNAME, GetFareUsingIdResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetFirstAvailableCabin }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetFirstAvailableCabin }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getFirstAvailableCabin")
+    public JAXBElement<GetFirstAvailableCabin> createGetFirstAvailableCabin(GetFirstAvailableCabin value) {
+        return new JAXBElement<GetFirstAvailableCabin>(_GetFirstAvailableCabin_QNAME, GetFirstAvailableCabin.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetFirstAvailableCabinResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetFirstAvailableCabinResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getFirstAvailableCabinResponse")
+    public JAXBElement<GetFirstAvailableCabinResponse> createGetFirstAvailableCabinResponse(GetFirstAvailableCabinResponse value) {
+        return new JAXBElement<GetFirstAvailableCabinResponse>(_GetFirstAvailableCabinResponse_QNAME, GetFirstAvailableCabinResponse.class, null, value);
     }
 
     /**

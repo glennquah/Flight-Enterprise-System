@@ -69,4 +69,5 @@ public interface FlightScheduleSessionBeanRemote {
     public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnecting(List<FlightSchedulePlan> listOfFlightSchedulePlanToHub, Date departureDate, long depAirport);
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(List<FlightSchedulePlan> listOfFlightSchedulePlanToHub, Date departureDate, long depAirport);
     public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnecting(List<FlightSchedulePlan> listOfFlightSchedulePlanToHub, Date departureDate, long depAirport);
+    public String getFirstAvailableCabin(long id, int numOfSeatsNeeded) throws FlightScheduleDoesNotExistException;
 }

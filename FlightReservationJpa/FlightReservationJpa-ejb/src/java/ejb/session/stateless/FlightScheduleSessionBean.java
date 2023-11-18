@@ -481,6 +481,23 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
     }
     
     @Override
+    public String getFirstAvailableCabin(long id, int numOfSeatsNeeded) throws FlightScheduleDoesNotExistException {
+        try {
+            FlightSchedule fs = getFlightScheduleWithId(id);
+            List<Cabin> listOfCabins = fs.getListOfCabins();
+            listOfCabins.size();
+            for (Cabin c : listOfCabins) {
+                if ((c.getTotalSeats() - c.getReservedSeats())>= numOfSeatsNeeded) {
+                    return c.getCabinClassName();
+                }
+            }
+            return null;
+        } catch (NoResultException e) {
+            throw new FlightScheduleDoesNotExistException("Flight Schedule Does Not Exist");
+        }
+    }
+    
+    @Override
     public List<Cabin> getCabins(long id, Boolean detach) throws FlightScheduleDoesNotExistException {
         try {
             FlightSchedule fs = getFlightScheduleWithId(id);
@@ -631,7 +648,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
             List<ReservationDetails> newDetails = new ArrayList<>();
             List<ReservationDetails> listOfResDetails = fs.getListOfReservationDetails();
             for (ReservationDetails rd : listOfResDetails) {
-                if (Objects.equals(rd.getCustomer().getAccountId(), cust.getAccountId())) {
+                if (rd.getCustomer().getAccountId() == cust.getAccountId()) {
                     newDetails.add(rd);
                 }
             }
