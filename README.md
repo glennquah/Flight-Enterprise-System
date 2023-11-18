@@ -1,4 +1,4 @@
-# Flight Reservation System (FRS) Project
+# Flight Reservation System (FRS)
 
 Inspired by the exceptional user experience and efficiency of Singapore Airlines' Online Reservation Platform, we proudly introduce our cutting-edge flight reservation enterprise system. This innovative system is meticulously designed to cater to the diverse needs of the aviation industry and its stakeholders.
 
