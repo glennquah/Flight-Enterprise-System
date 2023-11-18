@@ -155,7 +155,7 @@ public class DataInitSessionBean {
         //===================LOAD AIRCRAFT DATA========================
         if(em.find(Aircraft.class, 1l) == null) {
             Aircraft a1 = new Aircraft("Boeing 737", 200);
-            Aircraft a2 = new Aircraft("Airbus 747", 400);
+            Aircraft a2 = new Aircraft("Boeing 747", 400);
             aircraftSessionBeanLocal.createAircraft(a1);
             aircraftSessionBeanLocal.createAircraft(a2);
         }
