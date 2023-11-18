@@ -94,4 +94,10 @@ public class AirportSessionBean implements AirportSessionBeanRemote, AirportSess
         return a.getAirportCode();
     }
 
+    public long getAirportIdWithCode(String code) {
+        Query query = em.createQuery("SELECT a FROM Airport a WHERE a.airportCode = :code");
+        query.setParameter("code", code);
+        Airport a = (Airport) query.getSingleResult();
+        return a.getAirportId();
+    }
 }

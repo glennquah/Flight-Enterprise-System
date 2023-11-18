@@ -10,6 +10,7 @@ import entity.FlightRoute;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -28,8 +29,13 @@ import util.exception.FlightScheduleDoesNotExistException;
 @Stateless
 public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, FlightRoutesSessionBeanLocal {
 
+    @EJB(name = "AirportSessionBeanLocal")
+    private AirportSessionBeanLocal airportSessionBeanLocal;
+
     @PersistenceContext(unitName = "FlightReservationJpa-ejbPU")
     private EntityManager em;
+    
+    
 
     @Override
     public Long createNewFlightRoute(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException, FlightRouteAlreadyExistException {
@@ -60,6 +66,24 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
             throw new AirportDoesNotExistException("Aiport Does Not Exist!");
         }
     }
+    
+    @Override
+    public long getFlightRouteIdWithOGandDest(String og, String dest) throws AirportDoesNotExistException {
+        long airportOg = airportSessionBeanLocal.getAirportIdWithCode(og);
+        long airportDest = airportSessionBeanLocal.getAirportIdWithCode(dest);
+
+        Query query = em.createQuery("SELECT fr FROM FlightRoute fr WHERE fr.origin.airportId = :airportOg AND fr.destination.airportId = :airportDest");
+        query.setParameter("airportOg", airportOg);
+        query.setParameter("airportDest", airportDest);
+
+        try {
+            FlightRoute fr = (FlightRoute) query.getSingleResult();
+            return fr.getFlightRouteId();
+        } catch (NoResultException ex) {
+            throw new AirportDoesNotExistException("Aiport Does Not Exist!");
+        }
+    }
+
     
     @Override
     public Long createNewFlightRouteWithReturn(Long airportOneId, Long airportTwoId) throws AirportDoesNotExistException, FlightRouteAlreadyExistException {

@@ -238,57 +238,75 @@ public class DataInitSessionBean {
     private void loadFlightRoutes() throws AirportDoesNotExistException, FlightRouteAlreadyExistException {
         //===================LOAD FLIGHT ROUTE DATA========================
         if(em.find(FlightRoute.class, 1l) == null) {
-            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(1l, 2l);
-            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(1l, 3l);
-            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(1l, 4l);
-            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(2l, 4l);
-            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(3l, 4l);
-            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(1l, 5l);
-            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(5l, 4l);
+            long airportIdSIN = airportSessionBeanLocal.getAirportIdWithCode("SIN");
+            long airportIdHKG = airportSessionBeanLocal.getAirportIdWithCode("HKG");
+            long airportIdTPE = airportSessionBeanLocal.getAirportIdWithCode("TPE");
+            long airportIdNRT = airportSessionBeanLocal.getAirportIdWithCode("NRT");
+            long airportIdSYD = airportSessionBeanLocal.getAirportIdWithCode("SYD");
+            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(airportIdSIN, airportIdHKG);
+            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(airportIdSIN, airportIdTPE);
+            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(airportIdSIN, airportIdNRT);
+            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(airportIdHKG, airportIdNRT);
+            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(airportIdTPE, airportIdNRT);
+            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(airportIdSIN, airportIdSYD);
+            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(airportIdSYD, airportIdNRT);
         }
     }
 
-    private void loadFlights() throws FlightRouteDisabledException, FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException, FlightNumberAlreadyExistException {
+    private void loadFlights() throws FlightRouteDisabledException, FlightRouteDoesNotExistException, AircraftConfigurationDoesNotExistException, FlightNumberAlreadyExistException, AirportDoesNotExistException {
         //===================LOAD FLIGHT ROUTE DATA========================
         if(em.find(Flight.class, 1l) == null) {
-            Long flightId = flightSessionBeanLocal.createNewFlight(new Flight(111), 1l, 2l);
-            Long returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(112), 2l, 2l);
+            long FlightRouteIdFromSINtoHKG = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("SIN", "HKG");
+            long FlightRouteIdFromHKGtoSIN = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("HKG", "SIN");
+            Long flightId = flightSessionBeanLocal.createNewFlight(new Flight(111), FlightRouteIdFromSINtoHKG, 2l);
+            Long returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(112), FlightRouteIdFromHKGtoSIN, 2l);
             flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
             flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
             
-
-            flightId = flightSessionBeanLocal.createNewFlight(new Flight(211), 3l, 2l);
-            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(212), 4l, 2l);
+            long FlightRouteIdFromSINtoTPE = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("SIN", "TPE");
+            long FlightRouteIdFromTPEtoSIN = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("TPE", "SIN");
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(211), FlightRouteIdFromSINtoTPE, 2l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(212), FlightRouteIdFromTPEtoSIN, 2l);
             flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
             flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
 
-            flightId = flightSessionBeanLocal.createNewFlight(new Flight(311), 5l, 4l);
-            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(312), 6l, 4l);
+            long FlightRouteIdFromSINtoNRT = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("SIN", "NRT");
+            long FlightRouteIdFromNRTtoSIN = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("NRT", "SIN");
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(311), FlightRouteIdFromSINtoNRT, 4l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(312), FlightRouteIdFromNRTtoSIN, 4l);
             flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
             flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
 
-            flightId = flightSessionBeanLocal.createNewFlight(new Flight(411), 7l, 2l);
-            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(412), 8l, 2l);
+            long FlightRouteIdFromHKGtoNRT = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("HKG", "NRT");
+            long FlightRouteIdFromNRTtoHKG = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("NRT", "HKG");
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(411), FlightRouteIdFromHKGtoNRT, 2l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(412), FlightRouteIdFromNRTtoHKG, 2l);
             flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
             flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
 
-            flightId = flightSessionBeanLocal.createNewFlight(new Flight(511), 9l, 2l);
-            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(512), 10l, 2l);
+            long FlightRouteIdFromTPEtoNRT = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("TPE", "NRT");
+            long FlightRouteIdFromNRTtoTPE = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("NRT", "TPE");
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(511), FlightRouteIdFromTPEtoNRT, 2l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(512), FlightRouteIdFromNRTtoTPE, 2l);
             flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
             flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
 
-            flightId = flightSessionBeanLocal.createNewFlight(new Flight(611), 11l, 2l);
-            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(612), 12l, 2l);
+            long FlightRouteIdFromSINtoSYD = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("SIN", "SYD");
+            long FlightRouteIdFromSYDtoSIN = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("SYD", "SIN");
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(611), FlightRouteIdFromSINtoSYD, 2l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(612), FlightRouteIdFromSYDtoSIN, 2l);
             flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
             flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
 
-            flightId = flightSessionBeanLocal.createNewFlight(new Flight(621), 11l, 1l);
-            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(622), 12l, 1l);
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(621), FlightRouteIdFromSINtoSYD, 1l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(622), FlightRouteIdFromSYDtoSIN, 1l);
             flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
             flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
 
-            flightId = flightSessionBeanLocal.createNewFlight(new Flight(711), 13l, 4l);
-            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(712), 14l, 4l);
+            long FlightRouteIdFromSYDtoNRT = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("SYD", "NRT");
+            long FlightRouteIdFromNRTtoSYD = flightRoutesSessionBeanLocal.getFlightRouteIdWithOGandDest("NRT", "SYD");
+            flightId = flightSessionBeanLocal.createNewFlight(new Flight(711), FlightRouteIdFromSYDtoNRT, 4l);
+            returnFlightId = flightSessionBeanLocal.createNewFlight(new Flight(712), FlightRouteIdFromNRTtoSYD, 4l);
             flightSessionBeanLocal.setReturnFlight(flightId, returnFlightId);
             flightSessionBeanLocal.setReturnFlight(returnFlightId, flightId);  
         }
