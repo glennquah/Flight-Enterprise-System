@@ -380,8 +380,10 @@ public class HolidayReservationModule {
             System.out.print("Enter Cabin you want to Reserve> ");
             cabin = sc.nextLine().trim();
         } else if (option == 2) {
-            List<Cabin> cabins = getCabins(flightScheduleId);
-            cabin = cabins.get(0).getCabinClassName();
+            cabin = getFirstAvailableCabin(flightScheduleId, numOfSeats);
+            if (cabin == null) {
+                System.out.println("*** There is not enough seats, please select different cabins ***");
+            }
         } else {
             System.out.println("Please Pick the right option!");
             reserveFlight(flightScheduleId, sc, numOfSeats, payment, existingFare);
@@ -389,8 +391,8 @@ public class HolidayReservationModule {
 
         List<String> cabinSeatingPlanList = getCabinSeatsList(flightScheduleId, cabin);
         List<Integer> islesPlan = getIslesPlan(flightScheduleId, cabin);
+        System.out.printf("*** SEATING CONFIGURATION FOR CABIN %s ***\n", cabin);
         System.out.println("======================SEATING CONFIGURATION======================");
-        System.out.println("*** SEATING CONFIGURATION *** ");
         System.out.print("LETTER ");
         char seatNum = 'A';
         int count = 0;
@@ -652,6 +654,12 @@ public class HolidayReservationModule {
         ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         return port.getCabins(id);
+    }
+    
+    private static String getFirstAvailableCabin(java.lang.Long flightScheduleId, java.lang.Integer numOfSeats) throws  FlightScheduleDoesNotExistException_Exception {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getFirstAvailableCabin(flightScheduleId, numOfSeats);
     }
     
     private static List<String> getCabinSeatsList(java.lang.Long id, java.lang.String cabName) throws FlightScheduleDoesNotExistException_Exception {

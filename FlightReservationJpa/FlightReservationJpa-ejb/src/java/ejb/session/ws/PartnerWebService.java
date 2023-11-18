@@ -220,6 +220,11 @@ public class PartnerWebService {
         return cabins;
     }
     
+    @WebMethod(operationName = "getFirstAvailableCabin")
+    public String getFirstAvailableCabin(@WebParam(name = "flightScheduleId") long flightScheduleId, @WebParam(name = "numOfSeats") Integer numOfSeats) throws FlightScheduleDoesNotExistException {
+        return flightScheduleSessionBeanLocal.getFirstAvailableCabin(flightScheduleId, numOfSeats);
+    }
+    
     @WebMethod(operationName = "getCabinSeatsList")
     public List<String> getCabinSeatsList(@WebParam(name = "id") long id, @WebParam(name = "cabName") String cabName) throws FlightScheduleDoesNotExistException {
        return flightScheduleSessionBeanLocal.getCabinSeatsList(id, cabName);

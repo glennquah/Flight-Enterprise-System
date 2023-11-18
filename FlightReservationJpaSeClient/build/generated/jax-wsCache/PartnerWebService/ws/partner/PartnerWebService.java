@@ -30,256 +30,26 @@ public interface PartnerWebService {
 
     /**
      * 
-     * @param flightSchedId
-     * @return
-     *     returns java.lang.Long
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getAirportIdWithFlightScheduleId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetAirportIdWithFlightScheduleId")
-    @ResponseWrapper(localName = "getAirportIdWithFlightScheduleIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetAirportIdWithFlightScheduleIdResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getAirportIdWithFlightScheduleIdRequest", output = "http://ws.session.ejb/PartnerWebService/getAirportIdWithFlightScheduleIdResponse")
-    public Long getAirportIdWithFlightScheduleId(
-        @WebParam(name = "flightSchedId", targetNamespace = "")
-        long flightSchedId);
-
-    /**
-     * 
-     * @param id
-     * @return
-     *     returns javax.xml.datatype.XMLGregorianCalendar
-     * @throws FlightDoesNotExistException_Exception
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "retrieveDateOfFlightPicked", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveDateOfFlightPicked")
-    @ResponseWrapper(localName = "retrieveDateOfFlightPickedResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveDateOfFlightPickedResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveDateOfFlightPickedRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveDateOfFlightPickedResponse", fault = {
-        @FaultAction(className = FlightDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/retrieveDateOfFlightPicked/Fault/FlightDoesNotExistException")
-    })
-    public XMLGregorianCalendar retrieveDateOfFlightPicked(
-        @WebParam(name = "id", targetNamespace = "")
-        Long id)
-        throws FlightDoesNotExistException_Exception
-    ;
-
-    /**
-     * 
-     * @param cabName
-     * @param id
-     * @return
-     *     returns java.util.List&lt;java.lang.String&gt;
-     * @throws FlightScheduleDoesNotExistException_Exception
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getCabinSeatsList", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetCabinSeatsList")
-    @ResponseWrapper(localName = "getCabinSeatsListResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetCabinSeatsListResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getCabinSeatsListRequest", output = "http://ws.session.ejb/PartnerWebService/getCabinSeatsListResponse", fault = {
-        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getCabinSeatsList/Fault/FlightScheduleDoesNotExistException")
-    })
-    public List<String> getCabinSeatsList(
-        @WebParam(name = "id", targetNamespace = "")
-        long id,
-        @WebParam(name = "cabName", targetNamespace = "")
-        String cabName)
-        throws FlightScheduleDoesNotExistException_Exception
-    ;
-
-    /**
-     * 
+     * @param numOfSeats
      * @param flightScheduleId
-     * @param partnerId
-     * @return
-     *     returns java.util.List&lt;ws.partner.ReservationDetails&gt;
-     * @throws FlightScheduleDoesNotExistException_Exception
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getReservationDetailsPartner", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetReservationDetailsPartner")
-    @ResponseWrapper(localName = "getReservationDetailsPartnerResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetReservationDetailsPartnerResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getReservationDetailsPartnerRequest", output = "http://ws.session.ejb/PartnerWebService/getReservationDetailsPartnerResponse", fault = {
-        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getReservationDetailsPartner/Fault/FlightScheduleDoesNotExistException")
-    })
-    public List<ReservationDetails> getReservationDetailsPartner(
-        @WebParam(name = "flightScheduleId", targetNamespace = "")
-        long flightScheduleId,
-        @WebParam(name = "partnerId", targetNamespace = "")
-        long partnerId)
-        throws FlightScheduleDoesNotExistException_Exception
-    ;
-
-    /**
-     * 
-     * @param seat
-     * @param flightSchedId
-     * @param cabName
-     * @param rowNum
-     * @return
-     *     returns java.lang.Boolean
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "checkSeatIfAvailable", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.CheckSeatIfAvailable")
-    @ResponseWrapper(localName = "checkSeatIfAvailableResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.CheckSeatIfAvailableResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/checkSeatIfAvailableRequest", output = "http://ws.session.ejb/PartnerWebService/checkSeatIfAvailableResponse")
-    public Boolean checkSeatIfAvailable(
-        @WebParam(name = "flightSchedId", targetNamespace = "")
-        long flightSchedId,
-        @WebParam(name = "cabName", targetNamespace = "")
-        String cabName,
-        @WebParam(name = "rowNum", targetNamespace = "")
-        int rowNum,
-        @WebParam(name = "seat", targetNamespace = "")
-        int seat);
-
-    /**
-     * 
-     * @param flightSchedId
-     * @param destAirportId
-     * @return
-     *     returns java.lang.Boolean
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "checkIfFlightSchedIdIsDirect", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.CheckIfFlightSchedIdIsDirect")
-    @ResponseWrapper(localName = "checkIfFlightSchedIdIsDirectResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.CheckIfFlightSchedIdIsDirectResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/checkIfFlightSchedIdIsDirectRequest", output = "http://ws.session.ejb/PartnerWebService/checkIfFlightSchedIdIsDirectResponse")
-    public Boolean checkIfFlightSchedIdIsDirect(
-        @WebParam(name = "flightSchedId", targetNamespace = "")
-        long flightSchedId,
-        @WebParam(name = "destAirportId", targetNamespace = "")
-        long destAirportId);
-
-    /**
-     * 
-     * @param cabName
-     * @param id
-     * @return
-     *     returns long
-     * @throws FlightScheduleDoesNotExistException_Exception
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getHighestFareUsingCabinName", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetHighestFareUsingCabinName")
-    @ResponseWrapper(localName = "getHighestFareUsingCabinNameResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetHighestFareUsingCabinNameResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getHighestFareUsingCabinNameRequest", output = "http://ws.session.ejb/PartnerWebService/getHighestFareUsingCabinNameResponse", fault = {
-        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getHighestFareUsingCabinName/Fault/FlightScheduleDoesNotExistException")
-    })
-    public long getHighestFareUsingCabinName(
-        @WebParam(name = "cabName", targetNamespace = "")
-        String cabName,
-        @WebParam(name = "id", targetNamespace = "")
-        long id)
-        throws FlightScheduleDoesNotExistException_Exception
-    ;
-
-    /**
-     * 
-     * @param partnerId
-     * @return
-     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getFlightSchedules", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFlightSchedules")
-    @ResponseWrapper(localName = "getFlightSchedulesResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFlightSchedulesResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getFlightSchedulesRequest", output = "http://ws.session.ejb/PartnerWebService/getFlightSchedulesResponse")
-    public List<FlightSchedule> getFlightSchedules(
-        @WebParam(name = "partnerId", targetNamespace = "")
-        long partnerId);
-
-    /**
-     * 
-     * @param listOfFlightSchedulePlan
-     * @return
-     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "retrieveFlightScheduleInPlan", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightScheduleInPlan")
-    @ResponseWrapper(localName = "retrieveFlightScheduleInPlanResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightScheduleInPlanResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightScheduleInPlanRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightScheduleInPlanResponse")
-    public List<FlightSchedule> retrieveFlightScheduleInPlan(
-        @WebParam(name = "listOfFlightSchedulePlan", targetNamespace = "")
-        List<FlightSchedulePlan> listOfFlightSchedulePlan);
-
-    /**
-     * 
-     * @return
-     *     returns java.util.List&lt;ws.partner.Airport&gt;
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "retrieveAllAirports", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveAllAirports")
-    @ResponseWrapper(localName = "retrieveAllAirportsResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveAllAirportsResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveAllAirportsRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveAllAirportsResponse")
-    public List<Airport> retrieveAllAirports();
-
-    /**
-     * 
-     * @param airportId
      * @return
      *     returns java.lang.String
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getAirportCodeWithAirportId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetAirportCodeWithAirportId")
-    @ResponseWrapper(localName = "getAirportCodeWithAirportIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetAirportCodeWithAirportIdResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getAirportCodeWithAirportIdRequest", output = "http://ws.session.ejb/PartnerWebService/getAirportCodeWithAirportIdResponse")
-    public String getAirportCodeWithAirportId(
-        @WebParam(name = "airportId", targetNamespace = "")
-        long airportId);
-
-    /**
-     * 
-     * @param destAirportId
-     * @return
-     *     returns java.util.List&lt;java.lang.Long&gt;
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getListOfHubsIdConnecting", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetListOfHubsIdConnecting")
-    @ResponseWrapper(localName = "getListOfHubsIdConnectingResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetListOfHubsIdConnectingResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getListOfHubsIdConnectingRequest", output = "http://ws.session.ejb/PartnerWebService/getListOfHubsIdConnectingResponse")
-    public List<Long> getListOfHubsIdConnecting(
-        @WebParam(name = "destAirportId", targetNamespace = "")
-        long destAirportId);
-
-    /**
-     * 
-     * @param arg0
-     * @return
-     *     returns ws.partner.FlightSchedule
      * @throws FlightScheduleDoesNotExistException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getFlightScheduleWithId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFlightScheduleWithId")
-    @ResponseWrapper(localName = "getFlightScheduleWithIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFlightScheduleWithIdResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getFlightScheduleWithIdRequest", output = "http://ws.session.ejb/PartnerWebService/getFlightScheduleWithIdResponse", fault = {
-        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getFlightScheduleWithId/Fault/FlightScheduleDoesNotExistException")
+    @RequestWrapper(localName = "getFirstAvailableCabin", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFirstAvailableCabin")
+    @ResponseWrapper(localName = "getFirstAvailableCabinResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFirstAvailableCabinResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getFirstAvailableCabinRequest", output = "http://ws.session.ejb/PartnerWebService/getFirstAvailableCabinResponse", fault = {
+        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getFirstAvailableCabin/Fault/FlightScheduleDoesNotExistException")
     })
-    public FlightSchedule getFlightScheduleWithId(
-        @WebParam(name = "arg0", targetNamespace = "")
-        long arg0)
+    public String getFirstAvailableCabin(
+        @WebParam(name = "flightScheduleId", targetNamespace = "")
+        long flightScheduleId,
+        @WebParam(name = "numOfSeats", targetNamespace = "")
+        Integer numOfSeats)
         throws FlightScheduleDoesNotExistException_Exception
     ;
-
-    /**
-     * 
-     * @param cabinId
-     * @return
-     *     returns java.lang.Long
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getHighestFareIdInCabin", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetHighestFareIdInCabin")
-    @ResponseWrapper(localName = "getHighestFareIdInCabinResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetHighestFareIdInCabinResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getHighestFareIdInCabinRequest", output = "http://ws.session.ejb/PartnerWebService/getHighestFareIdInCabinResponse")
-    public Long getHighestFareIdInCabin(
-        @WebParam(name = "cabinId", targetNamespace = "")
-        long cabinId);
 
     /**
      * 
@@ -301,24 +71,6 @@ public interface PartnerWebService {
 
     /**
      * 
-     * @param dateOfFlightPicked
-     * @param listOfFlightSchedulePlanFromHub
-     * @return
-     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "retrieveFlightSchedulePlanWith1DayAfter", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith1DayAfter")
-    @ResponseWrapper(localName = "retrieveFlightSchedulePlanWith1DayAfterResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith1DayAfterResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith1DayAfterRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith1DayAfterResponse")
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfter(
-        @WebParam(name = "listOfFlightSchedulePlanFromHub", targetNamespace = "")
-        List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub,
-        @WebParam(name = "dateOfFlightPicked", targetNamespace = "")
-        XMLGregorianCalendar dateOfFlightPicked);
-
-    /**
-     * 
      * @param departureDate
      * @param destAirport
      * @param depAirport
@@ -337,6 +89,48 @@ public interface PartnerWebService {
         long depAirport,
         @WebParam(name = "destAirport", targetNamespace = "")
         long destAirport);
+
+    /**
+     * 
+     * @param highestFareId
+     * @param flightScheduleId
+     * @param partnerId
+     * @param reservationDetails
+     * @return
+     *     returns java.lang.Long
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "createReservationDetailsForPartner", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.CreateReservationDetailsForPartner")
+    @ResponseWrapper(localName = "createReservationDetailsForPartnerResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.CreateReservationDetailsForPartnerResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/createReservationDetailsForPartnerRequest", output = "http://ws.session.ejb/PartnerWebService/createReservationDetailsForPartnerResponse")
+    public Long createReservationDetailsForPartner(
+        @WebParam(name = "reservationDetails", targetNamespace = "")
+        ReservationDetails reservationDetails,
+        @WebParam(name = "partnerId", targetNamespace = "")
+        Long partnerId,
+        @WebParam(name = "flightScheduleId", targetNamespace = "")
+        Long flightScheduleId,
+        @WebParam(name = "highestFareId", targetNamespace = "")
+        Long highestFareId);
+
+    /**
+     * 
+     * @param dateOfFlightPicked
+     * @param listOfFlightSchedulePlanFromHub
+     * @return
+     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "retrieveFlightSchedulePlanWith1DayAfter", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith1DayAfter")
+    @ResponseWrapper(localName = "retrieveFlightSchedulePlanWith1DayAfterResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith1DayAfterResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith1DayAfterRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith1DayAfterResponse")
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfter(
+        @WebParam(name = "listOfFlightSchedulePlanFromHub", targetNamespace = "")
+        List<FlightSchedulePlan> listOfFlightSchedulePlanFromHub,
+        @WebParam(name = "dateOfFlightPicked", targetNamespace = "")
+        XMLGregorianCalendar dateOfFlightPicked);
 
     /**
      * 
@@ -382,93 +176,6 @@ public interface PartnerWebService {
 
     /**
      * 
-     * @param rdId
-     * @return
-     *     returns ws.partner.Cabin
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getCabinFromRd", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetCabinFromRd")
-    @ResponseWrapper(localName = "getCabinFromRdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetCabinFromRdResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getCabinFromRdRequest", output = "http://ws.session.ejb/PartnerWebService/getCabinFromRdResponse")
-    public Cabin getCabinFromRd(
-        @WebParam(name = "rdId", targetNamespace = "")
-        long rdId);
-
-    /**
-     * 
-     * @param listOfHubIds
-     * @param destAirport
-     * @param departureDate
-     * @param depAirport
-     * @return
-     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "retrieveFlightSchedulePlanWith3DaysBeforeConnecting", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith3DaysBeforeConnecting")
-    @ResponseWrapper(localName = "retrieveFlightSchedulePlanWith3DaysBeforeConnectingResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith3DaysBeforeConnectingResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysBeforeConnectingRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysBeforeConnectingResponse")
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnecting(
-        @WebParam(name = "depAirport", targetNamespace = "")
-        long depAirport,
-        @WebParam(name = "destAirport", targetNamespace = "")
-        long destAirport,
-        @WebParam(name = "listOfHubIds", targetNamespace = "")
-        List<Long> listOfHubIds,
-        @WebParam(name = "departureDate", targetNamespace = "")
-        XMLGregorianCalendar departureDate);
-
-    /**
-     * 
-     * @param listOfHubIds
-     * @param destAirport
-     * @param departureDate
-     * @param depAirport
-     * @return
-     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "retrieveFlightSchedulePlanWith3DaysAfterConnecting", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith3DaysAfterConnecting")
-    @ResponseWrapper(localName = "retrieveFlightSchedulePlanWith3DaysAfterConnectingResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith3DaysAfterConnectingResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysAfterConnectingRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysAfterConnectingResponse")
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(
-        @WebParam(name = "depAirport", targetNamespace = "")
-        long depAirport,
-        @WebParam(name = "destAirport", targetNamespace = "")
-        long destAirport,
-        @WebParam(name = "listOfHubIds", targetNamespace = "")
-        List<Long> listOfHubIds,
-        @WebParam(name = "departureDate", targetNamespace = "")
-        XMLGregorianCalendar departureDate);
-
-    /**
-     * 
-     * @param listOfHubIds
-     * @param destAirport
-     * @param departureDate
-     * @param depAirport
-     * @return
-     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "retrieveFlightSchedulePlanWithSameTimingConnecting", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWithSameTimingConnecting")
-    @ResponseWrapper(localName = "retrieveFlightSchedulePlanWithSameTimingConnectingResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWithSameTimingConnectingResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameTimingConnectingRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameTimingConnectingResponse")
-    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnecting(
-        @WebParam(name = "depAirport", targetNamespace = "")
-        long depAirport,
-        @WebParam(name = "destAirport", targetNamespace = "")
-        long destAirport,
-        @WebParam(name = "listOfHubIds", targetNamespace = "")
-        List<Long> listOfHubIds,
-        @WebParam(name = "departureDate", targetNamespace = "")
-        XMLGregorianCalendar departureDate);
-
-    /**
-     * 
      * @param arg0
      */
     @WebMethod
@@ -504,6 +211,391 @@ public interface PartnerWebService {
 
     /**
      * 
+     * @param listOfHubIds
+     * @param destAirport
+     * @param departureDate
+     * @param depAirport
+     * @return
+     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "retrieveFlightSchedulePlanWithSameTimingConnecting", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWithSameTimingConnecting")
+    @ResponseWrapper(localName = "retrieveFlightSchedulePlanWithSameTimingConnectingResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWithSameTimingConnectingResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameTimingConnectingRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWithSameTimingConnectingResponse")
+    public List<FlightSchedule> retrieveFlightSchedulePlanWithSameTimingConnecting(
+        @WebParam(name = "depAirport", targetNamespace = "")
+        long depAirport,
+        @WebParam(name = "destAirport", targetNamespace = "")
+        long destAirport,
+        @WebParam(name = "listOfHubIds", targetNamespace = "")
+        List<Long> listOfHubIds,
+        @WebParam(name = "departureDate", targetNamespace = "")
+        XMLGregorianCalendar departureDate);
+
+    /**
+     * 
+     * @param listOfHubIds
+     * @param destAirport
+     * @param departureDate
+     * @param depAirport
+     * @return
+     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "retrieveFlightSchedulePlanWith3DaysBeforeConnecting", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith3DaysBeforeConnecting")
+    @ResponseWrapper(localName = "retrieveFlightSchedulePlanWith3DaysBeforeConnectingResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith3DaysBeforeConnectingResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysBeforeConnectingRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysBeforeConnectingResponse")
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysBeforeConnecting(
+        @WebParam(name = "depAirport", targetNamespace = "")
+        long depAirport,
+        @WebParam(name = "destAirport", targetNamespace = "")
+        long destAirport,
+        @WebParam(name = "listOfHubIds", targetNamespace = "")
+        List<Long> listOfHubIds,
+        @WebParam(name = "departureDate", targetNamespace = "")
+        XMLGregorianCalendar departureDate);
+
+    /**
+     * 
+     * @param partnerId
+     * @return
+     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getFlightSchedules", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFlightSchedules")
+    @ResponseWrapper(localName = "getFlightSchedulesResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFlightSchedulesResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getFlightSchedulesRequest", output = "http://ws.session.ejb/PartnerWebService/getFlightSchedulesResponse")
+    public List<FlightSchedule> getFlightSchedules(
+        @WebParam(name = "partnerId", targetNamespace = "")
+        long partnerId);
+
+    /**
+     * 
+     * @return
+     *     returns java.util.List&lt;ws.partner.Airport&gt;
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "retrieveAllAirports", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveAllAirports")
+    @ResponseWrapper(localName = "retrieveAllAirportsResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveAllAirportsResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveAllAirportsRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveAllAirportsResponse")
+    public List<Airport> retrieveAllAirports();
+
+    /**
+     * 
+     * @param destAirportId
+     * @return
+     *     returns java.util.List&lt;java.lang.Long&gt;
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getListOfHubsIdConnecting", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetListOfHubsIdConnecting")
+    @ResponseWrapper(localName = "getListOfHubsIdConnectingResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetListOfHubsIdConnectingResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getListOfHubsIdConnectingRequest", output = "http://ws.session.ejb/PartnerWebService/getListOfHubsIdConnectingResponse")
+    public List<Long> getListOfHubsIdConnecting(
+        @WebParam(name = "destAirportId", targetNamespace = "")
+        long destAirportId);
+
+    /**
+     * 
+     * @param airportId
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getAirportCodeWithAirportId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetAirportCodeWithAirportId")
+    @ResponseWrapper(localName = "getAirportCodeWithAirportIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetAirportCodeWithAirportIdResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getAirportCodeWithAirportIdRequest", output = "http://ws.session.ejb/PartnerWebService/getAirportCodeWithAirportIdResponse")
+    public String getAirportCodeWithAirportId(
+        @WebParam(name = "airportId", targetNamespace = "")
+        long airportId);
+
+    /**
+     * 
+     * @param seat
+     * @param flightSchedId
+     * @param cabName
+     * @param rowNum
+     * @return
+     *     returns java.lang.Boolean
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "checkSeatIfAvailable", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.CheckSeatIfAvailable")
+    @ResponseWrapper(localName = "checkSeatIfAvailableResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.CheckSeatIfAvailableResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/checkSeatIfAvailableRequest", output = "http://ws.session.ejb/PartnerWebService/checkSeatIfAvailableResponse")
+    public Boolean checkSeatIfAvailable(
+        @WebParam(name = "flightSchedId", targetNamespace = "")
+        long flightSchedId,
+        @WebParam(name = "cabName", targetNamespace = "")
+        String cabName,
+        @WebParam(name = "rowNum", targetNamespace = "")
+        int rowNum,
+        @WebParam(name = "seat", targetNamespace = "")
+        int seat);
+
+    /**
+     * 
+     * @param cabName
+     * @param id
+     * @return
+     *     returns java.util.List&lt;java.lang.String&gt;
+     * @throws FlightScheduleDoesNotExistException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getCabinSeatsList", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetCabinSeatsList")
+    @ResponseWrapper(localName = "getCabinSeatsListResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetCabinSeatsListResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getCabinSeatsListRequest", output = "http://ws.session.ejb/PartnerWebService/getCabinSeatsListResponse", fault = {
+        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getCabinSeatsList/Fault/FlightScheduleDoesNotExistException")
+    })
+    public List<String> getCabinSeatsList(
+        @WebParam(name = "id", targetNamespace = "")
+        long id,
+        @WebParam(name = "cabName", targetNamespace = "")
+        String cabName)
+        throws FlightScheduleDoesNotExistException_Exception
+    ;
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns ws.partner.FlightSchedule
+     * @throws FlightScheduleDoesNotExistException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getFlightScheduleWithId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFlightScheduleWithId")
+    @ResponseWrapper(localName = "getFlightScheduleWithIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFlightScheduleWithIdResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getFlightScheduleWithIdRequest", output = "http://ws.session.ejb/PartnerWebService/getFlightScheduleWithIdResponse", fault = {
+        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getFlightScheduleWithId/Fault/FlightScheduleDoesNotExistException")
+    })
+    public FlightSchedule getFlightScheduleWithId(
+        @WebParam(name = "arg0", targetNamespace = "")
+        long arg0)
+        throws FlightScheduleDoesNotExistException_Exception
+    ;
+
+    /**
+     * 
+     * @param flightSchedId
+     * @param destAirportId
+     * @return
+     *     returns java.lang.Boolean
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "checkIfFlightSchedIdIsDirect", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.CheckIfFlightSchedIdIsDirect")
+    @ResponseWrapper(localName = "checkIfFlightSchedIdIsDirectResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.CheckIfFlightSchedIdIsDirectResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/checkIfFlightSchedIdIsDirectRequest", output = "http://ws.session.ejb/PartnerWebService/checkIfFlightSchedIdIsDirectResponse")
+    public Boolean checkIfFlightSchedIdIsDirect(
+        @WebParam(name = "flightSchedId", targetNamespace = "")
+        long flightSchedId,
+        @WebParam(name = "destAirportId", targetNamespace = "")
+        long destAirportId);
+
+    /**
+     * 
+     * @param id
+     * @return
+     *     returns javax.xml.datatype.XMLGregorianCalendar
+     * @throws FlightDoesNotExistException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "retrieveDateOfFlightPicked", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveDateOfFlightPicked")
+    @ResponseWrapper(localName = "retrieveDateOfFlightPickedResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveDateOfFlightPickedResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveDateOfFlightPickedRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveDateOfFlightPickedResponse", fault = {
+        @FaultAction(className = FlightDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/retrieveDateOfFlightPicked/Fault/FlightDoesNotExistException")
+    })
+    public XMLGregorianCalendar retrieveDateOfFlightPicked(
+        @WebParam(name = "id", targetNamespace = "")
+        Long id)
+        throws FlightDoesNotExistException_Exception
+    ;
+
+    /**
+     * 
+     * @param cabinId
+     * @return
+     *     returns java.lang.Long
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getHighestFareIdInCabin", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetHighestFareIdInCabin")
+    @ResponseWrapper(localName = "getHighestFareIdInCabinResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetHighestFareIdInCabinResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getHighestFareIdInCabinRequest", output = "http://ws.session.ejb/PartnerWebService/getHighestFareIdInCabinResponse")
+    public Long getHighestFareIdInCabin(
+        @WebParam(name = "cabinId", targetNamespace = "")
+        long cabinId);
+
+    /**
+     * 
+     * @param listOfFlightSchedulePlan
+     * @return
+     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "retrieveFlightScheduleInPlan", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightScheduleInPlan")
+    @ResponseWrapper(localName = "retrieveFlightScheduleInPlanResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightScheduleInPlanResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightScheduleInPlanRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightScheduleInPlanResponse")
+    public List<FlightSchedule> retrieveFlightScheduleInPlan(
+        @WebParam(name = "listOfFlightSchedulePlan", targetNamespace = "")
+        List<FlightSchedulePlan> listOfFlightSchedulePlan);
+
+    /**
+     * 
+     * @param flightSchedId
+     * @return
+     *     returns java.lang.Long
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getAirportIdWithFlightScheduleId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetAirportIdWithFlightScheduleId")
+    @ResponseWrapper(localName = "getAirportIdWithFlightScheduleIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetAirportIdWithFlightScheduleIdResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getAirportIdWithFlightScheduleIdRequest", output = "http://ws.session.ejb/PartnerWebService/getAirportIdWithFlightScheduleIdResponse")
+    public Long getAirportIdWithFlightScheduleId(
+        @WebParam(name = "flightSchedId", targetNamespace = "")
+        long flightSchedId);
+
+    /**
+     * 
+     * @param flightScheduleId
+     * @param partnerId
+     * @return
+     *     returns java.util.List&lt;ws.partner.ReservationDetails&gt;
+     * @throws FlightScheduleDoesNotExistException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getReservationDetailsPartner", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetReservationDetailsPartner")
+    @ResponseWrapper(localName = "getReservationDetailsPartnerResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetReservationDetailsPartnerResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getReservationDetailsPartnerRequest", output = "http://ws.session.ejb/PartnerWebService/getReservationDetailsPartnerResponse", fault = {
+        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getReservationDetailsPartner/Fault/FlightScheduleDoesNotExistException")
+    })
+    public List<ReservationDetails> getReservationDetailsPartner(
+        @WebParam(name = "flightScheduleId", targetNamespace = "")
+        long flightScheduleId,
+        @WebParam(name = "partnerId", targetNamespace = "")
+        long partnerId)
+        throws FlightScheduleDoesNotExistException_Exception
+    ;
+
+    /**
+     * 
+     * @param cabName
+     * @param id
+     * @return
+     *     returns long
+     * @throws FlightScheduleDoesNotExistException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getHighestFareUsingCabinName", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetHighestFareUsingCabinName")
+    @ResponseWrapper(localName = "getHighestFareUsingCabinNameResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetHighestFareUsingCabinNameResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getHighestFareUsingCabinNameRequest", output = "http://ws.session.ejb/PartnerWebService/getHighestFareUsingCabinNameResponse", fault = {
+        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getHighestFareUsingCabinName/Fault/FlightScheduleDoesNotExistException")
+    })
+    public long getHighestFareUsingCabinName(
+        @WebParam(name = "cabName", targetNamespace = "")
+        String cabName,
+        @WebParam(name = "id", targetNamespace = "")
+        long id)
+        throws FlightScheduleDoesNotExistException_Exception
+    ;
+
+    /**
+     * 
+     * @param fsId
+     * @param partnerId
+     * @return
+     *     returns java.lang.Long
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "linkFlightSchedule", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.LinkFlightSchedule")
+    @ResponseWrapper(localName = "linkFlightScheduleResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.LinkFlightScheduleResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/linkFlightScheduleRequest", output = "http://ws.session.ejb/PartnerWebService/linkFlightScheduleResponse")
+    public Long linkFlightSchedule(
+        @WebParam(name = "partnerId", targetNamespace = "")
+        long partnerId,
+        @WebParam(name = "fsId", targetNamespace = "")
+        long fsId);
+
+    /**
+     * 
+     * @param destAiport
+     * @param departureDate
+     * @param pickedAirport
+     * @return
+     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "retrieveFlightSchedulePlanWith1DayAfterReturnConnecting", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith1DayAfterReturnConnecting")
+    @ResponseWrapper(localName = "retrieveFlightSchedulePlanWith1DayAfterReturnConnectingResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith1DayAfterReturnConnectingResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith1DayAfterReturnConnectingRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith1DayAfterReturnConnectingResponse")
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(
+        @WebParam(name = "pickedAirport", targetNamespace = "")
+        long pickedAirport,
+        @WebParam(name = "destAiport", targetNamespace = "")
+        long destAiport,
+        @WebParam(name = "departureDate", targetNamespace = "")
+        XMLGregorianCalendar departureDate);
+
+    /**
+     * 
+     * @param destAiport
+     * @param departureDate
+     * @param pickedAirport
+     * @return
+     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "retrieveFlightSchedulePlanAfterTimingReturnConnecting", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanAfterTimingReturnConnecting")
+    @ResponseWrapper(localName = "retrieveFlightSchedulePlanAfterTimingReturnConnectingResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanAfterTimingReturnConnectingResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanAfterTimingReturnConnectingRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanAfterTimingReturnConnectingResponse")
+    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTimingReturnConnecting(
+        @WebParam(name = "pickedAirport", targetNamespace = "")
+        long pickedAirport,
+        @WebParam(name = "destAiport", targetNamespace = "")
+        long destAiport,
+        @WebParam(name = "departureDate", targetNamespace = "")
+        XMLGregorianCalendar departureDate);
+
+    /**
+     * 
+     * @param listOfHubIds
+     * @param destAirport
+     * @param departureDate
+     * @param depAirport
+     * @return
+     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "retrieveFlightSchedulePlanWith3DaysAfterConnecting", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith3DaysAfterConnecting")
+    @ResponseWrapper(localName = "retrieveFlightSchedulePlanWith3DaysAfterConnectingResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith3DaysAfterConnectingResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysAfterConnectingRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith3DaysAfterConnectingResponse")
+    public List<FlightSchedule> retrieveFlightSchedulePlanWith3DaysAfterConnecting(
+        @WebParam(name = "depAirport", targetNamespace = "")
+        long depAirport,
+        @WebParam(name = "destAirport", targetNamespace = "")
+        long destAirport,
+        @WebParam(name = "listOfHubIds", targetNamespace = "")
+        List<Long> listOfHubIds,
+        @WebParam(name = "departureDate", targetNamespace = "")
+        XMLGregorianCalendar departureDate);
+
+    /**
+     * 
      * @param rdId
      * @return
      *     returns ws.partner.Fare
@@ -516,59 +608,6 @@ public interface PartnerWebService {
     public Fare getFareFromRd(
         @WebParam(name = "rdId", targetNamespace = "")
         long rdId);
-
-    /**
-     * 
-     * @param cabName
-     * @param id
-     * @return
-     *     returns java.util.List&lt;java.lang.Integer&gt;
-     * @throws FlightScheduleDoesNotExistException_Exception
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getIslesPlan", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetIslesPlan")
-    @ResponseWrapper(localName = "getIslesPlanResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetIslesPlanResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getIslesPlanRequest", output = "http://ws.session.ejb/PartnerWebService/getIslesPlanResponse", fault = {
-        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getIslesPlan/Fault/FlightScheduleDoesNotExistException")
-    })
-    public List<Integer> getIslesPlan(
-        @WebParam(name = "id", targetNamespace = "")
-        long id,
-        @WebParam(name = "cabName", targetNamespace = "")
-        String cabName)
-        throws FlightScheduleDoesNotExistException_Exception
-    ;
-
-    /**
-     * 
-     * @param flightSchedId
-     * @return
-     *     returns ws.partner.FlightRoute
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getFRUsingFSId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFRUsingFSId")
-    @ResponseWrapper(localName = "getFRUsingFSIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFRUsingFSIdResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getFRUsingFSIdRequest", output = "http://ws.session.ejb/PartnerWebService/getFRUsingFSIdResponse")
-    public FlightRoute getFRUsingFSId(
-        @WebParam(name = "flightSchedId", targetNamespace = "")
-        long flightSchedId);
-
-    /**
-     * 
-     * @param fareId
-     * @return
-     *     returns java.math.BigDecimal
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getFareUsingId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFareUsingId")
-    @ResponseWrapper(localName = "getFareUsingIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFareUsingIdResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getFareUsingIdRequest", output = "http://ws.session.ejb/PartnerWebService/getFareUsingIdResponse")
-    public BigDecimal getFareUsingId(
-        @WebParam(name = "fareId", targetNamespace = "")
-        long fareId);
 
     /**
      * 
@@ -614,23 +653,18 @@ public interface PartnerWebService {
 
     /**
      * 
-     * @param id
+     * @param fareId
      * @return
-     *     returns java.util.List&lt;ws.partner.Cabin&gt;
-     * @throws FlightScheduleDoesNotExistException_Exception
+     *     returns java.math.BigDecimal
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getCabins", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetCabins")
-    @ResponseWrapper(localName = "getCabinsResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetCabinsResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getCabinsRequest", output = "http://ws.session.ejb/PartnerWebService/getCabinsResponse", fault = {
-        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getCabins/Fault/FlightScheduleDoesNotExistException")
-    })
-    public List<Cabin> getCabins(
-        @WebParam(name = "id", targetNamespace = "")
-        long id)
-        throws FlightScheduleDoesNotExistException_Exception
-    ;
+    @RequestWrapper(localName = "getFareUsingId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFareUsingId")
+    @ResponseWrapper(localName = "getFareUsingIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFareUsingIdResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getFareUsingIdRequest", output = "http://ws.session.ejb/PartnerWebService/getFareUsingIdResponse")
+    public BigDecimal getFareUsingId(
+        @WebParam(name = "fareId", targetNamespace = "")
+        long fareId);
 
     /**
      * 
@@ -663,41 +697,61 @@ public interface PartnerWebService {
 
     /**
      * 
-     * @param fsId
-     * @param partnerId
+     * @param id
      * @return
-     *     returns java.lang.Long
+     *     returns java.util.List&lt;ws.partner.Cabin&gt;
+     * @throws FlightScheduleDoesNotExistException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "linkFlightSchedule", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.LinkFlightSchedule")
-    @ResponseWrapper(localName = "linkFlightScheduleResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.LinkFlightScheduleResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/linkFlightScheduleRequest", output = "http://ws.session.ejb/PartnerWebService/linkFlightScheduleResponse")
-    public Long linkFlightSchedule(
-        @WebParam(name = "partnerId", targetNamespace = "")
-        long partnerId,
-        @WebParam(name = "fsId", targetNamespace = "")
-        long fsId);
+    @RequestWrapper(localName = "getCabins", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetCabins")
+    @ResponseWrapper(localName = "getCabinsResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetCabinsResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getCabinsRequest", output = "http://ws.session.ejb/PartnerWebService/getCabinsResponse", fault = {
+        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getCabins/Fault/FlightScheduleDoesNotExistException")
+    })
+    public List<Cabin> getCabins(
+        @WebParam(name = "id", targetNamespace = "")
+        long id)
+        throws FlightScheduleDoesNotExistException_Exception
+    ;
 
     /**
      * 
-     * @param email
+     * @param cabName
+     * @param id
      * @return
-     *     returns java.lang.Long
-     * @throws InvalidLoginCredentialException_Exception
+     *     returns java.util.List&lt;java.lang.Integer&gt;
+     * @throws FlightScheduleDoesNotExistException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getPartnerId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetPartnerId")
-    @ResponseWrapper(localName = "getPartnerIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetPartnerIdResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/getPartnerIdRequest", output = "http://ws.session.ejb/PartnerWebService/getPartnerIdResponse", fault = {
-        @FaultAction(className = InvalidLoginCredentialException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getPartnerId/Fault/InvalidLoginCredentialException")
+    @RequestWrapper(localName = "getIslesPlan", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetIslesPlan")
+    @ResponseWrapper(localName = "getIslesPlanResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetIslesPlanResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getIslesPlanRequest", output = "http://ws.session.ejb/PartnerWebService/getIslesPlanResponse", fault = {
+        @FaultAction(className = FlightScheduleDoesNotExistException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getIslesPlan/Fault/FlightScheduleDoesNotExistException")
     })
-    public Long getPartnerId(
-        @WebParam(name = "email", targetNamespace = "")
-        String email)
-        throws InvalidLoginCredentialException_Exception
+    public List<Integer> getIslesPlan(
+        @WebParam(name = "id", targetNamespace = "")
+        long id,
+        @WebParam(name = "cabName", targetNamespace = "")
+        String cabName)
+        throws FlightScheduleDoesNotExistException_Exception
     ;
+
+    /**
+     * 
+     * @param flightSchedId
+     * @return
+     *     returns ws.partner.FlightRoute
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getFRUsingFSId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFRUsingFSId")
+    @ResponseWrapper(localName = "getFRUsingFSIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetFRUsingFSIdResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getFRUsingFSIdRequest", output = "http://ws.session.ejb/PartnerWebService/getFRUsingFSIdResponse")
+    public FlightRoute getFRUsingFSId(
+        @WebParam(name = "flightSchedId", targetNamespace = "")
+        long flightSchedId);
 
     /**
      * 
@@ -719,68 +773,37 @@ public interface PartnerWebService {
 
     /**
      * 
-     * @param destAiport
-     * @param departureDate
-     * @param pickedAirport
+     * @param rdId
      * @return
-     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
+     *     returns ws.partner.Cabin
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "retrieveFlightSchedulePlanAfterTimingReturnConnecting", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanAfterTimingReturnConnecting")
-    @ResponseWrapper(localName = "retrieveFlightSchedulePlanAfterTimingReturnConnectingResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanAfterTimingReturnConnectingResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanAfterTimingReturnConnectingRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanAfterTimingReturnConnectingResponse")
-    public List<FlightSchedule> retrieveFlightSchedulePlanAfterTimingReturnConnecting(
-        @WebParam(name = "pickedAirport", targetNamespace = "")
-        long pickedAirport,
-        @WebParam(name = "destAiport", targetNamespace = "")
-        long destAiport,
-        @WebParam(name = "departureDate", targetNamespace = "")
-        XMLGregorianCalendar departureDate);
+    @RequestWrapper(localName = "getCabinFromRd", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetCabinFromRd")
+    @ResponseWrapper(localName = "getCabinFromRdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetCabinFromRdResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getCabinFromRdRequest", output = "http://ws.session.ejb/PartnerWebService/getCabinFromRdResponse")
+    public Cabin getCabinFromRd(
+        @WebParam(name = "rdId", targetNamespace = "")
+        long rdId);
 
     /**
      * 
-     * @param destAiport
-     * @param departureDate
-     * @param pickedAirport
-     * @return
-     *     returns java.util.List&lt;ws.partner.FlightSchedule&gt;
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "retrieveFlightSchedulePlanWith1DayAfterReturnConnecting", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith1DayAfterReturnConnecting")
-    @ResponseWrapper(localName = "retrieveFlightSchedulePlanWith1DayAfterReturnConnectingResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.RetrieveFlightSchedulePlanWith1DayAfterReturnConnectingResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith1DayAfterReturnConnectingRequest", output = "http://ws.session.ejb/PartnerWebService/retrieveFlightSchedulePlanWith1DayAfterReturnConnectingResponse")
-    public List<FlightSchedule> retrieveFlightSchedulePlanWith1DayAfterReturnConnecting(
-        @WebParam(name = "pickedAirport", targetNamespace = "")
-        long pickedAirport,
-        @WebParam(name = "destAiport", targetNamespace = "")
-        long destAiport,
-        @WebParam(name = "departureDate", targetNamespace = "")
-        XMLGregorianCalendar departureDate);
-
-    /**
-     * 
-     * @param highestFareId
-     * @param flightScheduleId
-     * @param partnerId
-     * @param reservationDetails
+     * @param email
      * @return
      *     returns java.lang.Long
+     * @throws InvalidLoginCredentialException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "createReservationDetailsForPartner", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.CreateReservationDetailsForPartner")
-    @ResponseWrapper(localName = "createReservationDetailsForPartnerResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.CreateReservationDetailsForPartnerResponse")
-    @Action(input = "http://ws.session.ejb/PartnerWebService/createReservationDetailsForPartnerRequest", output = "http://ws.session.ejb/PartnerWebService/createReservationDetailsForPartnerResponse")
-    public Long createReservationDetailsForPartner(
-        @WebParam(name = "reservationDetails", targetNamespace = "")
-        ReservationDetails reservationDetails,
-        @WebParam(name = "partnerId", targetNamespace = "")
-        Long partnerId,
-        @WebParam(name = "flightScheduleId", targetNamespace = "")
-        Long flightScheduleId,
-        @WebParam(name = "highestFareId", targetNamespace = "")
-        Long highestFareId);
+    @RequestWrapper(localName = "getPartnerId", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetPartnerId")
+    @ResponseWrapper(localName = "getPartnerIdResponse", targetNamespace = "http://ws.session.ejb/", className = "ws.partner.GetPartnerIdResponse")
+    @Action(input = "http://ws.session.ejb/PartnerWebService/getPartnerIdRequest", output = "http://ws.session.ejb/PartnerWebService/getPartnerIdResponse", fault = {
+        @FaultAction(className = InvalidLoginCredentialException_Exception.class, value = "http://ws.session.ejb/PartnerWebService/getPartnerId/Fault/InvalidLoginCredentialException")
+    })
+    public Long getPartnerId(
+        @WebParam(name = "email", targetNamespace = "")
+        String email)
+        throws InvalidLoginCredentialException_Exception
+    ;
 
 }

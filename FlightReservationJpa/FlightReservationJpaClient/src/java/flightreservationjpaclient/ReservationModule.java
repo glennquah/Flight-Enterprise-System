@@ -250,7 +250,6 @@ public class ReservationModule {
             }
         }
         
-        
         System.out.print("Enter Flight Schedule ID to reserve> ");
         int confirmId = sc.nextInt();
         sc.nextLine();
@@ -303,7 +302,6 @@ public class ReservationModule {
                 }
             }
 
-            sc.nextLine();
             System.out.print("Enter Flight Schedule ID to reserve> ");
             confirmId = sc.nextInt();
             sc.nextLine();
@@ -380,7 +378,6 @@ public class ReservationModule {
             }
         }
         
-        sc.nextLine();
         System.out.print("Enter Flight Schedule ID to reserve> ");
         int confirmId = sc.nextInt();
         sc.nextLine();
@@ -419,7 +416,8 @@ public class ReservationModule {
         for (Cabin c : cabins) {
             long lowestFareid = cabinCustomerSessionBeanRemote.getLowestFareIdInCabin(c.getCabinId());
             BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareid);
-            System.out.printf("%11s | %11s | %15s | %15s |  $9.2f", c.getCabinClassName(), c.getTotalSeats(), (c.getTotalSeats() - c.getReservedSeats()), lowestFare, (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
+            System.out.printf("%11s | %11s | %15s | %15s |  $%9.2f", c.getCabinClassName(), c.getTotalSeats(), (c.getTotalSeats() - c.getReservedSeats()), lowestFare, (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
+            System.out.println("");
         }
     }
     
@@ -435,14 +433,17 @@ public class ReservationModule {
             System.out.print("Enter Cabin you want to Reserve> ");
             cabin = sc.nextLine().trim();
         } else if (option == 2) {
-            List<Cabin> cabins = flightScheduleSessionBeanRemote.getCabins(flightScheduleId);
-            cabin = cabins.get(0).getCabinClassName();
+            cabin = flightScheduleSessionBeanRemote.getFirstAvailableCabin(flightScheduleId, numOfSeats);
+            if (cabin == null) {
+                System.out.println("*** There is not enough seats, please select different cabins ***");
+            }
         } else {
             System.out.println("Please Pick the right option!");
             reserveFlight(flightScheduleId, sc, numOfSeats, payment, existingFare);
         }
         char[][] cabinSeatingPlan = flightScheduleSessionBeanRemote.getCabinSeats(flightScheduleId, cabin);
         Integer[] islesPlan = flightScheduleSessionBeanRemote.getIslesPlan(flightScheduleId, cabin);
+        System.out.printf("*** SEATING CONFIGURATION FOR CABIN %s ***\n", cabin);
         System.out.println("======================SEATING CONFIGURATION======================");
         System.out.print("LETTER ");
         char seatNum = 'A';
