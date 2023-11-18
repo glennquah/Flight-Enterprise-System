@@ -166,4 +166,16 @@ public class FlightRoutesSessionBean implements FlightRoutesSessionBeanRemote, F
         FlightSchedule fs = em.find(FlightSchedule.class, flightSchedId);
         return fs.getFlightSchedulePlan().getFlight().getFlightRoute();
     }
+    
+    @Override 
+    public Long getReturnFlightRouteId(Long flightRouteId) {
+        FlightRoute flightRoute = em.find(FlightRoute.class, flightRouteId);
+        
+        Query query = em.createQuery("SELECT fr FROM FlightRoute fr WHERE fr.origin.airportId = :airportOg AND fr.destination.airportId = :airportDest");
+        query.setParameter("airportOg", flightRoute.getDestination().getAirportId());
+        query.setParameter("airportDest", flightRoute.getOrigin().getAirportId());
+        
+        FlightRoute fr = (FlightRoute) query.getSingleResult();
+        return fr.getFlightRouteId();
+    }
 }

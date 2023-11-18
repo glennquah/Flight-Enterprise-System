@@ -536,8 +536,9 @@ public class ManagementModule {
         try {
            if (haveReturn.equals("Y")) {
                 Flight returnFlight = new Flight(returnFlightNumber);
+                Long returnFlightRouteId = flightRoutesSessionBeanRemote.getReturnFlightRouteId(flightRouteId);
                 flightId = flightSessionBeanRemote.createNewFlight(flight, flightRouteId, aircraftConfigId);
-                Long returnFlightId = flightSessionBeanRemote.createNewFlight(returnFlight, flightRouteId, aircraftConfigId);
+                Long returnFlightId = flightSessionBeanRemote.createNewFlight(returnFlight, returnFlightRouteId, aircraftConfigId);
 
                 flightSessionBeanRemote.setReturnFlight(flightId, returnFlightId);
                 flightSessionBeanRemote.setReturnFlight(returnFlightId, flightId);  

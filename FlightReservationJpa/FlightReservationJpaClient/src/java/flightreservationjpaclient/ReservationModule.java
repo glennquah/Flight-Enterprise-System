@@ -118,7 +118,7 @@ public class ReservationModule {
         System.out.println("\n*** YOU HAVE PICKED SEARCH FLIGHT ***");
         System.out.println("*** ENTER FLIGHT DETAILS ***\n");
         System.out.println("Trip Type: ");
-        System.out.println("1: Return Flight");
+        System.out.println("1: One Way Flight");
         System.out.println("2: Round Trip");
         System.out.print("Enter Trip Type> ");
         int tripType = sc.nextInt();
@@ -153,7 +153,7 @@ public class ReservationModule {
         sc.nextLine();
         
         System.out.println("Pick Flight Type: ");
-        System.out.println("1: One Way Flight");
+        System.out.println("1: Direct Flight");
         System.out.println("2: Connecting Flight");
         System.out.println("3: No Preference");
         System.out.print("Enter Flight Type> ");
