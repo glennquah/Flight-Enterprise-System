@@ -7,16 +7,13 @@ Welcome to the Merlion Airlines Flight Reservation System (FRS) GitHub repositor
 - **Objective:**
   - Design and develop a comprehensive Flight Reservation System to support Merlion Airlines' core business processes and enhance customer experience.
 
-- **Collaborators:**
-  - This project is a collaboration between Merlion Airlines and Kent Ridge Technology (KRT), a global technology consulting and solution development company based in Singapore.
-
 ## Key Features
 
 1. **Fleet Management:**
-   - Manage a fleet of 30 aircraft, including Boeing 737 and Boeing 747 models.
+   - Manage a fleet of aircraft.
 
 2. **Route Planning:**
-   - Plan flight routes to about 30 destinations in 10 countries within an 8-hour flight time.
+   - Plan flight routes to about as many destinations as you want.
 
 3. **Cabin Classes:**
    - Offer four cabin classes: First Class (F), Business Class (J), Premium Economy Class (W), and Economy Class (Y).
@@ -28,7 +25,7 @@ Welcome to the Merlion Airlines Flight Reservation System (FRS) GitHub repositor
    - Comprehensive management of employees, partners, airports, aircraft types, flight routes, flight schedules, and reservations.
 
 6. **FRS Reservation Client:**
-   - Customer-specific functionalities, including registration, login, flight search, reservation, and viewing reservations.
+   - Customer-specific functionalities, including registration, login, flight search, reservation, and view reservations.
 
 7. **Holiday Reservation System:**
    - Integration with external partners, allowing partners to log in, search for flights, reserve flights, and view reservations.
