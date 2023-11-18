@@ -32,25 +32,26 @@ public class Cabin implements Serializable {
     private Long cabinId;
     @Column(length = 32, nullable = false)
     private String cabinClassName;
+    @Max(value = 10000)
     private Integer availableSeats;
+    @Max(value = 10000)
     private Integer reservedSeats;
+    @Max(value = 10000)
     private Integer totalSeats;
     private char [][] seatingPlan;
-    
     @Column(nullable = false)
     @Min(value = 0)
     @Max(value = 2)
-    private Integer numOfIsles;
-    
+    private Integer numOfIsles; 
     @Column(nullable = false)
+    @Max(value = 100)
     private Integer numOfRows;
-    
     @Column(nullable = false)
     private Integer[] seatingConfiguration;
     
+    //===============RELATIONSHIPS=================
     @ManyToOne
     private AircraftConfiguration aircraftConfiguration;
-    
     @OneToMany
     private List<Fare> listOfFare;
 

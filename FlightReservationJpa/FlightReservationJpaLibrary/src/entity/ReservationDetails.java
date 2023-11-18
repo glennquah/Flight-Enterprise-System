@@ -38,16 +38,14 @@ public class ReservationDetails implements Serializable {
     @Column(nullable = false)
     private char seatLetter;
     
+    //===============RELATIONSHIPS=================
     @OneToOne
     @JoinColumn(nullable = false)
     private Fare fare;
-    
     @ManyToOne
-    private Customer customer;
-    
+    private Customer customer; 
     @ManyToOne
     private Partner partner;
-    
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private FlightSchedule flightSchedule;

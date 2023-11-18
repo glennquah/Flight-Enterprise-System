@@ -21,15 +21,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Partner extends Account implements Serializable {
     
-    @OneToMany(mappedBy="partner")
-    private List<ReservationDetails> listOfReservationDetails;
-    
-    @ManyToMany
-    private List<FlightSchedule> listOfFlightSchedules;
-    
     @Column(length = 32)
     private String creditCardNumber;
     
+    //===============RELATIONSHIPS=================
+    @OneToMany(mappedBy="partner")
+    private List<ReservationDetails> listOfReservationDetails;  
+    @ManyToMany
+    private List<FlightSchedule> listOfFlightSchedules;
 
     public Partner() {
     }

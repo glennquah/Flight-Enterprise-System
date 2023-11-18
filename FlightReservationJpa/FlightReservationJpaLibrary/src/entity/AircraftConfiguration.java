@@ -32,13 +32,12 @@ public class AircraftConfiguration implements Serializable {
     @Column(length = 32, nullable = false)
     private String aircraftConfigName;
     
+    //===============RELATIONSHIPS=================
     @OneToOne(optional = false)
     @JoinColumn(nullable = false)
     private Aircraft aircraft;
-    
     @OneToMany(mappedBy = "aircraftConfiguration")
     private List<Cabin> listOfCabins;
-    
     @OneToMany(mappedBy = "aircraftConfig")
     private List<Flight> listOfFlights;
 

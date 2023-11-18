@@ -7,6 +7,7 @@ package entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,15 +26,14 @@ public class Fare implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String fareBasisCode;
+    @Column(precision = 11, scale = 2)
+    private BigDecimal fareAmount;
     
+    //===============RELATIONSHIPS=================
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Cabin cabin;
-    
-    private String fareBasisCode;
-    
-    private BigDecimal fareAmount;
-    
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private FlightSchedulePlan flightSchedulePlan;

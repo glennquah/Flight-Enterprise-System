@@ -243,7 +243,7 @@ public class DataInitSessionBean {
             flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(1l, 4l);
             flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(2l, 4l);
             flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(3l, 4l);
-            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(5l, 1l);
+            flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(1l, 5l);
             flightRoutesSessionBeanLocal.createNewFlightRouteWithReturn(5l, 4l);
         }
     }

@@ -26,9 +26,9 @@ public class Customer extends Account implements Serializable {
     @Column(length = 32)
     private String creditCardNumber;
     
+    //===============RELATIONSHIPS=================
     @OneToMany(mappedBy="Customer")
     private List<ReservationDetails> listOfReservationDetails;
-    
     @ManyToMany
     private List<FlightSchedule> listOfFlightSchedules;
 

@@ -51,18 +51,15 @@ public class FlightSchedule implements Serializable {
     @Column(nullable = false)
     private Date arrivalDateTime;
     
+    //===============RELATIONSHIPS=================
     @ManyToOne
     private FlightSchedulePlan flightSchedulePlan;
-    
     @ManyToMany
     private List<Customer> customers;
-    
     @ManyToMany
     private List<Partner> partners;
-    
     @OneToMany(mappedBy = "FlightSchedule")
     private List<ReservationDetails> listOfReservationDetails;
-    
     @OneToMany
     private List<Cabin> listOfCabins;
 

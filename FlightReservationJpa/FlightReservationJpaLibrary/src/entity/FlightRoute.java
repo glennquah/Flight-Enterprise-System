@@ -32,20 +32,17 @@ public class FlightRoute implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long flightRouteId;
+    @Column(nullable = false)
+    private FlightRouteStatusEnum flightRouteStatus;
+    private Boolean complementaryRoute;
     
+    //===============RELATIONSHIPS=================
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "origin")
     private Airport origin;
-    
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "destination")
     private Airport destination;
-    
-    @Column(nullable = false)
-    private FlightRouteStatusEnum flightRouteStatus;
-    
-    private Boolean complementaryRoute;
-    
     @OneToMany(mappedBy="FlightRoute")
     private List<Flight> listOfFlights;
 

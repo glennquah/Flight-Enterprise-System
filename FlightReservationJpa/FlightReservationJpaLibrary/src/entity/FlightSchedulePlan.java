@@ -34,17 +34,15 @@ public class FlightSchedulePlan implements Serializable {
     private Long flightSchedulePlanId;
     @Column(length = 32, nullable = false)
     private Integer flightNumber;
-    
     @Column(nullable = false)
     private FlightSchedulePlanStatusEnum flightSchedulePlanStatus;
-    
+
+    //===============RELATIONSHIPS=================
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Flight flight;
-    
     @OneToMany(mappedBy="FlightSchedulePlan")
     private List<FlightSchedule> flightSchedules;
-    
     @OneToMany(mappedBy="FlightSchedulePlan")
     private List<Fare> listOfFares;
 

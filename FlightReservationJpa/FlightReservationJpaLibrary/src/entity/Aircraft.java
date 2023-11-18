@@ -30,7 +30,7 @@ public class Aircraft implements Serializable {
     @Column(nullable = false)
     private Integer numOfSeats;
     
-    
+    //===============RELATIONSHIPS=================
     @OneToOne(mappedBy = "Aircraft")
     private AircraftConfiguration aircraftConfiguration;
 
