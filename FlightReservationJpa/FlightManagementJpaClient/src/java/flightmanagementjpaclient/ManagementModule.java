@@ -277,9 +277,9 @@ public class ManagementModule {
                 System.out.println("*** PLEASE ENTER THE ORIGIN AND DESTINATION AIRPORT NAME ***\n");
                 List<Airport> listOfAirports = airportSessionBeanRemote.retrieveAllAirports();
                 
-                System.out.println("AIRPORT ID | AIRPORT NAME ");
+                System.out.println("AIRPORT ID | AIRPORT NAME | AIRPORT CODE ");
                 for (int i = 0; i < listOfAirports.size(); i++) {
-                    System.out.println(String.format("%10s | %12s ", listOfAirports.get(i).getAirportId(), listOfAirports.get(i).getName()));
+                    System.out.println(String.format("%10s | %12s | %12s ", listOfAirports.get(i).getAirportId(), listOfAirports.get(i).getName(), listOfAirports.get(i).getAirportCode()));
                 }
                 System.out.println("");
                 
@@ -384,7 +384,7 @@ public class ManagementModule {
                         if (f.getComplementaryRoute()) {
                             for (int i = 0; i < listOfFlightRoutes.size(); i++) {
                                 if (listOfFlightRoutes.get(i).getOrigin() == f.getDestination() && listOfFlightRoutes.get(i).getDestination() == f.getOrigin() && listOfFlightRoutes.get(i).getFlightRouteStatus() == FlightRouteStatusEnum.ACTIVE) {
-                                    System.out.println(String.format("%15s | %14s | %19s ", f.getFlightRouteId(), f.getOrigin().getName(), f.getDestination().getName()));
+                                    System.out.println(String.format("%15s | %14s | %19s ", listOfFlightRoutes.get(i).getFlightRouteId(), listOfFlightRoutes.get(i).getOrigin().getName(), listOfFlightRoutes.get(i).getDestination().getName()));
                                     printedFlightRoutes.add(listOfFlightRoutes.get(i));
                                     break;
                                 } 
@@ -474,8 +474,8 @@ public class ManagementModule {
         if (listOfFlightRoutes.size() == 0) {
             System.out.println("There are no existing Flight Routes!");
         } else {
+            System.out.println("FLIGHT ROUTE ID | ORIGIN AIRPORT | DESTINATION AIRPORT ");
             for (FlightRoute f:listOfFlightRoutes) { 
-                System.out.println("FLIGHT ROUTE ID | ORIGIN AIRPORT | DESTINATION AIRPORT ");
                 if (!printedFlightRoutes.contains(f) && f.getFlightRouteStatus() == FlightRouteStatusEnum.ACTIVE) {
                     System.out.println(String.format("%15s | %14s | %19s ", f.getFlightRouteId(), f.getOrigin().getName(), f.getDestination().getName()));
                     printedFlightRoutes.add(f);
@@ -483,7 +483,7 @@ public class ManagementModule {
                     if (f.getComplementaryRoute()) {
                         for (int i = 0; i < listOfFlightRoutes.size(); i++) {
                             if (listOfFlightRoutes.get(i).getOrigin() == f.getDestination() && listOfFlightRoutes.get(i).getDestination() == f.getOrigin() && listOfFlightRoutes.get(i).getFlightRouteStatus() == FlightRouteStatusEnum.ACTIVE) {
-                                System.out.println(String.format("%15s | %14s | %19s ", f.getFlightRouteId(), f.getOrigin().getName(), f.getDestination().getName()));
+                                System.out.println(String.format("%15s | %14s | %19s ", listOfFlightRoutes.get(i).getFlightRouteId(), listOfFlightRoutes.get(i).getOrigin().getName(), listOfFlightRoutes.get(i).getDestination().getName()));
                                 printedFlightRoutes.add(listOfFlightRoutes.get(i));
                                 break;
                             } 
