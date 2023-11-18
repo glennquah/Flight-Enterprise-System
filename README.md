@@ -54,3 +54,11 @@ Inspired by the exceptional user experience and efficiency of Singapore Airlines
 - **LinkedIn:** [Ryan's LinkedIn](https://www.linkedin.com/in/ryantangmj/)
 
 Test Case Docs: [https://docs.google.com/document/d/14NK6GCpDTColbh9XLE1QcpfnPCRb9bW2/edit?usp=sharing&ouid=102220279603524460646&rtpof=true&sd=true](https://docs.google.com/document/d/14NK6GCpDTColbh9XLE1QcpfnPCRb9bW2/edit?usp=sharing&ouid=102220279603524460646&rtpof=true&sd=true)https://docs.google.com/document/d/14NK6GCpDTColbh9XLE1QcpfnPCRb9bW2/edit?usp=sharing&ouid=102220279603524460646&rtpof=true&sd=true
+
+## Technology Stack
+Our tech stack includes the following technologies and tools:
+1. Java EE
+2. NetBeans (IDE)
+3. Java Persistence API (JPA)
+4. SQL for database management
+5. Java Persistence Query Language (JPQL)
