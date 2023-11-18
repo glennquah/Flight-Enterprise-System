@@ -22,4 +22,5 @@ public interface AircraftConfigurationSessionBeanRemote {
     public List<AircraftConfiguration> retrieveAllAircraftConfigurations();
     public List<Cabin> retrieveCabinsWithId(Long Id) throws CabinDoesNotExistException;
     public void linkAircraft(Long aircraftId, Long aircraftConfigId) throws AircraftDoesNotExistException;
+    public boolean checkiftotalNumIsMoreThanConfig(int totalNum, long aircraftConfigId) ;
 }

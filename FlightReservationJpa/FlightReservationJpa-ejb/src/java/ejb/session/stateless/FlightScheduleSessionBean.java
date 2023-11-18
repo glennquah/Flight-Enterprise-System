@@ -1029,7 +1029,7 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
 
             if (localDate.isBefore(threeDaysAfterDate) && localDate.isAfter(threeDaysAfterDate.minusDays(4))) {
                 newList.add(flightSchedule);
-            }
+            } 
         }
         
         List<FlightSchedule> listThatAccountsForNextFlight = new ArrayList<>();
@@ -1049,6 +1049,8 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
 
             List<FlightSchedule> resultList = query.getResultList();
             if (resultList.size() > 0) {
+                listThatAccountsForNextFlight.add(fs);
+            } else if (fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination().getAirportId() == depAirport) {
                 listThatAccountsForNextFlight.add(fs);
             }
         }
@@ -1091,6 +1093,8 @@ public class FlightScheduleSessionBean implements FlightScheduleSessionBeanRemot
 
             List<FlightSchedule> resultList = query.getResultList();
             if (resultList.size() > 0) {
+                listThatAccountsForNextFlight.add(fs);
+            } else if (fs.getFlightSchedulePlan().getFlight().getFlightRoute().getDestination().getAirportId() == depAirport) {
                 listThatAccountsForNextFlight.add(fs);
             }
         }

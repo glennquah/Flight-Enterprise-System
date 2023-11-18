@@ -186,12 +186,20 @@ public class ManagementModule {
             String seatingConfig = sc.nextLine().trim();
             String[] sconfig = seatingConfig.split("-");
             Integer[] sconfigInt = new Integer[numOfIsles + 1];
+            int totalnum = 0;
             for (int j = 0; j < sconfig.length; j++) {
                 sconfigInt[j] = Integer.parseInt(sconfig[j]);
+                totalnum = sconfigInt[j];
             }
-            Cabin cab = new Cabin(cabinName, numOfIsles, numOfRows, sconfigInt);
-            Long cabinId = cabinCustomerSessionBeanRemote.createCabin(cab, aircraftConfigId);
-            System.out.println(String.format("\nNo.%s cabin created", i + 1));
+            boolean check = aircraftConfigurationSessionBeanRemote.checkiftotalNumIsMoreThanConfig(totalnum, aircraftConfigId);
+            if (check == false) {
+                System.out.println("Exceeded maximuim capacity, please try again");
+                fleetManagerOptions(sc);
+            } else {
+                Cabin cab = new Cabin(cabinName, numOfIsles, numOfRows, sconfigInt);
+                Long cabinId = cabinCustomerSessionBeanRemote.createCabin(cab, aircraftConfigId);
+                System.out.println(String.format("\nNo.%s cabin created", i + 1));              
+            }     
         }
         System.out.println("New Flight Configuration Created!");
         System.out.println("Flight Configuration ID = " + aircraftConfigId);

@@ -74,4 +74,11 @@ public class AircraftConfigurationSessionBean implements AircraftConfigurationSe
             throw new AircraftDoesNotExistException("Aircraft Does Not Exist!");
         }
     }
+    
+    @Override
+    public boolean checkiftotalNumIsMoreThanConfig(int totalNum, long aircraftConfigId) {
+        AircraftConfiguration ac = em.find(AircraftConfiguration.class, aircraftConfigId);
+        
+        return ac.getAircraft().getNumOfSeats() < totalNum;
+    }
 }
