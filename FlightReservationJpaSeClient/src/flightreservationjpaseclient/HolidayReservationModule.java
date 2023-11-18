@@ -74,7 +74,7 @@ public class HolidayReservationModule {
         System.out.println("\n*** YOU HAVE PICKED RESERVE FLIGHT ***");
         System.out.println("*** ENTER FLIGHT DETAILS ***\n");
         System.out.println("Trip Type: ");
-        System.out.println("1: Return Flight");
+        System.out.println("1: One Way Trip");
         System.out.println("2: Round Trip");
         System.out.print("Enter Trip Type> ");
         int tripType = sc.nextInt();

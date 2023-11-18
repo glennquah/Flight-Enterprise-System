@@ -153,7 +153,7 @@ public class ReservationModule {
         sc.nextLine();
         
         System.out.println("Pick Flight Type: ");
-        System.out.println("1: Direct Flight");
+        System.out.println("1: One Way Flight");
         System.out.println("2: Connecting Flight");
         System.out.println("3: No Preference");
         System.out.print("Enter Flight Type> ");
@@ -223,7 +223,7 @@ public class ReservationModule {
         System.out.println("FLIGHT SCHEDULE ID | ORIGIN AIRPORT CODE | DESTINATION AIRPORT CODE | FLIGHT DEPARTURE DATE TIME   | FLIGHT ESTIMATED ARRIVAL DATETIME | FLIGHT DURATION ");
         System.out.println(String.format("====================================================================%s FLIGHT ON THE SAME DAY======================================================================", listOfFlightScheduleToHubSameDay.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightScheduleToHubSameDay, flightnum);
-        
+            
         //4. get list of flight schedule that is 3 days before
         List<FlightSchedule> listOfFlightScheduleHub3daysBefore = flightScheduleSessionBeanRemote.retrieveFlightSchedulePlanWith3DaysBeforeConnecting(listOfFlightSchedulePlanToHub, departureDate, destAirport);
         System.out.println(String.format("=====================================================================%s FLIGHT 3 DAYS BEFORE=======================================================================", listOfFlightScheduleHub3daysBefore.size()));
