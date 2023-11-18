@@ -227,6 +227,7 @@ public class FlightSchedulePlanSessionBean implements FlightSchedulePlanSessionB
         }
 
         query.setParameter("flightNumbers", flightNumbers);
+        System.out.println("SIZE OF LSIT = " + query.getResultList().size());
         return query.getResultList();
     }
     
