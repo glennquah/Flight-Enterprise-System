@@ -355,20 +355,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="retrieveFlightSchedulePlanWithSameTimingPartner">
-<xs:sequence>
-<xs:element name="departureDate" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="depAirport" type="xs:long"/>
-<xs:element name="destAirport" type="xs:long"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retrieveFlightSchedulePlanWithSameTimingPartnerResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="getCabinSeatsList">
 <xs:sequence>
 <xs:element name="id" type="xs:long"/>
@@ -385,6 +371,20 @@
 <xs:complexType name="FlightScheduleDoesNotExistException">
 <xs:sequence>
 <xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveFlightSchedulePlanWithSameTimingPartner">
+<xs:sequence>
+<xs:element name="departureDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="depAirport" type="xs:long"/>
+<xs:element name="destAirport" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveFlightSchedulePlanWithSameTimingPartnerResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:flightSchedule" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -504,16 +504,15 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="checkIfFlightSchedIdIsDirect">
+<xs:complexType name="getFRUsingFSId">
 <xs:sequence>
 <xs:element name="flightSchedId" type="xs:long"/>
-<xs:element name="destAirportId" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="checkIfFlightSchedIdIsDirectResponse">
+<xs:complexType name="getFRUsingFSIdResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+<xs:element name="return" type="tns:flightRoute" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -530,27 +529,16 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getFRUsingFSId">
+<xs:complexType name="checkIfFlightSchedIdIsDirect">
 <xs:sequence>
 <xs:element name="flightSchedId" type="xs:long"/>
+<xs:element name="destAirportId" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getFRUsingFSIdResponse">
+<xs:complexType name="checkIfFlightSchedIdIsDirectResponse">
 <xs:sequence>
-<xs:element name="return" type="tns:flightRoute" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getAirportCodeWithAirportId">
-<xs:sequence>
-<xs:element name="airportId" type="xs:long"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getAirportCodeWithAirportIdResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -564,6 +552,18 @@
 <xs:complexType name="getHighestFareUsingCabinNameResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAirportCodeWithAirportId">
+<xs:sequence>
+<xs:element name="airportId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAirportCodeWithAirportIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -763,16 +763,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getListOfHubsId">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="getListOfHubsIdResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="linkCreditCard">
 <xs:sequence>
 <xs:element name="partnerId" type="xs:long"/>
@@ -783,6 +773,16 @@
 <xs:complexType name="linkCreditCardResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getListOfHubsId">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getListOfHubsIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -823,6 +823,18 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="getListOfHubsIdConnecting">
+<xs:sequence>
+<xs:element name="destAirportId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getListOfHubsIdConnectingResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="retrieveFlightSchedulePlanWith3DaysBeforeConnecting">
 <xs:sequence>
 <xs:element name="depAirport" type="xs:long"/>
@@ -838,15 +850,15 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getListOfHubsIdConnecting">
+<xs:complexType name="getPartnerId">
 <xs:sequence>
-<xs:element name="destAirportId" type="xs:long"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getListOfHubsIdConnectingResponse">
+<xs:complexType name="getPartnerIdResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -859,18 +871,6 @@
 <xs:complexType name="getCabinsResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:cabin" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getPartnerId">
-<xs:sequence>
-<xs:element name="email" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getPartnerIdResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:long" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
