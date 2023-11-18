@@ -21,4 +21,5 @@ public interface AirportSessionBeanRemote {
     public Airport getAirportOrigin(long fsId);
     public Airport getAirportDest(long fsId);
     public String getAirportCodeWithAirportId(long airportId);
+    public long getAirportIdWithCode(String code);
 }
