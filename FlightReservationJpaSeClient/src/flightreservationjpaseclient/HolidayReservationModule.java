@@ -204,7 +204,6 @@ public class HolidayReservationModule {
             }
         }
         
-        sc.nextLine();
         System.out.print("Enter Flight Schedule ID to reserve> ");
         int confirmId = sc.nextInt();
         sc.nextLine();
@@ -251,7 +250,6 @@ public class HolidayReservationModule {
                 }
             }
 
-            sc.nextLine();
             System.out.print("Enter Flight Schedule ID to reserve> ");
             confirmId = sc.nextInt();
             sc.nextLine();
@@ -327,7 +325,6 @@ public class HolidayReservationModule {
             }
         }
         
-        sc.nextLine();
         System.out.print("Enter Flight Schedule ID to reserve> ");
         int confirmId = sc.nextInt();
         sc.nextLine();
@@ -367,7 +364,7 @@ public class HolidayReservationModule {
         for (ws.partner.Cabin c : cabins) {
             long highestFareId = getHighestFareIdInCabin(c.getCabinId());
             BigDecimal lowestFare = getFareUsingId(highestFareId);
-            System.out.printf("%11s | %11s | %15s | %15s |  $9.2f", c.getCabinClassName(), c.getTotalSeats(), (c.getTotalSeats() - c.getReservedSeats()), lowestFare, (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
+            System.out.printf("%11s | %11s | %15s | %15s |  $%9.2f\n", c.getCabinClassName(), c.getTotalSeats(), (c.getTotalSeats() - c.getReservedSeats()), lowestFare, (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
         }
     }
     
@@ -492,16 +489,14 @@ public class HolidayReservationModule {
         List<ws.partner.FlightSchedule> listOfFlightSchedules = getFlightSchedules(this.partnerId);
         System.out.println("Flight Schedule ID |   Flight Departure Date Time | Flight Estimated Duration | Flight Origin | Flight Destination");
         for (ws.partner.FlightSchedule fs : listOfFlightSchedules) {
-            System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            System.out.println("Flight Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime().toGregorianCalendar().getTime()));
             ws.partner.FlightRoute fr = getFRUsingFSId(fs.getFlightScheduleId());
             double duration = fs.getEstimatedTime();
             int hours = (int) duration;
             double fractionalHours = duration - hours;
             int minutes = (int) (fractionalHours * 60);
             String formattedTime = String.format("%02d:%02d", hours, minutes);
-            System.out.printf("%18s | %26s | %24sH | %13s | %18s\n", fs.getFlightScheduleId(), fs.getDepartureDateTime(), formattedTime, fr.getOrigin().getName(), fr.getDestination().getName());
+            System.out.printf("%18s | %26s | %24sH | %13s | %18s\n", fs.getFlightScheduleId(), dateFormat.format(fs.getDepartureDateTime().toGregorianCalendar().getTime()), formattedTime, fr.getOrigin().getName(), fr.getDestination().getName());
         }
         
         System.out.print("Enter Flight Schedule ID for more Details> ");

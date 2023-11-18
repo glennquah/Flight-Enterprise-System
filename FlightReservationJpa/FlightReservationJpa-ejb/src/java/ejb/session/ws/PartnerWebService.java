@@ -280,6 +280,7 @@ public class PartnerWebService {
             fs.setListOfReservationDetails(null);
             fs.setCustomers(null);
             fs.setListOfCabins(null);
+            fs.setPartners(null);
         }
         return listOfFs;
     }
@@ -292,6 +293,7 @@ public class PartnerWebService {
             fs.setListOfReservationDetails(null);
             fs.setCustomers(null);
             fs.setListOfCabins(null);
+            fs.setPartners(null);
         }
         return listOfFs;
     }
@@ -304,6 +306,7 @@ public class PartnerWebService {
             fs.setListOfReservationDetails(null);
             fs.setCustomers(null);
             fs.setListOfCabins(null);
+            fs.setPartners(null);
         }
         return listOfFs;
     }
@@ -321,6 +324,7 @@ public class PartnerWebService {
             fs.setListOfReservationDetails(null);
             fs.setCustomers(null);
             fs.setListOfCabins(null);
+            fs.setPartners(null);
         }
         return listOfFs;
     }
@@ -333,6 +337,7 @@ public class PartnerWebService {
             fs.setListOfReservationDetails(null);
             fs.setCustomers(null);
             fs.setListOfCabins(null);
+            fs.setPartners(null);
         }
         return listOfFs;
     }

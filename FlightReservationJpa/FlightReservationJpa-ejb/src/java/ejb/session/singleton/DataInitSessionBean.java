@@ -206,7 +206,7 @@ public class DataInitSessionBean {
             seatConfig4[0] = 3;
             seatConfig4[1] = 3; 
             Cabin cab4 = new Cabin("Y", 1, 25, seatConfig4);
-            cabinCustomerSessionBeanLocal.createCabin(cab3, 2l);
+            cabinCustomerSessionBeanLocal.createCabin(cab4, 2l);
 
             Integer[] seatConfig5 = new Integer[3];
             seatConfig5[0] = 3;
