@@ -1,6 +1,6 @@
-# Merlion Airlines Flight Reservation System (FRS) Project
+# Flight Reservation System (FRS) Project
 
-Welcome to the Merlion Airlines Flight Reservation System (FRS) GitHub repository! This project is aimed at developing a robust enterprise-scale software system for Merlion Airlines, a new regional low-cost carrier based in Singapore. The system will handle critical processes such as fleet management, route planning, flight schedule management, seat pricing, and flight reservations.
+Inspired by the exceptional user experience and efficiency of Singapore Airlines' Online Reservation Platform, we proudly introduce our cutting-edge flight reservation enterprise system. This innovative system is meticulously designed to cater to the diverse needs of the aviation industry and its stakeholders.
 
 ## Project Overview
 
@@ -10,25 +10,28 @@ Welcome to the Merlion Airlines Flight Reservation System (FRS) GitHub repositor
 ## Key Features
 
 1. **Fleet Management:**
-   - Manage a fleet of aircraft.
+   - Manage a fleet of aircraft, aircraft configuration, cabin configuration & seat management.
 
 2. **Route Planning:**
    - Plan flight routes to about as many destinations as you want.
 
 3. **Cabin Classes:**
    - Offer four cabin classes: First Class (F), Business Class (J), Premium Economy Class (W), and Economy Class (Y).
+  
+4. **Dynamic Fare Management:**
+   - Implement a dynamic pricing mechanism that adjusts fares based on demand, time, and availability, optimizing revenue.
 
-4. **Seat Pricing:**
-   - Flexible seat pricing based on fare basis codes, accommodating various fare types with different restrictions.
+5. **Collaborative Reservation Management:**
+   - Allow group reservations with multiple passengers, facilitating easy management and coordination for group travelers.
 
-5. **FRS Management Client:**
-   - Comprehensive management of employees, partners, airports, aircraft types, flight routes, flight schedules, and reservations.
+6. **FRS Management Client:**
+   - Empowers comprehensive oversight and management of crucial elements within the aviation ecosystem. This includes meticulous control over employees, partners, airports, diverse aircraft types, intricate flight routes, precise flight schedules, and seamless reservation management.
 
-6. **FRS Reservation Client:**
-   - Customer-specific functionalities, including registration, login, flight search, reservation, and view reservations.
+7. **FRS Reservation Client:**
+   - Tailored to deliver an exceptional experience for customers, this client offers a suite of user-centric functionalities. From effortless registration and secure login mechanisms to intuitive flight search, seamless reservation processes, and convenient access to viewing and managing reservations, it prioritizes a smooth user journey.
 
-7. **Holiday Reservation System:**
-   - Integration with external partners, allowing partners to log in, search for flights, reserve flights, and view reservations.
+8. **Holiday Reservation System:**
+   - Facilitating seamless integration with external partners, this client streamlines interactions with our system. It provides secure login access for partners, robust flight search capabilities, efficient reservation processes, and access to viewing their reservations within our system.
 
 ## ER DIAGRAM
 ![FRS_ER](https://github.com/glennquah/Flight-Reservation-System/assets/122248619/4b1b323f-55a1-4eb5-b011-6dd0b966ac56)
@@ -49,9 +52,5 @@ Welcome to the Merlion Airlines Flight Reservation System (FRS) GitHub repositor
 **Ryan Tang**
 - **GitHub:** [Ryan's GitHub](https://github.com/ryantangmj)
 - **LinkedIn:** [Ryan's LinkedIn](https://www.linkedin.com/in/ryantangmj/)
-
-
-
-Google Docs: https://docs.google.com/document/d/11Dz14VoKtW7Qs6ZJ60WJv9Nt1tZAIQWS_PXGJMPJbAY/edit?usp=sharing
 
 Test Case Docs: [https://docs.google.com/document/d/14NK6GCpDTColbh9XLE1QcpfnPCRb9bW2/edit?usp=sharing&ouid=102220279603524460646&rtpof=true&sd=true](https://docs.google.com/document/d/14NK6GCpDTColbh9XLE1QcpfnPCRb9bW2/edit?usp=sharing&ouid=102220279603524460646&rtpof=true&sd=true)https://docs.google.com/document/d/14NK6GCpDTColbh9XLE1QcpfnPCRb9bW2/edit?usp=sharing&ouid=102220279603524460646&rtpof=true&sd=true
