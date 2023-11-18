@@ -34,6 +34,7 @@ import java.util.Scanner;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import util.enumeration.EmployeeAccessRightEnum;
 import util.enumeration.FlightRouteStatusEnum;
@@ -46,7 +47,6 @@ import util.exception.FlightNumberAlreadyExistException;
 import util.exception.FlightRouteAlreadyExistException;
 import util.exception.FlightRouteDoesNotExistException;
 import util.exception.FlightScheduleDoesNotExistException;
-import util.exception.InvalidInputException;
 
 /**
  *
@@ -1073,6 +1073,9 @@ public class ManagementModule {
                     sc.nextLine();
                     Date departureDateTime = dateFormat.parse(sc.nextLine());
 
+                    System.out.print("Enter the Day of The Week (1 -> Sunday , 7 -> Saturday)> ");
+                    int dayOfWeek = sc.nextInt();
+                            
                     System.out.print("Enter DURATION in Hours> ");
                     double duration = sc.nextDouble();
                     sc.nextLine();
@@ -1088,6 +1091,15 @@ public class ManagementModule {
                         System.out.print("Is there a return flight(Y/N)> ");
                         sc.nextLine();
                         haveReturn = sc.nextLine().trim().toUpperCase();
+                    }
+                    
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(departureDateTime);
+                    int dayOfWeekNow = calendar.get(Calendar.DAY_OF_WEEK);
+                    
+                    while(calendar.get(Calendar.DAY_OF_WEEK) != dayOfWeek) {
+                        departureDateTime = new Date(departureDateTime.getTime() + 1000 * 60 * 60 * 24);
+                        calendar.add(Calendar.DATE, 1);
                     }
                     
                     while(!departureDateTime.equals(endDate)) {
