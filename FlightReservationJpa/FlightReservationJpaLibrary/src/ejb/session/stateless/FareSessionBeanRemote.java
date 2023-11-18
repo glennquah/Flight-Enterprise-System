@@ -18,4 +18,5 @@ public interface FareSessionBeanRemote {
     public Long updateFare(Long fareId, String fareBasisCode, BigDecimal fareAmount) throws FareDoesNotExistException;
     public BigDecimal getFareUsingId(long id);
     public long createFare(Fare fare);
+    public Fare getFareFromRd(long rdId);
 }

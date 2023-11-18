@@ -16,6 +16,7 @@ import ejb.session.stateless.ReservationDetailsSessionBeanLocal;
 import entity.Airport;
 import entity.Cabin;
 import entity.Customer;
+import entity.Fare;
 import entity.FlightSchedule;
 import entity.FlightSchedulePlan;
 import entity.ReservationDetails;
@@ -368,6 +369,21 @@ public class PartnerWebService {
         return airportSessionBeanLocal.getAirportCodeWithAirportId(airportId);
     }
     
+    @WebMethod(operationName = "getFareFromRd")
+    public Fare getFareFromRd(@WebParam(name = "rdId") long rdId) {
+        Fare f = fareSessionBeanLocal.getFareFromRd(rdId);
+        f.setCabin(null);
+        return f;
+    }
+    
+    @WebMethod(operationName = "getCabinFromRd")
+    public Cabin getCabinFromRd(@WebParam(name = "rdId") long rdId) {
+        Cabin c = cabinCustomerSessionBeanLocal.getCabinFromRd(rdId);
+        c.setListOfFare(null);
+        c.setAircraftConfiguration(null);
+        return c;
+    }
+
     
     public void persist(Object object) {
         em.persist(object);

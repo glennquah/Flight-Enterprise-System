@@ -5,6 +5,7 @@
 package ejb.session.stateless;
 
 import entity.Fare;
+import entity.ReservationDetails;
 import java.math.BigDecimal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -51,4 +52,14 @@ public class FareSessionBean implements FareSessionBeanRemote, FareSessionBeanLo
         System.out.println("CREATED IN FARE ID= " + fare.getId());
         return fare.getId();
     }
+    
+    @Override
+    public Fare getFareFromRd(long rdId) {
+        ReservationDetails rd = em.find(ReservationDetails.class, rdId);
+        Fare f = rd.getFare();
+        em.detach(f);
+        em.detach(f.getCabin());
+        return f;
+    }
+    
 }

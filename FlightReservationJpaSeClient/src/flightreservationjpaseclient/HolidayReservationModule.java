@@ -4,7 +4,7 @@
  */
 package flightreservationjpaseclient;
 
-import entity.Airport;
+import ws.partner.Airport;
 import entity.Flight;
 import entity.FlightRoute;
 import java.math.BigDecimal;
@@ -19,6 +19,8 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import util.exception.FlightScheduleDoesNotExistException;
+import ws.partner.Cabin;
+import ws.partner.Fare;
 import ws.partner.FlightDoesNotExistException_Exception;
 import ws.partner.FlightSchedule;
 import ws.partner.FlightScheduleDoesNotExistException_Exception;
@@ -149,7 +151,7 @@ public class HolidayReservationModule {
         System.out.println("ID | CODE | AIRPORT NAME");
         for (ws.partner.Airport a : listOfAirports) {
             String aCode = getAirportCodeWithAirportId(a.getAirportId());
-            System.out.printf("%2s | %4s | %s", a.getAirportId(), a, a.getName());
+            System.out.printf("%2s | %4s | %s", a.getAirportId(), aCode, a.getName());
             System.out.println("");
         }
     }
@@ -191,7 +193,7 @@ public class HolidayReservationModule {
         while(schedId != 0 && schedId != -1) {
             System.out.println("Enter 0 to Reserve Flight");
             System.out.println("Enter -1 to Go back Flight");
-            System.out.print("\nEnter Schedule ID to see more details > ");
+            System.out.print("Enter Schedule ID to see more details > ");
             schedId = sc.nextInt();
             sc.nextLine();
             if (schedId != 0 && schedId != -1) {
@@ -238,7 +240,7 @@ public class HolidayReservationModule {
             while(schedId != 0 && schedId != -1) {
                 System.out.println("Enter 0 to Reserve Flight");
                 System.out.println("Enter -1 to Go back Flight");
-                System.out.print("\nEnter Schedule ID to see more details > ");
+                System.out.print("Enter Schedule ID to see more details > ");
                 schedId = sc.nextInt();
                 sc.nextLine();
                 if (schedId != 0 && schedId != -1) {
@@ -295,25 +297,33 @@ public class HolidayReservationModule {
     public BigDecimal searchDirectFlight(Scanner sc, long depAirport, long destAirport, Date departureDate, int numOfSeats, BigDecimal fare, Boolean lastFlight) throws Exception {
         int flightnum = 1;
         List<ws.partner.FlightSchedule> listOfFlightSchedule = retrieveFlightSchedulePlanWithSameTimingPartner(departureDate, depAirport, destAirport);
-        System.out.println(String.format("\n*** %s FLIGHT ON THE SAME DAY ***", listOfFlightSchedule.size()));
+        System.out.println("FLIGHT SCHEDULE ID | ORIGIN AIRPORT CODE | DESTINATION AIRPORT CODE | FLIGHT DEPARTURE DATE TIME   | FLIGHT ESTIMATED ARRIVAL DATETIME | FLIGHT DURATION ");
+        System.out.println(String.format("====================================================================%s FLIGHT ON THE SAME DAY======================================================================", listOfFlightSchedule.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightSchedule, flightnum);
         
         //4. get list of flight schedule that is 3 days before
         List<ws.partner.FlightSchedule> listOfFlightSchedule3daysBefore = retrieveFlightSchedulePlanWith3DaysBeforePartner(departureDate, depAirport, destAirport);
-        System.out.println(String.format("\n*** %s FLIGHT 3 DAYS BEFORE ***", listOfFlightSchedule3daysBefore.size()));
+        System.out.println(String.format("=====================================================================%s FLIGHT 3 DAYS BEFORE=======================================================================", listOfFlightSchedule3daysBefore.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightSchedule3daysBefore, flightnum);
         
         //5. get list of flight schedule that is 3 days After
         List<ws.partner.FlightSchedule> listOfFlightSchedule3daysAfter = retrieveFlightSchedulePlanWith3DaysAfterPartner(departureDate, depAirport, destAirport);
-        System.out.println(String.format("\n*** %s FLIGHT 3 DAYS AFTER ***", listOfFlightSchedule3daysAfter.size()));
+        System.out.println(String.format("=====================================================================%s FLIGHT 3 DAYS AFTER=======================================================================", listOfFlightSchedule3daysAfter.size()));
         flightnum = printStatementForFlightSchedule(listOfFlightSchedule3daysAfter, flightnum);
         
-        int schedId = -1;
-        while(schedId != 0) {
-            System.out.print("\nEnter Schedule ID to see more details (Enter 0 to Reserve Flight)> ");
+        int schedId = -2;
+        
+        while(schedId != 0 && schedId != -1) {
+            System.out.println("Enter 0 to Reserve Flight");
+            System.out.println("Enter -1 to Go back Flight");
+            System.out.print("Enter Schedule ID to see more details > ");
             schedId = sc.nextInt();
-            if (schedId != 0) {
+            sc.nextLine();
+            if (schedId != 0 && schedId != -1) {
                 checkFlightDetails(sc, schedId, numOfSeats);
+            }
+            if (schedId == -1) {
+                partnerLoginPage();
             }
         }
         
@@ -353,24 +363,36 @@ public class HolidayReservationModule {
         System.out.println("Filght Estimated Time: " + formattedTime);
         System.out.println("\n*** CABIN DETAILS ***");
         List<ws.partner.Cabin> cabins = getCabins(scheduleId);
+        System.out.printf("Cabin Class | Total Seats | Remaining Seats | Fare Per Ticket | Total Fare \n");
         for (ws.partner.Cabin c : cabins) {
-            System.out.println("Cabin Class : " + c.getCabinClassName());
-            System.out.println("Total Seats: " + c.getTotalSeats());
-            System.out.println("Remaining Seats: " + (c.getTotalSeats() - c.getReservedSeats()));
             long highestFareId = getHighestFareIdInCabin(c.getCabinId());
             BigDecimal lowestFare = getFareUsingId(highestFareId);
-            System.out.println("Fare per Ticket: $" + lowestFare);
-            System.out.println("Total Fare: $" + (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
-            System.out.println("");
+            System.out.printf("%11s | %11s | %15s | %15s |  $9.2f", c.getCabinClassName(), c.getTotalSeats(), (c.getTotalSeats() - c.getReservedSeats()), lowestFare, (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
         }
     }
     
     public BigDecimal reserveFlight(long flightScheduleId, Scanner sc, int numOfSeats, Boolean payment, BigDecimal existingFare) throws FlightScheduleDoesNotExistException, FlightScheduleDoesNotExistException_Exception {
         checkFlightDetails(sc, flightScheduleId, numOfSeats);
-        System.out.print("Enter Cabin you want to Reserve> ");
-        String cabin = sc.nextLine().trim();
+        System.out.println("1: Pick Cabin");
+        System.out.println("2: No Preference for Cabin");
+        System.out.print("> ");
+        int option = sc.nextInt();
+        sc.nextLine();
+        String cabin = "";
+        if (option == 1) {
+            System.out.print("Enter Cabin you want to Reserve> ");
+            cabin = sc.nextLine().trim();
+        } else if (option == 2) {
+            List<Cabin> cabins = getCabins(flightScheduleId);
+            cabin = cabins.get(0).getCabinClassName();
+        } else {
+            System.out.println("Please Pick the right option!");
+            reserveFlight(flightScheduleId, sc, numOfSeats, payment, existingFare);
+        }
+
         List<String> cabinSeatingPlanList = getCabinSeatsList(flightScheduleId, cabin);
         List<Integer> islesPlan = getIslesPlan(flightScheduleId, cabin);
+        System.out.println("======================SEATING CONFIGURATION======================");
         System.out.println("*** SEATING CONFIGURATION *** ");
         System.out.print("LETTER ");
         char seatNum = 'A';
@@ -410,7 +432,7 @@ public class HolidayReservationModule {
             }
             System.out.println("");
         }
-        
+        System.out.println("======================SEATING CONFIGURATION======================");
         long highestFareId = getHighestFareUsingCabinName(cabin, flightScheduleId);
         //System.out.println("HIGHEST FARE ID= " + highestFareId);
         for (int i = 0; i < numOfSeats; i ++) {
@@ -448,9 +470,6 @@ public class HolidayReservationModule {
             System.out.println("");
         }
         
-        
-//        BigDecimal lowestFare = flightScheduleSessionBeanRemote.getLowestFareUsingCabinName(cabin, flightScheduleId);
-        //System.out.println("Price per Ticket: " + lowestFare);
         BigDecimal highestFare = getFareUsingId(highestFareId);
         BigDecimal fare = (highestFare.multiply(BigDecimal.valueOf(numOfSeats)));
         
@@ -471,22 +490,18 @@ public class HolidayReservationModule {
     public void viewFlightReservation(Scanner sc) throws FlightScheduleDoesNotExistException_Exception {
         System.out.println("\n*** YOU HAVE SLECTED VIEW ALL FLIGHT RESERVATION ***\n");
         List<ws.partner.FlightSchedule> listOfFlightSchedules = getFlightSchedules(this.partnerId);
+        System.out.println("Flight Schedule ID |   Flight Departure Date Time | Flight Estimated Duration | Flight Origin | Flight Destination");
         for (ws.partner.FlightSchedule fs : listOfFlightSchedules) {
             System.out.println("Flight Schedule ID: " + fs.getFlightScheduleId());
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             System.out.println("Flight Departure Date Time: " + dateFormat.format(fs.getDepartureDateTime().toGregorianCalendar().getTime()));
             ws.partner.FlightRoute fr = getFRUsingFSId(fs.getFlightScheduleId());
-            
             double duration = fs.getEstimatedTime();
             int hours = (int) duration;
             double fractionalHours = duration - hours;
             int minutes = (int) (fractionalHours * 60);
-            
             String formattedTime = String.format("%02d:%02d", hours, minutes);
-            System.out.println("Flight Estimate Duration: " + formattedTime + "H");
-            System.out.println("Flight Origin: " + fr.getOrigin().getName());
-            System.out.println("Flight Destination: " + fr.getDestination().getName());
-            System.out.println("");
+            System.out.printf("%18s | %26s | %24sH | %13s | %18s\n", fs.getFlightScheduleId(), fs.getDepartureDateTime(), formattedTime, fr.getOrigin().getName(), fr.getDestination().getName());
         }
         
         System.out.print("Enter Flight Schedule ID for more Details> ");
@@ -499,14 +514,12 @@ public class HolidayReservationModule {
         List<ws.partner.ReservationDetails> listOfReservationDetails = getReservationDetails(flightScheduleId, this.partnerId);
         listOfReservationDetails.size();
         BigDecimal fare = BigDecimal.ZERO;
+        System.out.println(" Cabin |           First Name |            Last Name | Seat |    Fare ");
         for (ws.partner.ReservationDetails rd : listOfReservationDetails) {
-            //System.out.println("Cabin: " + rd.getFare().getCabin().getCabinClassName());
-            System.out.println("First Name: " + rd.getFirstName());
-            System.out.println("Last Name: " + rd.getLastName());
-            System.out.println("Seat: " + rd.getRowNum() + rd.getSeatLetter());
-            //System.out.println("Fare: $" + rd.getFare().getFareAmount());
-//            fare = rd.getFare().getFareAmount();
-            System.out.println("");
+            Fare f = getFareFromRd(rd.getId());
+            Cabin c = getCabinFromRd(rd.getId());
+            System.out.printf(" %5s | %20s | %20s | %4s | $%5.2f \n", c.getCabinClassName(), rd.getFirstName(), rd.getLastName(), rd.getRowNum() + rd.getSeatLetter(), f.getFareAmount());
+            fare = f.getFareAmount();
         }
         System.out.println("Total Amount Paid: $" + fare.multiply(BigDecimal.valueOf(listOfReservationDetails.size())));
         System.out.println();
@@ -788,6 +801,19 @@ public class HolidayReservationModule {
         ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
         return port.getAirportCodeWithAirportId(airportId);
     }
+
+    private static Fare getFareFromRd(java.lang.Long rdId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getFareFromRd(rdId);
+    }
+    
+    private static Cabin getCabinFromRd(java.lang.Long rdId) {
+        ws.partner.PartnerWebService_Service service = new ws.partner.PartnerWebService_Service();
+        ws.partner.PartnerWebService port = service.getPartnerWebServicePort();
+        return port.getCabinFromRd(rdId);
+    }
+            
 
 }
 

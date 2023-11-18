@@ -54,6 +54,10 @@
 
 <xs:element name="getAirportOriginResponse" type="tns:getAirportOriginResponse"/>
 
+<xs:element name="getCabinFromRd" type="tns:getCabinFromRd"/>
+
+<xs:element name="getCabinFromRdResponse" type="tns:getCabinFromRdResponse"/>
+
 <xs:element name="getCabinSeatsList" type="tns:getCabinSeatsList"/>
 
 <xs:element name="getCabinSeatsListResponse" type="tns:getCabinSeatsListResponse"/>
@@ -65,6 +69,10 @@
 <xs:element name="getFRUsingFSId" type="tns:getFRUsingFSId"/>
 
 <xs:element name="getFRUsingFSIdResponse" type="tns:getFRUsingFSIdResponse"/>
+
+<xs:element name="getFareFromRd" type="tns:getFareFromRd"/>
+
+<xs:element name="getFareFromRdResponse" type="tns:getFareFromRdResponse"/>
 
 <xs:element name="getFareUsingId" type="tns:getFareUsingId"/>
 
@@ -492,19 +500,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="linkFlightSchedule">
-<xs:sequence>
-<xs:element name="partnerId" type="xs:long"/>
-<xs:element name="fsId" type="xs:long"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="linkFlightScheduleResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:long" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="checkIfFlightSchedIdIsDirect">
 <xs:sequence>
 <xs:element name="flightSchedId" type="xs:long"/>
@@ -530,15 +525,16 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getAirportCodeWithAirportId">
+<xs:complexType name="linkFlightSchedule">
 <xs:sequence>
-<xs:element name="airportId" type="xs:long"/>
+<xs:element name="partnerId" type="xs:long"/>
+<xs:element name="fsId" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getAirportCodeWithAirportIdResponse">
+<xs:complexType name="linkFlightScheduleResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -552,6 +548,18 @@
 <xs:complexType name="getHighestFareUsingCabinNameResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAirportCodeWithAirportId">
+<xs:sequence>
+<xs:element name="airportId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAirportCodeWithAirportIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -585,6 +593,18 @@
 <xs:complexType name="InvalidLoginCredentialException">
 <xs:sequence>
 <xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCabinFromRd">
+<xs:sequence>
+<xs:element name="rdId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCabinFromRdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:cabin" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -657,6 +677,18 @@
 <xs:complexType name="getAirportOriginResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:airport" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getFareFromRd">
+<xs:sequence>
+<xs:element name="rdId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getFareFromRdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:fare" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 

@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -239,7 +239,7 @@ public class ReservationModule {
         while(schedId != 0 && schedId != -1) {
             System.out.println("Enter 0 to Reserve Flight"); 
             System.out.println("Enter -1 to Go back Flight");
-            System.out.print("\nEnter Schedule ID to see more details > ");
+            System.out.print("Enter Schedule ID to see more details > ");
             schedId = sc.nextInt();
             sc.nextLine();
             if (schedId != 0 && schedId != -1) {
@@ -292,7 +292,7 @@ public class ReservationModule {
             while(schedId != 0 && schedId != -1) {
                 System.out.println("Enter 0 to Reserve Flight");
                 System.out.println("Enter -1 to Go back Flight");
-                System.out.print("\nEnter Schedule ID to see more details > ");
+                System.out.print("Enter Schedule ID to see more details > ");
                 schedId = sc.nextInt();
                 sc.nextLine();
                 if (schedId != 0 && schedId != -1) {
@@ -369,7 +369,7 @@ public class ReservationModule {
         while(schedId != 0 && schedId != -1) {
             System.out.println("Enter 0 to Reserve Flight");
             System.out.println("Enter -1 to Go back Flight");
-            System.out.print("\nEnter Schedule ID to see more details > ");
+            System.out.print("Enter Schedule ID to see more details > ");
             schedId = sc.nextInt();
             sc.nextLine();
             if (schedId != 0 && schedId != -1) {
@@ -420,7 +420,6 @@ public class ReservationModule {
             long lowestFareid = cabinCustomerSessionBeanRemote.getLowestFareIdInCabin(c.getCabinId());
             BigDecimal lowestFare = fareSessionBeanRemote.getFareUsingId(lowestFareid);
             System.out.printf("%11s | %11s | %15s | %15s |  $9.2f", c.getCabinClassName(), c.getTotalSeats(), (c.getTotalSeats() - c.getReservedSeats()), lowestFare, (lowestFare.multiply(BigDecimal.valueOf(numOfSeats))));
-            System.out.println("");
         }
     }
     

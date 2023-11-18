@@ -6,6 +6,7 @@
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpaLibrary/src/entity/Airport.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpaLibrary/src/ejb/session/stateless/FlightScheduleSessionBeanRemote.java</file>
             <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpaLibrary/src/ejb/session/stateless/AirportSessionBeanRemote.java</file>
+            <file>file:/C:/NetBeansProjects/Flight-Reservation-System-git/FlightReservationJpa/FlightReservationJpaLibrary/src/ejb/session/stateless/FlightSessionBeanRemote.java</file>
         </group>
     </open-files>
 </project-private>

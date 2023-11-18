@@ -50,12 +50,16 @@ public class ObjectFactory {
     private final static QName _GetAirportIdWithFlightScheduleIdResponse_QNAME = new QName("http://ws.session.ejb/", "getAirportIdWithFlightScheduleIdResponse");
     private final static QName _GetAirportOrigin_QNAME = new QName("http://ws.session.ejb/", "getAirportOrigin");
     private final static QName _GetAirportOriginResponse_QNAME = new QName("http://ws.session.ejb/", "getAirportOriginResponse");
+    private final static QName _GetCabinFromRd_QNAME = new QName("http://ws.session.ejb/", "getCabinFromRd");
+    private final static QName _GetCabinFromRdResponse_QNAME = new QName("http://ws.session.ejb/", "getCabinFromRdResponse");
     private final static QName _GetCabinSeatsList_QNAME = new QName("http://ws.session.ejb/", "getCabinSeatsList");
     private final static QName _GetCabinSeatsListResponse_QNAME = new QName("http://ws.session.ejb/", "getCabinSeatsListResponse");
     private final static QName _GetCabins_QNAME = new QName("http://ws.session.ejb/", "getCabins");
     private final static QName _GetCabinsResponse_QNAME = new QName("http://ws.session.ejb/", "getCabinsResponse");
     private final static QName _GetFRUsingFSId_QNAME = new QName("http://ws.session.ejb/", "getFRUsingFSId");
     private final static QName _GetFRUsingFSIdResponse_QNAME = new QName("http://ws.session.ejb/", "getFRUsingFSIdResponse");
+    private final static QName _GetFareFromRd_QNAME = new QName("http://ws.session.ejb/", "getFareFromRd");
+    private final static QName _GetFareFromRdResponse_QNAME = new QName("http://ws.session.ejb/", "getFareFromRdResponse");
     private final static QName _GetFareUsingId_QNAME = new QName("http://ws.session.ejb/", "getFareUsingId");
     private final static QName _GetFareUsingIdResponse_QNAME = new QName("http://ws.session.ejb/", "getFareUsingIdResponse");
     private final static QName _GetFlightScheduleWithId_QNAME = new QName("http://ws.session.ejb/", "getFlightScheduleWithId");
@@ -329,6 +333,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetCabinFromRd }
+     * 
+     */
+    public GetCabinFromRd createGetCabinFromRd() {
+        return new GetCabinFromRd();
+    }
+
+    /**
+     * Create an instance of {@link GetCabinFromRdResponse }
+     * 
+     */
+    public GetCabinFromRdResponse createGetCabinFromRdResponse() {
+        return new GetCabinFromRdResponse();
+    }
+
+    /**
      * Create an instance of {@link GetCabinSeatsList }
      * 
      */
@@ -374,6 +394,22 @@ public class ObjectFactory {
      */
     public GetFRUsingFSIdResponse createGetFRUsingFSIdResponse() {
         return new GetFRUsingFSIdResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetFareFromRd }
+     * 
+     */
+    public GetFareFromRd createGetFareFromRd() {
+        return new GetFareFromRd();
+    }
+
+    /**
+     * Create an instance of {@link GetFareFromRdResponse }
+     * 
+     */
+    public GetFareFromRdResponse createGetFareFromRdResponse() {
+        return new GetFareFromRdResponse();
     }
 
     /**
@@ -1203,6 +1239,32 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetCabinFromRd }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetCabinFromRd }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getCabinFromRd")
+    public JAXBElement<GetCabinFromRd> createGetCabinFromRd(GetCabinFromRd value) {
+        return new JAXBElement<GetCabinFromRd>(_GetCabinFromRd_QNAME, GetCabinFromRd.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetCabinFromRdResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetCabinFromRdResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getCabinFromRdResponse")
+    public JAXBElement<GetCabinFromRdResponse> createGetCabinFromRdResponse(GetCabinFromRdResponse value) {
+        return new JAXBElement<GetCabinFromRdResponse>(_GetCabinFromRdResponse_QNAME, GetCabinFromRdResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetCabinSeatsList }{@code >}
      * 
      * @param value
@@ -1278,6 +1340,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getFRUsingFSIdResponse")
     public JAXBElement<GetFRUsingFSIdResponse> createGetFRUsingFSIdResponse(GetFRUsingFSIdResponse value) {
         return new JAXBElement<GetFRUsingFSIdResponse>(_GetFRUsingFSIdResponse_QNAME, GetFRUsingFSIdResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetFareFromRd }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetFareFromRd }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getFareFromRd")
+    public JAXBElement<GetFareFromRd> createGetFareFromRd(GetFareFromRd value) {
+        return new JAXBElement<GetFareFromRd>(_GetFareFromRd_QNAME, GetFareFromRd.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetFareFromRdResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetFareFromRdResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.session.ejb/", name = "getFareFromRdResponse")
+    public JAXBElement<GetFareFromRdResponse> createGetFareFromRdResponse(GetFareFromRdResponse value) {
+        return new JAXBElement<GetFareFromRdResponse>(_GetFareFromRdResponse_QNAME, GetFareFromRdResponse.class, null, value);
     }
 
     /**

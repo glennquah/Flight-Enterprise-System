@@ -9,6 +9,7 @@ import entity.Airport;
 import entity.Cabin;
 import entity.Fare;
 import entity.FlightSchedule;
+import entity.ReservationDetails;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -97,4 +98,16 @@ public class CabinCustomerSessionBean implements CabinCustomerSessionBeanRemote,
         
         return highestFareid;
     }
+    
+    @Override
+    public Cabin getCabinFromRd(long rdId) {
+        ReservationDetails rd = em.find(ReservationDetails.class, rdId);
+        Cabin c = rd.getFare().getCabin();
+        em.detach(c);
+        for (Fare f : c.getListOfFare()) {
+            em.detach(f);
+        }
+        return c;
+    }
+
 }
