@@ -33,6 +33,10 @@ Welcome to the Merlion Airlines Flight Reservation System (FRS) GitHub repositor
 7. **Holiday Reservation System:**
    - Integration with external partners, allowing partners to log in, search for flights, reserve flights, and view reservations.
 
+## ER DIAGRAM
+![FRS_ER](https://github.com/glennquah/Flight-Reservation-System/assets/122248619/4b1b323f-55a1-4eb5-b011-6dd0b966ac56)
+
+
 ## Project Structure
 
 - `docs`: Documentation folder containing UML use case diagrams and associated business rules.
