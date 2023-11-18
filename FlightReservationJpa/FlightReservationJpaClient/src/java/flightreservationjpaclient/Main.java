@@ -16,10 +16,6 @@ import ejb.session.stateless.FlightSchedulePlanSessionBeanRemote;
 import ejb.session.stateless.FlightScheduleSessionBeanRemote;
 import ejb.session.stateless.FlightSessionBeanRemote;
 import ejb.session.stateless.ReservationDetailsSessionBeanRemote;
-import entity.Account;
-import entity.Customer;
-import entity.Employee;
-import java.util.List;
 import javax.ejb.EJB;
 
 /**
